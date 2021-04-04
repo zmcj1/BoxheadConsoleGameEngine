@@ -55,7 +55,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 //Disable network library warning
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
-
+//reduces the size of the Win32 header files by excluding some of the less frequently used APIs
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
 #ifndef LEN
