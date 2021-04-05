@@ -273,6 +273,8 @@ namespace MinConsoleNative
         }
     };
 
+    extern const int MAX_INPUT_CHAR_COUNT;
+
     EXPORT_FUNC MinInitConsoleSession(ConsoleSession* cons);
 
     //return true means successful enable VT!
@@ -309,6 +311,14 @@ namespace MinConsoleNative
     EXPORT_FUNC MinGetConsoleCursorPos(ConsoleSession* cons, COORD* pos);
 
     EXPORT_FUNC MinSetConsoleCursorPos(ConsoleSession* cons, COORD pos);
+
+    //size of buffer should be : charCount * sizeof(wchar)
+    EXPORT_FUNC MinReadConsole(ConsoleSession* cons, wchar* buffer, int charCount);
+
+    EXPORT_FUNC MinWriteConsole(ConsoleSession* cons, const wchar* buffer);
+
+    //You can use something like this:arr[i].Attributes |= COMMON_LVB_UNDERSCORE
+    EXPORT_FUNC MinWriteConsoleOutput(ConsoleSession* cons, const CHAR_INFO* charInfos, short x, short y, short width, short height);
 
     EXPORT_FUNC MinGetCharWidth(ConsoleSession* cons, wchar c, CharWidth* cw);
 
@@ -355,6 +365,12 @@ namespace MinConsoleNative
         COORD GetConsoleCursorPos();
 
         bool SetConsoleCursorPos(COORD pos);
+
+        std::wstring ReadConsoleW();
+
+        bool WriteConsoleW(const std::wstring& msg);
+
+        bool WriteConsoleOutputW(const CHAR_INFO* charInfos, short x, short y, short width, short height);
 
         CharWidth GetWcharWidth(wchar c);
     };

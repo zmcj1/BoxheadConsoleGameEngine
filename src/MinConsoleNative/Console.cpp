@@ -1,8 +1,12 @@
 ﻿#include "Console.h"
 #include "WinVersion.h"
 
+using namespace std;
+
 namespace MinConsoleNative
 {
+    const int MAX_INPUT_CHAR_COUNT = 2048;
+
     EXPORT_FUNC MinInitConsoleSession(ConsoleSession* cons)
     {
         cons->consoleInput = ::GetStdHandle(STD_INPUT_HANDLE);
@@ -254,6 +258,38 @@ namespace MinConsoleNative
         return ::SetConsoleCursorPosition(cons->consoleOutput, pos);
     }
 
+    EXPORT_FUNC MinReadConsole(ConsoleSession* cons, wchar* buffer, int charCount)
+    {
+        DWORD read = 0;
+        return ::ReadConsole(cons->consoleInput, buffer, charCount, &read, nullptr);
+    }
+
+    EXPORT_FUNC MinWriteConsole(ConsoleSession* cons, const wchar* buffer)
+    {
+        int len = wcslen(buffer);
+        DWORD wr = 0;
+        return ::WriteConsole(cons->consoleOutput, buffer, len, &wr, nullptr);
+    }
+
+    EXPORT_FUNC MinWriteConsoleOutput(ConsoleSession* cons, const CHAR_INFO* charInfos, short x, short y, short width, short height)
+    {
+        COORD size;
+        size.X = width;
+        size.Y = height;
+
+        COORD coord;
+        coord.X = 0;
+        coord.Y = 0;
+
+        SMALL_RECT smallRect;
+        smallRect.Left = x;
+        smallRect.Top = y;
+        smallRect.Right = x + width - 1;
+        smallRect.Bottom = y + height - 1;
+
+        return ::WriteConsoleOutput(cons->consoleOutput, charInfos, size, coord, &smallRect);
+    }
+
     EXPORT_FUNC MinGetCharWidth(ConsoleSession* cons, wchar c, CharWidth* cw)
     {
         HDC hdc = GetDC(cons->consoleWindow);
@@ -292,7 +328,7 @@ namespace MinConsoleNative
         bool isTrueType = textm.tmPitchAndFamily == TMPF_TRUETYPE;
 
         int width = 0;
-        GetCharWidth32(hdc, c, c, &width);
+        GetCharWidth32(hdc, c, c, &width); //GetCharWidth
 
         if (width >= textm.tmMaxCharWidth)
         {
@@ -420,6 +456,27 @@ namespace MinConsoleNative
     bool Console::SetConsoleCursorPos(COORD pos)
     {
         return MinSetConsoleCursorPos(&cons, pos);
+    }
+
+    std::wstring Console::ReadConsoleW()
+    {
+        wstring str;
+
+        wchar buffer[sizeof(wchar) * MAX_INPUT_CHAR_COUNT];
+        MinReadConsole(&cons, buffer, MAX_INPUT_CHAR_COUNT);
+        str = buffer;
+
+        return str;
+    }
+
+    bool Console::WriteConsoleW(const std::wstring& msg)
+    {
+        return MinWriteConsole(&cons, msg.c_str());
+    }
+
+    bool Console::WriteConsoleOutputW(const CHAR_INFO* charInfos, short x, short y, short width, short height)
+    {
+        return MinWriteConsoleOutput(&cons, charInfos, x, y, width, height);
     }
 
     CharWidth Console::GetWcharWidth(wchar c)

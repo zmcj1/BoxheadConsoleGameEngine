@@ -109,5 +109,12 @@ namespace MinConsole
             public uint FontWeight;
             public string FaceName;
         };
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct CHAR_INFO
+        {
+            public char UnicodeChar;
+            public ushort Attributes;
+        }
     }
 }
