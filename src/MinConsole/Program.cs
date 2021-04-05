@@ -19,6 +19,8 @@ namespace MinConsole
             ConsoleSession session = MinConsoleNativeWrapper.InitConsoleSession();
             bool s = MinConsoleNativeWrapper.EnableConsoleVT(ref session);
 
+            MinConsoleNativeFuncs.MinSetConsoleCursorPos(ref session, new COORD(20, 10));
+
             Console.ReadKey();
         }
     }

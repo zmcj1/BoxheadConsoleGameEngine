@@ -283,6 +283,26 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinSetConsoleFont(ConsoleSession* cons, ConsoleFont consoleFont);
 
+    EXPORT_FUNC MinGetConsoleWindowSize(ConsoleSession* cons, POINT* size);
+
+    EXPORT_FUNC MinSetConsoleWindowSize(ConsoleSession* cons, POINT size);
+
+    EXPORT_FUNC MinGetConsoleBufferSize(ConsoleSession* cons, POINT* size);
+
+    EXPORT_FUNC MinSetConsoleBufferSize(ConsoleSession* cons, POINT size);
+
+    EXPORT_FUNC MinGetConsoleForeColor(ConsoleSession* cons, ConsoleColor* foreColor);
+
+    EXPORT_FUNC MinGetConsoleBackColor(ConsoleSession* cons, ConsoleColor* backColor);
+
+    EXPORT_FUNC MinSetConsoleForeColor(ConsoleSession* cons, ConsoleColor foreColor);
+
+    EXPORT_FUNC MinSetConsoleBackColor(ConsoleSession* cons, ConsoleColor backColor);
+
+    EXPORT_FUNC MinGetConsoleCursorPos(ConsoleSession* cons, COORD* pos);
+
+    EXPORT_FUNC MinSetConsoleCursorPos(ConsoleSession* cons, COORD pos);
+
     class Console
     {
     public:
@@ -306,5 +326,25 @@ namespace MinConsoleNative
         ConsoleFont GetConsoleFont();
 
         bool SetConsoleFont(const ConsoleFont& consoleFont);
+
+        POINT GetConsoleWindowSize();
+
+        bool SetConsoleWindowSize(POINT size);
+
+        POINT GetConsoleBufferSize();
+
+        bool SetConsoleBufferSize(POINT size);
+
+        ConsoleColor GetConsoleForeColor();
+
+        ConsoleColor GetConsoleBackColor();
+
+        bool SetConsoleForeColor(ConsoleColor foreColor);
+
+        bool SetConsoleBackColor(ConsoleColor backColor);
+
+        COORD GetConsoleCursorPos();
+
+        bool SetConsoleCursorPos(COORD pos);
     };
 }

@@ -173,6 +173,87 @@ namespace MinConsoleNative
         return ::SetCurrentConsoleFontEx(cons->consoleOutput, false, &cfi);
     }
 
+    EXPORT_FUNC MinGetConsoleWindowSize(ConsoleSession* cons, POINT* size)
+    {
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        ::GetConsoleScreenBufferInfo(cons->consoleOutput, &csbi);
+        size->x = (csbi.srWindow.Right - csbi.srWindow.Left) + 1;
+        size->y = (csbi.srWindow.Bottom - csbi.srWindow.Top) + 1;
+        return true;
+    }
+
+    EXPORT_FUNC MinSetConsoleWindowSize(ConsoleSession* cons, POINT size)
+    {
+        SMALL_RECT sm;
+        sm.Left = 0;
+        sm.Top = 0;
+        sm.Right = size.x - 1;
+        sm.Bottom = size.y - 1;
+        return ::SetConsoleWindowInfo(cons->consoleOutput, true, &sm);
+    }
+
+    EXPORT_FUNC MinGetConsoleBufferSize(ConsoleSession* cons, POINT* size)
+    {
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        ::GetConsoleScreenBufferInfo(cons->consoleOutput, &csbi);
+        size->x = csbi.dwSize.X;
+        size->y = csbi.dwSize.Y;
+        return true;
+    }
+
+    EXPORT_FUNC MinSetConsoleBufferSize(ConsoleSession* cons, POINT size)
+    {
+        COORD coord;
+        coord.X = size.x;
+        coord.Y = size.y;
+        return ::SetConsoleScreenBufferSize(cons->consoleOutput, coord);
+    }
+
+    EXPORT_FUNC MinGetConsoleForeColor(ConsoleSession* cons, ConsoleColor* foreColor)
+    {
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        ::GetConsoleScreenBufferInfo(cons->consoleOutput, &csbi);
+        *foreColor = (ConsoleColor)(csbi.wAttributes & 0x000F);
+        return true;
+    }
+
+    EXPORT_FUNC MinGetConsoleBackColor(ConsoleSession* cons, ConsoleColor* backColor)
+    {
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        ::GetConsoleScreenBufferInfo(cons->consoleOutput, &csbi);
+        *backColor = (ConsoleColor)((csbi.wAttributes & 0x00F0) / 16);
+        return true;
+    }
+
+    EXPORT_FUNC MinSetConsoleForeColor(ConsoleSession* cons, ConsoleColor foreColor)
+    {
+        ConsoleColor backColor = ConsoleColor::BLACK;
+        MinGetConsoleBackColor(cons, &backColor);
+        ushort att = (ushort)((ushort)foreColor | ((ushort)backColor << 4));
+        return ::SetConsoleTextAttribute(cons->consoleOutput, att);
+    }
+
+    EXPORT_FUNC MinSetConsoleBackColor(ConsoleSession* cons, ConsoleColor backColor)
+    {
+        ConsoleColor foreColor = ConsoleColor::GRAY;
+        MinGetConsoleForeColor(cons, &foreColor);
+        ushort att = (ushort)((ushort)foreColor | ((ushort)backColor << 4));
+        return ::SetConsoleTextAttribute(cons->consoleOutput, att);
+    }
+
+    EXPORT_FUNC MinGetConsoleCursorPos(ConsoleSession* cons, COORD* pos)
+    {
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        ::GetConsoleScreenBufferInfo(cons->consoleOutput, &csbi);
+        *pos = csbi.dwCursorPosition;
+        return true;
+    }
+
+    EXPORT_FUNC MinSetConsoleCursorPos(ConsoleSession* cons, COORD pos)
+    {
+        return ::SetConsoleCursorPosition(cons->consoleOutput, pos);
+    }
+
     Console::Console()
     {
         MinInitConsoleSession(&cons);
@@ -225,5 +306,65 @@ namespace MinConsoleNative
     bool Console::SetConsoleFont(const ConsoleFont& consoleFont)
     {
         return MinSetConsoleFont(&cons, consoleFont);
+    }
+
+    POINT Console::GetConsoleWindowSize()
+    {
+        POINT point;
+        MinGetConsoleWindowSize(&cons, &point);
+        return point;
+    }
+
+    bool Console::SetConsoleWindowSize(POINT size)
+    {
+        return MinSetConsoleWindowSize(&cons, size);
+    }
+
+    POINT Console::GetConsoleBufferSize()
+    {
+        POINT size;
+        MinGetConsoleBufferSize(&cons, &size);
+        return size;
+    }
+
+    bool Console::SetConsoleBufferSize(POINT size)
+    {
+        return MinSetConsoleBufferSize(&cons, size);
+    }
+
+    ConsoleColor Console::GetConsoleForeColor()
+    {
+        ConsoleColor foreColor;
+        MinGetConsoleForeColor(&cons, &foreColor);
+        return foreColor;
+    }
+
+    ConsoleColor Console::GetConsoleBackColor()
+    {
+        ConsoleColor backColor;
+        MinGetConsoleBackColor(&cons, &backColor);
+        return backColor;
+    }
+
+    bool Console::SetConsoleForeColor(ConsoleColor foreColor)
+    {
+        return MinSetConsoleForeColor(&cons, foreColor);
+    }
+
+    bool Console::SetConsoleBackColor(ConsoleColor backColor)
+    {
+        return MinSetConsoleBackColor(&cons, backColor);
+    }
+
+    COORD Console::GetConsoleCursorPos()
+    {
+        COORD pos;
+        MinGetConsoleCursorPos(&cons, &pos);
+        return pos;
+    }
+
+    bool Console::SetConsoleCursorPos(COORD pos)
+    {
+        return MinSetConsoleCursorPos(&cons, pos);
     }
 }

@@ -85,6 +85,12 @@ namespace MinConsole
         {
             public short X;
             public short Y;
+
+            public COORD(short x, short y)
+            {
+                this.X = x;
+                this.Y = y;
+            }
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
