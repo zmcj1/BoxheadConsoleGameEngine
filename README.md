@@ -12,9 +12,9 @@ The purpose is to develop upper-level softwares such as text editors, 3D rendere
 
 todo
 
-## History: About why I develop this repo?
+## History: About why I develop this repository?
 
-By chance, I used Windows Console as my 2D renderer in a console(text-based) game gamejam in January 2018.
+By chance, I used Windows Console as my 2D renderer in a console game(text-based) gamejam in January 2018.
 
 In These years I have studied Unity, UE4. I master C# and know well C/C++. I always come back to are C/C++, Windows Console.
 
