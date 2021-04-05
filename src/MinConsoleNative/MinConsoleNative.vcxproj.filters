@@ -39,6 +39,9 @@
     <ClInclude Include="Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -60,6 +63,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="MinConsoleNative.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

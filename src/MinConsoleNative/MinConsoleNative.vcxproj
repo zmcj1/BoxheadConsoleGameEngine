@@ -144,6 +144,7 @@
     <ClInclude Include="MinConsoleNative.h" />
     <ClInclude Include="MinDefines.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="UnusualMethods.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WinVersion.h" />
@@ -153,6 +154,7 @@
     <ClCompile Include="ConRegistry.cpp" />
     <ClCompile Include="debug_main.cpp" />
     <ClCompile Include="MinConsoleNative.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UnusualMethods.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinVersion.cpp" />
