@@ -26,13 +26,20 @@ int main()
     //    cout << deltaTime << "\n";
     //}
 
+    Input::ResetMouseAxis();
+
     Timer timer;
     while (true)
     {
         timer.Start();
-        Sleep(1);
+        Sleep(100);
         timer.Stop();
         double deltaTime = timer.Time();
+
+        Input::CheckMouseAxis();
+        int diff = Input::GetMouseAxis(MouseAxis::MOUSE_X);
+        cout << diff << "\n";
+
         if (Input::GetKeyDown('A'))
         {
             cout << deltaTime << "\n";
