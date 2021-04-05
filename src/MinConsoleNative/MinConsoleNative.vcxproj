@@ -146,6 +146,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="MinConsoleNative.h" />
     <ClInclude Include="MinDefines.h" />
+    <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Timer.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="debug_main.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="MinConsoleNative.cpp" />
+    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UnusualMethods.cpp" />

@@ -12,5 +12,6 @@
 #include "Singleton.h"
 #include "Console.h"
 #include "Debug.h"
+#include "ObjectPool.h"
 
 using namespace MinConsoleNative;
