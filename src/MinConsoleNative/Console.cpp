@@ -258,20 +258,20 @@ namespace MinConsoleNative
         return ::SetConsoleCursorPosition(cons->consoleOutput, pos);
     }
 
-    EXPORT_FUNC MinReadConsole(ConsoleSession* cons, wchar* buffer, int charCount)
+    EXPORT_FUNC MinReadConsole(HANDLE consoleInput, wchar* buffer, int charCount)
     {
         DWORD read = 0;
-        return ::ReadConsole(cons->consoleInput, buffer, charCount, &read, nullptr);
+        return ::ReadConsole(consoleInput, buffer, charCount, &read, nullptr);
     }
 
-    EXPORT_FUNC MinWriteConsole(ConsoleSession* cons, const wchar* buffer)
+    EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, const wchar* buffer)
     {
         int len = wcslen(buffer);
         DWORD wr = 0;
-        return ::WriteConsole(cons->consoleOutput, buffer, len, &wr, nullptr);
+        return ::WriteConsole(consoleOutput, buffer, len, &wr, nullptr);
     }
 
-    EXPORT_FUNC MinWriteConsoleOutput(ConsoleSession* cons, const CHAR_INFO* charInfos, short x, short y, short width, short height)
+    EXPORT_FUNC MinWriteConsoleOutput(HANDLE consoleOutput, const CHAR_INFO* charInfos, short x, short y, short width, short height)
     {
         COORD size;
         size.X = width;
@@ -287,7 +287,7 @@ namespace MinConsoleNative
         smallRect.Right = x + width - 1;
         smallRect.Bottom = y + height - 1;
 
-        return ::WriteConsoleOutput(cons->consoleOutput, charInfos, size, coord, &smallRect);
+        return ::WriteConsoleOutput(consoleOutput, charInfos, size, coord, &smallRect);
     }
 
     EXPORT_FUNC MinCreateConsoleScreenBuffer(HANDLE* consoleOutput)
@@ -322,13 +322,13 @@ namespace MinConsoleNative
         return false;
     }
 
-    EXPORT_FUNC MinGetCharWidth(ConsoleSession* cons, wchar c, CharWidth* cw)
+    EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, CharWidth* cw)
     {
-        HDC hdc = GetDC(cons->consoleWindow);
+        HDC hdc = GetDC(consoleWindow);
 
         CONSOLE_FONT_INFOEX cfi;
         cfi.cbSize = sizeof(cfi);
-        GetCurrentConsoleFontEx(cons->consoleOutput, false, &cfi);
+        GetCurrentConsoleFontEx(consoleOutput, false, &cfi);
 
         //get default value
         HGDIOBJ hfont = GetCurrentObject(hdc, OBJ_FONT);
@@ -371,9 +371,58 @@ namespace MinConsoleNative
             *cw = CharWidth::Half;
         }
 
-        ReleaseDC(cons->consoleWindow, hdc);
+        ReleaseDC(consoleWindow, hdc);
 
         return true;
+    }
+
+    EXPORT_FUNC MinGetTitle(wchar* titleBuffer, int sizeOfBuffer)
+    {
+        return ::GetConsoleTitle(titleBuffer, sizeOfBuffer) == 0;
+    }
+
+    EXPORT_FUNC MinSetTitle(const wchar* titleBuffer)
+    {
+        return ::SetConsoleTitle(titleBuffer);
+    }
+
+    EXPORT_FUNC MinGetConsoleCursorVisible(HANDLE consoleOutput, bool* visible)
+    {
+        CONSOLE_CURSOR_INFO cci;
+        ::GetConsoleCursorInfo(consoleOutput, &cci);
+        *visible = cci.bVisible;
+        return true;
+    }
+
+    EXPORT_FUNC MinSetConsoleCursorVisible(HANDLE consoleOutput, bool visible)
+    {
+        CONSOLE_CURSOR_INFO cci;
+        ::GetConsoleCursorInfo(consoleOutput, &cci);
+        cci.bVisible = visible;
+        return ::SetConsoleCursorInfo(consoleOutput, &cci);
+    }
+
+    EXPORT_FUNC MinClear(HANDLE consoleOutput)
+    {
+        //SEE:https://docs.microsoft.com/en-us/windows/console/clearing-the-screen
+
+        //POINT bufSize = Console::GetConsoleBufferSize();
+
+        //int length = bufSize.x * bufSize.y;
+        //COORD coord = { 0, 0 };
+        //DWORD written = 0;
+
+        //FillConsoleOutputCharacter(consoleOutput, _T(' '), length, coord, &written);
+
+        //CONSOLE_SCREEN_BUFFER_INFO csbi;
+        //GetConsoleScreenBufferInfo(consoleOutput, &csbi);
+
+        //FillConsoleOutputAttribute(consoleOutput, csbi.wAttributes, length, coord, &written);
+
+        //Put the cursor at its home coordinates.
+        //Console::SetConsoleCursorPos({ 0,0 });
+
+        return false;
     }
 
     Console::Console()
@@ -546,7 +595,7 @@ namespace MinConsoleNative
     CharWidth Console::GetWcharWidth(wchar c)
     {
         CharWidth charWidth;
-        MinGetCharWidth(&cons, c, &charWidth);
+        MinGetCharWidth(cons.consoleWindow, cons.consoleOutput, c, &charWidth);
         return charWidth;
     }
 }

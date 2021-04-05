@@ -313,12 +313,12 @@ namespace MinConsoleNative
     EXPORT_FUNC MinSetConsoleCursorPos(ConsoleSession* cons, COORD pos);
 
     //size of buffer should be : charCount * sizeof(wchar)
-    EXPORT_FUNC MinReadConsole(ConsoleSession* cons, wchar* buffer, int charCount);
+    EXPORT_FUNC MinReadConsole(HANDLE consoleInput, wchar* buffer, int charCount);
 
-    EXPORT_FUNC MinWriteConsole(ConsoleSession* cons, const wchar* buffer);
+    EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, const wchar* buffer);
 
     //You can use something like this:arr[i].Attributes |= COMMON_LVB_UNDERSCORE
-    EXPORT_FUNC MinWriteConsoleOutput(ConsoleSession* cons, const CHAR_INFO* charInfos, short x, short y, short width, short height);
+    EXPORT_FUNC MinWriteConsoleOutput(HANDLE consoleOutput, const CHAR_INFO* charInfos, short x, short y, short width, short height);
 
     //The created HANDLE can be recycled using the MinCloseConsoleScreenBuffer function
     EXPORT_FUNC MinCreateConsoleScreenBuffer(HANDLE* consoleOutput);
@@ -333,7 +333,18 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinReadFile();
 
-    EXPORT_FUNC MinGetCharWidth(ConsoleSession* cons, wchar c, CharWidth* cw);
+    EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, CharWidth* cw);
+
+    //sizeof(title) should be MAX_PATH
+    EXPORT_FUNC MinGetTitle(wchar* titleBuffer, int sizeOfBuffer);
+
+    EXPORT_FUNC MinSetTitle(const wchar* titleBuffer);
+
+    EXPORT_FUNC MinGetConsoleCursorVisible(HANDLE consoleOutput, bool* visible);
+
+    EXPORT_FUNC MinSetConsoleCursorVisible(HANDLE consoleOutput, bool visible);
+
+    EXPORT_FUNC MinClear(HANDLE consoleOutput);
 
     class Console
     {
