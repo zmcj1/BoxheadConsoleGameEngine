@@ -47,9 +47,9 @@ namespace MinConsole
             return session;
         }
 
-        public static bool EnableConsoleVT(ref ConsoleSession cons)
+        public static bool EnableConsoleVT(IntPtr consoleInput, IntPtr consoleOutput)
         {
-            return MinEnableConsoleVT(ref cons);
+            return MinEnableConsoleVT(consoleInput, consoleOutput);
         }
 
         //public static bool MinGetConsolePalette(ref ConsoleSession cons, uint index, ref Color24 color);

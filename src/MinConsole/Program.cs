@@ -17,12 +17,12 @@ namespace MinConsole
             Console.WriteLine(legacy);
 
             ConsoleSession session = MinConsoleNativeWrapper.InitConsoleSession();
-            bool s = MinConsoleNativeWrapper.EnableConsoleVT(ref session);
+            bool s = MinConsoleNativeWrapper.EnableConsoleVT(session.consoleInput, session.consoleOutput);
 
-            MinConsoleNativeFuncs.MinSetConsoleCursorPos(ref session, new COORD(20, 10));
+            MinConsoleNativeFuncs.MinSetConsoleCursorPos(session.consoleOutput, new COORD(20, 10));
 
             CharWidth charWidth = CharWidth.Unknown;
-            MinConsoleNativeFuncs.MinGetCharWidth(ref session, '吊', ref charWidth);
+            MinConsoleNativeFuncs.MinGetCharWidth(session.consoleWindow, session.consoleOutput, '吊', ref charWidth);
 
             Console.ReadKey();
         }

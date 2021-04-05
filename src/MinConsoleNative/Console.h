@@ -278,39 +278,39 @@ namespace MinConsoleNative
     EXPORT_FUNC MinInitConsoleSession(ConsoleSession* cons);
 
     //return true means successful enable VT!
-    EXPORT_FUNC MinEnableConsoleVT(ConsoleSession* cons);
+    EXPORT_FUNC MinEnableConsoleVT(HANDLE consoleInput, HANDLE consoleOutput);
 
-    EXPORT_FUNC MinGetConsolePalette(ConsoleSession* cons, DWORD index, Color24* color);
+    EXPORT_FUNC MinGetConsolePalette(HANDLE consoleOutput, DWORD index, Color24* color);
 
-    EXPORT_FUNC MinSetConsolePalette(ConsoleSession* cons, DWORD index, Color24 color);
+    EXPORT_FUNC MinSetConsolePalette(HANDLE consoleOutput, DWORD index, Color24 color);
 
-    EXPORT_FUNC MinGetConsoleMode(ConsoleSession* cons, ConsoleMode* consoleMode);
+    EXPORT_FUNC MinGetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode* consoleMode);
 
-    EXPORT_FUNC MinSetConsoleMode(ConsoleSession* cons, ConsoleMode consoleMode);
+    EXPORT_FUNC MinSetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode consoleMode);
 
-    EXPORT_FUNC MinGetConsoleFont(ConsoleSession* cons, ConsoleFont* consoleFont);
+    EXPORT_FUNC MinGetConsoleFont(HANDLE consoleOutput, ConsoleFont* consoleFont);
 
-    EXPORT_FUNC MinSetConsoleFont(ConsoleSession* cons, ConsoleFont consoleFont);
+    EXPORT_FUNC MinSetConsoleFont(HANDLE consoleOutput, ConsoleFont consoleFont);
 
-    EXPORT_FUNC MinGetConsoleWindowSize(ConsoleSession* cons, POINT* size);
+    EXPORT_FUNC MinGetConsoleWindowSize(HANDLE consoleOutput, POINT* size);
 
-    EXPORT_FUNC MinSetConsoleWindowSize(ConsoleSession* cons, POINT size);
+    EXPORT_FUNC MinSetConsoleWindowSize(HANDLE consoleOutput, POINT size);
 
-    EXPORT_FUNC MinGetConsoleBufferSize(ConsoleSession* cons, POINT* size);
+    EXPORT_FUNC MinGetConsoleBufferSize(HANDLE consoleOutput, POINT* size);
 
-    EXPORT_FUNC MinSetConsoleBufferSize(ConsoleSession* cons, POINT size);
+    EXPORT_FUNC MinSetConsoleBufferSize(HANDLE consoleOutput, POINT size);
 
-    EXPORT_FUNC MinGetConsoleForeColor(ConsoleSession* cons, ConsoleColor* foreColor);
+    EXPORT_FUNC MinGetConsoleForeColor(HANDLE consoleOutput, ConsoleColor* foreColor);
 
-    EXPORT_FUNC MinGetConsoleBackColor(ConsoleSession* cons, ConsoleColor* backColor);
+    EXPORT_FUNC MinGetConsoleBackColor(HANDLE consoleOutput, ConsoleColor* backColor);
 
-    EXPORT_FUNC MinSetConsoleForeColor(ConsoleSession* cons, ConsoleColor foreColor);
+    EXPORT_FUNC MinSetConsoleForeColor(HANDLE consoleOutput, ConsoleColor foreColor);
 
-    EXPORT_FUNC MinSetConsoleBackColor(ConsoleSession* cons, ConsoleColor backColor);
+    EXPORT_FUNC MinSetConsoleBackColor(HANDLE consoleOutput, ConsoleColor backColor);
 
-    EXPORT_FUNC MinGetConsoleCursorPos(ConsoleSession* cons, COORD* pos);
+    EXPORT_FUNC MinGetConsoleCursorPos(HANDLE consoleOutput, COORD* pos);
 
-    EXPORT_FUNC MinSetConsoleCursorPos(ConsoleSession* cons, COORD pos);
+    EXPORT_FUNC MinSetConsoleCursorPos(HANDLE consoleOutput, COORD pos);
 
     //size of buffer should be : charCount * sizeof(wchar)
     EXPORT_FUNC MinReadConsole(HANDLE consoleInput, wchar* buffer, int charCount);
@@ -327,11 +327,13 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinCloseConsoleScreenBuffer(HANDLE consoleOutput);
 
+    //====================todo_start====================
     EXPORT_FUNC MinCreateFile();
 
     EXPORT_FUNC MinWriteFile();
 
     EXPORT_FUNC MinReadFile();
+    //====================todo_end======================
 
     EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, CharWidth* cw);
 
@@ -344,6 +346,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinSetConsoleCursorVisible(HANDLE consoleOutput, bool visible);
 
+    //See:https://docs.microsoft.com/en-us/windows/console/clearing-the-screen
     EXPORT_FUNC MinClear(HANDLE consoleOutput);
 
     class Console
@@ -407,6 +410,17 @@ namespace MinConsoleNative
         bool WriteFile();
 
         bool ReadFile();
+
+        std::wstring GetTitle();
+
+        bool SetTitle(const std::wstring& title);
+
+        bool GetConsoleCursorVisible();
+
+        bool SetConsoleCursorVisible(bool visible);
+
+        //See:https://docs.microsoft.com/en-us/windows/console/clearing-the-screen
+        bool Clear();
 
         CharWidth GetWcharWidth(wchar c);
     };

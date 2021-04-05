@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MinConsole": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
