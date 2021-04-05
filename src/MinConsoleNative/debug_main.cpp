@@ -11,8 +11,8 @@ int main()
     POINT pos = window.GetCenterPosOfWindowInDesktop();
     window.SetWindowPos(pos);
 
-    bool legacyCon = ConRegistry::IsUsingLegacyConsole();
-    cout << legacyCon << "\n\n\n";
+    //bool legacyCon = ConRegistry::IsUsingLegacyConsole();
+    //cout << legacyCon << "\n\n\n";
 
     //MinTimer timer;
     //MinInitTimer(&timer);
@@ -26,25 +26,22 @@ int main()
     //    cout << deltaTime << "\n";
     //}
 
-    Input::ResetMouseAxis();
-
-    Timer timer;
-    while (true)
-    {
-        timer.Start();
-        Sleep(100);
-        timer.Stop();
-        double deltaTime = timer.Time();
-
-        Input::CheckMouseAxis();
-        int diff = Input::GetMouseAxis(MouseAxis::MOUSE_X);
-        cout << diff << "\n";
-
-        if (Input::GetKeyDown('A'))
-        {
-            cout << deltaTime << "\n";
-        }
-    }
+    //Input::ResetMouseAxis();
+    //Timer timer;
+    //while (true)
+    //{
+    //    timer.Start();
+    //    Sleep(100);
+    //    timer.Stop();
+    //    double deltaTime = timer.Time();
+    //    Input::CheckMouseAxis();
+    //    int diff = Input::GetMouseAxis(MouseAxis::MOUSE_X);
+    //    cout << diff << "\n";
+    //    if (Input::GetKeyDown('A'))
+    //    {
+    //        cout << deltaTime << "\n";
+    //    }
+    //}
 
     //for (size_t i = 0; i < 10; i++)
     //{
@@ -52,6 +49,11 @@ int main()
     //    cout << v << "\n";
     //}
 
+    Console console;
+    ConsoleFont cf = console.GetConsoleFont();
+    cf.FontSize = { 8,16 };
+    cf.SetFaceNameQuick(L"Consolas");
+    console.SetConsoleFont(cf);
     cin.get();
     return 0;
 }
