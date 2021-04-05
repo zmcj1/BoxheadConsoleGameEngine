@@ -7,7 +7,43 @@ namespace NativeFunctionTranslator
 {
     struct Param
     {
+        public string VarType;
+        public string VarName;
 
+        public Param(string VarType, string VarName)
+        {
+            this.VarType = VarType;
+            this.VarName = VarName;
+        }
+    }
+
+    struct ParamLine
+    {
+        public List<Param> _params;
+
+        public ParamLine(int a)
+        {
+            _params = new List<Param>();
+        }
+
+        public override string ToString()
+        {
+            string str = string.Empty;
+            for (int i = 0; i < _params.Count; i++)
+            {
+                Param p = _params[i];
+
+                if (_params.Count == 1 || i == _params.Count - 1)
+                {
+                    str += p.VarType + " " + p.VarName;
+                }
+                else
+                {
+                    str += p.VarType + " " + p.VarName + ", ";
+                }
+            }
+            return str;
+        }
     }
 
     class Program
@@ -72,6 +108,7 @@ namespace NativeFunctionTranslator
             indentLine = builder.ToString();
 
             List<string> nativeMethodDeclaration = new List<string>();
+            List<ParamLine> paramLines = new List<ParamLine>();
 
             foreach (string headFile in headFiles)
             {
@@ -132,12 +169,92 @@ namespace NativeFunctionTranslator
             {
                 string newLine = item.Replace(EXPORT_FUNC, EXPORT_FUNC_RETURN_TYPE);
 
+                //todo
+                int Brackets1Index = newLine.IndexOf('(');
+                int Brackets2Index = newLine.IndexOf(')');
+
+                ParamLine line = new ParamLine(0);
+                paramLines.Add(line);
+
+                string parameterList = newLine.Substring(Brackets1Index + 1, Brackets2Index - Brackets1Index - 1);
+                if (!string.IsNullOrEmpty(parameterList))
+                {
+                    string[] _params = parameterList.Split(',');
+
+                    foreach (string _param in _params)
+                    {
+                        string[] type_names = _param.Split(' ');
+
+                        string varType = string.Empty;
+                        //
+                        for (int i = 0; i < type_names.Length - 1; i++)
+                        {
+                            //const param
+                            if (type_names[i] == "const")
+                            {
+                                continue;
+                            }
+                            //ptr
+                            int ptrIndex = type_names[i].LastIndexOf('*');
+                            if (ptrIndex != -1)
+                            {
+                                string _type = type_names[i].Substring(0, ptrIndex);
+                                if (_type == "wchar*")
+                                {
+                                    varType = "ref string";
+                                }
+                                else if (_type == "wchar")
+                                {
+                                    varType = "string";
+                                }
+                                else if (_type == "HWND")
+                                {
+                                    varType = "IntPtr";
+                                }
+                                else
+                                {
+                                    varType = "ref " + _type;
+                                }
+                            }
+                            else
+                            {
+                                if (type_names[i] == "HWND")
+                                {
+                                    varType = "IntPtr";
+                                }
+                                else if (type_names[i] == "DWORD")
+                                {
+                                    varType = "uint";
+                                }
+                                else
+                                {
+                                    varType = type_names[i];
+                                }
+                            }
+                        }
+
+                        string varName = type_names[type_names.Length - 1];
+                        Param param = new Param(varType, varName);
+                        line._params.Add(param);
+                    }
+                }
+                else
+                {
+                    line._params.Add(new Param("", ""));
+                }
+
                 readyToWrite.Add(indentLine + EXPORT_FUNC_DLLIMPORT);
+                //replace
+                string body = newLine.Substring(0, Brackets1Index + 1);
+                newLine = body + line.ToString() + ");";
+
                 readyToWrite.Add(indentLine + newLine);
                 readyToWrite.Add("");
             }
 
             List<string> finalLines = new List<string>();
+            //macro start
+            finalLines.Add("#if DEBUG");
             //add head
             for (int i = 0; i < insertLineNumber; i++)
             {
@@ -150,16 +267,38 @@ namespace NativeFunctionTranslator
             {
                 finalLines.Add(targetFileLines[i]);
             }
+            //macro end
+            finalLines.Add("#endif");
 
+            //output
             StringBuilder builder2 = new StringBuilder();
             foreach (var item in finalLines)
             {
                 builder2.Append(item + Environment.NewLine);
             }
-
             File.WriteAllText(targetFile, builder2.ToString(), Encoding.UTF8);
 
+            foreach (ParamLine item in paramLines)
+            {
+                for (int i = 0; i < item._params.Count; i++)
+                {
+                    Param p = item._params[i];
+
+                    if (item._params.Count == 1 || i == item._params.Count - 1)
+                    {
+                        Console.Write(p.VarType + " " + p.VarName);
+                    }
+                    else
+                    {
+                        Console.Write(p.VarType + " " + p.VarName + ", ");
+                    }
+                }
+
+                Console.WriteLine();
+            }
+
             Console.WriteLine("Success!");
+            //Console.ReadKey();
         }
     }
 }
