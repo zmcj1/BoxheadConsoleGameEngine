@@ -146,4 +146,6 @@ namespace MinConsoleNative
             return true;
         else return false;
     }
+
+    Singleton<WinVersion> winVersionInstance;
 }

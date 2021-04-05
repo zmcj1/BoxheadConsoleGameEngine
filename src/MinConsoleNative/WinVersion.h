@@ -1,4 +1,5 @@
 ﻿#include "MinDefines.h"
+#include "Singleton.h"
 
 namespace MinConsoleNative
 {
@@ -68,4 +69,6 @@ namespace MinConsoleNative
 
         WinVersion();
     };
+
+    extern Singleton<WinVersion> winVersionInstance;
 }

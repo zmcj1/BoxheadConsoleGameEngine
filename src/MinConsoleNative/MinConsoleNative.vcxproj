@@ -143,6 +143,7 @@
     <ClInclude Include="ConRegistry.h" />
     <ClInclude Include="MinConsoleNative.h" />
     <ClInclude Include="MinDefines.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="UnusualMethods.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WinVersion.h" />
