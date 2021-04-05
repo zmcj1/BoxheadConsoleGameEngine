@@ -87,6 +87,24 @@ namespace MinConsole
         public extern static bool MinWriteConsoleOutput(ref ConsoleSession cons, ref CHAR_INFO charInfos, short x, short y, short width, short height);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinCreateConsoleScreenBuffer(ref IntPtr consoleOutput);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinSetConsoleActiveScreenBuffer(IntPtr consoleOutput);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinCloseConsoleScreenBuffer(IntPtr consoleOutput);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinCreateFile( );
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinWriteFile( );
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinReadFile( );
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetCharWidth(ref ConsoleSession cons, char c, ref CharWidth cw);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]

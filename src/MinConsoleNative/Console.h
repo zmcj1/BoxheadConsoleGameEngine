@@ -320,6 +320,19 @@ namespace MinConsoleNative
     //You can use something like this:arr[i].Attributes |= COMMON_LVB_UNDERSCORE
     EXPORT_FUNC MinWriteConsoleOutput(ConsoleSession* cons, const CHAR_INFO* charInfos, short x, short y, short width, short height);
 
+    //The created HANDLE can be recycled using the MinCloseConsoleScreenBuffer function
+    EXPORT_FUNC MinCreateConsoleScreenBuffer(HANDLE* consoleOutput);
+
+    EXPORT_FUNC MinSetConsoleActiveScreenBuffer(HANDLE consoleOutput);
+
+    EXPORT_FUNC MinCloseConsoleScreenBuffer(HANDLE consoleOutput);
+
+    EXPORT_FUNC MinCreateFile();
+
+    EXPORT_FUNC MinWriteFile();
+
+    EXPORT_FUNC MinReadFile();
+
     EXPORT_FUNC MinGetCharWidth(ConsoleSession* cons, wchar c, CharWidth* cw);
 
     class Console
@@ -371,6 +384,18 @@ namespace MinConsoleNative
         bool WriteConsoleW(const std::wstring& msg);
 
         bool WriteConsoleOutputW(const CHAR_INFO* charInfos, short x, short y, short width, short height);
+
+        HANDLE CreateConsoleScreenBuffer();
+
+        bool SetConsoleActiveScreenBuffer(HANDLE consoleOutput);
+
+        bool CloseConsoleScreenBuffer(HANDLE consoleOutput);
+
+        bool CreateFileW();
+
+        bool WriteFile();
+
+        bool ReadFile();
 
         CharWidth GetWcharWidth(wchar c);
     };

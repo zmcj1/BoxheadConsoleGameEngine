@@ -215,6 +215,10 @@ namespace NativeFunctionTranslator
                                 {
                                     varType = "ref object";
                                 }
+                                else if (_type == "HANDLE")
+                                {
+                                    varType = "ref IntPtr";
+                                }
                                 else
                                 {
                                     varType = "ref " + _type;
@@ -238,6 +242,10 @@ namespace NativeFunctionTranslator
                                 else if (type_names[i] == "wchar")
                                 {
                                     varType = "char";
+                                }
+                                else if(type_names[i] == "HANDLE")
+                                {
+                                    varType = "IntPtr";
                                 }
                                 else
                                 {

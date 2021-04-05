@@ -290,6 +290,38 @@ namespace MinConsoleNative
         return ::WriteConsoleOutput(cons->consoleOutput, charInfos, size, coord, &smallRect);
     }
 
+    EXPORT_FUNC MinCreateConsoleScreenBuffer(HANDLE* consoleOutput)
+    {
+        *consoleOutput = ::CreateConsoleScreenBuffer(GENERIC_WRITE | GENERIC_READ,
+            FILE_SHARE_WRITE | FILE_SHARE_READ, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
+        return consoleOutput != INVALID_HANDLE_VALUE;
+    }
+
+    EXPORT_FUNC MinSetConsoleActiveScreenBuffer(HANDLE consoleOutput)
+    {
+        return ::SetConsoleActiveScreenBuffer(consoleOutput);
+    }
+
+    EXPORT_FUNC MinCloseConsoleScreenBuffer(HANDLE consoleOutput)
+    {
+        return CloseHandle(consoleOutput);
+    }
+
+    EXPORT_FUNC MinCreateFile()
+    {
+        return false;
+    }
+
+    EXPORT_FUNC MinWriteFile()
+    {
+        return false;
+    }
+
+    EXPORT_FUNC MinReadFile()
+    {
+        return false;
+    }
+
     EXPORT_FUNC MinGetCharWidth(ConsoleSession* cons, wchar c, CharWidth* cw)
     {
         HDC hdc = GetDC(cons->consoleWindow);
@@ -477,6 +509,38 @@ namespace MinConsoleNative
     bool Console::WriteConsoleOutputW(const CHAR_INFO* charInfos, short x, short y, short width, short height)
     {
         return MinWriteConsoleOutput(&cons, charInfos, x, y, width, height);
+    }
+
+    HANDLE Console::CreateConsoleScreenBuffer()
+    {
+        HANDLE consoleOutput;
+        MinCreateConsoleScreenBuffer(&consoleOutput);
+        return consoleOutput;
+    }
+
+    bool Console::SetConsoleActiveScreenBuffer(HANDLE consoleOutput)
+    {
+        return MinSetConsoleActiveScreenBuffer(consoleOutput);
+    }
+
+    bool Console::CloseConsoleScreenBuffer(HANDLE consoleOutput)
+    {
+        return MinCloseConsoleScreenBuffer(consoleOutput);
+    }
+
+    bool Console::CreateFileW()
+    {
+        return false;
+    }
+
+    bool Console::WriteFile()
+    {
+        return false;
+    }
+
+    bool Console::ReadFile()
+    {
+        return false;
     }
 
     CharWidth Console::GetWcharWidth(wchar c)
