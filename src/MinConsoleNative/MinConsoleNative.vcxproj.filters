@@ -45,6 +45,9 @@
     <ClInclude Include="Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -72,6 +75,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Random.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

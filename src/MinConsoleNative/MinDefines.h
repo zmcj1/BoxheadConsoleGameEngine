@@ -68,6 +68,8 @@
 #define _T(x) TEXT(x)
 #endif
 
+#define SYS_ANAL 0
+
 typedef wchar_t wchar;
 
 typedef unsigned char byte;

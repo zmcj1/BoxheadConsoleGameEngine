@@ -26,15 +26,19 @@ int main()
     //    cout << deltaTime << "\n";
     //}
 
-    //Timer timer;
-    //while (true)
-    //{
-    //    timer.Start();
-    //    Sleep(10);
-    //    timer.Stop();
-    //    double deltaTime = timer.Time();
-    //    cout << deltaTime << "\n";
-    //}
+    Timer timer;
+    while (true)
+    {
+        timer.Start();
+        Sleep(10);
+        timer.Stop();
+        double deltaTime = timer.Time();
+        if (Input::GetKey('A'))
+        {
+            cout << Input::CheckKeyState(VK_CAPITAL) << "\n";
+            cout << deltaTime << "\n";
+        }
+    }
 
     //for (size_t i = 0; i < 10; i++)
     //{

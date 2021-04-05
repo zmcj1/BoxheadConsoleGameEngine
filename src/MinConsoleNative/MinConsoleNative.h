@@ -8,5 +8,6 @@
 #include "Window.h"
 #include "Timer.h"
 #include "Random.h"
+#include "Input.h"
 
 using namespace MinConsoleNative;
