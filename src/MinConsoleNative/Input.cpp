@@ -3,9 +3,44 @@
 
 namespace MinConsoleNative
 {
+    static const int KEY_COUNT = 256;
+
+    static bool pressDownKeys[KEY_COUNT] = { 0 };
+    static bool releaseUpKeys[KEY_COUNT] = { 0 };
+
     EXPORT_FUNC MinGetKey(int virtualKey, bool* yes)
     {
         *yes = (::GetAsyncKeyState(virtualKey) & 0x8000) != 0;
+        return true;
+    }
+
+    EXPORT_FUNC MinGetKeyDown(int virtualKey, bool* yes)
+    {
+        bool state = false;
+        MinCheckKeyState(virtualKey, &state);
+
+        if (pressDownKeys[virtualKey] != state)
+        {
+            pressDownKeys[virtualKey] = state;
+            *yes = true;
+            return true;
+        }
+        *yes = false;
+        return true;
+    }
+
+    EXPORT_FUNC MinGetKeyUp(int virtualKey, bool* yes)
+    {
+        bool state = false;
+        MinCheckKeyState(virtualKey, &state);
+
+        if (releaseUpKeys[virtualKey] != state && !Input::GetKey(virtualKey))
+        {
+            releaseUpKeys[virtualKey] = state;
+            *yes = true;
+            return true;
+        }
+        *yes = false;
         return true;
     }
 
@@ -25,6 +60,20 @@ namespace MinConsoleNative
     {
         bool yes = false;
         MinGetKey(virtualKey, &yes);
+        return yes;
+    }
+
+    bool Input::GetKeyDown(int virtualKey)
+    {
+        bool yes = false;
+        MinGetKeyDown(virtualKey, &yes);
+        return yes;
+    }
+
+    bool Input::GetKeyUp(int virtualKey)
+    {
+        bool yes = false;
+        MinGetKeyUp(virtualKey, &yes);
         return yes;
     }
 

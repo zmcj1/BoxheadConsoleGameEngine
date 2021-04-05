@@ -30,12 +30,11 @@ int main()
     while (true)
     {
         timer.Start();
-        Sleep(10);
+        Sleep(1);
         timer.Stop();
         double deltaTime = timer.Time();
-        if (Input::GetKey('A'))
+        if (Input::GetKeyDown('A'))
         {
-            cout << Input::CheckKeyState(VK_CAPITAL) << "\n";
             cout << deltaTime << "\n";
         }
     }
