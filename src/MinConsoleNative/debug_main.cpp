@@ -12,7 +12,7 @@ int main()
     window.SetWindowPos(pos);
 
     bool legacyCon = ConRegistry::IsUsingLegacyConsole();
-    cout << legacyCon;
+    cout << legacyCon << "\n\n\n";
 
     //MinTimer timer;
     //MinInitTimer(&timer);
@@ -34,6 +34,12 @@ int main()
     //    timer.Stop();
     //    double deltaTime = timer.Time();
     //    cout << deltaTime << "\n";
+    //}
+
+    //for (size_t i = 0; i < 10; i++)
+    //{
+    //    uint v = Random::Range(0, 1);
+    //    cout << v << "\n";
     //}
 
     cin.get();

@@ -7,5 +7,6 @@
 #include "WinVersion.h"
 #include "Window.h"
 #include "Timer.h"
+#include "Random.h"
 
 using namespace MinConsoleNative;
