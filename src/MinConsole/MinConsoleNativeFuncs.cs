@@ -1,5 +1,4 @@
-﻿#if DEBUG
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using static MinConsole.MinConsoleNativeStructs;
 
@@ -182,4 +181,3 @@ namespace MinConsole
 
     }
 }
-#endif

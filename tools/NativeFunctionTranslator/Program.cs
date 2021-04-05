@@ -261,8 +261,6 @@ namespace NativeFunctionTranslator
             }
 
             List<string> finalLines = new List<string>();
-            //macro start
-            finalLines.Add("#if DEBUG");
             //add head
             for (int i = 0; i < insertLineNumber; i++)
             {
@@ -275,8 +273,6 @@ namespace NativeFunctionTranslator
             {
                 finalLines.Add(targetFileLines[i]);
             }
-            //macro end
-            finalLines.Add("#endif");
 
             //output
             StringBuilder builder2 = new StringBuilder();
