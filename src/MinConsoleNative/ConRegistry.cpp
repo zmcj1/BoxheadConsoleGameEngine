@@ -3,7 +3,7 @@
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC IsLegacyConsole(bool* yes)
+    EXPORT_FUNC MinIsUsingLegacyConsole(bool* yes)
     {
         static bool isLegacy10 = false, checked = false;
 
@@ -35,10 +35,36 @@ namespace MinConsoleNative
         return true;
     }
 
-    bool ConRegistry::IsUseLegacyConsole()
+    EXPORT_FUNC MinUseLegacyConsole(bool yes)
+    {
+        HKEY key;
+
+        if (::RegOpenKeyEx(HKEY_CURRENT_USER, L"Console", 0, KEY_READ | KEY_WRITE, &key) == ERROR_SUCCESS)
+        {
+            DWORD value = !yes;
+
+            LSTATUS result = ::RegSetValueEx(key, L"ForceV2", 0, REG_DWORD, (BYTE*)&value, sizeof(value));
+
+            ::RegCloseKey(key);
+
+            if (result == ERROR_SUCCESS)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool ConRegistry::IsUsingLegacyConsole()
     {
         bool yes;
-        IsLegacyConsole(&yes);
+        MinIsUsingLegacyConsole(&yes);
         return yes;
+    }
+
+    bool ConRegistry::UseLegacyConsole(bool yes)
+    {
+        return MinUseLegacyConsole(yes);
     }
 }

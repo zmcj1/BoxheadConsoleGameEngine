@@ -3,7 +3,7 @@
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC GetWinVersion(uint* MajorVer, uint* MinorVer, uint* BuildNumber);
+    EXPORT_FUNC MinGetWinVersion(uint* MajorVer, uint* MinorVer, uint* BuildNumber);
 
     //See:https://docs.microsoft.com/en-us/windows/win32/sysinfo/operating-system-version
     //Windows10Ver:https://en.wikipedia.org/wiki/Windows_10_version_history#Version_2004_(May_2020_Update)

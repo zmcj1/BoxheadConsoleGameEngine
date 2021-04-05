@@ -5,11 +5,11 @@
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC ReadFromClipboard(wchar** data);
+    EXPORT_FUNC MinReadFromClipboard(wchar** data);
 
-    EXPORT_FUNC FreeClipboardData(wchar* data);
+    EXPORT_FUNC MinFreeClipboardData(wchar* data);
 
-    EXPORT_FUNC WriteToClipboard(const wchar* data, int charCount);
+    EXPORT_FUNC MinWriteToClipboard(const wchar* data, int charCount);
 
     class Clipboard
     {

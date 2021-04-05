@@ -8,11 +8,10 @@ using namespace std;
 int main()
 {
     Window window;
-    //window.SetWindowMenuVisibility(false);
     POINT pos = window.GetCenterPosOfWindowInDesktop();
     window.SetWindowPos(pos);
 
-    bool legacyCon = ConRegistry::IsUseLegacyConsole();
+    bool legacyCon = ConRegistry::IsUsingLegacyConsole();
     cout << legacyCon;
     cin.get();
     return 0;

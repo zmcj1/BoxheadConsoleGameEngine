@@ -3,7 +3,7 @@ using namespace std;
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC MinConsoleNative::ReadFromClipboard(wchar** data)
+    EXPORT_FUNC MinReadFromClipboard(wchar** data)
     {
         bool open_suc = OpenClipboard(0);
         if (!open_suc) return false;
@@ -29,13 +29,13 @@ namespace MinConsoleNative
         return true;
     }
 
-    EXPORT_FUNC FreeClipboardData(wchar* data)
+    EXPORT_FUNC MinFreeClipboardData(wchar* data)
     {
         GlobalFree(data);
         return true;
     }
 
-    EXPORT_FUNC MinConsoleNative::WriteToClipboard(const wchar* data, int charCount)
+    EXPORT_FUNC MinWriteToClipboard(const wchar* data, int charCount)
     {
         bool open_suc = OpenClipboard(0);
         if (!open_suc) return false;
@@ -73,17 +73,17 @@ namespace MinConsoleNative
         wstring wstr;
         wchar* data = nullptr;
 
-        bool suc = ReadFromClipboard(&data);
+        bool suc = MinReadFromClipboard(&data);
         if (!suc) return wstr;
 
         wstr = data;
-        FreeClipboardData(data);
+        MinFreeClipboardData(data);
 
         return wstr;
     }
 
     bool Clipboard::Write(const std::wstring& data)
     {
-        return WriteToClipboard(data.c_str(), (int)data.size());
+        return MinWriteToClipboard(data.c_str(), (int)data.size());
     }
 }

@@ -2,7 +2,6 @@
 
 #include "MinDefines.h"
 
-//In order to prevent naming conflicts with Microsoft, all export methods in this file are prefixed with Min
 namespace MinConsoleNative
 {
     EXPORT_FUNC MinGetForegroundWindow(HWND* windowHandle);

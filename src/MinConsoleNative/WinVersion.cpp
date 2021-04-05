@@ -3,10 +3,10 @@
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC GetWinVersion(uint* MajorVer, uint* MinorVer, uint* BuildNumber)
+    EXPORT_FUNC MinGetWinVersion(uint* MajorVer, uint* MinorVer, uint* BuildNumber)
     {
         FARPROC func;
-        bool suc = GetFuncFromDll(L"ntdll.dll", "RtlGetNtVersionNumbers", &func);
+        bool suc = MinGetFuncFromDll(L"ntdll.dll", "RtlGetNtVersionNumbers", &func);
         if (!suc) return false;
 
         typedef void (WINAPI* pfRTLGETNTVERSIONNUMBERS)(DWORD*, DWORD*, DWORD*);
@@ -29,7 +29,7 @@ namespace MinConsoleNative
         minorVer = 0;
         buildNumber = 0;
 
-        GetWinVersion(&majorVer, &minorVer, &buildNumber);
+        MinGetWinVersion(&majorVer, &minorVer, &buildNumber);
     }
 
     bool WinVersion::IsWindows2000()

@@ -27,6 +27,7 @@
 #define X86
 #endif
 
+//In order to prevent naming conflicts, all export methods in this project are prefixed with Min
 #ifdef __cplusplus
 #define EXPORT_FUNC extern "C" __declspec(dllexport) bool __stdcall
 #else
