@@ -141,6 +141,8 @@
   <ItemGroup>
     <ClInclude Include="Clipboard.h" />
     <ClInclude Include="ConRegistry.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="Debug.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="MinConsoleNative.h" />
     <ClInclude Include="MinDefines.h" />
@@ -154,6 +156,8 @@
   <ItemGroup>
     <ClCompile Include="Clipboard.cpp" />
     <ClCompile Include="ConRegistry.cpp" />
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="debug_main.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="MinConsoleNative.cpp" />

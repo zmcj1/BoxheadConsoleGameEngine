@@ -9,5 +9,8 @@
 #include "Timer.h"
 #include "Random.h"
 #include "Input.h"
+#include "Singleton.h"
+#include "Console.h"
+#include "Debug.h"
 
 using namespace MinConsoleNative;
