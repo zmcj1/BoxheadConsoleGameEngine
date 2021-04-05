@@ -43,4 +43,53 @@ namespace MinConsoleNative
     EXPORT_FUNC MinGetWindowAlpha(HWND windowHandle, byte* alpha);
 
     EXPORT_FUNC MinSetWindowAlpha(HWND windowHandle, byte alpha);
+
+    class Window
+    {
+    public:
+        HWND windowHandle;
+
+        Window();
+
+        Window(HWND windowHandle);
+
+        HWND GetForegroundWindow();
+
+        HWND GetConsoleWindow();
+
+        POINT GetWindowPos();
+
+        void SetWindowPos(POINT pos);
+
+        POINT GetWindowSize();
+
+        void SetWindowSize(POINT size);
+
+        POINT GetDesktopSize();
+
+        POINT GetClientSize();
+
+        POINT GetMousePos();
+
+        POINT GetMappedMousePos();
+
+        bool GetMouseInClient();
+
+        bool GetWindowInFocus();
+
+        POINT GetCenterPosOfWindowInDesktop();
+
+        POINT GetCenterPosOfWindow();
+
+        //ex:
+
+        void SetWindowMenuVisibility(bool visible);
+
+        //If the window has been maximized and parameter maximize is false, the window size will be restored
+        void MaximizeWindow(bool maximize);
+
+        byte GetWindowAlpha();
+
+        void SetWindowAlpha(byte alpha);
+    };
 }

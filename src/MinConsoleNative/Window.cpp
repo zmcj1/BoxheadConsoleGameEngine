@@ -177,4 +177,130 @@ namespace MinConsoleNative
         ::SetWindowLongPtr(windowHandle, GWL_EXSTYLE, style | WS_EX_LAYERED);
         return ::SetLayeredWindowAttributes(windowHandle, 0, alpha, LWA_ALPHA);
     }
+
+    Window::Window()
+    {
+        this->windowHandle = ::GetForegroundWindow();
+    }
+
+    Window::Window(HWND windowHandle)
+    {
+        this->windowHandle = windowHandle;
+    }
+
+    HWND Window::GetForegroundWindow()
+    {
+        HWND windowHandle;
+        MinGetForegroundWindow(&windowHandle);
+        return windowHandle;
+    }
+
+    HWND Window::GetConsoleWindow()
+    {
+        HWND windowHandle;
+        MinGetConsoleWindow(&windowHandle);
+        return windowHandle;
+    }
+
+    POINT Window::GetWindowPos()
+    {
+        POINT pos;
+        MinGetWindowPos(this->windowHandle, &pos);
+        return pos;
+    }
+
+    void Window::SetWindowPos(POINT pos)
+    {
+        MinSetWindowPos(this->windowHandle, pos);
+    }
+
+    POINT Window::GetWindowSize()
+    {
+        POINT size;
+        MinGetWindowSize(this->windowHandle, &size);
+        return size;
+    }
+
+    void Window::SetWindowSize(POINT size)
+    {
+        MinSetWindowSize(this->windowHandle, size);
+    }
+
+    POINT Window::GetDesktopSize()
+    {
+        POINT size;
+        MinGetDesktopSize(&size);
+        return size;
+    }
+
+    POINT Window::GetClientSize()
+    {
+        POINT size;
+        MinGetClientSize(this->windowHandle, &size);
+        return size;
+    }
+
+    POINT Window::GetMousePos()
+    {
+        POINT pos;
+        MinGetMousePos(&pos);
+        return pos;
+    }
+
+    POINT Window::GetMappedMousePos()
+    {
+        POINT pos;
+        MinGetMappedMousePos(this->windowHandle, &pos);
+        return pos;
+    }
+
+    bool Window::GetMouseInClient()
+    {
+        bool yes;
+        MinGetMouseInClient(this->windowHandle, &yes);
+        return yes;
+    }
+
+    bool Window::GetWindowInFocus()
+    {
+        bool yes;
+        MinGetWindowInFocus(this->windowHandle, &yes);
+        return yes;
+    }
+
+    POINT Window::GetCenterPosOfWindowInDesktop()
+    {
+        POINT pos;
+        MinGetCenterPosOfWindowInDesktop(this->windowHandle, &pos);
+        return pos;
+    }
+
+    POINT Window::GetCenterPosOfWindow()
+    {
+        POINT pos;
+        MinGetCenterPosOfWindow(this->windowHandle, &pos);
+        return pos;
+    }
+
+    void Window::SetWindowMenuVisibility(bool visible)
+    {
+        MinSetWindowMenuVisibility(this->windowHandle, visible);
+    }
+
+    void Window::MaximizeWindow(bool maximize)
+    {
+        MinMaximizeWindow(this->windowHandle, maximize);
+    }
+
+    byte Window::GetWindowAlpha()
+    {
+        byte alpha;
+        MinGetWindowAlpha(this->windowHandle, &alpha);
+        return alpha;
+    }
+
+    void Window::SetWindowAlpha(byte alpha)
+    {
+        MinSetWindowAlpha(this->windowHandle, alpha);
+    }
 }
