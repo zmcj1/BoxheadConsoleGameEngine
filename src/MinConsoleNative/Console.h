@@ -6,6 +6,13 @@
 
 namespace MinConsoleNative
 {
+    enum class CharWidth
+    {
+        Unknown = 0,
+        Half = 1,
+        Full = 2,
+    };
+
     enum class ConsoleColor
     {
         BLACK = 0,
@@ -303,6 +310,8 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinSetConsoleCursorPos(ConsoleSession* cons, COORD pos);
 
+    EXPORT_FUNC MinGetCharWidth(ConsoleSession* cons, wchar c, CharWidth* cw);
+
     class Console
     {
     public:
@@ -346,5 +355,7 @@ namespace MinConsoleNative
         COORD GetConsoleCursorPos();
 
         bool SetConsoleCursorPos(COORD pos);
+
+        CharWidth GetWcharWidth(wchar c);
     };
 }

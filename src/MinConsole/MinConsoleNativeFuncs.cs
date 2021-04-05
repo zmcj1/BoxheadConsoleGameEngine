@@ -78,6 +78,9 @@ namespace MinConsole
         public extern static bool MinSetConsoleCursorPos(ref ConsoleSession cons, COORD pos);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinGetCharWidth(ref ConsoleSession cons, char c, ref CharWidth cw);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetKey(int virtualKey, ref bool yes);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]

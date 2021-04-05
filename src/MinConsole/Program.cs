@@ -21,6 +21,9 @@ namespace MinConsole
 
             MinConsoleNativeFuncs.MinSetConsoleCursorPos(ref session, new COORD(20, 10));
 
+            CharWidth charWidth = CharWidth.Unknown;
+            MinConsoleNativeFuncs.MinGetCharWidth(ref session, '吊', ref charWidth);
+
             Console.ReadKey();
         }
     }

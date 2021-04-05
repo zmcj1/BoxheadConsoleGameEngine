@@ -11,6 +11,13 @@ namespace MinConsole
             MOUSE_Y = 2,
         }
 
+        public enum CharWidth : int
+        {
+            Unknown = 0,
+            Half = 1,
+            Full = 2,
+        }
+
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {

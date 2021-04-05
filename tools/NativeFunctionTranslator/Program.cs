@@ -220,6 +220,7 @@ namespace NativeFunctionTranslator
                                     varType = "ref " + _type;
                                 }
                             }
+                            //no ptr
                             else
                             {
                                 if (type_names[i] == "HWND")
@@ -233,6 +234,10 @@ namespace NativeFunctionTranslator
                                 else if (type_names[i] == "HICON")
                                 {
                                     varType = "ref ICON";
+                                }
+                                else if (type_names[i] == "wchar")
+                                {
+                                    varType = "char";
                                 }
                                 else
                                 {

@@ -254,6 +254,60 @@ namespace MinConsoleNative
         return ::SetConsoleCursorPosition(cons->consoleOutput, pos);
     }
 
+    EXPORT_FUNC MinGetCharWidth(ConsoleSession* cons, wchar c, CharWidth* cw)
+    {
+        HDC hdc = GetDC(cons->consoleWindow);
+
+        CONSOLE_FONT_INFOEX cfi;
+        cfi.cbSize = sizeof(cfi);
+        GetCurrentConsoleFontEx(cons->consoleOutput, false, &cfi);
+
+        //get default value
+        HGDIOBJ hfont = GetCurrentObject(hdc, OBJ_FONT);
+        LOGFONT logFont;
+        GetObject(hfont, sizeof(logFont), &logFont);
+
+        logFont.lfHeight = cfi.dwFontSize.Y;
+        logFont.lfWidth = cfi.dwFontSize.X;
+        logFont.lfEscapement;
+        logFont.lfOrientation;
+        logFont.lfWeight = cfi.FontWeight;
+        logFont.lfItalic;
+        logFont.lfUnderline;
+        logFont.lfStrikeOut;
+        logFont.lfCharSet = ANSI_CHARSET; //Set it to ANSI
+        logFont.lfOutPrecision;
+        logFont.lfClipPrecision;
+        logFont.lfQuality;
+        logFont.lfPitchAndFamily = cfi.FontFamily;
+        wcscpy_s(logFont.lfFaceName, LF_FACESIZE, cfi.FaceName);
+
+        HFONT hFont = CreateFontIndirect(&logFont);
+
+        ((HFONT)SelectObject((hdc), (HGDIOBJ)(HFONT)(hFont)));
+
+        TEXTMETRICW textm;
+
+        bool suc = GetTextMetrics(hdc, &textm);
+        bool isTrueType = textm.tmPitchAndFamily == TMPF_TRUETYPE;
+
+        int width = 0;
+        GetCharWidth32(hdc, c, c, &width);
+
+        if (width >= textm.tmMaxCharWidth)
+        {
+            *cw = CharWidth::Full;
+        }
+        else
+        {
+            *cw = CharWidth::Half;
+        }
+
+        ReleaseDC(cons->consoleWindow, hdc);
+
+        return true;
+    }
+
     Console::Console()
     {
         MinInitConsoleSession(&cons);
@@ -366,5 +420,12 @@ namespace MinConsoleNative
     bool Console::SetConsoleCursorPos(COORD pos)
     {
         return MinSetConsoleCursorPos(&cons, pos);
+    }
+
+    CharWidth Console::GetWcharWidth(wchar c)
+    {
+        CharWidth charWidth;
+        MinGetCharWidth(&cons, c, &charWidth);
+        return charWidth;
     }
 }
