@@ -85,13 +85,13 @@ namespace MinConsole
         public extern static bool MinStopTimer(ref MinTimer timer);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinTimeTimer(ref MinTimer timer, ref double deltaTime, = 1000);
+        public extern static bool MinTimeTimer(ref MinTimer timer, ref double deltaTime, int iterations);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetFuncFromDll(string dllName, ref char funcName, ref FARPROC funcPtr);
+        public extern static bool MinGetFuncFromDll(string dllName, ref char funcName, ref object funcPtr);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinSetConsoleIcon(HICON hIcon);
+        public extern static bool MinSetConsoleIcon(ref ICON hIcon);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetForegroundWindow(IntPtr windowHandle);

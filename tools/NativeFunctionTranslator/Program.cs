@@ -211,6 +211,10 @@ namespace NativeFunctionTranslator
                                 {
                                     varType = "IntPtr";
                                 }
+                                else if (_type == "FARPROC")
+                                {
+                                    varType = "ref object";
+                                }
                                 else
                                 {
                                     varType = "ref " + _type;
@@ -225,6 +229,10 @@ namespace NativeFunctionTranslator
                                 else if (type_names[i] == "DWORD")
                                 {
                                     varType = "uint";
+                                }
+                                else if (type_names[i] == "HICON")
+                                {
+                                    varType = "ref ICON";
                                 }
                                 else
                                 {
