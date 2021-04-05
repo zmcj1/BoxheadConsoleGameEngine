@@ -1,10 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Text;
 
 namespace NativeFunctionTranslator
 {
+    struct Param
+    {
+
+    }
+
     class Program
     {
         public static List<string> GetFileListWithExtend(DirectoryInfo directory, string pattern)
@@ -35,7 +40,24 @@ namespace NativeFunctionTranslator
 
             List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(targetFolder), "*.h");
 
+            string targetFileText = File.ReadAllText(targetFile);
+            string[] targetFileLines = targetFileText.Split(Environment.NewLine);
+            int insertLineNumber = 0;
+
             const string EXPORT_FUNC = "EXPORT_FUNC";
+            const string INSERT_HERE = "//>>>insert_here<<<";
+            //In C# file:
+            const string EXPORT_FUNC_DLLIMPORT =
+                "[DllImport(\"MinConsoleNative.dll\", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]";
+            const string EXPORT_FUNC_RETURN_TYPE = "public extern static bool";
+            const int indent = 8;
+            string indentLine = string.Empty;
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < indent; i++)
+            {
+                builder.Append(" ");
+            }
+            indentLine = builder.ToString();
 
             List<string> nativeMethodDeclaration = new List<string>();
 
@@ -66,8 +88,41 @@ namespace NativeFunctionTranslator
                         }
                     }
                 }
+            }
 
-                continue;
+            for (int i = 0; i < targetFileLines.Length; i++)
+            {
+                string fileLine = targetFileLines[i];
+
+                string _line = fileLine.Trim();
+
+                if (_line.IndexOf(INSERT_HERE) != -1)
+                {
+                    bool equal = true;
+                    for (int j = 0; j < INSERT_HERE.Length; j++)
+                    {
+                        if (_line[j] != INSERT_HERE[j])
+                        {
+                            equal = false;
+                            break;
+                        }
+                    }
+                    if (equal)
+                    {
+                        insertLineNumber = i + 1;
+                    }
+                }
+            }
+
+            List<string> readyToWrite = new List<string>();
+
+            foreach (string item in nativeMethodDeclaration)
+            {
+                string newLine = item.Replace(EXPORT_FUNC, EXPORT_FUNC_RETURN_TYPE);
+
+                readyToWrite.Add(indentLine + EXPORT_FUNC_DLLIMPORT);
+                readyToWrite.Add(indentLine + newLine);
+                readyToWrite.Add(indentLine + Environment.NewLine);
             }
 
             Console.WriteLine("Hello World!");

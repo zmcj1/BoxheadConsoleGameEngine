@@ -9,6 +9,6 @@ namespace MinConsole
 {
     internal class MinConsoleNativeFuncs
     {
-        
+        //>>>insert_here<<<
     }
 }
