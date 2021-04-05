@@ -40,8 +40,18 @@ namespace NativeFunctionTranslator
 
             List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(targetFolder), "*.h");
 
-            string targetFileText = File.ReadAllText(targetFile);
-            string[] targetFileLines = targetFileText.Split(Environment.NewLine);
+            List<string> targetFileLines = new List<string>();
+            targetFileLines.Add("using System;");
+            targetFileLines.Add("using System.Runtime.InteropServices;");
+            targetFileLines.Add("");
+            targetFileLines.Add("namespace MinConsole");
+            targetFileLines.Add("{");
+            targetFileLines.Add("    internal class MinConsoleNativeFuncs");
+            targetFileLines.Add("    {");
+            targetFileLines.Add("        //>>>insert_here<<<");
+            targetFileLines.Add("    }");
+            targetFileLines.Add("}");
+
             int insertLineNumber = 0;
 
             const string EXPORT_FUNC = "EXPORT_FUNC";
@@ -90,7 +100,7 @@ namespace NativeFunctionTranslator
                 }
             }
 
-            for (int i = 0; i < targetFileLines.Length; i++)
+            for (int i = 0; i < targetFileLines.Count; i++)
             {
                 string fileLine = targetFileLines[i];
 
@@ -122,7 +132,21 @@ namespace NativeFunctionTranslator
 
                 readyToWrite.Add(indentLine + EXPORT_FUNC_DLLIMPORT);
                 readyToWrite.Add(indentLine + newLine);
-                readyToWrite.Add(indentLine + Environment.NewLine);
+                readyToWrite.Add("");
+            }
+
+            List<string> finalLines = new List<string>();
+            //add head
+            for (int i = 0; i < insertLineNumber; i++)
+            {
+                finalLines.Add(targetFileLines[i]);
+            }
+            //add content
+            finalLines.AddRange(readyToWrite);
+            //add tail
+            for (int i = insertLineNumber; i < targetFileLines.Count; i++)
+            {
+                finalLines.Add(targetFileLines[i]);
             }
 
             Console.WriteLine("Hello World!");
