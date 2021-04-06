@@ -15,6 +15,6 @@
 #include "ObjectPool.h"
 #include "String.h"
 #include "File.h"
-
+#include "Math.h"
 
 using namespace MinConsoleNative;
