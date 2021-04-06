@@ -264,6 +264,98 @@ namespace MinConsoleNative
         return ::ReadConsole(consoleInput, buffer, charCount, &read, nullptr);
     }
 
+    EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2)
+    {
+        //IMPORTANT!!!
+        //Invoke GetNumberOfConsoleInputEvents first instead of directly invoke ReadConsoleInput, otherwise it will cost lots of mem.
+        DWORD eventNumber = 0;
+        bool suc1 = ::GetNumberOfConsoleInputEvents(consoleInput, &eventNumber);
+        if (!suc1) return false;
+        if (eventNumber == 0) return true;
+
+        const int BUF_SIZE = 64;
+        INPUT_RECORD inputBuf[BUF_SIZE];
+        bool suc2 = ::ReadConsoleInput(consoleInput, inputBuf, 64, &eventNumber);
+        if (!suc2) return false;
+        if (eventNumber == 0) return true;
+        if (eventNumber > BUF_SIZE) return false; //Current array cannot contain all events!
+
+        ConsoleMouseInputRecord mouseInputRecord;
+        ConsoleKeyboardInputRecord keyboardInputRecord;
+        uint keyState = 0;
+
+        for (DWORD i = 0; i < eventNumber; i++)
+        {
+            switch (inputBuf[i].EventType)
+            {
+            case KEY_EVENT:
+                //set status
+                keyState = inputBuf[i].Event.KeyEvent.dwControlKeyState;
+                keyboardInputRecord._RIGHT_ALT_PRESSED = keyState & RIGHT_ALT_PRESSED;
+                keyboardInputRecord._LEFT_ALT_PRESSED = keyState & LEFT_ALT_PRESSED;
+                keyboardInputRecord._RIGHT_CTRL_PRESSED = keyState & RIGHT_CTRL_PRESSED;
+                keyboardInputRecord._LEFT_CTRL_PRESSED = keyState & LEFT_CTRL_PRESSED;
+                keyboardInputRecord._SHIFT_PRESSED = keyState & SHIFT_PRESSED;
+                keyboardInputRecord._NUMLOCK_ON = keyState & NUMLOCK_ON;
+                keyboardInputRecord._SCROLLLOCK_ON = keyState & SCROLLLOCK_ON;
+                keyboardInputRecord._CAPSLOCK_ON = keyState & CAPSLOCK_ON;
+                keyboardInputRecord._ENHANCED_KEY = keyState & ENHANCED_KEY;
+                //readkey
+                if (inputBuf[i].Event.KeyEvent.bKeyDown)
+                {
+                    keyboardInputRecord.KeyChar = inputBuf[i].Event.KeyEvent.uChar.UnicodeChar;
+                    keyboardInputRecord.VirualKey = inputBuf[i].Event.KeyEvent.wVirtualKeyCode;
+                    //invoke callback
+                    if (callback2 != nullptr)
+                    {
+                        callback2(keyboardInputRecord);
+                    }
+                }
+                break;
+            case MOUSE_EVENT:
+                //this value will be right.
+                mouseInputRecord.position = inputBuf[i].Event.MouseEvent.dwMousePosition;
+                //switch
+                switch (inputBuf[i].Event.MouseEvent.dwEventFlags)
+                {
+                case MOUSE_MOVED:
+                    mouseInputRecord.moved = true;
+                    break;
+                case DOUBLE_CLICK:
+                    mouseInputRecord.doubleClick = true;
+                    break;
+                case MOUSE_WHEELED:
+                    DWORD buttonState = inputBuf[i].Event.MouseEvent.dwButtonState;
+                    int value = buttonState >> sizeof(buttonState) * 8;
+                    if (value > 0)
+                    {
+                        mouseInputRecord.mouseWheelDir = MouseWheelDirection::Up;
+                    }
+                    else if (value < 0)
+                    {
+                        mouseInputRecord.mouseWheelDir = MouseWheelDirection::Down;
+                    }
+                    else
+                    {
+                        mouseInputRecord.mouseWheelDir = MouseWheelDirection::None;
+                    }
+                    break;
+                }
+                //invoke callback
+                if (callback1 != nullptr)
+                {
+                    callback1(mouseInputRecord);
+                }
+                break;
+            case WINDOW_BUFFER_SIZE_EVENT:
+                //ignore, dont try to use this event, its useless.
+                break;
+            }
+        }
+
+        return true;
+    }
+
     EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, const wchar* buffer)
     {
         int len = wcslen(buffer);

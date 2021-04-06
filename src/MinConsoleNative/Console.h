@@ -33,6 +33,13 @@ namespace MinConsoleNative
         WHITE = 15,
     };
 
+    enum class MouseWheelDirection
+    {
+        None = 0,
+        Up = 1,
+        Down = 2,
+    };
+
     inline ushort ConsoleColorToUshort(ConsoleColor foreColor, ConsoleColor backColor)
     {
         return (ushort)((ushort)foreColor | ((ushort)backColor << 4));
@@ -273,6 +280,58 @@ namespace MinConsoleNative
         }
     };
 
+    struct ConsoleMouseInputRecord
+    {
+    public:
+        bool moved;                         //Whether the mouse is moving
+        bool doubleClick;                   //Double click
+        COORD position;                     //The unit is cell
+        MouseWheelDirection mouseWheelDir;  //Mouse wheel direction
+
+        ConsoleMouseInputRecord()
+        {
+            this->moved = false;
+            this->doubleClick = false;
+            this->position = { 0 };
+            this->mouseWheelDir = MouseWheelDirection::None;
+        }
+    };
+
+    struct ConsoleKeyboardInputRecord
+    {
+    public:
+        wchar KeyChar;
+        ushort VirualKey;
+        bool _RIGHT_ALT_PRESSED;        // the right alt key is pressed.
+        bool _LEFT_ALT_PRESSED;         // the left alt key is pressed.
+        bool _RIGHT_CTRL_PRESSED;       // the right ctrl key is pressed.
+        bool _LEFT_CTRL_PRESSED;        // the left ctrl key is pressed.
+        bool _SHIFT_PRESSED;            // the shift key is pressed.
+        bool _NUMLOCK_ON;               // the numlock light is on.
+        bool _SCROLLLOCK_ON;            // the scrolllock light is on.
+        bool _CAPSLOCK_ON;              // the capslock light is on.
+        bool _ENHANCED_KEY;             // the key is enhanced.
+
+        ConsoleKeyboardInputRecord()
+        {
+            this->KeyChar = 0;
+            this->VirualKey = 0;
+            this->_RIGHT_ALT_PRESSED = false;
+            this->_LEFT_ALT_PRESSED = false;
+            this->_RIGHT_CTRL_PRESSED = false;
+            this->_LEFT_CTRL_PRESSED = false;
+            this->_SHIFT_PRESSED = false;
+            this->_NUMLOCK_ON = false;
+            this->_SCROLLLOCK_ON = false;
+            this->_CAPSLOCK_ON = false;
+            this->_ENHANCED_KEY = false;
+        }
+    };
+
+    typedef void (*OnReadConsoleMouseInputRecord)(ConsoleMouseInputRecord mouseInput);
+
+    typedef void (*OnReadConsoleKeyboardInputRecord)(ConsoleKeyboardInputRecord keyboardInput);
+
     extern const int MAX_INPUT_CHAR_COUNT;
 
     //Initialize the console inside, don't worry.
@@ -315,6 +374,10 @@ namespace MinConsoleNative
 
     //size of buffer should be : charCount * sizeof(wchar)
     EXPORT_FUNC MinReadConsole(HANDLE consoleInput, wchar* buffer, int charCount);
+
+    //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
+    //Call this function in update. Please turn on EnableWindowInput and turn off EnableQuickEditMode
+    EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2);
 
     EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, const wchar* buffer);
 
