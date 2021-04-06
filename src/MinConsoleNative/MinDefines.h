@@ -75,6 +75,8 @@
 #define WINDOWS_CONSOLE 	    0X0002
 #define WINDOWS_TERMINAL  	    0X0004
 
+#define MIN_LOG(file, str, ...) fprintf(file, str "\n", ##__VA_ARGS__)
+
 typedef wchar_t wchar;
 
 typedef unsigned char byte;

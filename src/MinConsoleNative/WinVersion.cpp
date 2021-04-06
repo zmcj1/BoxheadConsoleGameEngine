@@ -23,6 +23,122 @@ namespace MinConsoleNative
         return true;
     }
 
+    EXPORT_FUNC MinIsWindows2000(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return MajorVer == 5 && MinorVer == 0;
+    }
+
+    EXPORT_FUNC MinIsWindowsXP(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return MajorVer == 5 && MinorVer == 1;
+    }
+
+    EXPORT_FUNC MinIsWindowsVista(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return MajorVer == 6 && MinorVer == 0;
+    }
+
+    EXPORT_FUNC MinIsWindows7(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return MajorVer == 6 && MinorVer == 1;
+    }
+
+    EXPORT_FUNC MinIsWindows8(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return MajorVer == 6 && MinorVer == 2;
+    }
+
+    EXPORT_FUNC MinIsWindows8point1(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return MajorVer == 6 && MinorVer == 3;
+    }
+
+    EXPORT_FUNC MinIsWindows8Or8point1(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return MinIsWindows8(MajorVer, MinorVer, BuildNumber) ||
+            MinIsWindows8point1(MajorVer, MinorVer, BuildNumber);
+    }
+
+    EXPORT_FUNC MinIsWindows10(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return MajorVer == 10;
+    }
+
+    EXPORT_FUNC MinIsWindows2000OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return MajorVer >= 5;
+    }
+
+    EXPORT_FUNC MinIsWindowsXPOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        if (MajorVer > 5)
+            return true;
+        else if (MajorVer == 5 && MinorVer >= 1)
+            return true;
+        else return false;
+    }
+
+    EXPORT_FUNC MinIsWindowsVistaOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return MajorVer >= 6;
+    }
+
+    EXPORT_FUNC MinIsWindows7OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        if (MajorVer > 6)
+            return true;
+        else if (MajorVer == 6 && MinorVer >= 1)
+            return true;
+        else return false;
+    }
+
+    EXPORT_FUNC MinIsWindows8Or8point1OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        if (MajorVer > 6)
+            return true;
+        else if (MajorVer == 6 && MinorVer > 1)
+            return true;
+        else return false;
+    }
+
+    EXPORT_FUNC MinIsWindows10OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return MajorVer >= 10;
+    }
+
+    EXPORT_FUNC MinIsWindows10CreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        if (MajorVer > 10)
+            return true;
+        else if (MajorVer == 10 && MinorVer > 0)
+            return true;
+        else if (MajorVer == 10 && MinorVer == 0 && BuildNumber >= 15063)
+            return true;
+        else return false;
+    }
+
+    EXPORT_FUNC MinIsWindows10FallCreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        if (MajorVer > 10)
+            return true;
+        else if (MajorVer == 10 && MinorVer > 0)
+            return true;
+        else if (MajorVer == 10 && MinorVer == 0 && BuildNumber >= 16299)
+            return true;
+        else return false;
+    }
+
+    EXPORT_FUNC MinIsWindows10Version1809OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        if (MajorVer > 10)
+            return true;
+        else if (MajorVer == 10 && MinorVer > 0)
+            return true;
+        else if (MajorVer == 10 && MinorVer == 0 && BuildNumber >= 17763)
+            return true;
+        else return false;
+    }
+
     WinVersion::WinVersion()
     {
         majorVer = 0;

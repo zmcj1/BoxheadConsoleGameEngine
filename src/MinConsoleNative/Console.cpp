@@ -14,6 +14,8 @@ namespace MinConsoleNative
         cons->consoleWindow = ::GetConsoleWindow();
         ::SetConsoleCP(65001);
         ::SetConsoleOutputCP(65001);
+        //Ensure that the input method works normally
+        MinSetConsoleCursorPos(cons->consoleOutput, { 0, 0 });
         return true;
     }
 

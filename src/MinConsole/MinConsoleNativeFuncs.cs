@@ -233,5 +233,56 @@ namespace MinConsole
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetWinVersion(ref uint MajorVer, ref uint MinorVer, ref uint BuildNumber);
 
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows2000(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindowsXP(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindowsVista(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows7(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows8(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows8point1(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows8Or8point1(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows10(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows2000OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindowsXPOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindowsVistaOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows7OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows8Or8point1OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows10OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows10CreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows10FallCreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinIsWindows10Version1809OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+
     }
 }
