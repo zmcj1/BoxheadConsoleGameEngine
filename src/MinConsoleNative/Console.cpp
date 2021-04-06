@@ -290,6 +290,12 @@ namespace MinConsoleNative
         return ::WriteConsoleOutput(consoleOutput, charInfos, size, coord, &smallRect);
     }
 
+    EXPORT_FUNC MinWriteConsoleOutputCharacter(HANDLE consoleOutput, const wchar* str, int charCount, COORD pos)
+    {
+        DWORD written = 0;
+        return ::WriteConsoleOutputCharacter(consoleOutput, str, charCount, pos, &written);
+    }
+
     EXPORT_FUNC MinCreateConsoleScreenBuffer(HANDLE* consoleOutput)
     {
         *consoleOutput = ::CreateConsoleScreenBuffer(GENERIC_WRITE | GENERIC_READ,
@@ -419,6 +425,11 @@ namespace MinConsoleNative
         //Put the cursor at its home coordinates. //Console::SetConsoleCursorPos({ 0,0 });
 
         return ::FillConsoleOutputAttribute(consoleOutput, csbi.wAttributes, length, coord, &written);
+    }
+
+    EXPORT_FUNC MinSetConsoleCtrlHandler(PHANDLER_ROUTINE handler, bool add)
+    {
+        return ::SetConsoleCtrlHandler(handler, add);
     }
 
     Console::Console()
@@ -554,6 +565,11 @@ namespace MinConsoleNative
     bool Console::WriteConsoleOutputW(const CHAR_INFO* charInfos, short x, short y, short width, short height)
     {
         return MinWriteConsoleOutput(cons.consoleOutput, charInfos, x, y, width, height);
+    }
+
+    bool Console::WriteConsoleOutputCharacterW(const std::wstring& str, COORD pos)
+    {
+        return MinWriteConsoleOutputCharacter(cons.consoleOutput, str.c_str(), str.size(), pos);
     }
 
     HANDLE Console::CreateConsoleScreenBuffer()

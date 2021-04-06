@@ -116,5 +116,7 @@ namespace MinConsole
             public char UnicodeChar;
             public ushort Attributes;
         }
+
+        public delegate bool PHANDLER_ROUTINE(uint ctrlType);
     }
 }

@@ -321,6 +321,9 @@ namespace MinConsoleNative
     //You can use something like this:arr[i].Attributes |= COMMON_LVB_UNDERSCORE
     EXPORT_FUNC MinWriteConsoleOutput(HANDLE consoleOutput, const CHAR_INFO* charInfos, short x, short y, short width, short height);
 
+    //This function is useful for mixed renderer.
+    EXPORT_FUNC MinWriteConsoleOutputCharacter(HANDLE consoleOutput, const wchar* str, int charCount, COORD pos);
+
     //The created HANDLE can be recycled using the MinCloseConsoleScreenBuffer function
     EXPORT_FUNC MinCreateConsoleScreenBuffer(HANDLE* consoleOutput);
 
@@ -349,6 +352,9 @@ namespace MinConsoleNative
 
     //See:https://docs.microsoft.com/en-us/windows/console/clearing-the-screen
     EXPORT_FUNC MinClear(HANDLE consoleOutput);
+
+    //nullptr, true to disable ctrl + c signal
+    EXPORT_FUNC MinSetConsoleCtrlHandler(PHANDLER_ROUTINE handler, bool add);
 
     class Console
     {
@@ -399,6 +405,8 @@ namespace MinConsoleNative
         bool WriteConsoleW(const std::wstring& msg);
 
         bool WriteConsoleOutputW(const CHAR_INFO* charInfos, short x, short y, short width, short height);
+
+        bool WriteConsoleOutputCharacterW(const std::wstring& str, COORD pos);
 
         HANDLE CreateConsoleScreenBuffer();
 
