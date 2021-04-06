@@ -55,6 +55,10 @@ int main()
     //cf.SetFaceNameQuick(L"Consolas");
     //console.SetConsoleFont(cf);
 
+    wstring wstr = String::Trim(L" _  _ _  ");
+    wstr = String::TrimStart(L"  sd   ");
+    wstr = String::TrimEnd(L" aasda  ");
+
     cin.get();
     return 0;
 }

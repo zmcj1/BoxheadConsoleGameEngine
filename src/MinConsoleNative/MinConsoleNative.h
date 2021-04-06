@@ -13,5 +13,8 @@
 #include "Console.h"
 #include "Debug.h"
 #include "ObjectPool.h"
+#include "String.h"
+#include "File.h"
+
 
 using namespace MinConsoleNative;

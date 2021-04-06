@@ -45,7 +45,7 @@ namespace MinConsole
 
                 Thread.Sleep(100);
             }
-
+            
             Console.ReadKey();
         }
     }
