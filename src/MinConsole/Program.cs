@@ -29,8 +29,13 @@ namespace MinConsole
 
             ConsoleMode mode = new ConsoleMode(false);
 
-            MinConsoleNativeFuncs.MinSetConsoleMode(session.consoleInput, 
+            MinConsoleNativeFuncs.MinSetConsoleMode(session.consoleInput,
                 session.consoleOutput, mode);
+
+            uint major = 0, minor = 0, build = 0;
+            MinConsoleNativeFuncs.MinGetWinVersion(ref major, ref minor, ref build);
+            bool isWindows8 = MinConsoleNativeFuncs.MinIsWindows8(major, minor, build);
+            bool isWindows10 = MinConsoleNativeFuncs.MinIsWindows10(major, minor, build);
 
             while (true)
             {
