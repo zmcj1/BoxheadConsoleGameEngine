@@ -60,6 +60,9 @@
     <ClInclude Include="String.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -102,6 +105,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="String.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

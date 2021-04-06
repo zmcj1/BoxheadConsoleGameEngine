@@ -147,6 +147,7 @@
     <ClInclude Include="ConRegistry.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="File.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="MinConsoleNative.h" />
     <ClInclude Include="MinDefines.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="debug_main.cpp" />
+    <ClCompile Include="File.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="MinConsoleNative.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
