@@ -70,6 +70,11 @@
 
 #define SYS_ANAL 0
 
+//Windows Console Versions:
+#define WINDOWS_LEGACY_CONSOLE  0X0001
+#define WINDOWS_CONSOLE 	    0X0002
+#define WINDOWS_TERMINAL  	    0X0004
+
 typedef wchar_t wchar;
 
 typedef unsigned char byte;

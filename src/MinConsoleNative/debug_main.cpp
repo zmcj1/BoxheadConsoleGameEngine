@@ -49,11 +49,12 @@ int main()
     //    cout << v << "\n";
     //}
 
-    Console console;
-    ConsoleFont cf = console.GetConsoleFont();
-    cf.FontSize = { 8,16 };
-    cf.SetFaceNameQuick(L"Consolas");
-    console.SetConsoleFont(cf);
+    //Console console;
+    //ConsoleFont cf = console.GetConsoleFont();
+    //cf.FontSize = { 8,16 };
+    //cf.SetFaceNameQuick(L"Consolas");
+    //console.SetConsoleFont(cf);
+
     cin.get();
     return 0;
 }

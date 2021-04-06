@@ -2,6 +2,10 @@
 
 Tip:This document will change at any time.
 
+Now this project in the early development stage, everything is changing at a high speed!
+
+Made in Minsk, Belarus.
+
 ## What is this?
 
 This is a low-level Console Lib for Windows10 Console.
@@ -9,6 +13,14 @@ This is a low-level Console Lib for Windows10 Console.
 The purpose is to develop upper-level softwares such as text editors, 3D renderer, music player, etc with this library :).
 
 ## Features:
+
+todo
+
+## Structure
+
+todo
+
+## How can I use it?
 
 todo
 

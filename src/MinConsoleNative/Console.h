@@ -259,7 +259,7 @@ namespace MinConsoleNative
         DWORD FontIndex{ 0 };
         COORD FontSize{ 0 };
         uint FontFamily{ 0 };
-        uint FontWeight{ 0 };
+        uint FontWeight{ 0 }; //Over 400 is bold
         wchar FaceName[LF_FACESIZE]{ 0 };
 
         ConsoleFont()
@@ -275,6 +275,7 @@ namespace MinConsoleNative
 
     extern const int MAX_INPUT_CHAR_COUNT;
 
+    //Initialize the console inside, don't worry.
     EXPORT_FUNC MinInitConsoleSession(ConsoleSession* cons);
 
     //return true means successful enable VT!
