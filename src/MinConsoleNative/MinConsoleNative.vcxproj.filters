@@ -66,6 +66,9 @@
     <ClInclude Include="Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -114,6 +117,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Math.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Database.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

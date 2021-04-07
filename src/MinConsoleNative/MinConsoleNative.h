@@ -16,5 +16,6 @@
 #include "String.h"
 #include "File.h"
 #include "Math.h"
+#include "Database.h"
 
 using namespace MinConsoleNative;
