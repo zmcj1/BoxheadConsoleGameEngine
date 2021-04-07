@@ -7,23 +7,12 @@ namespace MinConsoleNative
 {
     Database::Database()
     {
-        wstring dirPath = File::GetDirectoryPath();
-        wstring folderPath = File::Combine(dirPath, _T("data"));
-        this->savePath = File::Combine(dirPath, _T("data\\database.txt"));
-
-        FileMode status = File::Status(folderPath);
-        if (status != FileMode::Directory)
+        this->savePath = File::Combine(File::GetDirectoryPath(), _T("database.txt"));
+        //if not exsists, create it.
+        FileMode status = File::Status(this->savePath);
+        if (status != FileMode::File)
         {
-            File::Creat(folderPath, FileMode::Directory);
             File::Creat(this->savePath, FileMode::File);
-        }
-        else
-        {
-            FileMode config_status = File::Status(this->savePath);
-            if (config_status != FileMode::File)
-            {
-                File::Creat(this->savePath, FileMode::File);
-            }
         }
     }
 
