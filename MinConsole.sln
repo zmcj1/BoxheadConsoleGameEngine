@@ -7,7 +7,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinConsoleNative", "src\Min
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinConsole", "src\MinConsole\MinConsole.csproj", "{7A589B4B-9C05-4C01-9F78-B6FEE188B4E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeFunctionTranslator", "tools\NativeFunctionTranslator\NativeFunctionTranslator.csproj", "{FF5A99A6-F4A0-4369-BF09-D21CAFDBBBB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NativeFunctionTranslator", "tools\NativeFunctionTranslator\NativeFunctionTranslator.csproj", "{FF5A99A6-F4A0-4369-BF09-D21CAFDBBBB2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinIO", "src\MinIO\MinIO.vcxproj", "{5409DED9-B8CD-4BB8-B98E-A8959FA6F715}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,16 @@ Global
 		{FF5A99A6-F4A0-4369-BF09-D21CAFDBBBB2}.Release|x64.Build.0 = Release|Any CPU
 		{FF5A99A6-F4A0-4369-BF09-D21CAFDBBBB2}.Release|x86.ActiveCfg = Release|Any CPU
 		{FF5A99A6-F4A0-4369-BF09-D21CAFDBBBB2}.Release|x86.Build.0 = Release|Any CPU
+		{5409DED9-B8CD-4BB8-B98E-A8959FA6F715}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{5409DED9-B8CD-4BB8-B98E-A8959FA6F715}.Debug|x64.ActiveCfg = Debug|x64
+		{5409DED9-B8CD-4BB8-B98E-A8959FA6F715}.Debug|x64.Build.0 = Debug|x64
+		{5409DED9-B8CD-4BB8-B98E-A8959FA6F715}.Debug|x86.ActiveCfg = Debug|Win32
+		{5409DED9-B8CD-4BB8-B98E-A8959FA6F715}.Debug|x86.Build.0 = Debug|Win32
+		{5409DED9-B8CD-4BB8-B98E-A8959FA6F715}.Release|Any CPU.ActiveCfg = Release|Win32
+		{5409DED9-B8CD-4BB8-B98E-A8959FA6F715}.Release|x64.ActiveCfg = Release|x64
+		{5409DED9-B8CD-4BB8-B98E-A8959FA6F715}.Release|x64.Build.0 = Release|x64
+		{5409DED9-B8CD-4BB8-B98E-A8959FA6F715}.Release|x86.ActiveCfg = Release|Win32
+		{5409DED9-B8CD-4BB8-B98E-A8959FA6F715}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
