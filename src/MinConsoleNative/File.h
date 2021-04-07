@@ -47,5 +47,7 @@ namespace MinConsoleNative
         static bool WriteAllLines(const std::wstring& path, std::vector<std::wstring> lines, WriteMode write_mode = WriteMode::Cover);
 
         static bool WriteAllText(const std::wstring& path, const std::wstring& text, WriteMode write_mode = WriteMode::Cover);
+
+        static bool Clear(const std::wstring& path);
     };
 }

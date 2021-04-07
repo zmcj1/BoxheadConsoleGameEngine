@@ -238,4 +238,9 @@ namespace MinConsoleNative
 
         return suc;
     }
+
+    bool File::Clear(const std::wstring& path)
+    {
+        return WriteAllText(path, L"", WriteMode::Cover);
+    }
 }
