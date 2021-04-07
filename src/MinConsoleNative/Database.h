@@ -5,6 +5,8 @@
 
 namespace MinConsoleNative
 {
+    extern const std::wstring DNULL;
+
     class Database
     {
     public:

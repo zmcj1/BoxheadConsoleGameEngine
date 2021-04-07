@@ -135,7 +135,12 @@ namespace MinConsoleNative
         wifstream fInput;
         fInput.open(path.c_str());
 
-        while (fInput)
+        if (!fInput.is_open())
+        {
+            return lines;
+        }
+
+        while (!fInput.eof())
         {
             wstring line;
             getline(fInput, line);
@@ -181,14 +186,21 @@ namespace MinConsoleNative
             fOutput.open(path.c_str(), ios::app);
         }
 
-        if (fOutput)
+        if (fOutput.is_open())
         {
             suc = true;
         }
 
         for (size_t i = 0; i < lines.size(); i++)
         {
-            fOutput << lines[i] << endl;
+            if (i == lines.size() - 1)
+            {
+                fOutput << lines[i];
+            }
+            else
+            {
+                fOutput << lines[i] << endl;
+            }
         }
 
         fOutput.close();

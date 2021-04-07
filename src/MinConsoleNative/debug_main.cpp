@@ -55,11 +55,17 @@ int main()
     //cf.SetFaceNameQuick(L"Consolas");
     //console.SetConsoleFont(cf);
 
-    wstring wstr = String::Trim(L" _  _ _  ");
-    wstr = String::TrimStart(L"  sd   ");
-    wstr = String::TrimEnd(L" aasda  ");
+    Database database;
+    database.SetString(L"name", L"min");
+    database.SetString(L"age", L"20");
+    database.SetString(L"address", L"Moscow");
+    database.SetString(L"gender", L"male");
 
-    cin.get();
+    wstring a1 = database.GetString(L"name", DNULL);
+    wstring a2 = database.GetString(L"age", DNULL);
+    wstring a3 = database.GetString(L"address", DNULL);
+    wstring a4 = database.GetString(L"gender", DNULL);
+
     return 0;
 }
 

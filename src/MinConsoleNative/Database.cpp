@@ -5,6 +5,8 @@ using namespace std;
 
 namespace MinConsoleNative
 {
+    const std::wstring DNULL = L"null";
+
     Database::Database()
     {
         this->savePath = File::Combine(File::GetDirectoryPath(), _T("database.txt"));
@@ -29,9 +31,9 @@ namespace MinConsoleNative
 
     int Database::GetInt(const std::wstring& key, int defaultVal)
     {
-        wstring result = GetString(key, _T("null"));
+        wstring result = GetString(key, DNULL);
 
-        if (!String::CompareStringIgnoreCase(result, _T("null")))
+        if (!String::CompareStringIgnoreCase(result, DNULL))
         {
             return _wtoi(result.c_str());
         }
@@ -41,9 +43,9 @@ namespace MinConsoleNative
 
     float Database::GetFloat(const std::wstring& key, float defaultVal)
     {
-        wstring result = GetString(key, _T("null"));
+        wstring result = GetString(key, DNULL);
 
-        if (!String::CompareStringIgnoreCase(result, _T("null")))
+        if (!String::CompareStringIgnoreCase(result, DNULL))
         {
             return _wtof(result.c_str());
         }
@@ -53,9 +55,9 @@ namespace MinConsoleNative
 
     bool Database::GetBool(const std::wstring& key, bool defaultVal)
     {
-        wstring result = GetString(key, _T("null"));
+        wstring result = GetString(key, DNULL);
 
-        if (!String::CompareStringIgnoreCase(result, _T("null")))
+        if (!String::CompareStringIgnoreCase(result, DNULL))
         {
             return String::ToBool(result);
         }
@@ -72,18 +74,21 @@ namespace MinConsoleNative
             wstring line = lines[i];
 
             size_t eqaul_sign_index = line.find(_T("="));
-            if (eqaul_sign_index != wstring::npos)
+            //Illegal line
+            if (eqaul_sign_index == wstring::npos)
             {
-                wstring keyField = line.substr(0, eqaul_sign_index);
-                wstring keyFieldWithoutSpace = String::TrimAll(keyField);
+                continue;
+            }
 
-                if (keyFieldWithoutSpace._Equal(key))
-                {
-                    wstring valueField = line.substr(eqaul_sign_index + 1, line.size());
-                    wstring valueFieldWithoutSpace = String::TrimAll(valueField);
+            wstring keyStr = line.substr(0, eqaul_sign_index);
+            wstring keyStrWithoutSpace = String::Trim(keyStr);
+            //Find first key
+            if (keyStrWithoutSpace._Equal(key))
+            {
+                wstring valueStr = line.substr(eqaul_sign_index + 1, line.size());
+                wstring valueStrWithoutSpace = String::Trim(valueStr);
 
-                    return valueFieldWithoutSpace;
-                }
+                return valueStrWithoutSpace;
             }
         }
 
@@ -108,10 +113,12 @@ namespace MinConsoleNative
     void Database::SetString(const std::wstring& key, const std::wstring& value)
     {
         auto lines = File::ReadAllLines(this->savePath);
-        //If the last line is empty, remove the last line.
-        if (lines[lines.size() - 1].empty())
+        //If the file is empty, just write!
+        if (lines.size() == 0 || (lines.size() == 1 && lines[0].empty()))
         {
-            lines.erase(lines.begin() + lines.size() - 1);
+            wstring newLine = key + _T(" = ") + value;
+            File::WriteAllText(this->savePath, newLine, WriteMode::Append);
+            return;
         }
 
         bool key_exists = false;
@@ -122,26 +129,29 @@ namespace MinConsoleNative
             wstring line = lines[i];
 
             size_t eqaul_sign_index = line.find(_T("="));
-            if (eqaul_sign_index != wstring::npos)
+            //Illegal line
+            if (eqaul_sign_index == wstring::npos)
             {
-                wstring keyField = line.substr(0, eqaul_sign_index);
-                wstring keyFieldWithoutSpace = String::TrimAll(keyField);
+                continue;
+            }
 
-                if (keyFieldWithoutSpace._Equal(key))
+            wstring keyStr = line.substr(0, eqaul_sign_index);
+            wstring keyStrWithoutSpace = String::Trim(keyStr);
+            //Find first key
+            if (keyStrWithoutSpace._Equal(key))
+            {
+                key_exists = true;
+
+                wstring valueStr = line.substr(eqaul_sign_index + 1, line.size());
+                wstring valueStrWithoutSpace = String::Trim(valueStr);
+                //If value changed
+                if (valueStrWithoutSpace != value)
                 {
-                    key_exists = true;
-
-                    wstring valueField = line.substr(eqaul_sign_index + 1, line.size());
-                    wstring valueFieldWithoutSpace = String::TrimAll(valueField);
-
-                    if (valueFieldWithoutSpace != value)
-                    {
-                        need_to_write = true;
-                        lines[i] = keyFieldWithoutSpace + _T(" = ") + value;
-                    }
-
-                    break;
+                    need_to_write = true;
+                    lines[i] = keyStrWithoutSpace + _T(" = ") + value;
                 }
+
+                break;
             }
         }
 
@@ -151,8 +161,7 @@ namespace MinConsoleNative
         }
         else if (!key_exists)
         {
-            wstring newLine;
-            newLine = _T("\n") + key + _T(" = ") + value;
+            wstring newLine = _T("\n") + key + _T(" = ") + value;
 
             File::WriteAllText(this->savePath, newLine, WriteMode::Append);
         }
