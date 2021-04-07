@@ -56,7 +56,7 @@ namespace MinConsoleNative
         return res;
     }
 
-    uint String::StringToHashCode(const std::string& str)
+    uint String::ToHashCode(const std::string& str)
     {
         uint seed = 131; // 31 131 1313 13131 131313 etc..
         uint hash = 0;
@@ -67,7 +67,7 @@ namespace MinConsoleNative
         return (hash & 0x7FFFFFFF);
     }
 
-    uint String::WstringToHashCode(const std::wstring& wstr)
+    uint String::ToHashCode(const std::wstring& wstr)
     {
         uint seed = 131; // 31 131 1313 13131 131313 etc..
         uint hash = 0;
@@ -78,14 +78,30 @@ namespace MinConsoleNative
         return (hash & 0x7FFFFFFF);
     }
 
-    bool String::CompareStringIgnoreCase(const std::string& a, const std::string& b)
+    bool String::CompareIgnoreCase(const std::string& a, const std::string& b)
     {
         return _stricmp(a.c_str(), b.c_str()) == 0;
     }
 
-    bool String::CompareStringIgnoreCase(const std::wstring& a, const std::wstring& b)
+    bool String::CompareIgnoreCase(const std::wstring& a, const std::wstring& b)
     {
         return _wcsicmp(a.c_str(), b.c_str()) == 0;
+    }
+
+    bool String::ToBool(const std::string& str)
+    {
+        if (CompareIgnoreCase(str, "true"))
+            return true;
+        else
+            return false;
+    }
+
+    bool String::ToBool(const std::wstring& wstr)
+    {
+        if (CompareIgnoreCase(wstr, _T("true")))
+            return true;
+        else
+            return false;
     }
 
     std::string String::ToString(bool value)
@@ -96,52 +112,14 @@ namespace MinConsoleNative
             return "false";
     }
 
-    std::wstring String::ToWstring(bool value)
+    std::string String::ToString(char c)
     {
-        if (value)
-            return _T("true");
-        else
-            return _T("false");
+        string str(1, _T('\0'));
+        str[0] = c;
+        return str;
     }
 
-    bool String::ToBool(const std::string& str)
-    {
-        if (CompareStringIgnoreCase(str, "true"))
-            return true;
-        else
-            return false;
-    }
-
-    bool String::ToBool(const std::wstring& wstr)
-    {
-        if (CompareStringIgnoreCase(wstr, _T("true")))
-            return true;
-        else
-            return false;
-    }
-
-    std::wstring String::StringToWstring(const std::string& str)
-    {
-        //this wstr_len include '\0'
-        int wstr_len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, NULL, 0);
-        //alloc
-        wchar* wstr = (wchar*)malloc(wstr_len * sizeof(wchar));
-
-        if (wstr == nullptr)
-        {
-            throw "MALLOC ERROR!";
-        }
-
-        memset(wstr, 0, wstr_len * sizeof(WCHAR));
-
-        MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, wstr, wstr_len);
-
-        wstring return_wstr(wstr);
-        free(wstr);
-        return return_wstr;
-    }
-
-    std::string String::WstringToString(const std::wstring& wstr)
+    std::string String::ToString(const std::wstring& wstr)
     {
         //this wstr_len include '\0'
         int str_len = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
@@ -162,17 +140,39 @@ namespace MinConsoleNative
         return return_str;
     }
 
-    std::string String::CharToString(char c)
+    std::wstring String::ToWstring(bool value)
     {
-        string str(1, _T('\0'));
-        str[0] = c;
-        return str;
+        if (value)
+            return _T("true");
+        else
+            return _T("false");
     }
 
-    std::wstring String::WcharToWstring(wchar wc)
+    std::wstring String::ToWstring(wchar wc)
     {
         wstring wstr(1, _T('\0'));
         wstr[0] = wc;
         return wstr;
+    }
+
+    std::wstring String::ToWstring(const std::string& str)
+    {
+        //this wstr_len include '\0'
+        int wstr_len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, NULL, 0);
+        //alloc
+        wchar* wstr = (wchar*)malloc(wstr_len * sizeof(wchar));
+
+        if (wstr == nullptr)
+        {
+            throw "MALLOC ERROR!";
+        }
+
+        memset(wstr, 0, wstr_len * sizeof(WCHAR));
+
+        MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, wstr, wstr_len);
+
+        wstring return_wstr(wstr);
+        free(wstr);
+        return return_wstr;
     }
 }

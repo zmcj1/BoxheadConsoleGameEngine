@@ -33,7 +33,7 @@ namespace MinConsoleNative
     {
         wstring result = GetString(key, DNULL);
 
-        if (!String::CompareStringIgnoreCase(result, DNULL))
+        if (!String::CompareIgnoreCase(result, DNULL))
         {
             return _wtoi(result.c_str());
         }
@@ -45,7 +45,7 @@ namespace MinConsoleNative
     {
         wstring result = GetString(key, DNULL);
 
-        if (!String::CompareStringIgnoreCase(result, DNULL))
+        if (!String::CompareIgnoreCase(result, DNULL))
         {
             return _wtof(result.c_str());
         }
@@ -57,7 +57,7 @@ namespace MinConsoleNative
     {
         wstring result = GetString(key, DNULL);
 
-        if (!String::CompareStringIgnoreCase(result, DNULL))
+        if (!String::CompareIgnoreCase(result, DNULL))
         {
             return String::ToBool(result);
         }

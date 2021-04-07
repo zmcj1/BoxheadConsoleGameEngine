@@ -29,7 +29,7 @@ namespace MinConsoleNative
 
         time_t now = time(0);
         char* str = ctime(&now); //Shit! This str with '\n'.
-        wstring time_wstr = String::StringToWstring(str);
+        wstring time_wstr = String::ToWstring(str);
 
         switch (msgType)
         {

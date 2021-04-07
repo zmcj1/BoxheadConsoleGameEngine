@@ -17,29 +17,33 @@ namespace MinConsoleNative
         static std::wstring TrimAll(const std::wstring& wstr);
 
         //See:BKDR Hash Function:https://www.byvoid.com/zhs/blog/string-hash-compare
-        static uint StringToHashCode(const std::string& str);
+        static uint ToHashCode(const std::string& str);
 
         //See:BKDR Hash Function:https://www.byvoid.com/zhs/blog/string-hash-compare
-        static uint WstringToHashCode(const std::wstring& wstr);
+        static uint ToHashCode(const std::wstring& wstr);
 
-        static bool CompareStringIgnoreCase(const std::string& a, const std::string& b);
+        static bool CompareIgnoreCase(const std::string& a, const std::string& b);
 
-        static bool CompareStringIgnoreCase(const std::wstring& a, const std::wstring& b);
-
-        static std::string ToString(bool value);
-
-        static std::wstring ToWstring(bool value);
+        static bool CompareIgnoreCase(const std::wstring& a, const std::wstring& b);
 
         static bool ToBool(const std::string& str);
 
         static bool ToBool(const std::wstring& wstr);
 
-        static std::wstring StringToWstring(const std::string& str);
+        //===========ToString===========
 
-        static std::string WstringToString(const std::wstring& wstr);
+        static std::string ToString(bool value);
 
-        static std::string CharToString(char c);
+        static std::string ToString(char c);
 
-        static std::wstring WcharToWstring(wchar wc);
+        static std::string ToString(const std::wstring& wstr);
+
+        //===========ToWstring===========
+
+        static std::wstring ToWstring(bool value);
+
+        static std::wstring ToWstring(wchar wc);
+
+        static std::wstring ToWstring(const std::string& str);
     };
 }
