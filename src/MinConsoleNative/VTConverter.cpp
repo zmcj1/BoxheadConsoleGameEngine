@@ -203,6 +203,20 @@ namespace MinConsoleNative
         }
     }
 
+    EXPORT_FUNC MinVTPaletteColor(wchar* str, int strLen, int index, byte r, byte g, byte b)
+    {
+        //ESC ] 4 ; <i> ; rgb : <r> / <g> / <b> ESC
+        int result = swprintf_s(str, strLen, L"%ls]4;%d;rgb:%d/%d/%d%ls", _T(ESC), index, r, g, b, _T(ESC));
+        if (result == -1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     std::wstring VTConverter::ResetStyle()
     {
         wchar buf[VT_STR_LEN];
@@ -284,6 +298,13 @@ namespace MinConsoleNative
     {
         wchar buf[VT_STR_LEN];
         MinVTTerminalSize(buf, VT_STR_LEN, size);
+        return std::wstring(buf);
+    }
+
+    std::wstring VTConverter::PaletteColor(int index, byte r, byte g, byte b)
+    {
+        wchar buf[VT_STR_LEN];
+        MinVTPaletteColor(buf, VT_STR_LEN, index, r, g, b);
         return std::wstring(buf);
     }
 }
