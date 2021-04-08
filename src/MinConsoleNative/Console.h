@@ -284,30 +284,52 @@ namespace MinConsoleNative
         {
         }
 
-        void SetFaceNameQuick(const std::wstring& faceName)
-        {
-            size_t fontNameLength = faceName.size();
-            ::wcscpy_s(this->FaceName, fontNameLength + 1, faceName.c_str());
-        }
-
-        bool FontBold()
+        bool GetFontBold()
         {
             return FontWeight > FW_NORMAL;
         }
 
-        int FontWidth()
+        int GetFontWidth()
         {
             return FontSize.X;
         }
 
-        int FontHeight()
+        int GetFontHeight()
         {
             return FontSize.Y;
         }
 
-        std::wstring FontName()
+        std::wstring GetFontName()
         {
             return std::wstring(FaceName);
+        }
+
+        void SetFontBold(bool bold)
+        {
+            if (bold)
+            {
+                FontWeight = FW_BOLD;
+            }
+            else
+            {
+                FontWeight = FW_NORMAL;
+            }
+        }
+
+        void SetFontWidth(int width)
+        {
+            FontSize.X = width;
+        }
+
+        void SetFontHeight(int height)
+        {
+            FontSize.Y = height;
+        }
+
+        void SetFontName(const std::wstring& faceName)
+        {
+            size_t fontNameLength = faceName.size();
+            ::wcscpy_s(this->FaceName, fontNameLength + 1, faceName.c_str());
         }
     };
 
