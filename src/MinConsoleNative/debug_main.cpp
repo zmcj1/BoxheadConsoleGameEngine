@@ -69,7 +69,7 @@ int main()
     Debug::Log(File::Combine(File::GetDirectoryPath(), L"log.txt"), L"hello world!");
 
     console.WriteConsoleW(VTConverter::Underline(true));
-    
+
     console.WriteConsoleW(VTConverter::Color({ 255,55,66 }, { 0,11,189 }));
 
     console.WriteConsoleW(L"Hello World!\n");
@@ -77,6 +77,12 @@ int main()
     console.WriteConsoleW(VTConverter::ResetStyle());
 
     console.WriteConsoleW(L"Hello World!\n");
+
+    console.WriteConsoleW(VTConverter::WindowTitle(L"adasASD1"));
+
+    console.WriteConsoleW(VTConverter::CursorPos({ 2,1 }));
+
+    console.WriteConsoleW(VTConverter::CursorVisible(false));
 
     console.ReadConsoleW();
 

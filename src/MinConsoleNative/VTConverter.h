@@ -56,6 +56,12 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinVTUnderline(wchar* str, int strLen, bool underLine);
 
+    EXPORT_FUNC MinVTWindowTitle(wchar* str, int strLen, const wchar* title);
+
+    EXPORT_FUNC MinVTCursorPos(wchar* str, int strLen, COORD pos);
+
+    EXPORT_FUNC MinVTCursorVisible(wchar* str, int strLen, bool visible);
+
     class VTConverter
     {
     private:
@@ -73,5 +79,11 @@ namespace MinConsoleNative
         static std::wstring Color(Color24 foreColor, Color24 backColor);
 
         static std::wstring Underline(bool underLine);
+
+        static std::wstring WindowTitle(std::wstring title);
+
+        static std::wstring CursorPos(COORD pos);
+
+        static std::wstring CursorVisible(bool visible);
     };
 }

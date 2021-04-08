@@ -92,6 +92,58 @@ namespace MinConsoleNative
         }
     }
 
+    EXPORT_FUNC MinVTWindowTitle(wchar* str, int strLen, const wchar* title)
+    {
+        //ESC ] 2 ; <string> BEL
+        int r = swprintf_s(str, strLen, L"%ls]2;%ls%ls", _T(ESC), title, _T(BELL));
+        if (r == -1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    EXPORT_FUNC MinVTCursorPos(wchar* str, int strLen, COORD pos)
+    {
+        //ESC [ <y> ; <x> H
+        int r = swprintf_s(str, strLen, L"%ls[%d;%dH", _T(ESC), pos.Y + 1, pos.X + 1);
+        if (r == -1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    EXPORT_FUNC MinVTCursorVisible(wchar* str, int strLen, bool visible)
+    {
+        //ESC [ ? 25 h  Show the cursor
+        //ESC [ ? 25 l  Hide the cursor
+        int r = 0;
+        if (visible)
+        {
+            r = swprintf_s(str, strLen, L"%ls[?25h", _T(ESC));
+        }
+        else
+        {
+            r = swprintf_s(str, strLen, L"%ls[?25l", _T(ESC));
+        }
+
+        if (r == -1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     std::wstring VTConverter::ResetStyle()
     {
         wchar buf[VT_STR_LEN];
@@ -124,6 +176,27 @@ namespace MinConsoleNative
     {
         wchar buf[VT_STR_LEN];
         MinVTUnderline(buf, VT_STR_LEN, underLine);
+        return std::wstring(buf);
+    }
+
+    std::wstring VTConverter::WindowTitle(std::wstring title)
+    {
+        wchar buf[VT_STR_LEN];
+        MinVTWindowTitle(buf, VT_STR_LEN, title.c_str());
+        return std::wstring(buf);
+    }
+
+    std::wstring VTConverter::CursorPos(COORD pos)
+    {
+        wchar buf[VT_STR_LEN];
+        MinVTCursorPos(buf, VT_STR_LEN, pos);
+        return std::wstring(buf);
+    }
+
+    std::wstring VTConverter::CursorVisible(bool visible)
+    {
+        wchar buf[VT_STR_LEN];
+        MinVTCursorVisible(buf, VT_STR_LEN, visible);
         return std::wstring(buf);
     }
 }
