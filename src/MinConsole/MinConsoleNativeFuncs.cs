@@ -219,6 +219,9 @@ namespace MinConsole
         public extern static bool MinVTPaletteColor(string str, int strLen, int index, byte r, byte g, byte b);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinVTSupport(ref bool yes);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetForegroundWindow(IntPtr windowHandle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
