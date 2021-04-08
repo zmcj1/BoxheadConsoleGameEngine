@@ -288,6 +288,26 @@ namespace MinConsoleNative
             size_t fontNameLength = faceName.size();
             ::wcscpy_s(this->FaceName, fontNameLength + 1, faceName.c_str());
         }
+
+        bool FontBold()
+        {
+            return FontWeight > FW_NORMAL;
+        }
+
+        int FontWidth()
+        {
+            return FontSize.X;
+        }
+
+        int FontHeight()
+        {
+            return FontSize.Y;
+        }
+
+        std::wstring FontName()
+        {
+            return std::wstring(FaceName);
+        }
     };
 
     struct ConsoleMouseInputRecord
