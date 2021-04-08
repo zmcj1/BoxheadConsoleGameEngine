@@ -88,7 +88,7 @@ namespace MinConsoleNative
             wofstream fOutput;
             fOutput.open(path);
 
-            if (fOutput)
+            if (fOutput.is_open())
                 result = true;
 
             fOutput.close();
@@ -227,7 +227,7 @@ namespace MinConsoleNative
             fOutput.open(path.c_str(), ios::app);
         }
 
-        if (fOutput)
+        if (fOutput.is_open())
         {
             suc = true;
         }

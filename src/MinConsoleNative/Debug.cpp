@@ -21,28 +21,50 @@ namespace MinConsoleNative
         FileMode logFileMode = File::Status(path);
         if (logFileMode != FileMode::File)
         {
-            OutputLine(L"Create file:" + path);
-            File::Creat(path, FileMode::File);
+            bool suc = File::Creat(path, FileMode::File);
+            if (!suc)
+            {
+                OutputLine(L"Create file failed!" + path);
+                return;
+            }
+            OutputLine(L"Create file success:" + path);
         }
 
         wstring line;
 
         time_t now = time(0);
         char* str = ctime(&now); //Shit! This str with '\n'.
-        wstring time_wstr = String::ToWstring(str);
+        wstring time_wstr = String::StringToWstring(str);
+        time_wstr = time_wstr.substr(0, time_wstr.size() - 1); //remove '\n' in the end.
+
+        auto lines = File::ReadAllLines(path);
+        //If the file is empty.
+        if (lines.size() == 0 || (lines.size() == 1 && lines[0].empty()))
+        {
+            //nothing here
+        }
+        else
+        {
+            line += L"\n";
+        }
+
+        line += L"\"" + msg + L"\"";
 
         switch (msgType)
         {
         case MessageType::Message:
-            line = _T("\"") + msg + _T("\" -message ") + _T("----") + time_wstr;
+            line += L" -message ";
             break;
         case MessageType::Warning:
-            line = _T("\"") + msg + _T("\" -warning ") + _T("----") + time_wstr;
+            line += L" -warning ";
             break;
         case MessageType::Error:
-            line = _T("\"") + msg + _T("\" -error ") + _T("----") + time_wstr;
+            line += L" -error ";
             break;
         }
+
+        line += L"-";
+        line += time_wstr;
 
         File::WriteAllText(path, line, WriteMode::Append);
     }

@@ -107,7 +107,7 @@ namespace MinConsoleNative
 
     void Database::SetBool(const std::wstring& key, bool value)
     {
-        SetString(key, String::ToWstring(value));
+        SetString(key, String::BoolToWstring(value));
     }
 
     void Database::SetString(const std::wstring& key, const std::wstring& value)

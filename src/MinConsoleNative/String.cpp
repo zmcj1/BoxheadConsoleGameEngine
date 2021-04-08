@@ -104,7 +104,7 @@ namespace MinConsoleNative
             return false;
     }
 
-    std::string String::ToString(bool value)
+    std::string String::BoolToString(bool value)
     {
         if (value)
             return "true";
@@ -112,14 +112,14 @@ namespace MinConsoleNative
             return "false";
     }
 
-    std::string String::ToString(char c)
+    std::string String::CharToString(char c)
     {
         string str(1, _T('\0'));
         str[0] = c;
         return str;
     }
 
-    std::string String::ToString(const std::wstring& wstr)
+    std::string String::WstringToString(const std::wstring& wstr)
     {
         //this wstr_len include '\0'
         int str_len = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
@@ -140,7 +140,7 @@ namespace MinConsoleNative
         return return_str;
     }
 
-    std::wstring String::ToWstring(bool value)
+    std::wstring String::BoolToWstring(bool value)
     {
         if (value)
             return _T("true");
@@ -148,14 +148,14 @@ namespace MinConsoleNative
             return _T("false");
     }
 
-    std::wstring String::ToWstring(wchar wc)
+    std::wstring String::WcharToWstring(wchar wc)
     {
         wstring wstr(1, _T('\0'));
         wstr[0] = wc;
         return wstr;
     }
 
-    std::wstring String::ToWstring(const std::string& str)
+    std::wstring String::StringToWstring(const std::string& str)
     {
         //this wstr_len include '\0'
         int wstr_len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, NULL, 0);

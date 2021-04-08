@@ -66,6 +66,8 @@ int main()
     wstring a3 = database.GetString(L"address", DNULL);
     wstring a4 = database.GetString(L"gender", DNULL);
 
+    Debug::Log(File::Combine(File::GetDirectoryPath(), L"log.txt"), L"hello world!");
+
     return 0;
 }
 

@@ -30,20 +30,20 @@ namespace MinConsoleNative
 
         static bool ToBool(const std::wstring& wstr);
 
-        //===========ToString===========
+        //===========XXToString===========
 
-        static std::string ToString(bool value);
+        static std::string BoolToString(bool value);
 
-        static std::string ToString(char c);
+        static std::string CharToString(char c);
 
-        static std::string ToString(const std::wstring& wstr);
+        static std::string WstringToString(const std::wstring& wstr);
 
-        //===========ToWstring===========
+        //===========XXToWstring===========
 
-        static std::wstring ToWstring(bool value);
+        static std::wstring BoolToWstring(bool value);
 
-        static std::wstring ToWstring(wchar wc);
+        static std::wstring WcharToWstring(wchar wc);
 
-        static std::wstring ToWstring(const std::string& str);
+        static std::wstring StringToWstring(const std::string& str);
     };
 }
