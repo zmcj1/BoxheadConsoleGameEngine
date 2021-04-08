@@ -16,15 +16,15 @@ namespace MinConsoleNative
 
         static std::wstring TrimAll(const std::wstring& wstr);
 
+        static bool CompareIgnoreCase(const std::string& a, const std::string& b);
+
+        static bool CompareIgnoreCase(const std::wstring& a, const std::wstring& b);
+
         //See:BKDR Hash Function:https://www.byvoid.com/zhs/blog/string-hash-compare
         static uint ToHashCode(const std::string& str);
 
         //See:BKDR Hash Function:https://www.byvoid.com/zhs/blog/string-hash-compare
         static uint ToHashCode(const std::wstring& wstr);
-
-        static bool CompareIgnoreCase(const std::string& a, const std::string& b);
-
-        static bool CompareIgnoreCase(const std::wstring& a, const std::wstring& b);
 
         static bool ToBool(const std::string& str);
 

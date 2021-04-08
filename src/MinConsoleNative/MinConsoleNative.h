@@ -18,5 +18,6 @@
 #include "Math.h"
 #include "Database.h"
 #include "VTConverter.h"
+#include "Process.h"
 
 using namespace MinConsoleNative;

@@ -56,6 +56,16 @@ namespace MinConsoleNative
         return res;
     }
 
+    bool String::CompareIgnoreCase(const std::string& a, const std::string& b)
+    {
+        return _stricmp(a.c_str(), b.c_str()) == 0;
+    }
+
+    bool String::CompareIgnoreCase(const std::wstring& a, const std::wstring& b)
+    {
+        return _wcsicmp(a.c_str(), b.c_str()) == 0;
+    }
+
     uint String::ToHashCode(const std::string& str)
     {
         uint seed = 131; // 31 131 1313 13131 131313 etc..
@@ -76,16 +86,6 @@ namespace MinConsoleNative
             hash = hash * seed + wstr[i];
         }
         return (hash & 0x7FFFFFFF);
-    }
-
-    bool String::CompareIgnoreCase(const std::string& a, const std::string& b)
-    {
-        return _stricmp(a.c_str(), b.c_str()) == 0;
-    }
-
-    bool String::CompareIgnoreCase(const std::wstring& a, const std::wstring& b)
-    {
-        return _wcsicmp(a.c_str(), b.c_str()) == 0;
     }
 
     bool String::ToBool(const std::string& str)
