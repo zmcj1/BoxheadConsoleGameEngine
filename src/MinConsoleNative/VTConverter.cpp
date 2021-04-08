@@ -144,6 +144,50 @@ namespace MinConsoleNative
         }
     }
 
+    EXPORT_FUNC MinVTTerminalColor(wchar* str, int strLen, int color)
+    {
+        //ESC [ <n> m
+        int r = swprintf_s(str, strLen, L"%ls[%dm", _T(ESC), color);
+        if (r == -1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    EXPORT_FUNC MinTerminalForeColor(wchar* str, int strLen, TerminalColor tcolor)
+    {
+        //Console color => VT100 color
+        int fcolor = (int)tcolor;
+        if (fcolor < 8)
+        {
+            fcolor += 30;
+        }
+        else
+        {
+            fcolor += 82;
+        }
+        return MinVTTerminalColor(str, strLen, fcolor);
+    }
+
+    EXPORT_FUNC MinTerminalBackColor(wchar* str, int strLen, TerminalColor tcolor)
+    {
+        //Console color => VT100 color
+        int bcolor = (int)tcolor;
+        if (bcolor < 8)
+        {
+            bcolor += 40;
+        }
+        else
+        {
+            bcolor += 92;
+        }
+        return MinVTTerminalColor(str, strLen, bcolor);
+    }
+
     std::wstring VTConverter::ResetStyle()
     {
         wchar buf[VT_STR_LEN];
@@ -197,6 +241,27 @@ namespace MinConsoleNative
     {
         wchar buf[VT_STR_LEN];
         MinVTCursorVisible(buf, VT_STR_LEN, visible);
+        return std::wstring(buf);
+    }
+
+    std::wstring VTConverter::TerminalColor(int color)
+    {
+        wchar buf[VT_STR_LEN];
+        MinVTTerminalColor(buf, VT_STR_LEN, color);
+        return std::wstring(buf);
+    }
+
+    std::wstring VTConverter::TerminalForeColor(MinConsoleNative::TerminalColor tcolor)
+    {
+        wchar buf[VT_STR_LEN];
+        MinTerminalForeColor(buf, VT_STR_LEN, tcolor);
+        return std::wstring(buf);
+    }
+
+    std::wstring VTConverter::TerminalBackColor(MinConsoleNative::TerminalColor tcolor)
+    {
+        wchar buf[VT_STR_LEN];
+        MinTerminalBackColor(buf, VT_STR_LEN, tcolor);
         return std::wstring(buf);
     }
 }

@@ -80,9 +80,17 @@ int main()
 
     console.WriteConsoleW(VTConverter::WindowTitle(L"adasASD1"));
 
-    console.WriteConsoleW(VTConverter::CursorPos({ 2,1 }));
+    console.WriteConsoleW(VTConverter::CursorPos({ 10,5 }));
 
     console.WriteConsoleW(VTConverter::CursorVisible(false));
+
+    console.WriteConsoleW(VTConverter::TerminalColor(36));
+
+    console.WriteConsoleW(VTConverter::TerminalForeColor(TerminalColor::White));
+
+    console.WriteConsoleW(VTConverter::TerminalBackColor(TerminalColor::Red));
+
+    console.WriteConsoleW(L"Hello World!");
 
     console.ReadConsoleW();
 

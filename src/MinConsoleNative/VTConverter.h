@@ -62,6 +62,12 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinVTCursorVisible(wchar* str, int strLen, bool visible);
 
+    EXPORT_FUNC MinVTTerminalColor(wchar* str, int strLen, int color);
+
+    EXPORT_FUNC MinTerminalForeColor(wchar* str, int strLen, TerminalColor tcolor);
+
+    EXPORT_FUNC MinTerminalBackColor(wchar* str, int strLen, TerminalColor tcolor);
+
     class VTConverter
     {
     private:
@@ -85,5 +91,11 @@ namespace MinConsoleNative
         static std::wstring CursorPos(COORD pos);
 
         static std::wstring CursorVisible(bool visible);
+
+        static std::wstring TerminalColor(int color);
+
+        static std::wstring TerminalForeColor(MinConsoleNative::TerminalColor tcolor);
+
+        static std::wstring TerminalBackColor(MinConsoleNative::TerminalColor tcolor);
     };
 }
