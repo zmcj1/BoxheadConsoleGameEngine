@@ -217,6 +217,18 @@ namespace MinConsoleNative
         }
     }
 
+    EXPORT_FUNC MinVTSupport(bool* yes)
+    {
+        //Set _ENABLE_VIRTUAL_TERMINAL_PROCESSING true
+        ConsoleMode cm = Console::Global.GetInstance().GetConsoleMode();
+        cm.outputMode._ENABLE_VIRTUAL_TERMINAL_PROCESSING = true;
+        Console::Global.GetInstance().SetConsoleMode(cm);
+        //Check if _ENABLE_VIRTUAL_TERMINAL_PROCESSING is true
+        cm = Console::Global.GetInstance().GetConsoleMode();
+        *yes = cm.outputMode._ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        return true;
+    }
+
     std::wstring VTConverter::ResetStyle()
     {
         wchar buf[VT_STR_LEN];
@@ -306,5 +318,12 @@ namespace MinConsoleNative
         wchar buf[VT_STR_LEN];
         MinVTPaletteColor(buf, VT_STR_LEN, index, r, g, b);
         return std::wstring(buf);
+    }
+
+    bool VTConverter::VTSupport()
+    {
+        bool yes = false;
+        MinVTSupport(&yes);
+        return yes;
     }
 }

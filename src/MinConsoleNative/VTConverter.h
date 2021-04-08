@@ -73,6 +73,8 @@ namespace MinConsoleNative
     //IMPORTANT:This API failed the test in the Windows Console
     EXPORT_FUNC MinVTPaletteColor(wchar* str, int strLen, int index, byte r, byte g, byte b);
 
+    EXPORT_FUNC MinVTSupport(bool* yes);
+
     class VTConverter
     {
     private:
@@ -106,5 +108,7 @@ namespace MinConsoleNative
         static std::wstring TerminalSize(COORD size);
 
         static std::wstring PaletteColor(int index, byte r, byte g, byte b);
+
+        static bool VTSupport();
     };
 }
