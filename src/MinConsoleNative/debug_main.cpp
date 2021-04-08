@@ -49,7 +49,7 @@ int main()
     //    cout << v << "\n";
     //}
 
-    //Console console;
+    Console console;
     //ConsoleFont cf = console.GetConsoleFont();
     //cf.FontSize = { 8,16 };
     //cf.SetFaceNameQuick(L"Consolas");
@@ -67,6 +67,18 @@ int main()
     wstring a4 = database.GetString(L"gender", DNULL);
 
     Debug::Log(File::Combine(File::GetDirectoryPath(), L"log.txt"), L"hello world!");
+
+    console.WriteConsoleW(VTConverter::Underline(true));
+    
+    console.WriteConsoleW(VTConverter::Color({ 255,55,66 }, { 0,11,189 }));
+
+    console.WriteConsoleW(L"Hello World!\n");
+
+    console.WriteConsoleW(VTConverter::ResetStyle());
+
+    console.WriteConsoleW(L"Hello World!\n");
+
+    console.ReadConsoleW();
 
     return 0;
 }
