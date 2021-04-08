@@ -503,6 +503,10 @@ namespace MinConsoleNative
 
         std::wstring ReadConsoleW();
 
+        //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
+        //Call this function in update. Please turn on EnableWindowInput and turn off EnableQuickEditMode
+        bool ReadConsoleInputW(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2);
+
         bool WriteConsoleW(const std::wstring& msg);
 
         bool WriteConsoleOutputW(const CHAR_INFO* charInfos, short x, short y, short width, short height);

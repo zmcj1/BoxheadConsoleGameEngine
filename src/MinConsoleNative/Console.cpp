@@ -680,6 +680,11 @@ namespace MinConsoleNative
         return str;
     }
 
+    bool Console::ReadConsoleInputW(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2)
+    {
+        return MinReadConsoleInput(cons.consoleInput, callback1, callback2);
+    }
+
     bool Console::WriteConsoleW(const std::wstring& msg)
     {
         return MinWriteConsole(cons.consoleOutput, msg.c_str());
