@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "MinDefines.h"
+#include "Singleton.h"
 #include <utility>
 #include <string>
 
@@ -455,6 +456,7 @@ namespace MinConsoleNative
     {
     public:
         static bool forceVT;
+        static Singleton<Console> Global;
 
     public:
         ConsoleSession cons;
@@ -563,5 +565,8 @@ namespace MinConsoleNative
         bool WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor);
 
         bool WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score);
+
+    public:
+
     };
 }

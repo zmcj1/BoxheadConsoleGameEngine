@@ -20,5 +20,6 @@
 #include "VTConverter.h"
 #include "Process.h"
 #include "Vector2.h"
+#include "Vector3.h"
 
 using namespace MinConsoleNative;
