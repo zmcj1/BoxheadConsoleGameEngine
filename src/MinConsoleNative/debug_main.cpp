@@ -7,11 +7,11 @@ using namespace std;
 
 int main()
 {
-    Window window;
-    POINT pos = window.GetCenterPosOfWindowInDesktop();
-    window.SetWindowPos(pos);
-
-
+    POINT pos = Window::Global.GetInstance().GetCenterPosOfWindowInDesktop();
+    Window::Global.GetInstance().SetWindowPos(pos);
+    Console::Global.GetInstance().Clear();
+    Console::Global.GetInstance().ReadConsoleW();
+    return 0;
 
     //MinTimer timer;
     //MinInitTimer(&timer);
@@ -41,8 +41,6 @@ int main()
     //        cout << deltaTime << "\n";
     //    }
     //}
-
-    return 0;
 }
 
 #endif

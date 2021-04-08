@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "MinDefines.h"
+#include "Singleton.h"
 
 namespace MinConsoleNative
 {
@@ -45,6 +46,9 @@ namespace MinConsoleNative
 
     class Window
     {
+    public:
+        static Singleton<Window> Global;
+
     public:
         HWND windowHandle;
 
