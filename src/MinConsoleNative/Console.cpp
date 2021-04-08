@@ -664,7 +664,7 @@ namespace MinConsoleNative
     {
         wstring str;
 
-        wchar buffer[sizeof(wchar) * MAX_INPUT_CHAR_COUNT];
+        wchar buffer[sizeof(wchar) * MAX_INPUT_CHAR_COUNT] = { 0 };
         MinReadConsole(cons.consoleInput, buffer, MAX_INPUT_CHAR_COUNT);
         str = buffer;
 
@@ -703,19 +703,23 @@ namespace MinConsoleNative
         return MinCloseConsoleScreenBuffer(consoleOutput);
     }
 
-    bool Console::CreateFileW()
+    HANDLE Console::CreateFileW(ConsoleFile filemode)
     {
-        return false;
+        HANDLE handle = nullptr;
+        MinCreateFile(filemode, &handle);
+        return handle;
     }
 
-    bool Console::WriteFile()
+    bool Console::WriteFile(std::string str)
     {
-        return false;
+        return MinWriteFile(cons.consoleOutput, str.c_str());
     }
 
-    bool Console::ReadFile()
+    std::string Console::ReadFile()
     {
-        return false;
+        char str[MAX_INPUT_CHAR_COUNT] = { 0 };
+        MinReadFile(cons.consoleInput, str, MAX_INPUT_CHAR_COUNT);
+        return string(str);
     }
 
     std::wstring Console::GetTitle()

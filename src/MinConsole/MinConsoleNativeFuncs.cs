@@ -102,13 +102,13 @@ namespace MinConsole
         public extern static bool MinCloseConsoleScreenBuffer(IntPtr consoleOutput);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinCreateFile( );
+        public extern static bool MinCreateFile(ConsoleFile fileMode, ref IntPtr handle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinWriteFile( );
+        public extern static bool MinWriteFile(IntPtr handle, ref char str);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinReadFile( );
+        public extern static bool MinReadFile(IntPtr handle, ref char buffer, uint bufferLen);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetCharWidth(IntPtr consoleWindow, IntPtr consoleOutput, char c, ref CharWidth cw);
@@ -175,6 +175,21 @@ namespace MinConsole
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetConsoleIcon(ref ICON hIcon);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinVTResetStyle(string str, int strLen);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinVTForeColor(string str, int strLen, Color24 foreColor);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinVTBackColor(string str, int strLen, Color24 backColor);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinVTColor(string str, int strLen, Color24 foreColor, Color24 backColor);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinVTUnderline(string str, int strLen, bool underLine);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetForegroundWindow(IntPtr windowHandle);

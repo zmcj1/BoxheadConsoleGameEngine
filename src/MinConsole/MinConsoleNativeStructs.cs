@@ -34,6 +34,12 @@ namespace MinConsole
             Down = 2,
         };
 
+        public enum ConsoleFile : int
+        {
+            Read = 1,
+            Write = 2,
+        };
+
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {

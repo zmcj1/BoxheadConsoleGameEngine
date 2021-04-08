@@ -507,11 +507,11 @@ namespace MinConsoleNative
 
         bool CloseConsoleScreenBuffer(HANDLE consoleOutput);
 
-        bool CreateFileW();
+        HANDLE CreateFileW(ConsoleFile filemode);
 
-        bool WriteFile();
+        bool WriteFile(std::string str);
 
-        bool ReadFile();
+        std::string ReadFile();
 
         std::wstring GetTitle();
 
