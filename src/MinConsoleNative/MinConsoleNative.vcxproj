@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Audio.h" />
     <ClInclude Include="Clipboard.h" />
     <ClInclude Include="ConRegistry.h" />
     <ClInclude Include="Console.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="WinVersion.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Clipboard.cpp" />
     <ClCompile Include="ConRegistry.cpp" />
     <ClCompile Include="Console.cpp" />

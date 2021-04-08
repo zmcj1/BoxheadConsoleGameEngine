@@ -81,6 +81,9 @@
     <ClInclude Include="Vector3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -144,6 +147,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
