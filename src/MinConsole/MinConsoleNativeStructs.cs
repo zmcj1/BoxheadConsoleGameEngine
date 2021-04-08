@@ -40,6 +40,26 @@ namespace MinConsole
             Write = 2,
         };
 
+        public enum TerminalColor : int
+        {
+            Black = 0,
+            DarkBlue = 4,
+            DarkGreen = 2,
+            DarkCyan = 6,
+            DarkRed = 1,
+            DarkMagenta = 5,
+            DarkYellow = 3,
+            Gray = 7,
+            DarkGray = 8,
+            Blue = 12,
+            Green = 10,
+            Cyan = 14,
+            Red = 9,
+            Magenta = 13,
+            Yellow = 11,
+            White = 15,
+        };
+
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
