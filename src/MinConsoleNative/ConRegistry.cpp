@@ -9,7 +9,7 @@ namespace MinConsoleNative
 
         if (!checked)
         {
-            if (winVersionInstance.GetInstance().IsWindows10OrLater())
+            if (WinVersion::Global.GetInstance().IsWindows10OrLater())
             {
                 HKEY key;
                 bool forceV2 = false;

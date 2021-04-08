@@ -22,7 +22,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinEnableConsoleVT(HANDLE consoleInput, HANDLE consoleOutput)
     {
-        bool supportVT = winVersionInstance.GetInstance().IsWindows10CreatorsOrLater();
+        bool supportVT = WinVersion::Global.GetInstance().IsWindows10CreatorsOrLater();
         if (supportVT)
         {
             ConsoleMode cm;

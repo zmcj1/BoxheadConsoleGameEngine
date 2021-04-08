@@ -1,6 +1,8 @@
 ﻿#include "WinVersion.h"
 #include "UnusualMethods.h"
 
+using namespace std;
+
 namespace MinConsoleNative
 {
     EXPORT_FUNC MinGetWinVersion(uint* MajorVer, uint* MinorVer, uint* BuildNumber)
@@ -236,6 +238,11 @@ namespace MinConsoleNative
         MinGetWinVersion(&majorVer, &minorVer, &buildNumber);
     }
 
+    std::wstring WinVersion::ToString()
+    {
+        return to_wstring(majorVer) + L"." + to_wstring(minorVer) + L"." + to_wstring(buildNumber);
+    }
+
     bool WinVersion::IsWindows2000()
     {
         return MajorVer() == 5 && MinorVer() == 0;
@@ -350,6 +357,4 @@ namespace MinConsoleNative
             return true;
         else return false;
     }
-
-    Singleton<WinVersion> winVersionInstance;
 }

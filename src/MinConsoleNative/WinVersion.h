@@ -1,5 +1,6 @@
 ﻿#include "MinDefines.h"
 #include "Singleton.h"
+#include <string>
 
 namespace MinConsoleNative
 {
@@ -61,6 +62,9 @@ namespace MinConsoleNative
     //Windows10Ver:https://en.wikipedia.org/wiki/Windows_10_version_history#Version_2004_(May_2020_Update)
     class WinVersion
     {
+    public:
+        static Singleton<WinVersion> Global;
+
     private:
         uint majorVer;
         uint minorVer;
@@ -81,6 +85,8 @@ namespace MinConsoleNative
         {
             return buildNumber;
         }
+
+        std::wstring ToString();
 
         bool IsWindows2000();
 
@@ -121,6 +127,4 @@ namespace MinConsoleNative
 
         WinVersion();
     };
-
-    extern Singleton<WinVersion> winVersionInstance;
 }
