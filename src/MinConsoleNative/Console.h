@@ -6,6 +6,15 @@
 
 namespace MinConsoleNative
 {
+#define CONSOLE_INPUT_STRING  L"CONIN$"
+#define CONSOLE_OUTPUT_STRING L"CONOUT$"
+
+    enum class ConsoleFile
+    {
+        Read = 1,
+        Write = 2,
+    };
+
     enum class CharWidth
     {
         Unknown = 0,
@@ -394,13 +403,13 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinCloseConsoleScreenBuffer(HANDLE consoleOutput);
 
-    //====================todo_start====================
-    EXPORT_FUNC MinCreateFile();
+    EXPORT_FUNC MinCreateFile(ConsoleFile fileMode, HANDLE* handle);
 
-    EXPORT_FUNC MinWriteFile();
+    //IMPORTANT!!!  File I/O function does not support Unicode.
+    EXPORT_FUNC MinWriteFile(HANDLE handle, const char* str);
 
-    EXPORT_FUNC MinReadFile();
-    //====================todo_end======================
+    //IMPORTANT!!!  File I/O function does not support Unicode.
+    EXPORT_FUNC MinReadFile(HANDLE handle, char* buffer, DWORD bufferLen);
 
     EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, CharWidth* cw);
 

@@ -12,8 +12,8 @@ namespace MinConsoleNative
         cons->consoleInput = ::GetStdHandle(STD_INPUT_HANDLE);
         cons->consoleOutput = ::GetStdHandle(STD_OUTPUT_HANDLE);
         cons->consoleWindow = ::GetConsoleWindow();
-        ::SetConsoleCP(65001);
-        ::SetConsoleOutputCP(65001);
+        ::SetConsoleCP(CP_UTF8);
+        ::SetConsoleOutputCP(CP_UTF8);
         //Ensure that the input method works normally
         MinSetConsoleCursorPos(cons->consoleOutput, { 0, 0 });
         return true;
@@ -407,19 +407,39 @@ namespace MinConsoleNative
         return CloseHandle(consoleOutput);
     }
 
-    EXPORT_FUNC MinCreateFile()
+    EXPORT_FUNC MinCreateFile(ConsoleFile fileMode, HANDLE* handle)
     {
-        return false;
+        const wchar* modeString = nullptr;
+        switch (fileMode)
+        {
+        case ConsoleFile::Read:
+            modeString = CONSOLE_INPUT_STRING;
+            break;
+        case ConsoleFile::Write:
+            modeString = CONSOLE_OUTPUT_STRING;
+            break;
+        }
+
+        if (modeString == nullptr) return false;
+
+        *handle = CreateFile(modeString,
+            GENERIC_READ | GENERIC_WRITE,
+            FILE_SHARE_READ | FILE_SHARE_WRITE,
+            nullptr, OPEN_EXISTING, 0, nullptr);
+
+        return *handle != INVALID_HANDLE_VALUE;
     }
 
-    EXPORT_FUNC MinWriteFile()
+    EXPORT_FUNC MinWriteFile(HANDLE handle, const char* str)
     {
-        return false;
+        DWORD written = 0;
+        return WriteFile(handle, str, strlen(str), &written, nullptr);
     }
 
-    EXPORT_FUNC MinReadFile()
+    EXPORT_FUNC MinReadFile(HANDLE handle, char* buffer, DWORD bufferLen)
     {
-        return false;
+        DWORD readCount = 0;
+        return ReadFile(handle, buffer, bufferLen, &readCount, nullptr);
     }
 
     EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, CharWidth* cw)
