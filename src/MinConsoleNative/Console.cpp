@@ -776,6 +776,23 @@ namespace MinConsoleNative
         return charWidth;
     }
 
+    int Console::Read()
+    {
+        wstring str = Console::ReadConsoleW();
+        size_t index = str.find_last_of(WNEW_LINE);
+        wstring strWithOutNewLine = str.substr(0, index - 1);
+
+        if (!strWithOutNewLine.empty()) return strWithOutNewLine[0];
+        else return 0;
+    }
+
+    std::wstring Console::ReadLine()
+    {
+        wstring str = Console::ReadConsoleW();
+        size_t index = str.find_last_of(WNEW_LINE);
+        return str.substr(0, index - 1);
+    }
+
     bool Console::Write(const std::wstring& msg)
     {
         return Console::WriteConsoleW(msg);

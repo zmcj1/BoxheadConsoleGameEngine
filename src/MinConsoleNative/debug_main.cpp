@@ -10,7 +10,7 @@ int main()
     POINT pos = Window::Global.GetInstance().GetCenterPosOfWindowInDesktop();
     Window::Global.GetInstance().SetWindowPos(pos);
     Console::Global.GetInstance().Clear();
-    Console::Global.GetInstance().ReadConsoleW();
+    auto d = Console::Global.GetInstance().ReadLine();
     return 0;
 
     //MinTimer timer;

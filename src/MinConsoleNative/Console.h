@@ -538,6 +538,12 @@ namespace MinConsoleNative
 
         //Expand API
 
+        //The return value does not contain \r\n
+        int Read();
+
+        //The return value does not contain \r\n
+        std::wstring ReadLine();
+
         bool Write(const std::wstring& msg);
 
         bool Write(const std::wstring& msg, ConsoleColor foreColor);

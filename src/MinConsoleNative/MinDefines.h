@@ -81,6 +81,9 @@
 
 #define MIN_LOG(file, str, ...) fprintf(file, str "\n", ##__VA_ARGS__)
 
+#define NEW_LINE "\r\n"
+#define WNEW_LINE L"\r\n"
+
 typedef wchar_t wchar;
 
 typedef unsigned char byte;
