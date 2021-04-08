@@ -92,6 +92,8 @@ int main()
 
     console.WriteConsoleW(L"Hello World!");
 
+    console.WriteConsoleW(VTConverter::TerminalSize({ 30,15 }));
+
     console.ReadConsoleW();
 
     return 0;

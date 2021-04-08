@@ -144,6 +144,7 @@ namespace MinConsoleNative
         }
     }
 
+    //foreColor(30 - 37 90 - 97) backColor(40 - 47 100 - 107)
     EXPORT_FUNC MinVTTerminalColor(wchar* str, int strLen, int color)
     {
         //ESC [ <n> m
@@ -158,7 +159,7 @@ namespace MinConsoleNative
         }
     }
 
-    EXPORT_FUNC MinTerminalForeColor(wchar* str, int strLen, TerminalColor tcolor)
+    EXPORT_FUNC MinVTTerminalForeColor(wchar* str, int strLen, TerminalColor tcolor)
     {
         //Console color => VT100 color
         int fcolor = (int)tcolor;
@@ -173,7 +174,7 @@ namespace MinConsoleNative
         return MinVTTerminalColor(str, strLen, fcolor);
     }
 
-    EXPORT_FUNC MinTerminalBackColor(wchar* str, int strLen, TerminalColor tcolor)
+    EXPORT_FUNC MinVTTerminalBackColor(wchar* str, int strLen, TerminalColor tcolor)
     {
         //Console color => VT100 color
         int bcolor = (int)tcolor;
@@ -186,6 +187,20 @@ namespace MinConsoleNative
             bcolor += 92;
         }
         return MinVTTerminalColor(str, strLen, bcolor);
+    }
+
+    EXPORT_FUNC MinVTTerminalSize(wchar* str, int strLen, COORD size)
+    {
+        //?
+        int r = swprintf_s(str, strLen, L"%ls[8;%d;%dt", _T(ESC), size.Y, size.X);
+        if (r == -1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     std::wstring VTConverter::ResetStyle()
@@ -254,14 +269,21 @@ namespace MinConsoleNative
     std::wstring VTConverter::TerminalForeColor(MinConsoleNative::TerminalColor tcolor)
     {
         wchar buf[VT_STR_LEN];
-        MinTerminalForeColor(buf, VT_STR_LEN, tcolor);
+        MinVTTerminalForeColor(buf, VT_STR_LEN, tcolor);
         return std::wstring(buf);
     }
 
     std::wstring VTConverter::TerminalBackColor(MinConsoleNative::TerminalColor tcolor)
     {
         wchar buf[VT_STR_LEN];
-        MinTerminalBackColor(buf, VT_STR_LEN, tcolor);
+        MinVTTerminalBackColor(buf, VT_STR_LEN, tcolor);
+        return std::wstring(buf);
+    }
+
+    std::wstring VTConverter::TerminalSize(COORD size)
+    {
+        wchar buf[VT_STR_LEN];
+        MinVTTerminalSize(buf, VT_STR_LEN, size);
         return std::wstring(buf);
     }
 }

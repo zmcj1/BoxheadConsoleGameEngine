@@ -64,9 +64,11 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinVTTerminalColor(wchar* str, int strLen, int color);
 
-    EXPORT_FUNC MinTerminalForeColor(wchar* str, int strLen, TerminalColor tcolor);
+    EXPORT_FUNC MinVTTerminalForeColor(wchar* str, int strLen, TerminalColor tcolor);
 
-    EXPORT_FUNC MinTerminalBackColor(wchar* str, int strLen, TerminalColor tcolor);
+    EXPORT_FUNC MinVTTerminalBackColor(wchar* str, int strLen, TerminalColor tcolor);
+
+    EXPORT_FUNC MinVTTerminalSize(wchar* str, int strLen, COORD size);
 
     class VTConverter
     {
@@ -97,5 +99,7 @@ namespace MinConsoleNative
         static std::wstring TerminalForeColor(MinConsoleNative::TerminalColor tcolor);
 
         static std::wstring TerminalBackColor(MinConsoleNative::TerminalColor tcolor);
+
+        static std::wstring TerminalSize(COORD size);
     };
 }
