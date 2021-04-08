@@ -4,11 +4,12 @@
 #include <utility>
 #include <string>
 
-namespace MinConsoleNative
-{
 #define CONSOLE_INPUT_STRING  L"CONIN$"
 #define CONSOLE_OUTPUT_STRING L"CONOUT$"
+#define CONSOLE_GENERIC       L"CON"
 
+namespace MinConsoleNative
+{
     enum class ConsoleFile
     {
         Read = 1,

@@ -159,6 +159,7 @@
     <ClInclude Include="String.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UnusualMethods.h" />
+    <ClInclude Include="VTConverter.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WinVersion.h" />
   </ItemGroup>
@@ -178,6 +179,7 @@
     <ClCompile Include="String.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UnusualMethods.cpp" />
+    <ClCompile Include="VTConverter.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinVersion.cpp" />
   </ItemGroup>
