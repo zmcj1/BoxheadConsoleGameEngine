@@ -19,5 +19,6 @@
 #include "Database.h"
 #include "VTConverter.h"
 #include "Process.h"
+#include "Vector2.h"
 
 using namespace MinConsoleNative;
