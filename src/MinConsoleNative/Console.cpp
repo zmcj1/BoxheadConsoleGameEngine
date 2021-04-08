@@ -1,5 +1,6 @@
 ﻿#include "Console.h"
 #include "WinVersion.h"
+#include "VTConverter.h"
 
 using namespace std;
 
@@ -552,22 +553,24 @@ namespace MinConsoleNative
         return ::SetConsoleCtrlHandler(handler, add);
     }
 
+    bool Console::forceVT = false;
+
     Console::Console()
     {
         MinInitConsoleSession(&cons);
-        MinEnableConsoleVT(cons.consoleInput, cons.consoleOutput);
+        this->supportVT = MinEnableConsoleVT(cons.consoleInput, cons.consoleOutput);
     }
 
     Console::Console(ConsoleSession cons)
     {
         this->cons = cons;
-        MinEnableConsoleVT(cons.consoleInput, cons.consoleOutput);
+        this->supportVT = MinEnableConsoleVT(cons.consoleInput, cons.consoleOutput);
     }
 
     Console::Console(HWND consoleWindow, HANDLE consoleInput, HANDLE consoleOutput)
     {
         this->cons = ConsoleSession(consoleWindow, consoleInput, consoleOutput);
-        MinEnableConsoleVT(cons.consoleInput, cons.consoleOutput);
+        this->supportVT = MinEnableConsoleVT(cons.consoleInput, cons.consoleOutput);
     }
 
     Color24 Console::GetConsolePalette(DWORD index)
@@ -771,5 +774,102 @@ namespace MinConsoleNative
         CharWidth charWidth;
         MinGetCharWidth(cons.consoleWindow, cons.consoleOutput, c, &charWidth);
         return charWidth;
+    }
+
+    bool Console::Write(const std::wstring& msg)
+    {
+        return Console::WriteConsoleW(msg);
+    }
+
+    bool Console::Write(const std::wstring& msg, ConsoleColor foreColor)
+    {
+        ConsoleColor fColor = Console::GetConsoleForeColor();
+        Console::SetConsoleForeColor(foreColor);
+        bool suc = Console::Write(msg);
+        Console::SetConsoleForeColor(fColor);
+        return suc;
+    }
+
+    bool Console::Write(const std::wstring& msg, ConsoleColor foreColor, ConsoleColor backColor)
+    {
+        ConsoleColor fColor = Console::GetConsoleForeColor();
+        ConsoleColor bColor = Console::GetConsoleBackColor();
+        Console::SetConsoleForeColor(foreColor);
+        Console::SetConsoleBackColor(backColor);
+        bool suc = Console::Write(msg);
+        Console::SetConsoleForeColor(fColor);
+        Console::SetConsoleBackColor(bColor);
+        return suc;
+    }
+
+    bool Console::WriteLine()
+    {
+        return Console::Write(L"\n");
+    }
+
+    bool Console::WriteLine(const std::wstring& msg)
+    {
+        return Console::Write(msg + wstring(L"\n"));
+    }
+
+    bool Console::WriteLine(const std::wstring& msg, ConsoleColor foreColor)
+    {
+        return Console::Write(msg + wstring(L"\n"), foreColor);
+    }
+
+    bool Console::WriteLine(const std::wstring& msg, ConsoleColor foreColor, ConsoleColor backColor)
+    {
+        return Console::Write(msg + wstring(L"\n"), foreColor, backColor);
+    }
+
+    bool Console::Write(const std::wstring& msg, Color24 foreColor)
+    {
+        if (!supportVT && !forceVT) return false;
+
+        wstring fore_str = VTConverter::ForeColor(foreColor);
+        wstring reset_str = VTConverter::ResetStyle();
+        return Console::Write(fore_str + msg + reset_str);
+    }
+
+    bool Console::Write(const std::wstring& msg, Color24 foreColor, Color24 backColor)
+    {
+        if (!supportVT && !forceVT) return false;
+
+        wstring fore_str = VTConverter::ForeColor(foreColor);
+        wstring back_str = VTConverter::BackColor(backColor);
+        wstring reset_str = VTConverter::ResetStyle();
+        return Console::Write(fore_str + msg + back_str + reset_str);
+    }
+
+    bool Console::Write(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score)
+    {
+        if (!supportVT && !forceVT) return false;
+
+        wstring fore_str = VTConverter::ForeColor(foreColor);
+        wstring back_str = VTConverter::BackColor(backColor);
+        wstring us_str = VTConverter::Underline(under_score);
+        wstring reset_str = VTConverter::ResetStyle();
+        return Console::Write(fore_str + msg + back_str + us_str + reset_str);
+    }
+
+    bool Console::WriteLine(const std::wstring& msg, Color24 foreColor)
+    {
+        if (!supportVT && !forceVT) return false;
+
+        return Console::Write(msg + wstring(L"\n"), foreColor);
+    }
+
+    bool Console::WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor)
+    {
+        if (!supportVT && !forceVT) return false;
+
+        return Console::Write(msg + wstring(L"\n"), foreColor, backColor);
+    }
+
+    bool Console::WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score)
+    {
+        if (!supportVT && !forceVT) return false;
+
+        return Console::Write(msg + wstring(L"\n"), foreColor, backColor, under_score);
     }
 }

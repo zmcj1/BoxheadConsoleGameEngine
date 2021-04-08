@@ -161,6 +161,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UnusualMethods.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Vector3.h" />
     <ClInclude Include="VTConverter.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WinVersion.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UnusualMethods.cpp" />
     <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="VTConverter.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinVersion.cpp" />

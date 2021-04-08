@@ -454,7 +454,11 @@ namespace MinConsoleNative
     class Console
     {
     public:
+        static bool forceVT;
+
+    public:
         ConsoleSession cons;
+        bool supportVT;
 
         Console();
 
@@ -529,5 +533,35 @@ namespace MinConsoleNative
         bool Clear();
 
         CharWidth GetWcharWidth(wchar c);
+
+        //Expand API
+
+        bool Write(const std::wstring& msg);
+
+        bool Write(const std::wstring& msg, ConsoleColor foreColor);
+
+        bool Write(const std::wstring& msg, ConsoleColor foreColor, ConsoleColor backColor);
+
+        bool WriteLine();
+
+        bool WriteLine(const std::wstring& msg);
+
+        bool WriteLine(const std::wstring& msg, ConsoleColor foreColor);
+
+        bool WriteLine(const std::wstring& msg, ConsoleColor foreColor, ConsoleColor backColor);
+
+        //ANSI Escape Sequence (Virtual Terminal Sequences)
+
+        bool Write(const std::wstring& msg, Color24 foreColor);
+
+        bool Write(const std::wstring& msg, Color24 foreColor, Color24 backColor);
+
+        bool Write(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score);
+
+        bool WriteLine(const std::wstring& msg, Color24 foreColor);
+
+        bool WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor);
+
+        bool WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score);
     };
 }
