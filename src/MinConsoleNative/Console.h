@@ -414,6 +414,8 @@ namespace MinConsoleNative
     //You can use something like this:arr[i].Attributes |= COMMON_LVB_UNDERSCORE
     EXPORT_FUNC MinWriteConsoleOutput(HANDLE consoleOutput, const CHAR_INFO* charInfos, short x, short y, short width, short height);
 
+    EXPORT_FUNC MinWriteConsoleOutputAttribute(HANDLE consoleOutput, const ushort* att, int attCount, COORD pos);
+
     //This function is useful for mixed renderer.
     EXPORT_FUNC MinWriteConsoleOutputCharacter(HANDLE consoleOutput, const wchar* str, int charCount, COORD pos);
 
@@ -498,6 +500,8 @@ namespace MinConsoleNative
         bool WriteConsoleW(const std::wstring& msg);
 
         bool WriteConsoleOutputW(const CHAR_INFO* charInfos, short x, short y, short width, short height);
+
+        bool WriteConsoleOutputAttribute(const ushort* att, int attCount, COORD pos);
 
         bool WriteConsoleOutputCharacterW(const std::wstring& str, COORD pos);
 

@@ -384,6 +384,12 @@ namespace MinConsoleNative
         return ::WriteConsoleOutput(consoleOutput, charInfos, size, coord, &smallRect);
     }
 
+    EXPORT_FUNC MinWriteConsoleOutputAttribute(HANDLE consoleOutput, const ushort* att, int attCount, COORD pos)
+    {
+        DWORD written = 0;
+        return ::WriteConsoleOutputAttribute(consoleOutput, att, attCount, pos, &written);
+    }
+
     EXPORT_FUNC MinWriteConsoleOutputCharacter(HANDLE consoleOutput, const wchar* str, int charCount, COORD pos)
     {
         DWORD written = 0;
@@ -679,6 +685,11 @@ namespace MinConsoleNative
     bool Console::WriteConsoleOutputW(const CHAR_INFO* charInfos, short x, short y, short width, short height)
     {
         return MinWriteConsoleOutput(cons.consoleOutput, charInfos, x, y, width, height);
+    }
+
+    bool Console::WriteConsoleOutputAttribute(const ushort* att, int attCount, COORD pos)
+    {
+        return MinWriteConsoleOutputAttribute(cons.consoleOutput, att, attCount, pos);
     }
 
     bool Console::WriteConsoleOutputCharacterW(const std::wstring& str, COORD pos)

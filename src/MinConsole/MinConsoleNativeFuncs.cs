@@ -90,6 +90,9 @@ namespace MinConsole
         public extern static bool MinWriteConsoleOutput(IntPtr consoleOutput, ref CHAR_INFO charInfos, short x, short y, short width, short height);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinWriteConsoleOutputAttribute(IntPtr consoleOutput, ref ushort att, int attCount, COORD pos);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinWriteConsoleOutputCharacter(IntPtr consoleOutput, string str, int charCount, COORD pos);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
