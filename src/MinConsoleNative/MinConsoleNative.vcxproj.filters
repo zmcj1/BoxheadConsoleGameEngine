@@ -72,6 +72,9 @@
     <ClInclude Include="VTConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Process.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -126,6 +129,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="VTConverter.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Process.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
