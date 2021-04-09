@@ -5,6 +5,14 @@ using System.Text;
 
 namespace NativeFunctionTranslator
 {
+    public enum ParamType
+    {
+        None = 0,
+        Out = 1,
+        Ref = 2,
+        Array = 3,
+    }
+
     public struct Param
     {
         public string VarType;
@@ -17,14 +25,9 @@ namespace NativeFunctionTranslator
         }
     }
 
-    public struct ParamList
+    public class ParamList
     {
-        public List<Param> paramList;
-
-        public ParamList(int a)
-        {
-            paramList = new List<Param>();
-        }
+        public List<Param> paramList = new List<Param>();
 
         public override string ToString()
         {
@@ -32,7 +35,7 @@ namespace NativeFunctionTranslator
             for (int i = 0; i < paramList.Count; i++)
             {
                 Param param = paramList[i];
-
+                //single param or last param
                 if (paramList.Count == 1 || i == paramList.Count - 1)
                 {
                     if (param.VarType == string.Empty && param.VarName == string.Empty)
@@ -59,6 +62,11 @@ namespace NativeFunctionTranslator
         public const string EXPORT_FUNC_DLLIMPORT = "[DllImport(\"MinConsoleNative.dll\", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]";
         public const string EXPORT_FUNC_RETURN_TYPE = "public extern static bool";
         public const int EXPORT_FUNC_INDENT = 8;
+
+        public const string _IN_ = "_IN_";
+        public const string _OUT_ = "_OUT_";
+        public const string _REF_ = "_REF_";
+        public const string _ARRAY_ = "_ARRAY_";
 
         public static List<string> GetFileListWithExtend(DirectoryInfo directory, string pattern)
         {
@@ -133,7 +141,6 @@ namespace NativeFunctionTranslator
                             break;
                         }
                     }
-
                     //Don't add duplicate methods
                     if (equal && !nativeMethodDeclaration.Contains(lineWithOutSpace))
                     {
@@ -157,7 +164,7 @@ namespace NativeFunctionTranslator
                 int rightBracketIndex = declaration.IndexOf(')');
                 string parameters = declaration.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1);
 
-                ParamList newParameters = new ParamList(0);
+                ParamList newParameters = new ParamList();
 
                 //void parameters
                 if (string.IsNullOrEmpty(parameters))
@@ -166,84 +173,207 @@ namespace NativeFunctionTranslator
                 }
                 else
                 {
-                    string[] _params = parameters.Split(',');
-
-                    foreach (string _param in _params)
+                    string[] paramDefines = parameters.Split(',');
+                    foreach (string paramDefine in paramDefines)
                     {
-                        string[] type_names = _param.Split(' ');
-
                         string varType = string.Empty;
-                        //
-                        for (int i = 0; i < type_names.Length - 1; i++)
+                        //param modifier
+                        ParamType paramType = ParamType.None;
+
+                        //get symbols
+                        string[] symbols = paramDefine.Split(' ');
+                        //varName is the last paramDefine
+                        string varName = symbols[symbols.Length - 1];
+
+                        //Analyze every symbol of each parameter
+                        for (int i = 0; i < symbols.Length - 1; i++)
                         {
-                            //const param
-                            if (type_names[i] == "const")
+                            string symbol = symbols[i];
+                            //Check Parameter transfer modifier first:
+                            //in
+                            if (symbol == _IN_)
+                            {
+                                //nothing
+                            }
+                            //out
+                            else if (symbol == _OUT_)
+                            {
+                                paramType = ParamType.Out;
+                            }
+                            //ref
+                            else if (symbol == _REF_)
+                            {
+                                paramType = ParamType.Ref;
+                            }
+                            //array
+                            else if (symbol == _ARRAY_)
+                            {
+                                paramType = ParamType.Array;
+                            }
+                        }
+
+                        //Analyze every symbol of each parameter
+                        for (int i = 0; i < symbols.Length - 1; i++)
+                        {
+                            string symbol = symbols[i];
+                            //ignore C++ const symbol
+                            if (symbol == "const")
                             {
                                 continue;
                             }
-                            //ptr
-                            int ptrIndex = type_names[i].LastIndexOf('*');
+                            //Check type
+                            bool isPointerType = false;
+                            int ptrIndex = symbol.LastIndexOf('*');
+                            //use this
+                            string _symbol = symbol;
+                            //is pointer
                             if (ptrIndex != -1)
                             {
-                                string _type = type_names[i].Substring(0, ptrIndex);
-                                if (_type == "wchar*")
+                                _symbol = symbol.Substring(0, ptrIndex);
+                                isPointerType = true;
+                            }
+                            //Only pointers need to judge ParamType
+                            if (isPointerType)
+                            {
+                                switch (paramType)
                                 {
-                                    varType = "ref string";
-                                }
-                                else if (_type == "wchar")
-                                {
-                                    varType = "string";
-                                }
-                                else if (_type == "HWND")
-                                {
-                                    varType = "IntPtr";
-                                }
-                                else if (_type == "FARPROC")
-                                {
-                                    varType = "ref object";
-                                }
-                                else if (_type == "HANDLE")
-                                {
-                                    varType = "ref IntPtr";
-                                }
-                                else
-                                {
-                                    varType = "ref " + _type;
+                                    case ParamType.None:
+                                        if (_symbol == "wchar*")
+                                        {
+                                            varType = "ref string";
+                                        }
+                                        else if (_symbol == "wchar")
+                                        {
+                                            varType = "string";
+                                        }
+                                        else if (_symbol == "HWND")
+                                        {
+                                            varType = "IntPtr";
+                                        }
+                                        else if (_symbol == "FARPROC")
+                                        {
+                                            varType = "ref object";
+                                        }
+                                        else if (_symbol == "HANDLE")
+                                        {
+                                            varType = "ref IntPtr";
+                                        }
+                                        else
+                                        {
+                                            varType = "ref " + _symbol;
+                                        }
+                                        break;
+                                    case ParamType.Out:
+                                        if (_symbol == "wchar*")
+                                        {
+                                            varType = "out string";
+                                        }
+                                        else if (_symbol == "wchar")
+                                        {
+                                            varType = "out string";
+                                        }
+                                        else if (_symbol == "HWND")
+                                        {
+                                            varType = "out IntPtr";
+                                        }
+                                        else if (_symbol == "FARPROC")
+                                        {
+                                            varType = "out object";
+                                        }
+                                        else if (_symbol == "HANDLE")
+                                        {
+                                            varType = "out IntPtr";
+                                        }
+                                        else
+                                        {
+                                            varType = "out " + _symbol;
+                                        }
+                                        break;
+                                    case ParamType.Array:
+                                        if (_symbol == "wchar*")
+                                        {
+                                            varType = "string[]";
+                                        }
+                                        else if (_symbol == "wchar")
+                                        {
+                                            varType = "char[]";
+                                        }
+                                        else if (_symbol == "HWND")
+                                        {
+                                            varType = "IntPtr[]";
+                                        }
+                                        else if (_symbol == "FARPROC")
+                                        {
+                                            varType = "object[]";
+                                        }
+                                        else if (_symbol == "HANDLE")
+                                        {
+                                            varType = "IntPtr[]";
+                                        }
+                                        else
+                                        {
+                                            varType = _symbol + "[]";
+                                        }
+                                        break;
+                                    case ParamType.Ref:
+                                        if (_symbol == "wchar*")
+                                        {
+                                            varType = "ref string";
+                                        }
+                                        else if (_symbol == "wchar")
+                                        {
+                                            varType = "ref char";
+                                        }
+                                        else if (_symbol == "HWND")
+                                        {
+                                            varType = "ref IntPtr";
+                                        }
+                                        else if (_symbol == "FARPROC")
+                                        {
+                                            varType = "ref object";
+                                        }
+                                        else if (_symbol == "HANDLE")
+                                        {
+                                            varType = "ref IntPtr";
+                                        }
+                                        else
+                                        {
+                                            varType = "ref " + _symbol;
+                                        }
+                                        break;
                                 }
                             }
-                            //no ptr
                             else
                             {
-                                if (type_names[i] == "HWND")
+                                if (_symbol == "HWND")
                                 {
                                     varType = "IntPtr";
                                 }
-                                else if (type_names[i] == "DWORD")
+                                else if (_symbol == "DWORD")
                                 {
                                     varType = "uint";
                                 }
-                                else if (type_names[i] == "HICON")
+                                else if (_symbol == "HICON")
                                 {
                                     varType = "ref ICON";
                                 }
-                                else if (type_names[i] == "wchar")
+                                else if (_symbol == "wchar")
                                 {
                                     varType = "char";
                                 }
-                                else if (type_names[i] == "HANDLE")
+                                else if (_symbol == "HANDLE")
                                 {
                                     varType = "IntPtr";
                                 }
                                 else
                                 {
-                                    varType = type_names[i];
+                                    varType = _symbol;
                                 }
                             }
                         }
 
-                        string varName = type_names[type_names.Length - 1];
-                        Param param = new Param(varType, varName);
-                        newParameters.paramList.Add(param);
+                        //add
+                        newParameters.paramList.Add(new Param(varType, varName));
                     }
                 }
 
@@ -288,24 +418,6 @@ namespace NativeFunctionTranslator
             finalLines.ForEach(item => { stringBuilder.Append(item + Environment.NewLine); });
             //write to file
             File.WriteAllText(MinConsoleNativeFuncsFile, stringBuilder.ToString(), Encoding.UTF8);
-
-            //foreach (ParamLine item in paramLines)
-            //{
-            //    for (int i = 0; i < item._params.Count; i++)
-            //    {
-            //        Param p = item._params[i];
-            //        if (item._params.Count == 1 || i == item._params.Count - 1)
-            //        {
-            //            Console.Write(p.VarType + " " + p.VarName);
-            //        }
-            //        else
-            //        {
-            //            Console.Write(p.VarType + " " + p.VarName + ", ");
-            //        }
-            //    }
-            //    Console.WriteLine();
-            //}
-            //Console.WriteLine("Success!");
 
             //-----------generate MinConsoleNative.h-----------
 
