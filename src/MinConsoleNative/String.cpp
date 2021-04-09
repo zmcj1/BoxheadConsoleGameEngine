@@ -119,24 +119,25 @@ namespace MinConsoleNative
         return str;
     }
 
-    std::string String::WstringToString(const std::wstring& wstr)
+    std::string String::WstringToString(const std::wstring& wstr, Encoding encoding)
     {
-        //this wstr_len include '\0'
-        int str_len = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
-        //alloc
-        char* str = (char*)malloc(str_len * sizeof(char));
-
-        if (str == nullptr)
+        uint codePage = 0;
+        switch (encoding)
         {
-            throw "MALLOC ERROR!";
+        case Encoding::Default:
+            codePage = CP_ACP;
+            break;
+        case Encoding::UTF8:
+            codePage = CP_UTF8;
+            break;
         }
 
-        memset(str, 0, str_len * sizeof(char));
-
-        WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, str, str_len, NULL, NULL);
+        int len = WideCharToMultiByte(codePage, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
+        char* str = new char[len];
+        WideCharToMultiByte(codePage, 0, wstr.c_str(), -1, str, len, NULL, NULL);
 
         string return_str(str);
-        free(str);
+        delete[] str;
         return return_str;
     }
 

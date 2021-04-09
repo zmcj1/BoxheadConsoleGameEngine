@@ -5,6 +5,13 @@
 
 namespace MinConsoleNative
 {
+    enum class Encoding
+    {
+        Unknown = 0,
+        Default = 1,
+        UTF8 = 2,
+    };
+
     class String
     {
     public:
@@ -36,7 +43,7 @@ namespace MinConsoleNative
 
         static std::string CharToString(char c);
 
-        static std::string WstringToString(const std::wstring& wstr);
+        static std::string WstringToString(const std::wstring& wstr, Encoding encoding = Encoding::Default);
 
         //===========XXToWstring===========
 

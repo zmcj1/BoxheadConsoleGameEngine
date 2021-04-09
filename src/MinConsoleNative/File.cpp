@@ -177,76 +177,62 @@ namespace MinConsoleNative
         return text;
     }
 
-    bool File::WriteAllLines(const std::wstring& path, std::vector<std::wstring> lines, WriteMode write_mode)
+    bool File::WriteAllLines(const std::wstring& path, std::vector<std::wstring> lines, WriteMode write_mode, Encoding encoding)
     {
         if (!Exists(path))
         {
             return false;
         }
 
-        bool suc = false;
-
-        wofstream fOutput;
-        if (write_mode == WriteMode::Cover)
-        {
-            fOutput.open(path.c_str());
-        }
-        else if (write_mode == WriteMode::Append)
-        {
-            fOutput.open(path.c_str(), ios::app);
-        }
-
-        if (fOutput.is_open())
-        {
-            suc = true;
-        }
-
+        wstring text;
         for (size_t i = 0; i < lines.size(); i++)
         {
             if (i == lines.size() - 1)
             {
-                fOutput << lines[i];
+                text += lines[i];
             }
             else
             {
-                fOutput << lines[i] << endl;
+                text += (lines[i] + L"\n");
             }
         }
 
-        fOutput.close();
-
-        return suc;
+        return WriteAllText(path, text, write_mode, encoding);
     }
 
-    bool File::WriteAllText(const std::wstring& path, const std::wstring& text, WriteMode write_mode)
+    bool File::WriteAllText(const std::wstring& path, const std::wstring& text, WriteMode write_mode, Encoding encoding)
     {
         if (!Exists(path))
         {
             return false;
         }
 
-        bool suc = false;
+        HANDLE fileHandle = INVALID_HANDLE_VALUE;
 
-        wofstream fOutput;
         if (write_mode == WriteMode::Cover)
         {
-            fOutput.open(path.c_str());
+            fileHandle = CreateFile(path.c_str(),
+                GENERIC_READ | GENERIC_WRITE,
+                FILE_SHARE_READ | FILE_SHARE_WRITE,
+                nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+
         }
         else if (write_mode == WriteMode::Append)
         {
-            fOutput.open(path.c_str(), ios::app);
+            fileHandle = CreateFile(path.c_str(),
+                FILE_APPEND_DATA,
+                FILE_SHARE_READ | FILE_SHARE_WRITE,
+                nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
         }
 
-        if (fOutput.is_open())
+        if (fileHandle == INVALID_HANDLE_VALUE)
         {
-            suc = true;
+            return false;
         }
 
-        fOutput << text;
-
-        fOutput.close();
-
-        return suc;
+        string buf = String::WstringToString(text, encoding);
+        DWORD written = 0;
+        return WriteFile(fileHandle, buf.c_str(), buf.size(), &written, nullptr);
     }
 
     bool File::Clear(const std::wstring& path)
