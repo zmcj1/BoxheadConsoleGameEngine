@@ -1,6 +1,7 @@
 ﻿#include "Console.h"
 #include "WinVersion.h"
 #include "VTConverter.h"
+#include "ConRegistry.h"
 
 using namespace std;
 
@@ -556,6 +557,22 @@ namespace MinConsoleNative
         return ::SetConsoleCtrlHandler(handler, add);
     }
 
+    EXPORT_FUNC MinGetConsoleType(ConsoleType* type)
+    {
+        bool legacy = false;
+        MinIsUsingLegacyConsole(&legacy);
+        if (legacy)
+        {
+            *type = ConsoleType::WindowsLegacyConsole;
+        }
+        else
+        {
+            *type = ConsoleType::WindowsConsole;
+            //Temporarily not don't support Windows Terminal.
+        }
+        return true;
+    }
+
     bool Console::forceVT = false;
 
     Console::Console()
@@ -765,6 +782,13 @@ namespace MinConsoleNative
     bool Console::SetTitle(const std::wstring& title)
     {
         return MinSetTitle(title.c_str());
+    }
+
+    ConsoleType Console::GetConsoleType()
+    {
+        ConsoleType type;
+        MinGetConsoleType(&type);
+        return type;
     }
 
     bool Console::GetConsoleCursorVisible()

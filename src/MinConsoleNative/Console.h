@@ -11,6 +11,14 @@
 
 namespace MinConsoleNative
 {
+    enum class ConsoleType
+    {
+        Unknown = 0,
+        WindowsLegacyConsole = 1,
+        WindowsConsole = 2,
+        WindowsTerminal = 4,
+    };
+
     enum class ConsoleFile
     {
         Read = 1,
@@ -475,6 +483,9 @@ namespace MinConsoleNative
     //nullptr, true to disable ctrl + c signal
     EXPORT_FUNC MinSetConsoleCtrlHandler(PHANDLER_ROUTINE handler, bool add);
 
+    //Get type of Console Emulator on Windows.
+    EXPORT_FUNC MinGetConsoleType(ConsoleType* type);
+
     class Console
     {
     public:
@@ -495,6 +506,8 @@ namespace MinConsoleNative
         static std::wstring GetTitle();
 
         static bool SetTitle(const std::wstring& title);
+
+        static ConsoleType GetConsoleType();
 
         //Console class only functions:
 
