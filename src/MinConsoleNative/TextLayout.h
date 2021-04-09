@@ -15,6 +15,7 @@ namespace MinConsoleNative
 
     public:
         Console console;
+        std::map<wchar, CharWidth> charWidthCacheDict;
 
         TextLayout(Console console);
 

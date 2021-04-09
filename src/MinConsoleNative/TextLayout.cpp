@@ -22,12 +22,22 @@ namespace MinConsoleNative
     {
         vector<wstring> grids;
         bool hasTemp = false;
-        wchar temp;
+        wchar temp = 0;
 
         for (int i = 0; i < wstr.length(); i++)
         {
             wchar item = wstr[i];
-            CharWidth charWidth = console.GetWcharWidth(item);
+            CharWidth charWidth;
+            //save as cache
+            if (charWidthCacheDict.count(item) == 0)
+            {
+                charWidth = console.GetWcharWidth(item);
+                charWidthCacheDict[item] = charWidth;
+            }
+            else
+            {
+                charWidth = charWidthCacheDict[item];
+            }
             if (charWidth == CharWidth::Half)
             {
                 if (hasTemp)
