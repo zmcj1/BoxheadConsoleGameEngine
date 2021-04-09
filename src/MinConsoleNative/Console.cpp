@@ -507,6 +507,19 @@ namespace MinConsoleNative
         return true;
     }
 
+    EXPORT_FUNC MinGetStringWidth(HWND consoleWindow, HANDLE consoleOutput, const wchar* str, int* width)
+    {
+        size_t len = wcslen(str);
+
+        for (size_t i = 0; i < len; i++)
+        {
+            CharWidth cw;
+            MinGetCharWidth(consoleWindow, consoleOutput, str[i], &cw);
+            *width += (int)cw;
+        }
+        return true;
+    }
+
     EXPORT_FUNC MinGetTitle(wchar* titleBuffer, int sizeOfBuffer)
     {
         return ::GetConsoleTitle(titleBuffer, sizeOfBuffer) == 0;
@@ -813,6 +826,13 @@ namespace MinConsoleNative
         CharWidth charWidth;
         MinGetCharWidth(cons.consoleWindow, cons.consoleOutput, c, &charWidth);
         return charWidth;
+    }
+
+    int Console::GetWstringWidth(const std::wstring& str)
+    {
+        int width = 0;
+        MinGetStringWidth(cons.consoleWindow, cons.consoleOutput, str.c_str(), &width);
+        return width;
     }
 
     bool Console::GetTreatControlCAsInput()

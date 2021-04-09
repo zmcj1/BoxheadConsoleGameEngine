@@ -468,6 +468,8 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, CharWidth* cw);
 
+    EXPORT_FUNC MinGetStringWidth(HWND consoleWindow, HANDLE consoleOutput, const wchar* str, int* width);
+
     //sizeof(title) should be MAX_PATH
     EXPORT_FUNC MinGetTitle(wchar* titleBuffer, int sizeOfBuffer);
 
@@ -631,6 +633,8 @@ namespace MinConsoleNative
         bool Clear();
 
         CharWidth GetWcharWidth(wchar c);
+
+        int GetWstringWidth(const std::wstring& str);
 
         bool GetTreatControlCAsInput();
 

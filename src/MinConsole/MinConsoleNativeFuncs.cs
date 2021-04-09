@@ -117,6 +117,9 @@ namespace MinConsole
         public extern static bool MinGetCharWidth(IntPtr consoleWindow, IntPtr consoleOutput, char c, ref CharWidth cw);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinGetStringWidth(IntPtr consoleWindow, IntPtr consoleOutput, string str, ref int width);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetTitle(string titleBuffer, int sizeOfBuffer);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
@@ -133,6 +136,9 @@ namespace MinConsole
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetConsoleCtrlHandler(PHANDLER_ROUTINE handler, bool add);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinGetConsoleType(ref ConsoleType type);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetKey(int virtualKey, ref bool yes);

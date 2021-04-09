@@ -60,6 +60,14 @@ namespace MinConsole
             White = 15,
         };
 
+        public enum ConsoleType : int
+        {
+            Unknown = 0,
+            WindowsLegacyConsole = 1,
+            WindowsConsole = 2,
+            WindowsTerminal = 4,
+        };
+
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
