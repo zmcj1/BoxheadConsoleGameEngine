@@ -618,6 +618,14 @@ namespace MinConsoleNative
 
         CharWidth GetWcharWidth(wchar c);
 
+        bool GetTreatControlCAsInput();
+
+        void SetTreatControlCAsInput(bool yes);
+
+        bool SetConsoleCtrlHandler(PHANDLER_ROUTINE handler);
+
+        bool EnableConsoleVT();
+
         //ANSI Escape Sequence (Virtual Terminal Sequences)
 
         bool Write(const std::wstring& msg, Color24 foreColor);

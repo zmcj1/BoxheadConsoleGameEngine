@@ -788,6 +788,29 @@ namespace MinConsoleNative
         return charWidth;
     }
 
+    bool Console::GetTreatControlCAsInput()
+    {
+        ConsoleMode consoleMode = GetConsoleMode();
+        return !consoleMode.inputMode._ENABLE_PROCESSED_INPUT;
+    }
+
+    void Console::SetTreatControlCAsInput(bool yes)
+    {
+        ConsoleMode consoleMode = GetConsoleMode();
+        consoleMode.inputMode._ENABLE_PROCESSED_INPUT = !yes;
+        SetConsoleMode(consoleMode);
+    }
+
+    bool Console::SetConsoleCtrlHandler(PHANDLER_ROUTINE handler)
+    {
+        return MinSetConsoleCtrlHandler(handler, true);
+    }
+
+    bool Console::EnableConsoleVT()
+    {
+        return MinEnableConsoleVT(cons.consoleInput, cons.consoleOutput);
+    }
+
     int Console::Read()
     {
         wstring str = Console::ReadConsoleW();
