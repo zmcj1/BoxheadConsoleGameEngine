@@ -9,10 +9,13 @@ int main()
 {
     POINT pos = Window::Global.GetInstance().GetCenterPosOfWindowInDesktop();
     Window::Global.GetInstance().SetWindowPos(pos);
-    Console::Global.GetInstance().Clear();
-    auto d = Console::Global.GetInstance().ReadLine();
-    return 0;
 
+    Console::Global.GetInstance().SetTreatControlCAsInput(true);
+
+    Console::Global.GetInstance().WriteLine(L"Hello World!");
+
+    Console::Global.GetInstance().ReadLine();
+    return 0;
     //MinTimer timer;
     //MinInitTimer(&timer);
     //while (true)
