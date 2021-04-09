@@ -13,10 +13,13 @@ namespace MinConsoleNative
         cons->consoleInput = ::GetStdHandle(STD_INPUT_HANDLE);
         cons->consoleOutput = ::GetStdHandle(STD_OUTPUT_HANDLE);
         cons->consoleWindow = ::GetConsoleWindow();
+        //Set CodePage to UTF-8, this will always be right.
         ::SetConsoleCP(CP_UTF8);
         ::SetConsoleOutputCP(CP_UTF8);
-        //Ensure that the input method works normally
-        MinSetConsoleCursorPos(cons->consoleOutput, { 0, 0 });
+        //Ensure that the input method works normally.
+        COORD pos;
+        MinGetConsoleCursorPos(cons->consoleOutput, &pos);
+        MinSetConsoleCursorPos(cons->consoleOutput, pos);
         return true;
     }
 
