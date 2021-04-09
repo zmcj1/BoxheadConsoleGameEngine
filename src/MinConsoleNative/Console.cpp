@@ -557,7 +557,7 @@ namespace MinConsoleNative
 
     Console::Console()
     {
-        MinInitConsoleSession(&cons);
+        this->cons = Console::InitConsoleSession();
         this->supportVT = MinEnableConsoleVT(cons.consoleInput, cons.consoleOutput);
     }
 
@@ -703,6 +703,13 @@ namespace MinConsoleNative
     bool Console::WriteConsoleOutputCharacterW(const std::wstring& str, COORD pos)
     {
         return MinWriteConsoleOutputCharacter(cons.consoleOutput, str.c_str(), str.size(), pos);
+    }
+
+    ConsoleSession Console::InitConsoleSession()
+    {
+        ConsoleSession cons;
+        MinInitConsoleSession(&cons);
+        return cons;
     }
 
     HANDLE Console::CreateConsoleScreenBuffer()

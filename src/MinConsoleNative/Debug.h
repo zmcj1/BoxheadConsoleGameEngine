@@ -23,5 +23,8 @@ namespace MinConsoleNative
 
         //Log to file, if the file is not exsits I will create it.
         static void Log(const std::wstring& path, const std::wstring& msg, MessageType msgType = MessageType::Message);
+
+        //Log to current active console.
+        static void LogToConsole(const std::wstring& msg, MessageType msgType = MessageType::Message);
     };
 }

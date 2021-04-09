@@ -481,6 +481,8 @@ namespace MinConsoleNative
         static Singleton<Console> Global;
 
     public:
+        static ConsoleSession InitConsoleSession();
+
         static HANDLE CreateConsoleScreenBuffer();
 
         static bool SetConsoleActiveScreenBuffer(HANDLE consoleOutput);
@@ -488,6 +490,34 @@ namespace MinConsoleNative
         static bool CloseConsoleScreenBuffer(HANDLE consoleOutput);
 
         static HANDLE CreateFileW(ConsoleFile filemode);
+
+        static std::wstring GetTitle();
+
+        static bool SetTitle(const std::wstring& title);
+
+        //Console class only functions:
+
+        inline static void SetConsoleHistory(uint historyBufferSize, bool noDuplicate)
+        {
+            CONSOLE_HISTORY_INFO chi;
+            chi.cbSize = sizeof(CONSOLE_HISTORY_INFO);
+            chi.HistoryBufferSize = historyBufferSize;
+            chi.NumberOfHistoryBuffers = 1; //default to 1
+            chi.dwFlags = noDuplicate;
+            SetConsoleHistoryInfo(&chi);
+        }
+
+        //This function will reinitialize Global
+        inline static void RestartConsole()
+        {
+            ::FreeConsole();
+            ::AllocConsole();
+
+            ConsoleSession cons;
+            MinInitConsoleSession(&cons);
+
+            Console::Global.GetInstance() = Console(cons);
+        }
 
     public:
         ConsoleSession cons;
@@ -499,7 +529,7 @@ namespace MinConsoleNative
 
         Console(HWND consoleWindow, HANDLE consoleInput, HANDLE consoleOutput);
 
-        //Basic Console functions
+        //Basic Console functions:
 
         Color24 GetConsolePalette(DWORD index);
 
@@ -538,7 +568,7 @@ namespace MinConsoleNative
 
         bool SetConsoleCursorVisible(bool visible);
 
-        //Console standard IO functions
+        //Console standard IO functions:
 
         std::wstring ReadConsoleW();
 
@@ -555,13 +585,13 @@ namespace MinConsoleNative
 
         bool WriteConsoleOutputCharacterW(const std::wstring& str, COORD pos);
 
-        //Console file IO functions
+        //Console file IO functions:
 
         bool WriteFile(std::string str);
 
         std::string ReadFile();
 
-        //Expand Console API
+        //Expand Console API:
 
         //The return value does not contain \r\n
         int Read();
@@ -582,10 +612,6 @@ namespace MinConsoleNative
         bool WriteLine(const std::wstring& msg, ConsoleColor foreColor);
 
         bool WriteLine(const std::wstring& msg, ConsoleColor foreColor, ConsoleColor backColor);
-
-        std::wstring GetTitle();
-
-        bool SetTitle(const std::wstring& title);
 
         //See:https://docs.microsoft.com/en-us/windows/console/clearing-the-screen
         bool Clear();

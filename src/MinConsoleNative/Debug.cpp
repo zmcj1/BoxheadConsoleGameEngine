@@ -1,6 +1,7 @@
 ﻿#include "Debug.h"
 #include "File.h"
 #include "String.h"
+#include "Console.h"
 #include <ctime>
 using namespace std;
 
@@ -67,5 +68,38 @@ namespace MinConsoleNative
         line += time_wstr;
 
         File::WriteAllText(path, line, WriteMode::Append);
+    }
+
+    void Debug::LogToConsole(const std::wstring& msg, MessageType msgType)
+    {
+        HWND consoleWindow = ::GetConsoleWindow();
+        HANDLE consoleInput = ::GetStdHandle(STD_INPUT_HANDLE);
+        HANDLE consoleOutput = ::GetStdHandle(STD_OUTPUT_HANDLE);
+
+        HANDLE newConsoleOutput = Console::CreateConsoleScreenBuffer();
+        Console::SetConsoleActiveScreenBuffer(newConsoleOutput);
+
+        Console console(consoleWindow, consoleInput, newConsoleOutput);
+
+        ConsoleColor foreColor = ConsoleColor::GRAY;
+        switch (msgType)
+        {
+        case MessageType::Message:
+            foreColor = ConsoleColor::WHITE;
+            break;
+        case MessageType::Warning:
+            foreColor = ConsoleColor::YELLOW;
+            break;
+        case MessageType::Error:
+            foreColor = ConsoleColor::RED;
+            break;
+        }
+
+        console.WriteLine(msg, foreColor);
+        console.ReadLine();
+        console.Clear();
+
+        Console::SetConsoleActiveScreenBuffer(consoleOutput);
+        Console::CloseConsoleScreenBuffer(newConsoleOutput);
     }
 }
