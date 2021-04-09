@@ -104,9 +104,9 @@ namespace MinConsoleNative
     struct Color24
     {
     public:
-        uint r;
-        uint g;
-        uint b;
+        byte r;
+        byte g;
+        byte b;
 
         Color24()
         {
@@ -115,7 +115,7 @@ namespace MinConsoleNative
             this->b = 0;
         }
 
-        Color24(uint r, uint g, uint b)
+        Color24(byte r, byte g, byte b)
         {
             this->r = r;
             this->g = g;
@@ -479,6 +479,9 @@ namespace MinConsoleNative
     public:
         static bool forceVT;
         static Singleton<Console> Global;
+
+    public:
+
 
     public:
         ConsoleSession cons;

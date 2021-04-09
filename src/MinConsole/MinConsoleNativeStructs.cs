@@ -92,9 +92,9 @@ namespace MinConsole
         [StructLayout(LayoutKind.Sequential)]
         public struct Color24
         {
-            public uint r;
-            public uint g;
-            public uint b;
+            public byte r;
+            public byte g;
+            public byte b;
         }
 
         [StructLayout(LayoutKind.Sequential)]

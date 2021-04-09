@@ -860,7 +860,7 @@ namespace MinConsoleNative
         wstring fore_str = VTConverter::ForeColor(foreColor);
         wstring back_str = VTConverter::BackColor(backColor);
         wstring reset_str = VTConverter::ResetStyle();
-        return Console::Write(fore_str + msg + back_str + reset_str);
+        return Console::Write(fore_str + back_str + msg + reset_str);
     }
 
     bool Console::Write(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score)
@@ -871,7 +871,7 @@ namespace MinConsoleNative
         wstring back_str = VTConverter::BackColor(backColor);
         wstring us_str = VTConverter::Underline(under_score);
         wstring reset_str = VTConverter::ResetStyle();
-        return Console::Write(fore_str + msg + back_str + us_str + reset_str);
+        return Console::Write(fore_str + back_str + us_str + msg + reset_str);
     }
 
     bool Console::WriteLine(const std::wstring& msg, Color24 foreColor)
