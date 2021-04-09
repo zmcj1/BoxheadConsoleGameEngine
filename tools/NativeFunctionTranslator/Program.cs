@@ -1,16 +1,21 @@
-﻿using System;
+﻿#define ENABLE_DEBUG
+
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+
+//Version:2.1
 
 namespace NativeFunctionTranslator
 {
     public enum ParamType
     {
         None = 0,
-        Out = 1,
-        Ref = 2,
-        Array = 3,
+        In = 1,
+        Out = 2,
+        Ref = 3,
+        Array = 4,
     }
 
     public struct Param
@@ -62,22 +67,23 @@ namespace NativeFunctionTranslator
         public const string EXPORT_FUNC_DLLIMPORT = "[DllImport(\"MinConsoleNative.dll\", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]";
         public const string EXPORT_FUNC_RETURN_TYPE = "public extern static bool";
         public const int EXPORT_FUNC_INDENT = 8;
+        public static string IndentString = null;
 
         public const string _IN_ = "_IN_";
         public const string _OUT_ = "_OUT_";
         public const string _REF_ = "_REF_";
         public const string _ARRAY_ = "_ARRAY_";
 
+        public static bool DebugPause = false;
+
         public static List<string> GetFileListWithExtend(DirectoryInfo directory, string pattern)
         {
             List<string> pathList = new List<string>();
-            string result = string.Empty;
             if (directory.Exists || pattern.Trim() != string.Empty)
             {
                 foreach (FileInfo info in directory.GetFiles(pattern))
                 {
-                    result = info.FullName.ToString();
-                    pathList.Add(result);
+                    pathList.Add(info.FullName.ToString());
                 }
             }
             return pathList;
@@ -85,12 +91,20 @@ namespace NativeFunctionTranslator
 
         public static string GetIndentString()
         {
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < EXPORT_FUNC_INDENT; i++)
+            if (IndentString == null)
             {
-                builder.Append(' ');
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < EXPORT_FUNC_INDENT; i++)
+                {
+                    builder.Append(' ');
+                }
+                IndentString = builder.ToString();
+                return IndentString;
             }
-            return builder.ToString();
+            else
+            {
+                return IndentString;
+            }
         }
 
         public static List<string> GetHeadLines()
@@ -162,8 +176,20 @@ namespace NativeFunctionTranslator
 
                 int leftBracketIndex = declaration.IndexOf('(');
                 int rightBracketIndex = declaration.IndexOf(')');
-                string parameters = declaration.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1);
 
+                string methodName = item.Split(' ')[1].Substring(0, item.IndexOf('(') - EXPORT_FUNC.Length - 1);
+                string parameters = declaration.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1);
+#if ENABLE_DEBUG
+                if (methodName.IndexOf("Min") != 0)
+                {
+                    DebugPause = true;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(methodName);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(" does not contain Min!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+#endif
                 ParamList newParameters = new ParamList();
 
                 //void parameters
@@ -193,7 +219,7 @@ namespace NativeFunctionTranslator
                             //in
                             if (symbol == _IN_)
                             {
-                                //nothing
+                                paramType = ParamType.In;
                             }
                             //out
                             else if (symbol == _OUT_)
@@ -211,7 +237,20 @@ namespace NativeFunctionTranslator
                                 paramType = ParamType.Array;
                             }
                         }
-
+#if ENABLE_DEBUG
+                        if (paramType == ParamType.None)
+                        {
+                            DebugPause = true;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write(methodName);
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.Write('.');
+                            Console.Write(varName);
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine(" does not contain any ParamType");
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                        }
+#endif
                         //Analyze every symbol of each parameter
                         for (int i = 0; i < symbols.Length - 1; i++)
                         {
@@ -238,6 +277,7 @@ namespace NativeFunctionTranslator
                                 switch (paramType)
                                 {
                                     case ParamType.None:
+                                    case ParamType.In:
                                         if (_symbol == "wchar*")
                                         {
                                             varType = "ref string";
@@ -389,8 +429,10 @@ namespace NativeFunctionTranslator
             return nativeMethodNewDeclaration;
         }
 
-        public static void Main(string[] args)
+        public static void Main()
         {
+            //-----------generate MinConsoleNativeFuncs.cs-----------
+
             DirectoryInfo currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
             string MinConsoleFolder = currentDirectory.Parent.Parent.Parent.Parent.Parent.ToString();
 
@@ -424,14 +466,21 @@ namespace NativeFunctionTranslator
             List<FileInfo> headFileInfos = new List<FileInfo>();
             headFiles.ForEach(str => { headFileInfos.Add(new FileInfo(str)); });
 
-            StringBuilder bb = new StringBuilder();
-            bb.Append("//This file is auto-generated.\n");
-            bb.Append("#pragma once\n\n");
-            headFileInfos.ForEach(fi => { bb.Append("#include \"" + fi.Name + "\"\n"); });
-            bb.Append("using namespace MinConsoleNative;\n");
+            StringBuilder stringBuilder2 = new StringBuilder();
+            stringBuilder2.Append("//This file is auto-generated.\n");
+            stringBuilder2.Append("#pragma once\n\n");
+            headFileInfos.ForEach(fileInfo => { stringBuilder2.Append("#include \"" + fileInfo.Name + "\"\n"); });
+            stringBuilder2.Append("using namespace MinConsoleNative;\n");
 
-            string MinConsoleNativeHPath = Path.Combine(MinConsoleNativeFolder, "MinConsoleNative.h");
-            File.WriteAllText(MinConsoleNativeHPath, bb.ToString(), Encoding.UTF8);
+            string MinConsoleNativeHeadFilePath = Path.Combine(MinConsoleNativeFolder, "MinConsoleNative.h");
+            File.WriteAllText(MinConsoleNativeHeadFilePath, stringBuilder2.ToString(), Encoding.UTF8);
+
+#if ENABLE_DEBUG
+            if (DebugPause)
+            {
+                Console.ReadLine();
+            }
+#endif
         }
     }
 }
