@@ -20,6 +20,7 @@
 #include "TextLayout.h"
 #include "Timer.h"
 #include "UnusualMethods.h"
+#include "Utils.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "VTConverter.h"

@@ -162,6 +162,7 @@
     <ClInclude Include="TextLayout.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UnusualMethods.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="VTConverter.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="TextLayout.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UnusualMethods.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="VTConverter.cpp" />

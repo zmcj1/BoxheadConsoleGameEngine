@@ -87,6 +87,9 @@
     <ClInclude Include="TextLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -156,6 +159,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="TextLayout.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

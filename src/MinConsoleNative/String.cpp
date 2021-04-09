@@ -56,6 +56,26 @@ namespace MinConsoleNative
         return res;
     }
 
+    std::vector<std::wstring> String::Split(const std::wstring& wstr, const std::wstring& separator)
+    {
+        vector<wstring> strings;
+
+        size_t pos;
+        wstring rest = wstr;
+
+        while ((pos = rest.find(separator)) != wstring::npos)
+        {
+            strings.push_back(rest.substr(0, pos));
+            rest.erase(0, pos + separator.size());
+        }
+        if (!rest.empty())
+        {
+            strings.push_back(rest);
+        }
+
+        return strings;
+    }
+
     bool String::CompareIgnoreCase(const std::string& a, const std::string& b)
     {
         return _stricmp(a.c_str(), b.c_str()) == 0;
@@ -156,24 +176,25 @@ namespace MinConsoleNative
         return wstr;
     }
 
-    std::wstring String::StringToWstring(const std::string& str)
+    std::wstring String::StringToWstring(const std::string& str, Encoding encoding)
     {
-        //this wstr_len include '\0'
-        int wstr_len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, NULL, 0);
-        //alloc
-        wchar* wstr = (wchar*)malloc(wstr_len * sizeof(wchar));
-
-        if (wstr == nullptr)
+        uint codePage = 0;
+        switch (encoding)
         {
-            throw "MALLOC ERROR!";
+        case Encoding::Default:
+            codePage = CP_ACP;
+            break;
+        case Encoding::UTF8:
+            codePage = CP_UTF8;
+            break;
         }
 
-        memset(wstr, 0, wstr_len * sizeof(WCHAR));
-
-        MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, wstr, wstr_len);
+        int len = MultiByteToWideChar(codePage, 0, str.c_str(), -1, NULL, 0);
+        wchar* wstr = new wchar[len];
+        MultiByteToWideChar(codePage, 0, str.c_str(), -1, wstr, len);
 
         wstring return_wstr(wstr);
-        free(wstr);
+        delete[] wstr;
         return return_wstr;
     }
 }

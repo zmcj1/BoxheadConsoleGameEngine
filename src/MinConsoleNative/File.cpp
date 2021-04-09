@@ -1,5 +1,5 @@
 ﻿#include "File.h"
-#include <fstream>
+#include "Utils.h"
 using namespace std;
 
 namespace MinConsoleNative
@@ -142,23 +142,8 @@ namespace MinConsoleNative
             return lines;
         }
 
-        wifstream fInput;
-        fInput.open(path.c_str());
-
-        if (!fInput.is_open())
-        {
-            return lines;
-        }
-
-        while (!fInput.eof())
-        {
-            wstring line;
-            getline(fInput, line);
-
-            lines.push_back(line);
-        }
-
-        fInput.close();
+        wstring text = ReadAllText(path);
+        lines = String::Split(text, WNEW_LINE);
 
         return lines;
     }
@@ -166,14 +151,43 @@ namespace MinConsoleNative
     std::wstring File::ReadAllText(const std::wstring& path)
     {
         std::wstring text;
-        auto list = ReadAllLines(path);
-        for (size_t i = 0; i < list.size(); i++)
+
+        if (!Exists(path))
         {
-            if (!list[i].empty())
-            {
-                text += (list[i] + _T("\n"));
-            }
+            return text;
         }
+
+        HANDLE fileHandle = CreateFile(path.c_str(),
+            GENERIC_READ | GENERIC_WRITE,
+            FILE_SHARE_READ | FILE_SHARE_WRITE,
+            nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+
+        if (fileHandle == INVALID_HANDLE_VALUE)
+        {
+            return text;
+        }
+
+        DWORD size = 0;
+        size = GetFileSize(fileHandle, nullptr) + 1;
+
+        char* arr = new char[size];
+        ZeroMemory(arr, size);
+        DWORD written = 0;
+        bool readSuccess = ReadFile(fileHandle, arr, size, &written, nullptr);
+
+        if (!readSuccess) return text;
+
+        bool utf8String = is_str_utf8(arr);
+        if (utf8String)
+        {
+            text = String::StringToWstring(string(arr), Encoding::UTF8);
+        }
+        else
+        {
+            text = String::StringToWstring(string(arr), Encoding::Default);
+        }
+
+        delete[] arr;
         return text;
     }
 
@@ -217,6 +231,7 @@ namespace MinConsoleNative
                 nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 
         }
+        //SEE:https://stackoverflow.com/questions/18933283/how-to-append-text-to-a-file-in-windows
         else if (write_mode == WriteMode::Append)
         {
             fileHandle = CreateFile(path.c_str(),

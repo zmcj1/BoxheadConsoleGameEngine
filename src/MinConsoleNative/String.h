@@ -2,6 +2,7 @@
 
 #include "MinDefines.h"
 #include <string>
+#include <vector>
 
 namespace MinConsoleNative
 {
@@ -22,6 +23,8 @@ namespace MinConsoleNative
         static std::wstring TrimEnd(const std::wstring& wstr);
 
         static std::wstring TrimAll(const std::wstring& wstr);
+
+        static std::vector<std::wstring> Split(const std::wstring& wstr, const std::wstring& separator);
 
         static bool CompareIgnoreCase(const std::string& a, const std::string& b);
 
@@ -51,6 +54,6 @@ namespace MinConsoleNative
 
         static std::wstring WcharToWstring(wchar wc);
 
-        static std::wstring StringToWstring(const std::string& str);
+        static std::wstring StringToWstring(const std::string& str, Encoding encoding = Encoding::Default);
     };
 }
