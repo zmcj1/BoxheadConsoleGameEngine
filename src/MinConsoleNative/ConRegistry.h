@@ -4,9 +4,9 @@
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC MinIsUsingLegacyConsole(bool* yes);
+    EXPORT_FUNC MinIsUsingLegacyConsole(_OUT_ bool* yes);
 
-    EXPORT_FUNC MinUseLegacyConsole(bool yes);
+    EXPORT_FUNC MinUseLegacyConsole(_IN_ bool yes);
 
     class ConRegistry
     {

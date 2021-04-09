@@ -84,6 +84,12 @@
 #define NEW_LINE "\r\n"
 #define WNEW_LINE L"\r\n"
 
+//Macros for EXPORT_FUNC
+#define _IN_ //default
+#define _OUT_
+#define _REF_
+#define _ARRAY_
+
 typedef wchar_t wchar;
 
 typedef unsigned char byte;
