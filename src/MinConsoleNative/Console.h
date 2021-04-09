@@ -481,7 +481,13 @@ namespace MinConsoleNative
         static Singleton<Console> Global;
 
     public:
+        static HANDLE CreateConsoleScreenBuffer();
 
+        static bool SetConsoleActiveScreenBuffer(HANDLE consoleOutput);
+
+        static bool CloseConsoleScreenBuffer(HANDLE consoleOutput);
+
+        static HANDLE CreateFileW(ConsoleFile filemode);
 
     public:
         ConsoleSession cons;
@@ -492,6 +498,8 @@ namespace MinConsoleNative
         Console(ConsoleSession cons);
 
         Console(HWND consoleWindow, HANDLE consoleInput, HANDLE consoleOutput);
+
+        //Basic Console functions
 
         Color24 GetConsolePalette(DWORD index);
 
@@ -526,6 +534,12 @@ namespace MinConsoleNative
 
         bool SetConsoleCursorPos(COORD pos);
 
+        bool GetConsoleCursorVisible();
+
+        bool SetConsoleCursorVisible(bool visible);
+
+        //Console standard IO functions
+
         std::wstring ReadConsoleW();
 
         //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
@@ -534,38 +548,20 @@ namespace MinConsoleNative
 
         bool WriteConsoleW(const std::wstring& msg);
 
+        //You can use something like this:arr[i].Attributes |= COMMON_LVB_UNDERSCORE
         bool WriteConsoleOutputW(const CHAR_INFO* charInfos, short x, short y, short width, short height);
 
         bool WriteConsoleOutputAttribute(const ushort* att, int attCount, COORD pos);
 
         bool WriteConsoleOutputCharacterW(const std::wstring& str, COORD pos);
 
-        HANDLE CreateConsoleScreenBuffer();
-
-        bool SetConsoleActiveScreenBuffer(HANDLE consoleOutput);
-
-        bool CloseConsoleScreenBuffer(HANDLE consoleOutput);
-
-        HANDLE CreateFileW(ConsoleFile filemode);
+        //Console file IO functions
 
         bool WriteFile(std::string str);
 
         std::string ReadFile();
 
-        std::wstring GetTitle();
-
-        bool SetTitle(const std::wstring& title);
-
-        bool GetConsoleCursorVisible();
-
-        bool SetConsoleCursorVisible(bool visible);
-
-        //See:https://docs.microsoft.com/en-us/windows/console/clearing-the-screen
-        bool Clear();
-
-        CharWidth GetWcharWidth(wchar c);
-
-        //Expand API
+        //Expand Console API
 
         //The return value does not contain \r\n
         int Read();
@@ -587,6 +583,15 @@ namespace MinConsoleNative
 
         bool WriteLine(const std::wstring& msg, ConsoleColor foreColor, ConsoleColor backColor);
 
+        std::wstring GetTitle();
+
+        bool SetTitle(const std::wstring& title);
+
+        //See:https://docs.microsoft.com/en-us/windows/console/clearing-the-screen
+        bool Clear();
+
+        CharWidth GetWcharWidth(wchar c);
+
         //ANSI Escape Sequence (Virtual Terminal Sequences)
 
         bool Write(const std::wstring& msg, Color24 foreColor);
@@ -600,8 +605,5 @@ namespace MinConsoleNative
         bool WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor);
 
         bool WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score);
-
-    public:
-
     };
 }
