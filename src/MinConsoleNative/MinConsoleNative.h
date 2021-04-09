@@ -17,6 +17,7 @@
 #include "Random.h"
 #include "Singleton.h"
 #include "String.h"
+#include "TextLayout.h"
 #include "Timer.h"
 #include "UnusualMethods.h"
 #include "Vector2.h"
