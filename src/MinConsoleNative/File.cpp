@@ -76,7 +76,7 @@ namespace MinConsoleNative
         return FileMode::None;            // this is not a directory!
     }
 
-    bool File::Creat(const std::wstring& path, FileMode mode)
+    bool File::Creat(const std::wstring& path, FileMode mode, bool withUTF8BOM)
     {
         if (File::Exists(path))
             return false;
@@ -85,13 +85,23 @@ namespace MinConsoleNative
 
         if (mode == FileMode::File)
         {
-            wofstream fOutput;
-            fOutput.open(path);
+            HANDLE fileHandle = CreateFile(path.c_str(),
+                GENERIC_READ | GENERIC_WRITE,
+                FILE_SHARE_READ | FILE_SHARE_WRITE,
+                nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
 
-            if (fOutput.is_open())
-                result = true;
+            result = fileHandle != INVALID_HANDLE_VALUE;
 
-            fOutput.close();
+            //write UTF-8 BOM
+            if (withUTF8BOM && result)
+            {
+                byte BOM[3];
+                BOM[0] = 0xEF;
+                BOM[1] = 0xBB;
+                BOM[2] = 0xBF;
+                DWORD written = 0;
+                result = WriteFile(fileHandle, BOM, LEN(BOM), &written, nullptr);
+            }
         }
         else if (mode == FileMode::Directory)
         {
@@ -111,7 +121,7 @@ namespace MinConsoleNative
         }
         else if (mode == FileMode::File)
         {
-            return _wremove(path.c_str()) == 0;
+            return DeleteFile(path.c_str());
         }
         else if (mode == FileMode::Directory)
         {

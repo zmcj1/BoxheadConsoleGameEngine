@@ -449,6 +449,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinCloseConsoleScreenBuffer(HANDLE consoleOutput);
 
+    //SEE:https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew#consoles
     EXPORT_FUNC MinCreateFile(ConsoleFile fileMode, HANDLE* handle);
 
     //IMPORTANT!!!  File I/O function does not support Unicode.

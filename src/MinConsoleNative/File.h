@@ -36,7 +36,7 @@ namespace MinConsoleNative
         //See:https://stackoverflow.com/questions/8233842/how-to-check-if-directory-exist-using-c-and-winapi
         static FileMode Status(const std::wstring& path);
 
-        static bool Creat(const std::wstring& path, FileMode mode = FileMode::File);
+        static bool Creat(const std::wstring& path, FileMode mode = FileMode::File, bool withUTF8BOM = false);
 
         static bool Delete(const std::wstring& path);
 
