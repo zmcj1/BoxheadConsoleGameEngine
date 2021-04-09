@@ -71,6 +71,7 @@ namespace MinConsoleNative
     EXPORT_FUNC MinVTTerminalSize(wchar* str, int strLen, COORD size);
 
     //IMPORTANT:This API failed the test in the Windows Console
+    //FROM:https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#screen-colors
     EXPORT_FUNC MinVTPaletteColor(wchar* str, int strLen, int index, byte r, byte g, byte b);
 
     EXPORT_FUNC MinVTSupport(bool* yes);

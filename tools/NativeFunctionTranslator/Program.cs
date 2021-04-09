@@ -73,7 +73,7 @@ namespace NativeFunctionTranslator
             string targetFolder = Path.Combine(MinConsoleFolder, "src\\MinConsoleNative");
             //try to write
             string targetFile = Path.Combine(MinConsoleFolder, "src\\MinConsole\\MinConsoleNativeFuncs.cs");
-
+            //headfiles
             List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(targetFolder), "*.h");
 
             List<string> targetFileLines = new List<string>();
@@ -243,7 +243,7 @@ namespace NativeFunctionTranslator
                                 {
                                     varType = "char";
                                 }
-                                else if(type_names[i] == "HANDLE")
+                                else if (type_names[i] == "HANDLE")
                                 {
                                     varType = "IntPtr";
                                 }
@@ -315,7 +315,22 @@ namespace NativeFunctionTranslator
             }
 
             Console.WriteLine("Success!");
-            //Console.ReadKey();
+
+            //-----------generate MinConsoleNative.h-----------
+
+            List<FileInfo> headFileInfos = new List<FileInfo>();
+
+            headFiles.ForEach(str => { headFileInfos.Add(new FileInfo(str)); });
+
+            string MinConsoleNativeHPath = Path.Combine(targetFolder, "MinConsoleNative.h");
+
+            StringBuilder bb = new StringBuilder();
+            bb.Append("//This file is auto-generated.\n");
+            bb.Append("#pragma once\n\n");
+            headFileInfos.ForEach(fi => { bb.Append("#include \"" + fi.Name + "\"\n"); });
+            bb.Append("using namespace MinConsoleNative;\n");
+
+            File.WriteAllText(MinConsoleNativeHPath, bb.ToString(), Encoding.UTF8);
         }
     }
 }
