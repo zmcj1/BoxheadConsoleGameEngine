@@ -2,6 +2,7 @@
 #include "WinVersion.h"
 #include "VTConverter.h"
 #include "ConRegistry.h"
+#include "Debug.h"
 
 using namespace std;
 
@@ -58,6 +59,108 @@ namespace MinConsoleNative
         //set
         csbi.ColorTable[index] = color.r + (color.g << 8) + (color.b << 16);
         return ::SetConsoleScreenBufferInfoEx(consoleOutput, &csbi);
+    }
+
+    EXPORT_FUNC_EX(ConsoleInputMode) MinGetConsoleInputMode(HANDLE consoleInput)
+    {
+        ConsoleInputMode cim;
+        ConsoleInputMode* cim_ptr = &cim;
+
+        DWORD inputMode = 0;
+        ::GetConsoleMode(consoleInput, &inputMode);
+
+        cim_ptr->_ENABLE_PROCESSED_INPUT =
+            (inputMode & ENABLE_PROCESSED_INPUT) == ENABLE_PROCESSED_INPUT;
+        cim_ptr->_ENABLE_LINE_INPUT =
+            (inputMode & ENABLE_LINE_INPUT) == ENABLE_LINE_INPUT;
+        cim_ptr->_ENABLE_ECHO_INPUT =
+            (inputMode & ENABLE_ECHO_INPUT) == ENABLE_ECHO_INPUT;
+        cim_ptr->_ENABLE_WINDOW_INPUT =
+            (inputMode & ENABLE_WINDOW_INPUT) == ENABLE_WINDOW_INPUT;
+        cim_ptr->_ENABLE_MOUSE_INPUT =
+            (inputMode & ENABLE_MOUSE_INPUT) == ENABLE_MOUSE_INPUT;
+        cim_ptr->_ENABLE_INSERT_MODE =
+            (inputMode & ENABLE_INSERT_MODE) == ENABLE_INSERT_MODE;
+        cim_ptr->_ENABLE_QUICK_EDIT_MODE =
+            (inputMode & ENABLE_QUICK_EDIT_MODE) == ENABLE_QUICK_EDIT_MODE;
+        cim_ptr->_ENABLE_EXTENDED_FLAGS =
+            (inputMode & ENABLE_EXTENDED_FLAGS) == ENABLE_EXTENDED_FLAGS;
+        cim_ptr->_ENABLE_AUTO_POSITION =
+            (inputMode & ENABLE_AUTO_POSITION) == ENABLE_AUTO_POSITION;
+        cim_ptr->_ENABLE_VIRTUAL_TERMINAL_INPUT =
+            (inputMode & ENABLE_VIRTUAL_TERMINAL_INPUT) == ENABLE_VIRTUAL_TERMINAL_INPUT;
+
+        return *cim_ptr;
+    }
+
+    EXPORT_FUNC_EX(bool) MinSetConsoleInputMode(HANDLE consoleInput, ConsoleInputMode mode)
+    {
+        DWORD inputMode = 0;
+        const ConsoleInputMode* cim_ptr = &mode;
+
+        if (cim_ptr->_ENABLE_PROCESSED_INPUT)
+            inputMode |= ENABLE_PROCESSED_INPUT;
+        if (cim_ptr->_ENABLE_LINE_INPUT)
+            inputMode |= ENABLE_LINE_INPUT;
+        if (cim_ptr->_ENABLE_ECHO_INPUT)
+            inputMode |= ENABLE_ECHO_INPUT;
+        if (cim_ptr->_ENABLE_WINDOW_INPUT)
+            inputMode |= ENABLE_WINDOW_INPUT;
+        if (cim_ptr->_ENABLE_MOUSE_INPUT)
+            inputMode |= ENABLE_MOUSE_INPUT;
+        if (cim_ptr->_ENABLE_INSERT_MODE)
+            inputMode |= ENABLE_INSERT_MODE;
+        if (cim_ptr->_ENABLE_QUICK_EDIT_MODE)
+            inputMode |= ENABLE_QUICK_EDIT_MODE;
+        if (cim_ptr->_ENABLE_EXTENDED_FLAGS)
+            inputMode |= ENABLE_EXTENDED_FLAGS;
+        if (cim_ptr->_ENABLE_AUTO_POSITION)
+            inputMode |= ENABLE_AUTO_POSITION;
+        if (cim_ptr->_ENABLE_VIRTUAL_TERMINAL_INPUT)
+            inputMode |= ENABLE_VIRTUAL_TERMINAL_INPUT;
+
+        return ::SetConsoleMode(consoleInput, inputMode);
+    }
+
+    EXPORT_FUNC_EX(ConsoleOutputMode) MinGetConsoleOutputMode(HANDLE consoleOutput)
+    {
+        ConsoleOutputMode com;
+        ConsoleOutputMode* com_ptr = &com;
+
+        DWORD outputMode = 0;
+        ::GetConsoleMode(consoleOutput, &outputMode);
+
+        com_ptr->_ENABLE_PROCESSED_OUTPUT =
+            (outputMode & ENABLE_PROCESSED_OUTPUT) == ENABLE_PROCESSED_OUTPUT;
+        com_ptr->_ENABLE_WRAP_AT_EOL_OUTPUT =
+            (outputMode & ENABLE_WRAP_AT_EOL_OUTPUT) == ENABLE_WRAP_AT_EOL_OUTPUT;
+        com_ptr->_ENABLE_VIRTUAL_TERMINAL_PROCESSING =
+            (outputMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING) == ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        com_ptr->_DISABLE_NEWLINE_AUTO_RETURN =
+            (outputMode & DISABLE_NEWLINE_AUTO_RETURN) == DISABLE_NEWLINE_AUTO_RETURN;
+        com_ptr->_ENABLE_LVB_GRID_WORLDWIDE =
+            (outputMode & ENABLE_LVB_GRID_WORLDWIDE) == ENABLE_LVB_GRID_WORLDWIDE;
+
+        return *com_ptr;
+    }
+
+    EXPORT_FUNC_EX(bool) MinSetConsoleOutputMode(HANDLE consoleOutput, ConsoleOutputMode mode)
+    {
+        DWORD outputMode = 0;
+        const ConsoleOutputMode* com_ptr = &mode;
+
+        if (com_ptr->_ENABLE_PROCESSED_OUTPUT)
+            outputMode |= ENABLE_PROCESSED_OUTPUT;
+        if (com_ptr->_ENABLE_WRAP_AT_EOL_OUTPUT)
+            outputMode |= ENABLE_WRAP_AT_EOL_OUTPUT;
+        if (com_ptr->_ENABLE_VIRTUAL_TERMINAL_PROCESSING)
+            outputMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        if (com_ptr->_DISABLE_NEWLINE_AUTO_RETURN)
+            outputMode |= DISABLE_NEWLINE_AUTO_RETURN;
+        if (com_ptr->_ENABLE_LVB_GRID_WORLDWIDE)
+            outputMode |= ENABLE_LVB_GRID_WORLDWIDE;
+
+        return ::SetConsoleMode(consoleOutput, outputMode);
     }
 
     EXPORT_FUNC MinGetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode* consoleMode)
@@ -273,6 +376,13 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2)
     {
+        ConsoleInputMode inputMode = MinGetConsoleInputMode(consoleInput);
+        if (!inputMode._ENABLE_WINDOW_INPUT)
+        {
+            Debug::OutputLine(L"IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode");
+            return false;
+        }
+
         //IMPORTANT!!!
         //Invoke GetNumberOfConsoleInputEvents first instead of directly invoke ReadConsoleInput, otherwise it will cost lots of mem.
         DWORD eventNumber = 0;
@@ -923,7 +1033,11 @@ namespace MinConsoleNative
 
     bool Console::Write(const std::wstring& msg, Color24 foreColor)
     {
-        if (!supportVT && !forceVT) return false;
+        if (!supportVT && !forceVT)
+        {
+            ConsoleColor fc = foreColor.ToConsoleColor();
+            return Console::Write(msg, fc);
+        }
 
         wstring fore_str = VTConverter::ForeColor(foreColor);
         wstring reset_str = VTConverter::ResetStyle();
@@ -932,7 +1046,12 @@ namespace MinConsoleNative
 
     bool Console::Write(const std::wstring& msg, Color24 foreColor, Color24 backColor)
     {
-        if (!supportVT && !forceVT) return false;
+        if (!supportVT && !forceVT)
+        {
+            ConsoleColor fc = foreColor.ToConsoleColor();
+            ConsoleColor bc = backColor.ToConsoleColor();
+            return Console::Write(msg, fc, bc);
+        }
 
         wstring fore_str = VTConverter::ForeColor(foreColor);
         wstring back_str = VTConverter::BackColor(backColor);
@@ -942,7 +1061,12 @@ namespace MinConsoleNative
 
     bool Console::Write(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score)
     {
-        if (!supportVT && !forceVT) return false;
+        if (!supportVT && !forceVT)
+        {
+            ConsoleColor fc = foreColor.ToConsoleColor();
+            ConsoleColor bc = backColor.ToConsoleColor();
+            return Console::Write(msg, fc, bc);
+        }
 
         wstring fore_str = VTConverter::ForeColor(foreColor);
         wstring back_str = VTConverter::BackColor(backColor);
@@ -953,21 +1077,35 @@ namespace MinConsoleNative
 
     bool Console::WriteLine(const std::wstring& msg, Color24 foreColor)
     {
-        if (!supportVT && !forceVT) return false;
+        if (!supportVT && !forceVT)
+        {
+            ConsoleColor fc = foreColor.ToConsoleColor();
+            return Console::WriteLine(msg, fc);
+        }
 
         return Console::Write(msg + wstring(L"\n"), foreColor);
     }
 
     bool Console::WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor)
     {
-        if (!supportVT && !forceVT) return false;
+        if (!supportVT && !forceVT)
+        {
+            ConsoleColor fc = foreColor.ToConsoleColor();
+            ConsoleColor bc = backColor.ToConsoleColor();
+            return Console::WriteLine(msg, fc, bc);
+        }
 
         return Console::Write(msg + wstring(L"\n"), foreColor, backColor);
     }
 
     bool Console::WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score)
     {
-        if (!supportVT && !forceVT) return false;
+        if (!supportVT && !forceVT)
+        {
+            ConsoleColor fc = foreColor.ToConsoleColor();
+            ConsoleColor bc = backColor.ToConsoleColor();
+            return Console::WriteLine(msg, fc, bc);
+        }
 
         return Console::Write(msg + wstring(L"\n"), foreColor, backColor, under_score);
     }

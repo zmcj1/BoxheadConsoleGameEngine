@@ -405,6 +405,14 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinSetConsolePalette(HANDLE consoleOutput, DWORD index, Color24 color);
 
+    EXPORT_FUNC_EX(ConsoleInputMode) MinGetConsoleInputMode(HANDLE consoleInput);
+
+    EXPORT_FUNC_EX(bool) MinSetConsoleInputMode(HANDLE consoleInput, ConsoleInputMode mode);
+
+    EXPORT_FUNC_EX(ConsoleOutputMode) MinGetConsoleOutputMode(HANDLE consoleOutput);
+
+    EXPORT_FUNC_EX(bool) MinSetConsoleOutputMode(HANDLE consoleOutput, ConsoleOutputMode mode);
+
     EXPORT_FUNC MinGetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode* consoleMode);
 
     EXPORT_FUNC MinSetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode consoleMode);
@@ -437,7 +445,8 @@ namespace MinConsoleNative
     EXPORT_FUNC MinReadConsole(HANDLE consoleInput, wchar* buffer, int charCount);
 
     //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
-    //Call this function in update. Please turn on EnableWindowInput and turn off EnableQuickEditMode
+    //Call this function in update.
+    //IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode
     EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2);
 
     EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, const wchar* buffer);
@@ -589,7 +598,8 @@ namespace MinConsoleNative
         std::wstring ReadConsoleW();
 
         //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
-        //Call this function in update. Please turn on EnableWindowInput and turn off EnableQuickEditMode
+        //Call this function in update.
+        //IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode
         bool ReadConsoleInputW(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2);
 
         bool WriteConsoleW(const std::wstring& msg);
