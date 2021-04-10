@@ -102,4 +102,27 @@ namespace MinConsoleNative
         Console::SetConsoleActiveScreenBuffer(consoleOutput);
         Console::CloseConsoleScreenBuffer(newConsoleOutput);
     }
+
+    int Debug::LastMinError = 0;
+    std::wstring Debug::LastMinErrorMsg = L"";
+
+    int Debug::GetLastMinError()
+    {
+        return LastMinError;
+    }
+
+    void Debug::SetLastMinError(int code)
+    {
+        LastMinError = code;
+    }
+
+    std::wstring Debug::GetLastMinErrorMsg()
+    {
+        return LastMinErrorMsg;
+    }
+
+    void Debug::SetLastMinErrorMsg(std::wstring msg)
+    {
+        LastMinErrorMsg = msg;
+    }
 }

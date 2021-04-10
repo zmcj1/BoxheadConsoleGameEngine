@@ -18,7 +18,7 @@ namespace MinConsoleNative
         //Output to IDE
         static void Output(const std::wstring& msg);
 
-        //Output to IDE
+        //Output to IDE with newline.
         static void OutputLine(const std::wstring& msg);
 
         //Log to file, if the file is not exsits I will create it.
@@ -26,5 +26,17 @@ namespace MinConsoleNative
 
         //Log to current active console.
         static void LogToConsole(const std::wstring& msg, MessageType msgType = MessageType::Message);
+
+    public:
+        static int LastMinError;
+        static std::wstring LastMinErrorMsg;
+
+        static int GetLastMinError();
+
+        static void SetLastMinError(int code);
+
+        static std::wstring GetLastMinErrorMsg();
+
+        static void SetLastMinErrorMsg(std::wstring msg);
     };
 }
