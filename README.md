@@ -1,14 +1,10 @@
 # MinConsole
 
-Tip:This document will change at any time.
+IMPORTANT: This document will change at any time.
 
-Now this project in the early development stage, everything is changing at a high speed!
+This project is in the early development stage, everything is changing at a high speed!
 
 Made in Minsk, Belarus.
-
-## MinIO
-
-Quick look
 
 ## What is this?
 
@@ -20,15 +16,11 @@ The purpose is to develop upper-level softwares such as text editors, 3D rendere
 
 todo
 
-## Structure
-
-todo
-
 ## How can I use it?
 
 todo
 
-## History: About why I develop this repository?
+## History: Why I develop this repository?
 
 By chance, I used Windows Console as my 2D renderer in a console game(text-based) gamejam in January 2018.
 
