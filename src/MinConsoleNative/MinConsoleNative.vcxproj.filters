@@ -96,6 +96,9 @@
     <ClInclude Include="PixelRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MessageBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -174,6 +177,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="PixelRenderer.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageBox.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

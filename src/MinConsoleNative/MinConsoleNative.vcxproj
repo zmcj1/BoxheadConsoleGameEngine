@@ -152,6 +152,7 @@
     <ClInclude Include="File.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="MessageBox.h" />
     <ClInclude Include="MinConsoleNative.h" />
     <ClInclude Include="MinDefines.h" />
     <ClInclude Include="ObjectPool.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="File.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Math.cpp" />
+    <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="MinConsoleNative.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="PixelRenderer.cpp" />

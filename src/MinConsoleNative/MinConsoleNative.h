@@ -10,6 +10,7 @@
 #include "File.h"
 #include "Input.h"
 #include "Math.h"
+#include "MessageBox.h"
 #include "MinConsoleNative.h"
 #include "MinDefines.h"
 #include "ObjectPool.h"
