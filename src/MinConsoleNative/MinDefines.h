@@ -30,8 +30,10 @@
 //In order to prevent naming conflicts, all export methods in this project are prefixed with Min
 #ifdef __cplusplus
 #define EXPORT_FUNC extern "C" __declspec(dllexport) bool __stdcall
+#define EXPORT_FUNC_EX(return_type) extern "C" __declspec(dllexport) return_type __stdcall
 #else
 #define EXPORT_FUNC extern __declspec(dllexport) bool __stdcall
+#define EXPORT_FUNC_EX(return_type) extern __declspec(dllexport) return_type __stdcall
 #endif
 
 #if defined(CUI)    //(Command User Interface)
@@ -85,7 +87,7 @@
 #define WNEW_LINE L"\r\n"
 
 //Macros for EXPORT_FUNC
-#define _IN_ //default
+#define _IN_
 #define _OUT_
 #define _REF_
 #define _ARRAY_
