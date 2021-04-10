@@ -26,6 +26,9 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinGetKeyState(int virtualKey, bool* yes);
 
+    //return 0 if no buttons are pressed.
+    EXPORT_FUNC_EX(int) MinGetHitKey();
+
     //call this before invoke MinGetMouseAxis
     EXPORT_FUNC MinCheckMouseAxis();
 
@@ -45,6 +48,8 @@ namespace MinConsoleNative
         static bool GetKeyPressed(int virtualKey);
 
         static bool GetKeyState(int virtualKey);
+
+        static int GetHitKey();
 
         static void CheckMouseAxis();
 

@@ -1,4 +1,5 @@
 ﻿#include "Input.h"
+#include <conio.h> //Windows only
 #include <stdint.h>
 
 namespace MinConsoleNative
@@ -57,6 +58,12 @@ namespace MinConsoleNative
     {
         *yes = (::GetKeyState(virtualKey) & 1) == 1;
         return true;
+    }
+
+    EXPORT_FUNC_EX(int) MinGetHitKey()
+    {
+        if (::_kbhit()) return ::_getch();
+        else return 0;
     }
 
     EXPORT_FUNC MinCheckMouseAxis()
@@ -119,6 +126,11 @@ namespace MinConsoleNative
         bool yes = false;
         MinGetKeyState(virtualKey, &yes);
         return yes;
+    }
+
+    int Input::GetHitKey()
+    {
+        return MinGetHitKey();
     }
 
     void Input::CheckMouseAxis()
