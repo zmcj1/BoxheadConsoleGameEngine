@@ -56,6 +56,37 @@ namespace MinConsoleNative
         return false;
     }
 
+    EXPORT_FUNC_EX(bool) MinGetConsoleRegistryDWORD(const wchar* valueName, DWORD* data)
+    {
+        HKEY key;
+        bool success = false;
+        if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Console", 0, KEY_READ, &key) == ERROR_SUCCESS)
+        {
+            DWORD type;
+            DWORD dataSize = sizeof(DWORD);
+            LSTATUS result = RegQueryValueEx(key, valueName, nullptr, &type, (BYTE*)data, &dataSize);
+            if (result == ERROR_SUCCESS && type == REG_DWORD)
+            {
+                success = true;
+            }
+            RegCloseKey(key);
+        }
+        return success;
+    }
+
+    EXPORT_FUNC_EX(bool) MinSetConsoleRegistryDWORD(const wchar* valueName, DWORD data)
+    {
+        HKEY key;
+        bool success = false;
+        if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Console", 0, KEY_READ | KEY_WRITE, &key) == ERROR_SUCCESS)
+        {
+            LSTATUS result = RegSetValueEx(key, valueName, 0, REG_DWORD, (const byte*)&data, sizeof(DWORD));
+            success = result == ERROR_SUCCESS;
+            RegCloseKey(key);
+        }
+        return success;
+    }
+
     bool ConRegistry::IsUsingLegacyConsole()
     {
         bool yes;
