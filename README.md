@@ -35,3 +35,7 @@ About 1 week ago, I wanted to restart and create a awesome Console library and s
 Make some intresting stuffs.
 
 No hate, only fast code and bugs.
+
+## Third Party:
+
+[WinReg](https://github.com/GiovanniDicanio/WinReg)(MIT License): High-level C++ Wrapper Around the Low-level Windows Registry C-interface API.
