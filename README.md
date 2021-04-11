@@ -1,10 +1,12 @@
 # MinConsole
 
-IMPORTANT: This document will change at any time.
-
-This project is in the early development stage, everything is changing at a high speed!
+On April 11, 2021, this project is officially open source!
 
 Made in Minsk, Belarus.
+
+<p style="color:yellow">IMPORTANT: This document will change at any time.</p>
+
+<p style="color:red">This project is in the early development stage, everything is changing at a high speed!</p>
 
 ## What is this?
 
