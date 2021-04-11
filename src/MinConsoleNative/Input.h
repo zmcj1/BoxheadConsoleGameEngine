@@ -29,12 +29,21 @@ namespace MinConsoleNative
     //return 0 if no buttons are pressed.
     EXPORT_FUNC_EX(int) MinGetHitKey();
 
-    //call this before invoke MinGetMouseAxis
+    //call this function in Update, and before invoke MinGetMouseAxis
     EXPORT_FUNC MinCheckMouseAxis();
 
     EXPORT_FUNC MinResetMouseAxis();
 
     EXPORT_FUNC MinGetMouseAxis(MouseAxis axis, int* diff);
+
+    //call this function in Update, and before invoke MinGetKeyDownEx/MinGetKeyUpEx
+    EXPORT_FUNC_EX(void) MinCheckKeyboardEx();
+
+    EXPORT_FUNC_EX(bool) MinGetKeyEx(int virtualKey);
+
+    EXPORT_FUNC_EX(bool) MinGetKeyDownEx(int virtualKey);
+
+    EXPORT_FUNC_EX(bool) MinGetKeyUpEx(int virtualKey);
 
     class Input
     {
@@ -51,10 +60,20 @@ namespace MinConsoleNative
 
         static int GetHitKey();
 
+        //call this function in Update, and before invoke GetMouseAxis
         static void CheckMouseAxis();
 
         static void ResetMouseAxis();
 
         static int GetMouseAxis(MouseAxis axis);
+
+        //call this function in Update, and before invoke MinGetKeyDownEx/MinGetKeyUpEx
+        static void CheckKeyboardEx();
+
+        static bool GetKeyEx(int virtualKey);
+
+        static bool GetKeyDownEx(int virtualKey);
+
+        static bool GetKeyUpEx(int virtualKey);
     };
 }

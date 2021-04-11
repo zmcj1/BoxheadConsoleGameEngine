@@ -12,6 +12,17 @@ namespace MinConsoleNative
     static POINT preMousePos = { 0 };
     static POINT curMousePos = { 0 };
 
+    struct KeyState
+    {
+    public:
+        bool pressed;
+        bool released;
+    };
+
+    static KeyState keys[KEY_COUNT] = { 0 };
+    static bool keyOldState[KEY_COUNT] = { 0 };
+    static bool keyNewState[KEY_COUNT] = { 0 };
+
     EXPORT_FUNC MinGetKey(int virtualKey, bool* yes)
     {
         *yes = (::GetAsyncKeyState(virtualKey) & 0x8000) != 0;
@@ -93,6 +104,64 @@ namespace MinConsoleNative
         return true;
     }
 
+    EXPORT_FUNC_EX(void) MinCheckKeyboardEx()
+    {
+        for (int i = 0; i < KEY_COUNT; i++)
+        {
+            keys[i].pressed = false;
+            keys[i].released = false;
+
+            keyNewState[i] = MinGetKeyEx(i);
+
+            if (keyNewState[i] != keyOldState[i])
+            {
+                if (keyNewState[i])
+                    keys[i].pressed = true;
+                else
+                    keys[i].released = true;
+            }
+
+            keyOldState[i] = keyNewState[i];
+        }
+    }
+
+    EXPORT_FUNC_EX(bool) MinGetKeyEx(int virtualKey)
+    {
+        bool yes;
+        MinGetKey(virtualKey, &yes);
+        return yes;
+    }
+
+    EXPORT_FUNC_EX(bool) MinGetKeyDownEx(int virtualKey)
+    {
+        bool down;
+        MinGetKeyDown(virtualKey, &down);
+        if (down)
+        {
+            return true;
+        }
+        else if (keys[virtualKey].pressed)
+        {
+            return true;
+        }
+        else return false;
+    }
+
+    EXPORT_FUNC_EX(bool) MinGetKeyUpEx(int virtualKey)
+    {
+        bool up;
+        MinGetKeyUp(virtualKey, &up);
+        if (up)
+        {
+            return true;
+        }
+        else if (keys[virtualKey].released)
+        {
+            return true;
+        }
+        else return false;
+    }
+
     bool Input::GetKey(int virtualKey)
     {
         bool yes = false;
@@ -148,5 +217,25 @@ namespace MinConsoleNative
         int diff = 0;
         MinGetMouseAxis(axis, &diff);
         return diff;
+    }
+
+    void Input::CheckKeyboardEx()
+    {
+        MinCheckKeyboardEx();
+    }
+
+    bool Input::GetKeyEx(int virtualKey)
+    {
+        return MinGetKeyEx(virtualKey);
+    }
+
+    bool Input::GetKeyDownEx(int virtualKey)
+    {
+        return MinGetKeyDownEx(virtualKey);
+    }
+
+    bool Input::GetKeyUpEx(int virtualKey)
+    {
+        return MinGetKeyUpEx(virtualKey);
     }
 }
