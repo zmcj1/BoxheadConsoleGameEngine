@@ -92,12 +92,16 @@
 #define _REF_
 #define _ARRAY_
 
-typedef wchar_t wchar;
+//add namespace, ensure wont causes a naming conflict with the standard library(std)
+namespace MinConsoleNative
+{
+    typedef wchar_t wchar;
 
-typedef unsigned char byte;
+    typedef unsigned char byte;
 
-typedef unsigned short ushort;
+    typedef unsigned short ushort;
 
-typedef unsigned int uint;
+    typedef unsigned int uint;
 
-typedef unsigned long long ulong;
+    typedef unsigned long long ulong;
+}
