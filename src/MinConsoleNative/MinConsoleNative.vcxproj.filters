@@ -111,6 +111,9 @@
     <ClInclude Include="WinReg.hpp">
       <Filter>ThirdParty</Filter>
     </ClInclude>
+    <ClInclude Include="Win32Window.h">
+      <Filter>Dev</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -198,6 +201,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="win_main.cpp">
+      <Filter>Dev</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32Window.cpp">
       <Filter>Dev</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,6 +3,11 @@
 #define GUI
 #include "MinDefines.h"
 
+//0x2591 ░
+//0x2592 ▒
+//0x2593 ▓
+//0x2588 █
+
 //FOR WIN32 SEE:https://docs.microsoft.com/en-us/windows/win32/learnwin32/your-first-windows-program
 
 #include <d2d1.h>
@@ -22,12 +27,27 @@ ID2D1SolidColorBrush* pBlackBrush_;
 IDWriteFactory* pDWriteFactory_;
 IDWriteTextFormat* pTextFormat_;
 
-wstring wstr = L"asdkjasld啊是大多数空间";
+wstring wstr = L"asdkjasld啊是大多数空间, 😄";
+RECT rc = { 0 };
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+#include "Win32Window.h"
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {
+    Win32Window window(hInstance);
+    
+
+
+
+
+
+
+
+
+
+    return 0;
     // Register the window class.
     const wchar_t CLASS_NAME[] = L"Sample Window Class";
 
@@ -62,7 +82,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow
     }
 
     ShowWindow(hwnd, nCmdShow);
-    UpdateWindow(hwnd); //test
+    //UpdateWindow(hwnd); //test
 
     //Init my DirectWrite and Direct2d factories.
 
@@ -95,7 +115,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow
             DWRITE_FONT_WEIGHT_NORMAL,
             DWRITE_FONT_STYLE_NORMAL,
             DWRITE_FONT_STRETCH_NORMAL,
-            50.0f,
+            12.0f,
             L"en-us", &pTextFormat_);
     }
 
@@ -111,7 +131,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow
 
 
 
-    RECT rc;
     GetClientRect(hwnd, &rc);
 
     D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
@@ -132,28 +151,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow
     }
 
 
-
-    GetClientRect(hwnd, &rc);
-
-    HDC screen = GetDC(hwnd);
-    float dpiScaleX_ = GetDeviceCaps(screen, LOGPIXELSX) / 96.0f;
-    float dpiScaleY_ = GetDeviceCaps(screen, LOGPIXELSY) / 96.0f;
-
-    D2D1_RECT_F layoutRect = D2D1::RectF(rc.left, rc.top, rc.right, rc.bottom);
-
     //layoutRect = D2D1::RectF(
     //    static_cast<FLOAT>(rc.left) / dpiScaleX_,
     //    static_cast<FLOAT>(rc.top) / dpiScaleY_,
     //    static_cast<FLOAT>(rc.right) / dpiScaleX_,
     //    static_cast<FLOAT>(rc.bottom) / dpiScaleY_);
-
-    pRT_->BeginDraw();
-
-    //pRT_->Clear(D2D1::ColorF(D2D1::ColorF::White));
-    pRT_->Clear(D2D1::ColorF(D2D1::ColorF::Black));
-    pRT_->DrawText(wstr.c_str(), wstr.size(), pTextFormat_, layoutRect, pBlackBrush_);
-
-    hr = pRT_->EndDraw();
 
 
     // Run the message loop.
@@ -181,9 +183,15 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hwnd, &ps);
 
-
-
-        FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+        pRT_->BeginDraw();
+        GetClientRect(hwnd, &rc);
+        HDC screen = GetDC(hwnd);
+        float dpiScaleX_ = GetDeviceCaps(screen, LOGPIXELSX) / 96.0f;
+        float dpiScaleY_ = GetDeviceCaps(screen, LOGPIXELSY) / 96.0f;
+        D2D1_RECT_F layoutRect = D2D1::RectF(rc.left, rc.top, rc.right, rc.bottom);
+        pRT_->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+        pRT_->DrawText(wstr.c_str(), wstr.size(), pTextFormat_, layoutRect, pBlackBrush_);
+        HRESULT hr = pRT_->EndDraw();
 
         EndPaint(hwnd, &ps);
     }
