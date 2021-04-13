@@ -44,7 +44,6 @@ namespace MinConsoleNative
         this->palettes[PaletteType::Legacy] = legacyPalette;
         this->palettes[PaletteType::Modern] = modernPalette;
         this->curPalette = GetConsolePalette();
-        this->curPaletteIsLegacy = this->curPalette == legacyPalette;
     }
 
     Color24 PaletteSystem::GetCurrentConsolePaletteColor(DWORD index)
@@ -84,7 +83,12 @@ namespace MinConsoleNative
         return suc;
     }
 
-    ConsoleColor PaletteSystem::GetCurPaletteClosestConsoleColor(Color24 color)
+    bool PaletteSystem::CurPaletteIsLegacyPalette()
+    {
+        return this->curPalette == this->palettes[PaletteType::Legacy];
+    }
+
+    ConsoleColor PaletteSystem::GetCurPaletteClosestConsoleColor(const Color24& color)
     {
         ConsoleColor result = ConsoleColor::BLACK;
         double r = color.r;

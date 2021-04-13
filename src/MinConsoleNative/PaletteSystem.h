@@ -51,7 +51,6 @@ namespace MinConsoleNative
         static Singleton<PaletteSystem> Global;
 
     public:
-        bool curPaletteIsLegacy;
         ConsolePalette curPalette; //current console palette
         std::map<PaletteType, ConsolePalette> palettes; //include 2 default palettes
 
@@ -65,7 +64,9 @@ namespace MinConsoleNative
 
         bool SetConsolePalette(ConsolePalette consolePalette);
 
+        bool CurPaletteIsLegacyPalette();
+
         //FROM:https://stackoverflow.com/questions/1988833/converting-color-to-consolecolor
-        ConsoleColor GetCurPaletteClosestConsoleColor(Color24 color);
+        ConsoleColor GetCurPaletteClosestConsoleColor(const Color24& color);
     };
 }
