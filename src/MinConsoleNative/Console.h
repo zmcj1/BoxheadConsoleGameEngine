@@ -55,8 +55,8 @@ namespace MinConsoleNative
     enum class MouseWheelDirection
     {
         None = 0,
-        Up = 1,
-        Down = 2,
+        Up = 1,     //The mouse wheel turns away from the player
+        Down = 2,   //The mouse wheel turns towards the player
     };
 
     inline ushort ConsoleColorToUshort(ConsoleColor foreColor, ConsoleColor backColor)

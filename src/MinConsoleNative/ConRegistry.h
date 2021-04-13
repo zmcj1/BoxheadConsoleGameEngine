@@ -53,12 +53,12 @@
 #define CONSOLE_REGISTRY_COPYCOLOR                      L"CopyColor"
 #define CONSOLE_REGISTRY_USEDX                          L"UseDx"
 
-#define CONSOLE_REGISTRY_DEFAULTFOREGROUND             L"DefaultForeground"
-#define CONSOLE_REGISTRY_DEFAULTBACKGROUND             L"DefaultBackground"
-#define CONSOLE_REGISTRY_TERMINALSCROLLING             L"TerminalScrolling"
+#define CONSOLE_REGISTRY_DEFAULTFOREGROUND              L"DefaultForeground"
+#define CONSOLE_REGISTRY_DEFAULTBACKGROUND              L"DefaultBackground"
+#define CONSOLE_REGISTRY_TERMINALSCROLLING              L"TerminalScrolling"
 // end V2 console settings
 
-#define CONSOLE_REGISTRY_CODEPAGE    (L"CodePage")
+#define CONSOLE_REGISTRY_CODEPAGE                       L"CodePage"
 
 namespace MinConsoleNative
 {

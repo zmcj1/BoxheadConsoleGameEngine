@@ -64,8 +64,10 @@ namespace NativeFunctionTranslator
     public class Program
     {
         public const string EXPORT_FUNC = "EXPORT_FUNC";
+        public const string EXPORT_FUNC_EX = "EXPORT_FUNC_EX";
         public const string EXPORT_FUNC_DLLIMPORT = "[DllImport(\"MinConsoleNative.dll\", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]";
         public const string EXPORT_FUNC_RETURN_TYPE = "public extern static bool";
+        public const string EXPORT_FUNC_RETURN_TYPE_EX = "public extern static ";
         public const int EXPORT_FUNC_INDENT = 8;
         public static string IndentString = null;
 
@@ -172,7 +174,16 @@ namespace NativeFunctionTranslator
 
             foreach (string item in nativeMethodsDeclaration)
             {
-                string declaration = item.Replace(EXPORT_FUNC, EXPORT_FUNC_RETURN_TYPE);
+                string declaration = null;
+                //try to find EXPORT_FUNC_EX
+                if (item.IndexOf(EXPORT_FUNC_EX) != -1)
+                {
+
+                }
+                else
+                {
+                    declaration = item.Replace(EXPORT_FUNC, EXPORT_FUNC_RETURN_TYPE);
+                }
 
                 int leftBracketIndex = declaration.IndexOf('(');
                 int rightBracketIndex = declaration.IndexOf(')');
@@ -532,7 +543,7 @@ namespace NativeFunctionTranslator
             List<string> sourceFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.cpp");
 
             //-----------generate MinConsoleNativeFuncs.cs-----------
-            //GenMinConsoleNativeFuncs(MinConsoleFolder, headFiles);
+            GenMinConsoleNativeFuncs(MinConsoleFolder, headFiles);
 
             //-----------generate MinConsoleNative.h-----------
             GenMinConsoleNative(MinConsoleNativeFolder, headFiles);
