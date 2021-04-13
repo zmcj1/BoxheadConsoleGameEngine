@@ -175,6 +175,8 @@ namespace NativeFunctionTranslator
             foreach (string item in nativeMethodsDeclaration)
             {
                 string declaration = null;
+                string methodName = null;
+
                 //try to find EXPORT_FUNC_EX
                 if (item.IndexOf(EXPORT_FUNC_EX) != -1)
                 {
@@ -185,16 +187,20 @@ namespace NativeFunctionTranslator
                     declaration += EXPORT_FUNC_RETURN_TYPE_EX;
                     declaration += returnType;
                     declaration += item.Substring(_rightBracketIndex + 1, item.Length - _rightBracketIndex - 1);
+
+                    methodName = declaration.Substring((EXPORT_FUNC_RETURN_TYPE_EX + returnType + 1).Length,
+                        declaration.IndexOf('(') - (EXPORT_FUNC_RETURN_TYPE_EX + returnType).Length - 1);
                 }
                 else
                 {
                     declaration = item.Replace(EXPORT_FUNC, EXPORT_FUNC_RETURN_TYPE);
+                    
+                    methodName = item.Split(' ')[1].Substring(0, item.IndexOf('(') - EXPORT_FUNC.Length - 1);
                 }
 
                 int leftBracketIndex = declaration.IndexOf('(');
                 int rightBracketIndex = declaration.IndexOf(')');
 
-                string methodName = item.Split(' ')[1].Substring(0, item.IndexOf('(') - EXPORT_FUNC.Length - 1);
                 string parameters = declaration.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1);
 #if ENABLE_DEBUG
                 if (methodName.IndexOf("Min") != 0)
@@ -203,8 +209,10 @@ namespace NativeFunctionTranslator
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(methodName);
                     Console.ForegroundColor = ConsoleColor.Red;
+                    Console.BackgroundColor = ConsoleColor.White;
                     Console.WriteLine(" does not contain Min!");
                     Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.BackgroundColor = ConsoleColor.Black;
                 }
 #endif
                 ParamList newParameters = new ParamList();
