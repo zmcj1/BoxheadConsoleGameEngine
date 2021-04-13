@@ -21,6 +21,10 @@ namespace MinConsoleNative
 
         Vector2(int x, int y);
 
+        Vector2(COORD coord);
+
+        Vector2(POINT point);
+
         Vector2 operator-();
 
         bool operator ==(const Vector2& other);

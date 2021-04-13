@@ -154,6 +154,7 @@
     <ClInclude Include="ConsoleLite.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="EventSystem.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Math.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="debug_main.cpp" />
+    <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Math.cpp" />

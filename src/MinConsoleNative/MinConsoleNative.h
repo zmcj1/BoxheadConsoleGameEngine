@@ -8,6 +8,7 @@
 #include "ConsoleLite.h"
 #include "Database.h"
 #include "Debug.h"
+#include "EventSystem.h"
 #include "File.h"
 #include "Input.h"
 #include "Math.h"

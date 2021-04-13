@@ -19,6 +19,14 @@ namespace MinConsoleNative
     {
     }
 
+    Vector2::Vector2(COORD coord) : x((int)coord.X), y((int)coord.Y)
+    {
+    }
+
+    Vector2::Vector2(POINT point) : x((int)point.x), y((int)point.y)
+    {
+    }
+
     Vector2 Vector2::operator-()
     {
         return Vector2(-x, -y);

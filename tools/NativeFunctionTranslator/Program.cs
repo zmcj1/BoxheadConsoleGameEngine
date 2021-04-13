@@ -538,7 +538,7 @@ namespace NativeFunctionTranslator
             GenMinConsoleNative(MinConsoleNativeFolder, headFiles);
 
             //-----------generate MinConsoleHeaderFileDeclaration and License-----------
-            GenMinConsoleHeaderFileDeclarationAndLicense(headFiles, sourceFiles, false);
+            //GenMinConsoleHeaderFileDeclarationAndLicense(headFiles, sourceFiles, false);
 
             //-----------for debugging-----------
 #if ENABLE_DEBUG

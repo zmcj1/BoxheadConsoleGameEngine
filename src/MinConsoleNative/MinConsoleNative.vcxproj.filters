@@ -117,6 +117,9 @@
     <ClInclude Include="PaletteSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EventSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -210,6 +213,9 @@
       <Filter>Dev</Filter>
     </ClCompile>
     <ClCompile Include="PaletteSystem.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSystem.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
