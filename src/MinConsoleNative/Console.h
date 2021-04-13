@@ -385,6 +385,8 @@ namespace MinConsoleNative
 
     typedef void (*OnReadConsoleKeyboardInputRecord)(ConsoleKeyboardInputRecord keyboardInput);
 
+    typedef void (*OnConsoleOutputBufferChanged)(COORD newSize);
+
     extern const int MAX_INPUT_CHAR_COUNT;
 
     //Initialize the console inside, don't worry.
@@ -440,7 +442,7 @@ namespace MinConsoleNative
     //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
     //Call this function in update.
     //IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode
-    EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2);
+    EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
 
     EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, const wchar* buffer);
 
@@ -593,7 +595,7 @@ namespace MinConsoleNative
         //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
         //Call this function in update.
         //IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode
-        bool ReadConsoleInputW(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2);
+        bool ReadConsoleInputW(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
 
         bool WriteConsoleW(const std::wstring& msg);
 

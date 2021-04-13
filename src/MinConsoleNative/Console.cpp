@@ -375,7 +375,7 @@ namespace MinConsoleNative
         return ::ReadConsole(consoleInput, buffer, charCount, &read, nullptr);
     }
 
-    EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2)
+    EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3)
     {
         ConsoleInputMode inputMode = MinGetConsoleInputMode(consoleInput);
         if (!inputMode._ENABLE_WINDOW_INPUT)
@@ -466,7 +466,11 @@ namespace MinConsoleNative
                 }
                 break;
             case WINDOW_BUFFER_SIZE_EVENT:
-                //ignore, dont try to use this event, its useless.
+                //invoke callback
+                if (callback3 != nullptr)
+                {
+                    callback3(inputBuf[i].Event.WindowBufferSizeEvent.dwSize);
+                }
                 break;
             }
         }
@@ -824,9 +828,9 @@ namespace MinConsoleNative
         return str;
     }
 
-    bool Console::ReadConsoleInputW(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2)
+    bool Console::ReadConsoleInputW(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3)
     {
-        return MinReadConsoleInput(cons.consoleInput, callback1, callback2);
+        return MinReadConsoleInput(cons.consoleInput, callback1, callback2, callback3);
     }
 
     bool Console::WriteConsoleW(const std::wstring& msg)
