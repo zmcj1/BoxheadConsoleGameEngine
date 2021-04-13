@@ -467,6 +467,10 @@ namespace NativeFunctionTranslator
 
             string MinConsoleNativeHeadFilePath = Path.Combine(MinConsoleNativeFolder, "MinConsoleNative.h");
             File.WriteAllText(MinConsoleNativeHeadFilePath, stringBuilder2.ToString(), Encoding.UTF8);
+        }
+
+        public static void GenMinConsoleHeaderFileDeclarationAndLicense(List<string> headFiles, List<string> sourceFiles)
+        {
 
         }
 
@@ -477,12 +481,16 @@ namespace NativeFunctionTranslator
             string MinConsoleFolder = currentDirectory.Parent.Parent.Parent.Parent.Parent.ToString();
             string MinConsoleNativeFolder = Path.Combine(MinConsoleFolder, "src\\MinConsoleNative");
             List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.h");
+            List<string> sourceFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.cpp");
 
             //-----------generate MinConsoleNativeFuncs.cs-----------
             //GenMinConsoleNativeFuncs(MinConsoleFolder, headFiles);
 
             //-----------generate MinConsoleNative.h-----------
             GenMinConsoleNative(MinConsoleNativeFolder, headFiles);
+
+            //-----------generate MinConsoleHeaderFileDeclaration and License-----------
+            GenMinConsoleHeaderFileDeclarationAndLicense(headFiles, sourceFiles);
 
             //-----------for debugging-----------
 #if ENABLE_DEBUG
