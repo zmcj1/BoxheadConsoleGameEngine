@@ -27,7 +27,7 @@ ID2D1SolidColorBrush* pBlackBrush_;
 IDWriteFactory* pDWriteFactory_;
 IDWriteTextFormat* pTextFormat_;
 
-wstring wstr = L"asdkjasld啊是大多数空间, 😄";
+wstring wstr = L"asdkjasld啊是大多数空间, 😄لغة عربية/ʔæl̚luɣɑtʰu ʔælʕɑrɐbiːjatʰu/";
 RECT rc = { 0 };
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -36,18 +36,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {
-    Win32Window window(hInstance);
-    
+    //Win32Window window(hInstance);
+    //return 0;
 
 
-
-
-
-
-
-
-
-    return 0;
     // Register the window class.
     const wchar_t CLASS_NAME[] = L"Sample Window Class";
 
@@ -115,7 +107,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow
             DWRITE_FONT_WEIGHT_NORMAL,
             DWRITE_FONT_STYLE_NORMAL,
             DWRITE_FONT_STRETCH_NORMAL,
-            12.0f,
+            40.0f,
             L"en-us", &pTextFormat_);
     }
 

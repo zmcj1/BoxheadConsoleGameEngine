@@ -114,6 +114,9 @@
     <ClInclude Include="Win32Window.h">
       <Filter>Dev</Filter>
     </ClInclude>
+    <ClInclude Include="PaletteSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -205,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="Win32Window.cpp">
       <Filter>Dev</Filter>
+    </ClCompile>
+    <ClCompile Include="PaletteSystem.cpp">
+      <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
