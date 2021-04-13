@@ -733,6 +733,26 @@ namespace MinConsoleNative
         return MinSetConsolePalette(cons.consoleOutput, index, color);
     }
 
+    ConsoleInputMode Console::GetConsoleInputMode()
+    {
+        return MinGetConsoleInputMode(cons.consoleInput);
+    }
+
+    bool Console::SetConsoleInputMode(ConsoleInputMode mode)
+    {
+        return MinSetConsoleInputMode(cons.consoleInput, mode);
+    }
+
+    ConsoleOutputMode Console::GetConsoleOutputMode()
+    {
+        return MinGetConsoleOutputMode(cons.consoleOutput);
+    }
+
+    bool Console::SetConsoleOutputMode(ConsoleOutputMode mode)
+    {
+        return MinSetConsoleOutputMode(cons.consoleOutput, mode);
+    }
+
     ConsoleMode Console::GetConsoleMode()
     {
         ConsoleMode cm;

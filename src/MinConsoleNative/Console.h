@@ -556,6 +556,14 @@ namespace MinConsoleNative
         //Notice:After calling this API, the screen buffer will change!
         bool SetConsolePalette(DWORD index, const Color24& color);
 
+        ConsoleInputMode GetConsoleInputMode();
+
+        bool SetConsoleInputMode(ConsoleInputMode mode);
+
+        ConsoleOutputMode GetConsoleOutputMode();
+
+        bool SetConsoleOutputMode(ConsoleOutputMode mode);
+
         ConsoleMode GetConsoleMode();
 
         bool SetConsoleMode(const ConsoleMode& consoleMode);
