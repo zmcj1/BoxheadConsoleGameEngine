@@ -5,7 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
-//Version:2.1
+//Version:2.2
 
 namespace NativeFunctionTranslator
 {
@@ -178,7 +178,13 @@ namespace NativeFunctionTranslator
                 //try to find EXPORT_FUNC_EX
                 if (item.IndexOf(EXPORT_FUNC_EX) != -1)
                 {
+                    int _leftBracketIndex = item.IndexOf('(');
+                    int _rightBracketIndex = item.IndexOf(')');
+                    string returnType = item.Substring(_leftBracketIndex + 1, _rightBracketIndex - _leftBracketIndex - 1);
 
+                    declaration += EXPORT_FUNC_RETURN_TYPE_EX;
+                    declaration += returnType;
+                    declaration += item.Substring(_rightBracketIndex + 1, item.Length - _rightBracketIndex - 1);
                 }
                 else
                 {
@@ -292,6 +298,10 @@ namespace NativeFunctionTranslator
                                         if (_symbol == "wchar*")
                                         {
                                             varType = "ref string";
+                                        }
+                                        else if(_symbol == "DWORD")
+                                        {
+                                            varType = "ref uint";
                                         }
                                         else if (_symbol == "wchar")
                                         {

@@ -68,6 +68,36 @@ namespace MinConsole
             WindowsTerminal = 4,
         };
 
+        public enum MessageBoxButtons : int
+        {
+            OK = 1,
+            OKCANCEL,
+            YESNO,
+            YESNOCANCEL,
+        }
+
+        public enum MessageBoxDefaultButton : int
+        {
+            First = 1,
+            Second,
+            Third,
+        }
+
+        public enum MessageBoxIcon : int
+        {
+            Warning = 1,
+            Information,
+            Error,
+        }
+
+        public enum MessageBoxResult : int
+        {
+            OK = 1,
+            YES,
+            NO,
+            CANCEL,
+        }
+
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
@@ -239,5 +269,7 @@ namespace MinConsole
         public delegate void OnReadConsoleMouseInputRecord(ConsoleMouseInputRecord mouseInput);
 
         public delegate void OnReadConsoleKeyboardInputRecord(ConsoleKeyboardInputRecord keyboardInput);
+
+        public delegate void OnConsoleOutputBufferChanged(COORD newSize);
     }
 }
