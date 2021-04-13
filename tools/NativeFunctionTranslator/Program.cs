@@ -5,7 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
-//Version:2.2
+//Version:2.3
 
 namespace NativeFunctionTranslator
 {
@@ -75,6 +75,48 @@ namespace NativeFunctionTranslator
         public const string _OUT_ = "_OUT_";
         public const string _REF_ = "_REF_";
         public const string _ARRAY_ = "_ARRAY_";
+
+        public const string DECLARATION =
+@"////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                    MinConsole
+//    On April 11, 2021, this project is officially open source!
+//
+//    Made in Minsk, Belarus.
+//
+//    IMPORTANT: This document will change at any time.
+//
+//    This project is in the early development stage, everything is changing at a high speed!
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//    MIT License
+//
+//    Copyright (c) 2021 Min. All rights reserved.
+//
+//    Permission is hereby granted, free of charge, to any person obtaining a copy
+//    of this software and associated documentation files (the 'Software'), to deal
+//    in the Software without restriction, including without limitation the rights
+//    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//    copies of the Software, and to permit persons to whom the Software is
+//    furnished to do so, subject to the following conditions:
+//
+//    The above copyright notice and this permission notice shall be included in all
+//    copies or substantial portions of the Software.
+//
+//    THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+//    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//    SOFTWARE.
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//    Contact greatdestroyercharlie@gmail.com with questions or concerns
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////";
 
         public static bool DebugPause = false;
 
@@ -194,7 +236,7 @@ namespace NativeFunctionTranslator
                 else
                 {
                     declaration = item.Replace(EXPORT_FUNC, EXPORT_FUNC_RETURN_TYPE);
-                    
+
                     methodName = item.Split(' ')[1].Substring(0, item.IndexOf('(') - EXPORT_FUNC.Length - 1);
                 }
 
@@ -307,7 +349,7 @@ namespace NativeFunctionTranslator
                                         {
                                             varType = "ref string";
                                         }
-                                        else if(_symbol == "DWORD")
+                                        else if (_symbol == "DWORD")
                                         {
                                             varType = "ref uint";
                                         }
@@ -506,20 +548,18 @@ namespace NativeFunctionTranslator
             UTF8BOM[1] = 0xBB;
             UTF8BOM[2] = 0xBF;
 
-            string declaration =
-@"//test
-";
-
             List<string> filesNeedToRead = new List<string>();
-            filesNeedToRead.AddRange(headFiles);
-            filesNeedToRead.AddRange(sourceFiles);
+            //filesNeedToRead.AddRange(headFiles);
+            //filesNeedToRead.AddRange(sourceFiles);
+            //filesNeedToRead.Add(headFiles[0]); //for testing
 
             foreach (string filePath in filesNeedToRead)
             {
+                bool isUTF8BOMFile = true;
+
                 //check if they are all encoding in UTF-8.
                 using (FileStream stream = new FileStream(filePath, FileMode.Open))
                 {
-                    bool isUTF8BOMFile = true;
                     for (int i = 0; i < 3; i++)
                     {
                         int readByte = stream.ReadByte();
@@ -532,21 +572,24 @@ namespace NativeFunctionTranslator
                     if (!isUTF8BOMFile)
                     {
                         //warning!!!!!
-                        Console.WriteLine($"{filePath} is not UTF-8 Encoding!!!");
-                        Console.ReadLine();
-                        return;
+                        Console.BackgroundColor = ConsoleColor.Magenta;
+                        Console.WriteLine($"{filePath} is not UTF-8 Encoding, Now I rewrite it in UTF-8.");
+                        Console.BackgroundColor = ConsoleColor.Black;
                     }
                 }
 
+                //add declaration or remove it.
                 if (add)
                 {
                     string code = File.ReadAllText(filePath, Encoding.UTF8);
-                    string newCode = declaration + code;
+                    string newCode = DECLARATION + "\n" + code;
                     File.WriteAllText(filePath, newCode, Encoding.UTF8);
                 }
                 else
                 {
-                    //todo
+                    string code = File.ReadAllText(filePath, Encoding.UTF8);
+                    string newCode = code.Replace(DECLARATION + "\n", string.Empty);
+                    File.WriteAllText(filePath, newCode, Encoding.UTF8);
                 }
             }
         }
@@ -567,7 +610,7 @@ namespace NativeFunctionTranslator
             GenMinConsoleNative(MinConsoleNativeFolder, headFiles);
 
             //-----------generate MinConsoleHeaderFileDeclaration and License-----------
-            //GenMinConsoleHeaderFileDeclarationAndLicense(headFiles, sourceFiles, false);
+            GenMinConsoleHeaderFileDeclarationAndLicense(headFiles, sourceFiles, false);
 
             //-----------for debugging-----------
 #if ENABLE_DEBUG
