@@ -3,6 +3,7 @@
 #include "VTConverter.h"
 #include "ConRegistry.h"
 #include "Debug.h"
+#include "PaletteSystem.h"
 
 using namespace std;
 
@@ -1108,5 +1109,23 @@ namespace MinConsoleNative
         }
 
         return Console::Write(msg + wstring(L"\n"), foreColor, backColor, under_score);
+    }
+
+    ConsoleColor Color24::ToConsoleColor()
+    {
+        bool isLegacy = PaletteSystem::Global.GetInstance().CurPaletteIsLegacyPalette();
+        //Algorithm:https://stackoverflow.com/questions/1988833/converting-color-to-consolecolor
+        if (isLegacy)
+        {
+            int index = (r > 128 || g > 128 || b > 128) ? 8 : 0; // Bright bit
+            index |= (r > 64) ? 4 : 0; // Red bit
+            index |= (g > 64) ? 2 : 0; // Green bit
+            index |= (b > 64) ? 1 : 0; // Blue bit
+            return (ConsoleColor)index;
+        }
+        else
+        {
+            return PaletteSystem::Global.GetInstance().GetCurPaletteClosestConsoleColor(*this);
+        }
     }
 }
