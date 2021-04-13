@@ -469,7 +469,7 @@ namespace NativeFunctionTranslator
             File.WriteAllText(MinConsoleNativeHeadFilePath, stringBuilder2.ToString(), Encoding.UTF8);
         }
 
-        public static void GenMinConsoleHeaderFileDeclarationAndLicense(List<string> headFiles, List<string> sourceFiles)
+        public static void GenMinConsoleHeaderFileDeclarationAndLicense(List<string> headFiles, List<string> sourceFiles, bool add)
         {
             //const var
             byte[] UTF8BOM = new byte[3];
@@ -509,9 +509,16 @@ namespace NativeFunctionTranslator
                     }
                 }
 
-                string code = File.ReadAllText(filePath, Encoding.UTF8);
-                string newCode = declaration + code;
-                File.WriteAllText(filePath, newCode, Encoding.UTF8);
+                if (add)
+                {
+                    string code = File.ReadAllText(filePath, Encoding.UTF8);
+                    string newCode = declaration + code;
+                    File.WriteAllText(filePath, newCode, Encoding.UTF8);
+                }
+                else
+                {
+                    //todo
+                }
             }
         }
 
@@ -531,7 +538,7 @@ namespace NativeFunctionTranslator
             GenMinConsoleNative(MinConsoleNativeFolder, headFiles);
 
             //-----------generate MinConsoleHeaderFileDeclaration and License-----------
-            GenMinConsoleHeaderFileDeclarationAndLicense(headFiles, sourceFiles);
+            GenMinConsoleHeaderFileDeclarationAndLicense(headFiles, sourceFiles, false);
 
             //-----------for debugging-----------
 #if ENABLE_DEBUG
