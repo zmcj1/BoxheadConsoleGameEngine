@@ -43,9 +43,26 @@ namespace MinConsoleNative
 
         this->palettes[PaletteType::Legacy] = legacyPalette;
         this->palettes[PaletteType::Modern] = modernPalette;
+        this->curPalette = GetConsolePalette();
+        this->curPaletteIsLegacy = this->curPalette == legacyPalette;
     }
 
-    ConsolePalette PaletteSystem::GetCurrentConsolePalette()
+    Color24 PaletteSystem::GetCurrentConsolePaletteColor(DWORD index)
+    {
+        return this->curPalette.consolePalette[(ConsoleColor)index];
+    }
+
+    bool PaletteSystem::SetCurrentConsolePaletteColor(DWORD index, const Color24& color)
+    {
+        bool suc = Console::Global.GetInstance().SetConsolePalette(index, color);
+        if (suc)
+        {
+            this->curPalette.consolePalette[(ConsoleColor)index] = color;
+        }
+        return suc;
+    }
+
+    ConsolePalette PaletteSystem::GetConsolePalette()
     {
         ConsolePalette consolePalette;
         for (int i = 0; i < WINCON_PALETTE_COLOR_LIMIT; i++)
@@ -56,14 +73,39 @@ namespace MinConsoleNative
         return consolePalette;
     }
 
-    bool PaletteSystem::SetCurrentConsolePalette(PaletteType type)
+    bool PaletteSystem::SetConsolePalette(ConsolePalette consolePalette)
     {
         bool suc = true;
         for (int i = 0; i < WINCON_PALETTE_COLOR_LIMIT; i++)
         {
-            Color24 color = this->palettes[type].consolePalette[(ConsoleColor)i];
+            Color24 color = consolePalette.consolePalette[(ConsoleColor)i];
             suc &= Console::Global.GetInstance().SetConsolePalette(i, color);
         }
         return suc;
+    }
+
+    ConsoleColor PaletteSystem::GetCurPaletteClosestConsoleColor(Color24 color)
+    {
+        ConsoleColor result = ConsoleColor::BLACK;
+        double r = color.r;
+        double g = color.g;
+        double b = color.b;
+        double delta = std::numeric_limits<double>::max(); //MAX_DOUBLE
+        for (int i = 0; i < WINCON_PALETTE_COLOR_LIMIT; i++)
+        {
+            ConsoleColor consoleColor = (ConsoleColor)i;
+            Color24 c = GetCurrentConsolePaletteColor(i);
+            double t = pow(c.r - r, 2.0) + pow(c.g - g, 2.0) + pow(c.b - b, 2.0);
+            if (t == 0.0)
+            {
+                return consoleColor;
+            }
+            else if (t < delta)
+            {
+                delta = t;
+                result = consoleColor;
+            }
+        }
+        return result;
     }
 }

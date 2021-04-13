@@ -2,6 +2,7 @@
 
 #include "MinDefines.h"
 #include "Console.h"
+#include "Singleton.h"
 #include <map>
 #include <vector>
 
@@ -20,17 +21,51 @@ namespace MinConsoleNative
     {
     public:
         std::map<ConsoleColor, Color24> consolePalette;
+
+        bool operator ==(ConsolePalette& other)
+        {
+            bool equal = true;
+            equal &= this->consolePalette[ConsoleColor::BLACK] == other.consolePalette[ConsoleColor::BLACK];
+            equal &= this->consolePalette[ConsoleColor::DARKBLUE] == other.consolePalette[ConsoleColor::DARKBLUE];
+            equal &= this->consolePalette[ConsoleColor::DARKGREEN] == other.consolePalette[ConsoleColor::DARKGREEN];
+            equal &= this->consolePalette[ConsoleColor::DARKCYAN] == other.consolePalette[ConsoleColor::DARKCYAN];
+            equal &= this->consolePalette[ConsoleColor::DARKRED] == other.consolePalette[ConsoleColor::DARKRED];
+            equal &= this->consolePalette[ConsoleColor::DARKMAGENTA] == other.consolePalette[ConsoleColor::DARKMAGENTA];
+            equal &= this->consolePalette[ConsoleColor::DARKYELLOW] == other.consolePalette[ConsoleColor::DARKYELLOW];
+            equal &= this->consolePalette[ConsoleColor::GRAY] == other.consolePalette[ConsoleColor::GRAY];
+            equal &= this->consolePalette[ConsoleColor::DARKGRAY] == other.consolePalette[ConsoleColor::DARKGRAY];
+            equal &= this->consolePalette[ConsoleColor::BLUE] == other.consolePalette[ConsoleColor::BLUE];
+            equal &= this->consolePalette[ConsoleColor::GREEN] == other.consolePalette[ConsoleColor::GREEN];
+            equal &= this->consolePalette[ConsoleColor::CYAN] == other.consolePalette[ConsoleColor::CYAN];
+            equal &= this->consolePalette[ConsoleColor::RED] == other.consolePalette[ConsoleColor::RED];
+            equal &= this->consolePalette[ConsoleColor::MAGENTA] == other.consolePalette[ConsoleColor::MAGENTA];
+            equal &= this->consolePalette[ConsoleColor::YELLOW] == other.consolePalette[ConsoleColor::YELLOW];
+            equal &= this->consolePalette[ConsoleColor::WHITE] == other.consolePalette[ConsoleColor::WHITE];
+            return equal;
+        }
     };
 
     class PaletteSystem
     {
     public:
-        std::map<PaletteType, ConsolePalette> palettes;
+        static Singleton<PaletteSystem> Global;
+
+    public:
+        bool curPaletteIsLegacy;
+        ConsolePalette curPalette; //current console palette
+        std::map<PaletteType, ConsolePalette> palettes; //include 2 default palettes
 
         PaletteSystem();
 
-        ConsolePalette GetCurrentConsolePalette();
+        Color24 GetCurrentConsolePaletteColor(DWORD index);
 
-        bool SetCurrentConsolePalette(PaletteType type);
+        bool SetCurrentConsolePaletteColor(DWORD index, const Color24& color);
+
+        ConsolePalette GetConsolePalette();
+
+        bool SetConsolePalette(ConsolePalette consolePalette);
+
+        //FROM:https://stackoverflow.com/questions/1988833/converting-color-to-consolecolor
+        ConsoleColor GetCurPaletteClosestConsoleColor(Color24 color);
     };
 }

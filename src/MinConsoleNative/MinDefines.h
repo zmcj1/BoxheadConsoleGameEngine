@@ -58,6 +58,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 //Disable network library warning
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
+//no min/max
+#define NOMINMAX
 
 // Including SDKDDKVer.h defines the highest available Windows platform.
 #include <SDKDDKVer.h>
