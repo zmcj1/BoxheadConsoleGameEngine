@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\third_party\WinReg.hpp" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Clipboard.h" />
     <ClInclude Include="ConRegistry.h" />
@@ -178,7 +179,6 @@
     <ClInclude Include="VTConverter.h" />
     <ClInclude Include="Win32Window.h" />
     <ClInclude Include="Window.h" />
-    <ClInclude Include="WinReg.hpp" />
     <ClInclude Include="WinVersion.h" />
   </ItemGroup>
   <ItemGroup>
