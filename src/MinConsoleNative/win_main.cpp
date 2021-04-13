@@ -1,6 +1,6 @@
 ﻿#ifdef _DEBUG
 
-#define GUI
+//#define GUI
 #include "MinDefines.h"
 
 //0x2591 ░

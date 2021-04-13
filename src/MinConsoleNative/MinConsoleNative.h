@@ -5,6 +5,7 @@
 #include "Clipboard.h"
 #include "ConRegistry.h"
 #include "Console.h"
+#include "ConsoleLite.h"
 #include "Database.h"
 #include "Debug.h"
 #include "File.h"
@@ -14,6 +15,7 @@
 #include "MinConsoleNative.h"
 #include "MinDefines.h"
 #include "ObjectPool.h"
+#include "PaletteSystem.h"
 #include "PixelRenderer.h"
 #include "Process.h"
 #include "Random.h"
@@ -27,6 +29,7 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "VTConverter.h"
+#include "Win32Window.h"
 #include "Window.h"
 #include "WinVersion.h"
 using namespace MinConsoleNative;

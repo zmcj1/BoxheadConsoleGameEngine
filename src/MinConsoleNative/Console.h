@@ -403,6 +403,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinGetConsolePalette(HANDLE consoleOutput, DWORD index, Color24* color);
 
+    //Notice:After calling this API, the screen buffer will change!
     EXPORT_FUNC MinSetConsolePalette(HANDLE consoleOutput, DWORD index, Color24 color);
 
     EXPORT_FUNC_EX(ConsoleInputMode) MinGetConsoleInputMode(HANDLE consoleInput);
