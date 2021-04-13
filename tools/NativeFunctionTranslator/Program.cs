@@ -549,8 +549,8 @@ namespace NativeFunctionTranslator
             UTF8BOM[2] = 0xBF;
 
             List<string> filesNeedToRead = new List<string>();
-            //filesNeedToRead.AddRange(headFiles);
-            //filesNeedToRead.AddRange(sourceFiles);
+            filesNeedToRead.AddRange(headFiles);
+            filesNeedToRead.AddRange(sourceFiles);
             //filesNeedToRead.Add(headFiles[0]); //for testing
 
             foreach (string filePath in filesNeedToRead)
@@ -610,7 +610,7 @@ namespace NativeFunctionTranslator
             GenMinConsoleNative(MinConsoleNativeFolder, headFiles);
 
             //-----------generate MinConsoleHeaderFileDeclaration and License-----------
-            GenMinConsoleHeaderFileDeclarationAndLicense(headFiles, sourceFiles, false);
+            //GenMinConsoleHeaderFileDeclarationAndLicense(headFiles, sourceFiles, true);
 
             //-----------for debugging-----------
 #if ENABLE_DEBUG

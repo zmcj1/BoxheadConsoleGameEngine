@@ -196,7 +196,6 @@
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="MinConsoleNative.cpp" />
-    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="PaletteSystem.cpp" />
     <ClCompile Include="PixelRenderer.cpp" />
     <ClCompile Include="Process.cpp" />
