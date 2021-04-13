@@ -429,17 +429,9 @@ namespace NativeFunctionTranslator
             return nativeMethodNewDeclaration;
         }
 
-        public static void Main()
+        public static void GenMinConsoleNativeFuncs(string MinConsoleFolder, List<string> headFiles)
         {
-            //-----------generate MinConsoleNativeFuncs.cs-----------
-
-            DirectoryInfo currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
-            string MinConsoleFolder = currentDirectory.Parent.Parent.Parent.Parent.Parent.ToString();
-
-            string MinConsoleNativeFolder = Path.Combine(MinConsoleFolder, "src\\MinConsoleNative");
             string MinConsoleNativeFuncsFile = Path.Combine(MinConsoleFolder, "src\\MinConsole\\MinConsoleNativeFuncs.cs");
-
-            List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.h");
 
             List<string> nativeMethodsDeclaration = GetNativeMethodsDeclaration(headFiles);
 
@@ -460,9 +452,10 @@ namespace NativeFunctionTranslator
             finalLines.ForEach(item => { stringBuilder.Append(item + Environment.NewLine); });
             //write to file
             File.WriteAllText(MinConsoleNativeFuncsFile, stringBuilder.ToString(), Encoding.UTF8);
+        }
 
-            //-----------generate MinConsoleNative.h-----------
-
+        public static void GenMinConsoleNative(string MinConsoleNativeFolder, List<string> headFiles)
+        {
             List<FileInfo> headFileInfos = new List<FileInfo>();
             headFiles.ForEach(str => { headFileInfos.Add(new FileInfo(str)); });
 
@@ -475,6 +468,23 @@ namespace NativeFunctionTranslator
             string MinConsoleNativeHeadFilePath = Path.Combine(MinConsoleNativeFolder, "MinConsoleNative.h");
             File.WriteAllText(MinConsoleNativeHeadFilePath, stringBuilder2.ToString(), Encoding.UTF8);
 
+        }
+
+        public static void Main()
+        {
+            //Common
+            DirectoryInfo currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
+            string MinConsoleFolder = currentDirectory.Parent.Parent.Parent.Parent.Parent.ToString();
+            string MinConsoleNativeFolder = Path.Combine(MinConsoleFolder, "src\\MinConsoleNative");
+            List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.h");
+
+            //-----------generate MinConsoleNativeFuncs.cs-----------
+            //GenMinConsoleNativeFuncs(MinConsoleFolder, headFiles);
+
+            //-----------generate MinConsoleNative.h-----------
+            GenMinConsoleNative(MinConsoleNativeFolder, headFiles);
+
+            //-----------for debugging-----------
 #if ENABLE_DEBUG
             if (DebugPause)
             {
