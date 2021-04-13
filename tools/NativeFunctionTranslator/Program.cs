@@ -471,7 +471,48 @@ namespace NativeFunctionTranslator
 
         public static void GenMinConsoleHeaderFileDeclarationAndLicense(List<string> headFiles, List<string> sourceFiles)
         {
+            //const var
+            byte[] UTF8BOM = new byte[3];
+            UTF8BOM[0] = 0xEF;
+            UTF8BOM[1] = 0xBB;
+            UTF8BOM[2] = 0xBF;
 
+            string declaration =
+@"//test
+";
+
+            List<string> filesNeedToRead = new List<string>();
+            filesNeedToRead.AddRange(headFiles);
+            filesNeedToRead.AddRange(sourceFiles);
+
+            foreach (string filePath in filesNeedToRead)
+            {
+                //check if they are all encoding in UTF-8.
+                using (FileStream stream = new FileStream(filePath, FileMode.Open))
+                {
+                    bool isUTF8BOMFile = true;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        int readByte = stream.ReadByte();
+                        if (readByte != UTF8BOM[i])
+                        {
+                            isUTF8BOMFile = false;
+                            break;
+                        }
+                    }
+                    if (!isUTF8BOMFile)
+                    {
+                        //warning!!!!!
+                        Console.WriteLine($"{filePath} is not UTF-8 Encoding!!!");
+                        Console.ReadLine();
+                        return;
+                    }
+                }
+
+                string code = File.ReadAllText(filePath, Encoding.UTF8);
+                string newCode = declaration + code;
+                File.WriteAllText(filePath, newCode, Encoding.UTF8);
+            }
         }
 
         public static void Main()

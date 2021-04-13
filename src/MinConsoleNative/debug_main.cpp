@@ -10,8 +10,8 @@ int main()
     POINT pos = Window::Global.GetInstance().GetCenterPosOfWindowInDesktop();
     Window::Global.GetInstance().SetWindowPos(pos);
     Console::Global.GetInstance().SetTreatControlCAsInput(true);
-
-
+    Console::Global.GetInstance().ReadLine();
+    return 0;
     //while (true)
     //{
     //    Input::CheckKeyboardEx();
