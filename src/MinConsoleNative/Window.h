@@ -44,6 +44,9 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinSetWindowAlpha(HWND windowHandle, byte alpha);
 
+    //Determines whether the specified window is minimized (iconic).
+    EXPORT_FUNC_EX(bool) MinIsMinimized(HWND windowHandle);
+
     class Window
     {
     public:
@@ -94,5 +97,8 @@ namespace MinConsoleNative
         byte GetWindowAlpha();
 
         void SetWindowAlpha(byte alpha);
+
+        //Determines whether the specified window is minimized (iconic).
+        bool IsMinimized();
     };
 }

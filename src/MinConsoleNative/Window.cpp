@@ -178,6 +178,11 @@ namespace MinConsoleNative
         return ::SetLayeredWindowAttributes(windowHandle, 0, alpha, LWA_ALPHA);
     }
 
+    EXPORT_FUNC_EX(bool) MinIsMinimized(HWND windowHandle)
+    {
+        return IsIconic(windowHandle);
+    }
+
     Window::Window()
     {
         this->windowHandle = ::GetForegroundWindow();
@@ -302,5 +307,10 @@ namespace MinConsoleNative
     void Window::SetWindowAlpha(byte alpha)
     {
         MinSetWindowAlpha(this->windowHandle, alpha);
+    }
+
+    bool Window::IsMinimized()
+    {
+        return MinIsMinimized(this->windowHandle);
     }
 }
