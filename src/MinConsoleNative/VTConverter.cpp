@@ -1,4 +1,5 @@
 ﻿#include "VTConverter.h"
+#include <sstream>
 #include <cstdio>
 
 using namespace std;
@@ -206,7 +207,16 @@ namespace MinConsoleNative
     EXPORT_FUNC MinVTPaletteColor(wchar* str, int strLen, int index, byte r, byte g, byte b)
     {
         //ESC ] 4 ; <i> ; rgb : <r> / <g> / <b> ESC
-        int result = swprintf_s(str, strLen, L"%ls]4;%d;rgb:%d/%d/%d%ls", _T(ESC), index, r, g, b, _T(ESC));
+        //NOTICE : <r> / <g> / <b> here are hexes, so we need to convert them from int to hex str.
+        wstringstream rr;
+        rr << std::hex << r;
+        wstringstream gg;
+        gg << std::hex << g;
+        wstringstream bb;
+        bb << std::hex << b;
+
+        int result = swprintf_s(str, strLen, L"%ls]4;%d;rgb:%ls/%ls/%ls%ls", _T(ESC), index,
+            rr.str().c_str(), gg.str().c_str(), bb.str().c_str(), _T(ESC));
         if (result == -1)
         {
             return false;
