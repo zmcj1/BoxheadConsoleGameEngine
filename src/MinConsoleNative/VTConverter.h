@@ -68,8 +68,10 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinVTTerminalBackColor(wchar* str, int strLen, TerminalColor tcolor);
 
+    //This function is invalid for Windows Terminal, but works in Windows Console.
     EXPORT_FUNC MinVTTerminalSize(wchar* str, int strLen, COORD size);
 
+    //Not recommended use this function, it's unstable.
     //FROM:https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#screen-colors
     EXPORT_FUNC MinVTPaletteColor(wchar* str, int strLen, int index, byte r, byte g, byte b);
 
