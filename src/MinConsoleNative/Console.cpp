@@ -695,8 +695,17 @@ namespace MinConsoleNative
         }
         else
         {
-            *type = ConsoleType::WindowsConsole;
-            //Temporarily not don't support Windows Terminal.
+            wchar buffer[MAX_PATH] = { 0 };
+            GetEnvironmentVariable(L"WT_SESSION", buffer, MAX_PATH);
+            //Now support Windows Terminal!
+            if (wcscmp(buffer, L"") != 0)
+            {
+                *type = ConsoleType::WindowsTerminal;
+            }
+            else
+            {
+                *type = ConsoleType::WindowsConsole;
+            }
         }
         return true;
     }
