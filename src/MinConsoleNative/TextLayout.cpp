@@ -9,6 +9,8 @@ namespace MinConsoleNative
     TextLayout::TextLayout(Console console)
     {
         this->console = console;
+        this->useASCIICache = true;
+        this->useCJKCache = true;
     }
 
     CharWidth TextLayout::GetWcharWidth(wchar c)
@@ -18,6 +20,17 @@ namespace MinConsoleNative
         if (charWidthUserDefineDict.count(c) != 0)
         {
             charWidth = charWidthUserDefineDict[c];
+        }
+        //Predefined cache:
+        //IsLatin(include numeric 0-9, a-z, A-Z etc.)
+        else if (this->useASCIICache && c >= 0x0020 && c <= 0x007F)
+        {
+            charWidth = CharWidth::Half;
+        }
+        //IsCJK(Chinese, Japanese, Korean)
+        else if (this->useCJKCache && c >= 0x2E80 && c <= 0x9FFF)
+        {
+            charWidth = CharWidth::Full;
         }
         else
         {

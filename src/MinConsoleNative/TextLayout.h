@@ -15,8 +15,10 @@ namespace MinConsoleNative
 
     public:
         Console console;
-        std::map<wchar, CharWidth> charWidthCacheDict;
-        std::map<wchar, CharWidth> charWidthUserDefineDict;
+        std::map<wchar, CharWidth> charWidthCacheDict;      //cache
+        std::map<wchar, CharWidth> charWidthUserDefineDict; //Highest priority.
+        bool useASCIICache;
+        bool useCJKCache;
 
         TextLayout(Console console);
 
