@@ -6,6 +6,12 @@
 
 namespace MinConsoleNative
 {
+    enum class EventSystemTarget
+    {
+        Win32Callback = 1,
+        VTSequences = 2,
+    };
+
     class EventHandler
     {
     public:
@@ -41,8 +47,17 @@ namespace MinConsoleNative
 
     public:
         static std::vector<EventHandler*> handlers;
+        static EventSystemTarget target;
 
-        static void Init();
+        //About input mode:
+        //Win32Callback:
+        //    enable_window_input = true
+        //    enable_quick_edit_mode = false
+        //VTSequences:
+        //    enable_window_input = true
+        //    enable_quick_edit_mode = true
+        //    enable_virtual_terminal_input = true
+        static void Init(EventSystemTarget target);
 
         static void Update();
     };

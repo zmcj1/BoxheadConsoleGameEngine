@@ -1,4 +1,5 @@
 ﻿#include "EventSystem.h"
+#include "VTConverter.h"
 
 namespace MinConsoleNative
 {
@@ -6,55 +7,118 @@ namespace MinConsoleNative
 
     std::vector<EventHandler*> EventSystem::handlers;
 
-    void EventSystem::Update()
+    EventSystemTarget EventSystem::target;
+
+    void EventSystem::Init(EventSystemTarget target)
     {
-        auto callback1 = [](ConsoleMouseInputRecord mouseInput)
+        EventSystem::target = target;
+        ConsoleMode consoleMode;
+
+        switch (EventSystem::target)
         {
-            for (size_t i = 0; i < handlers.size(); i++)
-            {
-                if (mouseInput.moved)
-                {
-                    handlers[i]->OnMouseMovedOrClicked();
-                }
-                if (mouseInput.doubleClick)
-                {
-                    handlers[i]->OnMouseDoubleClicked();
-                }
-                if (mouseInput.mouseWheelDir != MouseWheelDirection::None)
-                {
-                    handlers[i]->OnMouseWheeled(mouseInput.mouseWheelDir);
-                }
-                if (preMousePos.X != mouseInput.position.X ||
-                    preMousePos.Y != mouseInput.position.Y)
-                {
-                    handlers[i]->OnMousePositionChanged(mouseInput.position);
-                    preMousePos = mouseInput.position;
-                }
-            }
-        };
-        auto callback2 = [](ConsoleKeyboardInputRecord keyboardInput)
-        {
-            for (size_t i = 0; i < handlers.size(); i++)
-            {
-                handlers[i]->OnReadKey(keyboardInput);
-            }
-        };
-        auto callback3 = [](COORD newSize)
-        {
-            for (size_t i = 0; i < handlers.size(); i++)
-            {
-                handlers[i]->OnConsoleOutputBufferChanged(newSize);
-            }
-        };
-        Console::Global.GetInstance().ReadConsoleInputW(callback1, callback2, callback3);
+        case EventSystemTarget::Win32Callback:
+            consoleMode = Console::Global.GetInstance().GetConsoleMode();
+            consoleMode.inputMode._ENABLE_WINDOW_INPUT = true;
+            consoleMode.inputMode._ENABLE_QUICK_EDIT_MODE = false;
+            Console::Global.GetInstance().SetConsoleMode(consoleMode);
+            break;
+        case EventSystemTarget::VTSequences:
+            VTConverter::VTEnableMouseInput();
+            break;
+        }
     }
 
-    void EventSystem::Init()
+    void EventSystem::Update()
     {
-        ConsoleMode consoleMode = Console::Global.GetInstance().GetConsoleMode();
-        consoleMode.inputMode._ENABLE_WINDOW_INPUT = true;
-        consoleMode.inputMode._ENABLE_QUICK_EDIT_MODE = false;
-        Console::Global.GetInstance().SetConsoleMode(consoleMode);
+        switch (EventSystem::target)
+        {
+        case EventSystemTarget::Win32Callback:
+        {
+            auto callback1 = [](ConsoleMouseInputRecord mouseInput)
+            {
+                for (size_t i = 0; i < handlers.size(); i++)
+                {
+                    if (mouseInput.moved)
+                    {
+                        handlers[i]->OnMouseMovedOrClicked();
+                    }
+                    if (mouseInput.doubleClick)
+                    {
+                        handlers[i]->OnMouseDoubleClicked();
+                    }
+                    if (mouseInput.mouseWheelDir != MouseWheelDirection::None)
+                    {
+                        handlers[i]->OnMouseWheeled(mouseInput.mouseWheelDir);
+                    }
+                    if (preMousePos.X != mouseInput.position.X ||
+                        preMousePos.Y != mouseInput.position.Y)
+                    {
+                        handlers[i]->OnMousePositionChanged(mouseInput.position);
+                        preMousePos = mouseInput.position;
+                    }
+                }
+            };
+            auto callback2 = [](ConsoleKeyboardInputRecord keyboardInput)
+            {
+                for (size_t i = 0; i < handlers.size(); i++)
+                {
+                    handlers[i]->OnReadKey(keyboardInput);
+                }
+            };
+            auto callback3 = [](COORD newSize)
+            {
+                for (size_t i = 0; i < handlers.size(); i++)
+                {
+                    handlers[i]->OnConsoleOutputBufferChanged(newSize);
+                }
+            };
+            Console::Global.GetInstance().ReadConsoleInputW(callback1, callback2, callback3);
+        }
+        break;
+        case EventSystemTarget::VTSequences:
+        {
+            auto callback1 = [](ConsoleMouseInputRecord mouseInput)
+            {
+                for (size_t i = 0; i < handlers.size(); i++)
+                {
+                    if (mouseInput.moved)
+                    {
+                        handlers[i]->OnMouseMovedOrClicked();
+                    }
+                    if (mouseInput.doubleClick)
+                    {
+                        handlers[i]->OnMouseDoubleClicked();
+                    }
+                    if (mouseInput.mouseWheelDir != MouseWheelDirection::None)
+                    {
+                        handlers[i]->OnMouseWheeled(mouseInput.mouseWheelDir);
+                    }
+                    if (preMousePos.X != mouseInput.position.X ||
+                        preMousePos.Y != mouseInput.position.Y)
+                    {
+                        handlers[i]->OnMousePositionChanged(mouseInput.position);
+                        preMousePos = mouseInput.position;
+                    }
+                }
+            };
+            auto callback2 = [](ConsoleKeyboardInputRecord keyboardInput)
+            {
+                for (size_t i = 0; i < handlers.size(); i++)
+                {
+                    handlers[i]->OnReadKey(keyboardInput);
+                }
+            };
+            auto callback3 = [](COORD newSize)
+            {
+                for (size_t i = 0; i < handlers.size(); i++)
+                {
+                    handlers[i]->OnConsoleOutputBufferChanged(newSize);
+                }
+            };
+            Console::Global.GetInstance().ReadConsoleInputW(callback1, callback2, callback3);
+        }
+        break;
+        }
     }
 
     void EventHandler::OnMouseMovedOrClicked()

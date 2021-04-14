@@ -242,6 +242,10 @@ namespace MinConsoleNative
     EXPORT_FUNC_EX(void) MinVTEnableMouseInput()
     {
         ConsoleMode consoleMode = Console::Global.GetInstance().GetConsoleMode();
+        //enable this, for use ReadConsoleOutput function.
+        consoleMode.inputMode._ENABLE_WINDOW_INPUT = true;
+        //enable this
+        consoleMode.inputMode._ENABLE_QUICK_EDIT_MODE = true;
         //enable this, this is very important!
         consoleMode.inputMode._ENABLE_VIRTUAL_TERMINAL_INPUT = true;
         Console::Global.GetInstance().SetConsoleMode(consoleMode);
