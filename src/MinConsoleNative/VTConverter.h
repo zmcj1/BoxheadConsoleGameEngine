@@ -26,6 +26,10 @@ namespace MinConsoleNative
 {
     constexpr int VT_STR_LEN = 64;
 
+    //for supporting get mouse position in Windows Terminal.
+    constexpr const wchar* VT_ENABLE_MOUSE_INPUT = L"\x1b[?1003;1006h";
+    constexpr const wchar* VT_DISABLE_MOUSE_INPUT = L"\x1b[?1003;1006l";
+
     enum class TerminalColor
     {
         Black = 0,
@@ -68,15 +72,19 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinVTTerminalBackColor(wchar* str, int strLen, TerminalColor tcolor);
 
-    //This function is invalid for Windows Terminal, but works in Windows Console.
+    //WARNING:This function is invalid for Windows Terminal, but works in Windows Console.
     EXPORT_FUNC MinVTTerminalSize(wchar* str, int strLen, COORD size);
 
-    //Not recommended use this function, it's unstable.
+    //WARNING:Not recommended use this function, it's unstable.
     //FROM:https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#screen-colors
     EXPORT_FUNC MinVTPaletteColor(wchar* str, int strLen, int index, byte r, byte g, byte b);
 
     //Check if the current console supports VT sequence.
     EXPORT_FUNC MinVTSupport(bool* yes);
+
+    EXPORT_FUNC_EX(void) MinVTEnableMouseInput();
+
+    EXPORT_FUNC_EX(void) MinVTDisableMouseInput();
 
     class VTConverter
     {
@@ -113,5 +121,9 @@ namespace MinConsoleNative
         static std::wstring PaletteColor(int index, byte r, byte g, byte b);
 
         static bool VTSupport();
+
+        static void VTEnableMouseInput();
+
+        static void VTDisableMouseInput();
     };
 }

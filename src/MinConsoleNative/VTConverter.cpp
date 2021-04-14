@@ -239,6 +239,20 @@ namespace MinConsoleNative
         return true;
     }
 
+    EXPORT_FUNC_EX(void) MinVTEnableMouseInput()
+    {
+        ConsoleMode consoleMode = Console::Global.GetInstance().GetConsoleMode();
+        //enable this, this is very important!
+        consoleMode.inputMode._ENABLE_VIRTUAL_TERMINAL_INPUT = true;
+        Console::Global.GetInstance().SetConsoleMode(consoleMode);
+        Console::Global.GetInstance().Write(VT_ENABLE_MOUSE_INPUT);
+    }
+
+    EXPORT_FUNC_EX(void) MinVTDisableMouseInput()
+    {
+        Console::Global.GetInstance().Write(VT_DISABLE_MOUSE_INPUT);
+    }
+
     std::wstring VTConverter::ResetStyle()
     {
         wchar buf[VT_STR_LEN];
@@ -335,5 +349,15 @@ namespace MinConsoleNative
         bool yes = false;
         MinVTSupport(&yes);
         return yes;
+    }
+
+    void VTConverter::VTEnableMouseInput()
+    {
+        MinVTEnableMouseInput();
+    }
+
+    void VTConverter::VTDisableMouseInput()
+    {
+        MinVTDisableMouseInput();
     }
 }
