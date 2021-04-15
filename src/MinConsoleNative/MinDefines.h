@@ -88,11 +88,15 @@
 #define NEW_LINE "\r\n"
 #define WNEW_LINE L"\r\n"
 
-//Macros for EXPORT_FUNC
+//Macros for EXPORT_FUNC and EXPORT_FUNC_EX
 #define _IN_
 #define _OUT_
 #define _REF_
 #define _ARRAY_
+
+//Macros for NativeFunctionTranslator
+#define EXPORT_ENUM
+#define EXPORT_STRUCT
 
 //add namespace, ensure wont causes a naming conflict with the standard library(std)
 namespace MinConsoleNative
