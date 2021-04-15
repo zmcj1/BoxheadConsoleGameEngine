@@ -385,7 +385,7 @@ namespace MinConsoleNative
         }
 
         //IMPORTANT!!!
-        //Invoke GetNumberOfConsoleInputEvents first instead of directly invoke ReadConsoleInput, otherwise it will cost lots of mem.
+        //Invoke GetNumberOfConsoleInputEvents first instead of directly invoke ReadConsoleInput, otherwise it will block the entire thread.
         DWORD eventNumber = 0;
         bool suc1 = ::GetNumberOfConsoleInputEvents(consoleInput, &eventNumber);
         if (!suc1) return false;
@@ -393,7 +393,7 @@ namespace MinConsoleNative
 
         const int BUF_SIZE = 64;
         INPUT_RECORD inputBuf[BUF_SIZE];
-        bool suc2 = ::ReadConsoleInput(consoleInput, inputBuf, 64, &eventNumber);
+        bool suc2 = ::ReadConsoleInput(consoleInput, inputBuf, BUF_SIZE, &eventNumber);
         if (!suc2) return false;
         if (eventNumber == 0) return true;
         if (eventNumber > BUF_SIZE) return false; //Current array cannot contain all events!
