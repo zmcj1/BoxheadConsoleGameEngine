@@ -4,6 +4,13 @@
 #include "Console.h"
 #include <vector>
 
+//EventSystem support mouse input in Windows Terminal!
+//The origin of this this comes from:https://github.com/microsoft/terminal/issues/376
+//I find this in comment below the issue:https://gist.github.com/Hamayama/6add968870269f2426716fad79724b31
+//After a night of research, I successfully implemented mouse support!
+//Special thanks to Hamayama(https://github.com/Hamayama) for inspiration.
+//April 15, 2021 in Minsk.
+
 namespace MinConsoleNative
 {
     enum class EventSystemTarget
