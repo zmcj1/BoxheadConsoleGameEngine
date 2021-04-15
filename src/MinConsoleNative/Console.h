@@ -444,6 +444,11 @@ namespace MinConsoleNative
     //IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode
     EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
 
+    //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
+    //Call this function in update.
+    //IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode
+    EXPORT_FUNC_EX(bool) MinReadConsoleOneInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
+
     EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, const wchar* buffer);
 
     //You can use something like this:arr[i].Attributes |= COMMON_LVB_UNDERSCORE
@@ -604,6 +609,11 @@ namespace MinConsoleNative
         //Call this function in update.
         //IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode
         bool ReadConsoleInputW(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
+
+        //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
+        //Call this function in update.
+        //IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode
+        bool ReadConsoleOneInput(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
 
         bool WriteConsoleW(const std::wstring& msg);
 

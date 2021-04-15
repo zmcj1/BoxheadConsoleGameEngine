@@ -391,6 +391,7 @@ namespace MinConsoleNative
         if (!suc1) return false;
         if (eventNumber == 0) return true;
 
+        // The number read by GetNumberOfConsoleInputEvents is not necessarily equal to the real number, so we have to creat const array here.
         const int BUF_SIZE = 64;
         INPUT_RECORD inputBuf[BUF_SIZE];
         bool suc2 = ::ReadConsoleInput(consoleInput, inputBuf, BUF_SIZE, &eventNumber);
@@ -473,6 +474,106 @@ namespace MinConsoleNative
                 }
                 break;
             }
+        }
+
+        return true;
+    }
+
+    EXPORT_FUNC_EX(bool) MinReadConsoleOneInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3)
+    {
+        //we dont check this, because this function costs much time.
+#if 0
+        ConsoleInputMode inputMode = MinGetConsoleInputMode(consoleInput);
+        if (!inputMode._ENABLE_WINDOW_INPUT)
+        {
+            Debug::OutputLine(L"IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode");
+            return false;
+        }
+#endif
+        //IMPORTANT!!!
+        //Invoke GetNumberOfConsoleInputEvents first instead of directly invoke ReadConsoleInput, otherwise it will block the entire thread.
+        DWORD eventNumber;
+        bool suc1 = ::GetNumberOfConsoleInputEvents(consoleInput, &eventNumber);
+        if (!suc1) return false;
+        if (eventNumber == 0) return true;
+
+        INPUT_RECORD inputBuf;
+        bool suc2 = ::ReadConsoleInput(consoleInput, &inputBuf, 1, &eventNumber);
+        if (!suc2) return false;
+        if (eventNumber == 0) return false;
+
+        ConsoleMouseInputRecord mouseInputRecord;
+        ConsoleKeyboardInputRecord keyboardInputRecord;
+        uint keyState = 0;
+
+        switch (inputBuf.EventType)
+        {
+        case KEY_EVENT:
+            //set status
+            keyState = inputBuf.Event.KeyEvent.dwControlKeyState;
+            keyboardInputRecord._RIGHT_ALT_PRESSED = keyState & RIGHT_ALT_PRESSED;
+            keyboardInputRecord._LEFT_ALT_PRESSED = keyState & LEFT_ALT_PRESSED;
+            keyboardInputRecord._RIGHT_CTRL_PRESSED = keyState & RIGHT_CTRL_PRESSED;
+            keyboardInputRecord._LEFT_CTRL_PRESSED = keyState & LEFT_CTRL_PRESSED;
+            keyboardInputRecord._SHIFT_PRESSED = keyState & SHIFT_PRESSED;
+            keyboardInputRecord._NUMLOCK_ON = keyState & NUMLOCK_ON;
+            keyboardInputRecord._SCROLLLOCK_ON = keyState & SCROLLLOCK_ON;
+            keyboardInputRecord._CAPSLOCK_ON = keyState & CAPSLOCK_ON;
+            keyboardInputRecord._ENHANCED_KEY = keyState & ENHANCED_KEY;
+            //readkey
+            if (inputBuf.Event.KeyEvent.bKeyDown)
+            {
+                keyboardInputRecord.KeyChar = inputBuf.Event.KeyEvent.uChar.UnicodeChar;
+                keyboardInputRecord.VirualKey = inputBuf.Event.KeyEvent.wVirtualKeyCode;
+                //invoke callback
+                if (callback2 != nullptr)
+                {
+                    callback2(keyboardInputRecord);
+                }
+            }
+            break;
+        case MOUSE_EVENT:
+            //this value will be right.
+            mouseInputRecord.position = inputBuf.Event.MouseEvent.dwMousePosition;
+            //switch
+            switch (inputBuf.Event.MouseEvent.dwEventFlags)
+            {
+            case MOUSE_MOVED:
+                mouseInputRecord.moved = true;
+                break;
+            case DOUBLE_CLICK:
+                mouseInputRecord.doubleClick = true;
+                break;
+            case MOUSE_WHEELED:
+                DWORD buttonState = inputBuf.Event.MouseEvent.dwButtonState;
+                int value = buttonState >> sizeof(buttonState) * 8;
+                if (value > 0)
+                {
+                    mouseInputRecord.mouseWheelDir = MouseWheelDirection::Up;
+                }
+                else if (value < 0)
+                {
+                    mouseInputRecord.mouseWheelDir = MouseWheelDirection::Down;
+                }
+                else
+                {
+                    mouseInputRecord.mouseWheelDir = MouseWheelDirection::None;
+                }
+                break;
+            }
+            //invoke callback
+            if (callback1 != nullptr)
+            {
+                callback1(mouseInputRecord);
+            }
+            break;
+        case WINDOW_BUFFER_SIZE_EVENT:
+            //invoke callback
+            if (callback3 != nullptr)
+            {
+                callback3(inputBuf.Event.WindowBufferSizeEvent.dwSize);
+            }
+            break;
         }
 
         return true;
@@ -860,6 +961,11 @@ namespace MinConsoleNative
     bool Console::ReadConsoleInputW(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3)
     {
         return MinReadConsoleInput(cons.consoleInput, callback1, callback2, callback3);
+    }
+
+    bool Console::ReadConsoleOneInput(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3)
+    {
+        return MinReadConsoleOneInput(cons.consoleInput, callback1, callback2, callback3);
     }
 
     bool Console::WriteConsoleW(const std::wstring& msg)
