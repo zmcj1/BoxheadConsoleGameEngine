@@ -165,7 +165,9 @@ namespace MinConsoleNative
                             }
                             break;
                         }
-                        int ssss = 0;
+
+                        //The VT sequence should only be executed once
+                        return;
                     }
                     //Just normal input
                     else
