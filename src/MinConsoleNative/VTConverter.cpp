@@ -258,7 +258,7 @@ namespace MinConsoleNative
         Console::Global.GetInstance().Write(VT_DISABLE_MOUSE_INPUT);
     }
 
-    EXPORT_FUNC_EX(bool) MinVTIsVTInput(const INPUT_RECORD* record)
+    bool MinVTIsVTInput(const INPUT_RECORD* record)
     {
         return
             record->EventType == KEY_EVENT &&

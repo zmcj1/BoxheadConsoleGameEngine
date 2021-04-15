@@ -93,7 +93,7 @@ namespace MinConsoleNative
     EXPORT_FUNC_EX(void) MinVTDisableMouseInput();
 
     //Determine whether an input is issued by the VT sequence.
-    EXPORT_FUNC_EX(bool) MinVTIsVTInput(const INPUT_RECORD* record);
+    bool MinVTIsVTInput(const INPUT_RECORD* record);
 
     //This API internally shows how to use the VT sequence.
     EXPORT_FUNC_EX(COORD) MinVTGetCursorPos();
