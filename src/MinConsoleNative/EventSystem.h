@@ -39,9 +39,14 @@ namespace MinConsoleNative
 
         //This method is triggered when the console output buffer change
         virtual void OnConsoleOutputBufferChanged(COORD newSize);
+
+        //This method is triggered when the console output buffer change
+        virtual void OnConsoleWindowSizeChanged(COORD newSize);
+    
+        //NOTICE:newSize is in pixel.
+        virtual void OnClientSizeChanged(COORD newSize);
     };
 
-    //Before use this system, you need to turn on EnableWindowInput and turn off EnableQuickEditMode
     class EventSystem
     {
     private:
@@ -51,6 +56,8 @@ namespace MinConsoleNative
 
     private:
         static COORD preMousePos;
+        static COORD preConsoleWindowSize;
+        static COORD preClientSize;
 
     public:
         static std::vector<EventHandler*> handlers;

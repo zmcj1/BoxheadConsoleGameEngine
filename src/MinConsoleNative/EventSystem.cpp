@@ -2,19 +2,26 @@
 #include "VTConverter.h"
 #include "String.h"
 #include <string>
+#include "Window.h"
 
 using namespace std;
 
 namespace MinConsoleNative
 {
     COORD EventSystem::preMousePos = { -1, -1 };
+    COORD EventSystem::preConsoleWindowSize;
+    COORD EventSystem::preClientSize;
 
     std::vector<EventHandler*> EventSystem::handlers;
-
     EventSystemTarget EventSystem::target;
 
     void EventSystem::Init(EventSystemTarget target)
     {
+        POINT consoleWindowSize = Console::Global.GetInstance().GetConsoleWindowSize();
+        POINT clientSize = Window::Global.GetInstance().GetClientSize();
+
+        EventSystem::preConsoleWindowSize = { (short)consoleWindowSize.x, (short)consoleWindowSize.y };
+        EventSystem::preClientSize = { (short)clientSize.x, (short)clientSize.y };
         EventSystem::target = target;
         ConsoleMode consoleMode;
 
@@ -190,6 +197,32 @@ namespace MinConsoleNative
         }
         break;
         }
+
+        //handle other callbacks
+        POINT consoleWindowSize = Console::Global.GetInstance().GetConsoleWindowSize();
+        POINT clientSize = Window::Global.GetInstance().GetClientSize();
+
+        if (consoleWindowSize.x != preConsoleWindowSize.X ||
+            consoleWindowSize.y != preConsoleWindowSize.Y)
+        {
+            COORD newSize = { (short)consoleWindowSize.x, (short)consoleWindowSize.y };
+            for (size_t i = 0; i < handlers.size(); i++)
+            {
+                handlers[i]->OnConsoleWindowSizeChanged(newSize);
+            }
+            preConsoleWindowSize = newSize;
+        }
+
+        if (clientSize.x != preClientSize.X ||
+            clientSize.y != preClientSize.Y)
+        {
+            COORD newSize = { (short)clientSize.x, (short)clientSize.y };
+            for (size_t i = 0; i < handlers.size(); i++)
+            {
+                handlers[i]->OnClientSizeChanged(newSize);
+            }
+            preClientSize = newSize;
+        }
     }
 
     void EventHandler::OnMouseMovedOrClicked()
@@ -213,6 +246,14 @@ namespace MinConsoleNative
     }
 
     void EventHandler::OnConsoleOutputBufferChanged(COORD newSize)
+    {
+    }
+
+    void MinConsoleNative::EventHandler::OnConsoleWindowSizeChanged(COORD newSize)
+    {
+    }
+
+    void MinConsoleNative::EventHandler::OnClientSizeChanged(COORD newSize)
     {
     }
 }
