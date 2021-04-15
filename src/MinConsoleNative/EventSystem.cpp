@@ -111,87 +111,95 @@ namespace MinConsoleNative
             if (!suc2) return;
             if (eventNumber == 0) return;
 
-            for (size_t i = 0; i < eventNumber; i++)
+            wstring wstr;
+            //Read and Concatenated string here:
+            for (size_t index = 0; index < eventNumber; index++)
             {
-                INPUT_RECORD curInput = inputBuffer[i];
-
-                switch (curInput.EventType)
+                //make sure they are all ASCII code!
+                if (VTConverter::IsVTInput(&inputBuffer[index]) &&
+                    inputBuffer[index].Event.KeyEvent.uChar.UnicodeChar <= 127)
                 {
-                    //This event is not supported in Windows Terminal yet!
-                case MOUSE_EVENT:
-                    break;
-                case WINDOW_BUFFER_SIZE_EVENT:
+                    wstr += inputBuffer[index].Event.KeyEvent.uChar.UnicodeChar;
+                }
+            }
+
+            //Parse the VT sequence
+            if (wstr.size() > 1 && wstr.find_first_of(L"\27[<") != wstring::npos)
+            {
+                //27[<_;_;_m/M
+                wstring _wstr = wstr.substr(3, wstr.size() - 4);
+                auto params = String::Split(_wstr, L";");
+
+                int vt_mouse_input_type = stoi(params[0]);
+                short mouse_pos_x = stoi(params[1]) - 1;
+                short mouse_pos_y = stoi(params[2]) - 1;
+
+                switch (vt_mouse_input_type)
+                {
+                    //position
+                case 35:
                     for (size_t index = 0; index < handlers.size(); index++)
                     {
-                        handlers[index]->OnConsoleOutputBufferChanged(curInput.Event.WindowBufferSizeEvent.dwSize);
+                        handlers[index]->OnMousePositionChanged({ mouse_pos_x, mouse_pos_y });
                     }
                     break;
-                case KEY_EVENT:
-                    wstring wstr;
-                    //Read and Concatenated string here:
-                    for (size_t index = 0; index < eventNumber; index++)
+                    //mouse wheel up
+                case 64:
+                    for (size_t index = 0; index < handlers.size(); index++)
                     {
-                        //make sure they are all ASCII code!
-                        if (VTConverter::IsVTInput(&inputBuffer[index]) &&
-                            inputBuffer[index].Event.KeyEvent.uChar.UnicodeChar <= 127)
-                        {
-                            wstr += inputBuffer[index].Event.KeyEvent.uChar.UnicodeChar;
-                        }
+                        handlers[index]->OnMouseWheeled(MouseWheelDirection::Up);
                     }
-                    //Parse the VT sequence
-                    if (wstr.size() > 1)
+                    break;
+                    //mouse wheel down
+                case 65:
+                    for (size_t index = 0; index < handlers.size(); index++)
                     {
-                        //27[<_;_;_m/M
-                        wstring _wstr = wstr.substr(3, wstr.size() - 4);
-                        auto params = String::Split(_wstr, L";");
-                        int vt_mouse_input_type = stoi(params[0]);
-                        short mouse_pos_x = stoi(params[1]) - 1;
-                        short mouse_pos_y = stoi(params[2]) - 1;
-
-                        switch (vt_mouse_input_type)
-                        {
-                            //position
-                        case 35:
-                            for (size_t index = 0; index < handlers.size(); index++)
-                            {
-                                handlers[index]->OnMousePositionChanged({ mouse_pos_x, mouse_pos_y });
-                            }
-                            break;
-                            //mouse wheel up
-                        case 64:
-                            for (size_t index = 0; index < handlers.size(); index++)
-                            {
-                                handlers[index]->OnMouseWheeled(MouseWheelDirection::Up);
-                            }
-                            break;
-                            //mouse wheel down
-                        case 65:
-                            for (size_t index = 0; index < handlers.size(); index++)
-                            {
-                                handlers[index]->OnMouseWheeled(MouseWheelDirection::Down);
-                            }
-                            break;
-                        }
-
-                        //The VT sequence should only be executed once
-                        return;
+                        handlers[index]->OnMouseWheeled(MouseWheelDirection::Down);
                     }
-                    //Just normal input
-                    else
+                    break;
+                }
+            }
+            else
+            {
+                for (size_t i = 0; i < eventNumber; i++)
+                {
+                    INPUT_RECORD curInput = inputBuffer[i];
+                    switch (curInput.EventType)
                     {
-                        if (!curInput.Event.KeyEvent.bKeyDown)
-                        {
-                            continue;
-                        }
+                        //This event is not supported in Windows Terminal yet!
+                    case MOUSE_EVENT:
+                        break;
+                    case WINDOW_BUFFER_SIZE_EVENT:
                         for (size_t index = 0; index < handlers.size(); index++)
+                        {
+                            handlers[index]->OnConsoleOutputBufferChanged
+                            (curInput.Event.WindowBufferSizeEvent.dwSize);
+                        }
+                        break;
+                    case KEY_EVENT:
+                        //Just normal input
+                        if (curInput.Event.KeyEvent.bKeyDown)
                         {
                             ConsoleKeyboardInputRecord keyboardInput;
                             keyboardInput.KeyChar = curInput.Event.KeyEvent.uChar.UnicodeChar;
                             keyboardInput.VirualKey = curInput.Event.KeyEvent.wVirtualKeyCode;
-                            handlers[index]->OnReadKey(keyboardInput);
+                            uint keyState = curInput.Event.KeyEvent.dwControlKeyState;
+                            keyboardInput._RIGHT_ALT_PRESSED = keyState & RIGHT_ALT_PRESSED;
+                            keyboardInput._LEFT_ALT_PRESSED = keyState & LEFT_ALT_PRESSED;
+                            keyboardInput._RIGHT_CTRL_PRESSED = keyState & RIGHT_CTRL_PRESSED;
+                            keyboardInput._LEFT_CTRL_PRESSED = keyState & LEFT_CTRL_PRESSED;
+                            keyboardInput._SHIFT_PRESSED = keyState & SHIFT_PRESSED;
+                            keyboardInput._NUMLOCK_ON = keyState & NUMLOCK_ON;
+                            keyboardInput._SCROLLLOCK_ON = keyState & SCROLLLOCK_ON;
+                            keyboardInput._CAPSLOCK_ON = keyState & CAPSLOCK_ON;
+                            keyboardInput._ENHANCED_KEY = keyState & ENHANCED_KEY;
+                            for (size_t index = 0; index < handlers.size(); index++)
+                            {
+                                handlers[index]->OnReadKey(keyboardInput);
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
             }
         }
