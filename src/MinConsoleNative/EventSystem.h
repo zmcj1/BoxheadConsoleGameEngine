@@ -59,6 +59,8 @@ namespace MinConsoleNative
         //    enable_virtual_terminal_input = true
         static void Init(EventSystemTarget target);
 
+        static void Deinit();
+
         static void Update();
     };
 }

@@ -269,7 +269,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(COORD) MinVTGetCursorPos()
     {
-        COORD pos = { -1, -1 };
+        COORD pos;
         Console::Global.GetInstance().Write(VT_GET_CURSOR_POS);
 
         INPUT_RECORD buffer[32];
