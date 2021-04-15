@@ -116,6 +116,9 @@
     <ClInclude Include="..\..\third_party\WinReg.hpp">
       <Filter>ThirdParty</Filter>
     </ClInclude>
+    <ClInclude Include="WinCon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -209,6 +212,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EventSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WinCon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

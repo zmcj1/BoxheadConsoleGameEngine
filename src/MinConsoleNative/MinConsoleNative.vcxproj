@@ -178,6 +178,7 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="VTConverter.h" />
     <ClInclude Include="Win32Window.h" />
+    <ClInclude Include="WinCon.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WinVersion.h" />
   </ItemGroup>
@@ -210,6 +211,7 @@
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="VTConverter.cpp" />
     <ClCompile Include="Win32Window.cpp" />
+    <ClCompile Include="WinCon.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinVersion.cpp" />
     <ClCompile Include="win_main.cpp" />
