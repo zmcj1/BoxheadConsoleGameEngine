@@ -32,6 +32,8 @@ namespace MinConsoleNative
     constexpr const wchar* VT_ENABLE_MOUSE_INPUT = L"\x1b[?1003;1006h";
     constexpr const wchar* VT_DISABLE_MOUSE_INPUT = L"\x1b[?1003;1006l";
 
+    constexpr const wchar* VT_GET_CURSOR_POS = L"\x1b[6n";
+
     enum class TerminalColor
     {
         Black = 0,
@@ -89,6 +91,12 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(void) MinVTDisableMouseInput();
 
+    //Determine whether an input is issued by the VT sequence.
+    EXPORT_FUNC_EX(bool) MinVTIsVTInput(const INPUT_RECORD* record);
+
+    //This API internally shows how to use the VT sequence.
+    EXPORT_FUNC_EX(COORD) MinVTGetCursorPos();
+
     class VTConverter
     {
     private:
@@ -129,5 +137,11 @@ namespace MinConsoleNative
         static void VTEnableMouseInput();
 
         static void VTDisableMouseInput();
+
+        //Determine whether an input is issued by the VT sequence.
+        static bool IsVTInput(const INPUT_RECORD* record);
+
+        //This API internally shows how to use the VT sequence.
+        static COORD GetCursorPos();
     };
 }

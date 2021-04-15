@@ -1,4 +1,5 @@
 ﻿#include "VTConverter.h"
+#include "String.h"
 #include <sstream>
 #include <cstdio>
 
@@ -257,6 +258,40 @@ namespace MinConsoleNative
         Console::Global.GetInstance().Write(VT_DISABLE_MOUSE_INPUT);
     }
 
+    EXPORT_FUNC_EX(bool) MinVTIsVTInput(const INPUT_RECORD* record)
+    {
+        return
+            record->EventType == KEY_EVENT &&
+            record->Event.KeyEvent.bKeyDown &&
+            record->Event.KeyEvent.wVirtualKeyCode == 0 &&
+            record->Event.KeyEvent.wVirtualScanCode == 0;
+    }
+
+    EXPORT_FUNC_EX(COORD) MinVTGetCursorPos()
+    {
+        COORD pos = { -1, -1 };
+        Console::Global.GetInstance().Write(VT_GET_CURSOR_POS);
+
+        INPUT_RECORD buffer[32];
+        DWORD readCount;
+        ReadConsoleInput(Console::Global.GetInstance().cons.consoleInput, buffer, LEN(buffer), &readCount);
+
+        wstring str;
+        for (size_t i = 0; i < readCount; i++)
+        {
+            if (MinVTIsVTInput(&buffer[i]))
+            {
+                str += buffer[i].Event.KeyEvent.uChar.UnicodeChar;
+            }
+        }
+        wstring _str = str.substr(2, str.size() - 3);
+        auto xy = String::Split(_str, L";");
+
+        pos.X = stoi(xy[0]) - 1;
+        pos.Y = stoi(xy[1]) - 1;
+        return pos;
+    }
+
     std::wstring VTConverter::ResetStyle()
     {
         wchar buf[VT_STR_LEN];
@@ -363,5 +398,15 @@ namespace MinConsoleNative
     void VTConverter::VTDisableMouseInput()
     {
         MinVTDisableMouseInput();
+    }
+
+    bool VTConverter::IsVTInput(const INPUT_RECORD* record)
+    {
+        return MinVTIsVTInput(record);
+    }
+
+    COORD VTConverter::GetCursorPos()
+    {
+        return MinVTGetCursorPos();
     }
 }
