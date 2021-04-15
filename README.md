@@ -20,7 +20,9 @@ todo
 
 ## How can I use it?
 
-todo
+The current reliable method is to use VS2019 to compile MinConsoleNative.
+
+MinConsoleNativeExample provides a series of examples.
 
 ## History: Why I develop this repository?
 
