@@ -10,6 +10,8 @@
 
 //See:https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#output-sequences
 
+//See more:https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
+
 #ifndef ESC
 #define ESC "\033"   //00011011 = 033 = 27 = 0x1B
 #endif
@@ -82,6 +84,7 @@ namespace MinConsoleNative
     //Check if the current console supports VT sequence.
     EXPORT_FUNC MinVTSupport(bool* yes);
 
+    //These two APIs are specifically designed to be compatible with Windows Terminal.
     EXPORT_FUNC_EX(void) MinVTEnableMouseInput();
 
     EXPORT_FUNC_EX(void) MinVTDisableMouseInput();
@@ -122,6 +125,7 @@ namespace MinConsoleNative
 
         static bool VTSupport();
 
+        //These two APIs are specifically designed to be compatible with Windows Terminal.
         static void VTEnableMouseInput();
 
         static void VTDisableMouseInput();
