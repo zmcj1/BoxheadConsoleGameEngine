@@ -292,6 +292,25 @@ namespace MinConsoleNative
         return pos;
     }
 
+    EXPORT_FUNC_EX(void) MinVTGetDeviceAttributes(wchar* str, int strLen)
+    {
+        Console::Global.GetInstance().Write(VT_GET_DEVICE_ATTRIBUTES);
+
+        INPUT_RECORD buffer[32];
+        DWORD readCount;
+        ReadConsoleInput(Console::Global.GetInstance().cons.consoleInput, buffer, LEN(buffer), &readCount);
+
+        wstring wstr;
+        for (size_t i = 0; i < readCount; i++)
+        {
+            if (MinVTIsVTInput(&buffer[i]))
+            {
+                wstr += buffer[i].Event.KeyEvent.uChar.UnicodeChar;
+            }
+        }
+        wcscpy_s(str, strLen, wstr.c_str());
+    }
+
     std::wstring VTConverter::ResetStyle()
     {
         wchar buf[VT_STR_LEN];
@@ -408,5 +427,10 @@ namespace MinConsoleNative
     COORD VTConverter::GetCursorPos()
     {
         return MinVTGetCursorPos();
+    }
+
+    void VTConverter::GetDeviceAttributes(wchar* str, int strLen)
+    {
+        MinVTGetDeviceAttributes(str, strLen);
     }
 }

@@ -33,6 +33,7 @@ namespace MinConsoleNative
     constexpr const wchar* VT_DISABLE_MOUSE_INPUT = L"\x1b[?1003;1006l";
 
     constexpr const wchar* VT_GET_CURSOR_POS = L"\x1b[6n";
+    constexpr const wchar* VT_GET_DEVICE_ATTRIBUTES = L"\x1b[0c";
 
     enum class TerminalColor
     {
@@ -97,6 +98,8 @@ namespace MinConsoleNative
     //This API internally shows how to use the VT sequence.
     EXPORT_FUNC_EX(COORD) MinVTGetCursorPos();
 
+    EXPORT_FUNC_EX(void) MinVTGetDeviceAttributes(wchar* str, int strLen);
+
     class VTConverter
     {
     private:
@@ -143,5 +146,7 @@ namespace MinConsoleNative
 
         //This API internally shows how to use the VT sequence.
         static COORD GetCursorPos();
+
+        static void GetDeviceAttributes(wchar* str, int strLen);
     };
 }
