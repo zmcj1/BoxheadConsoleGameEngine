@@ -603,6 +603,59 @@ namespace NativeFunctionTranslator
             List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.h");
             List<string> sourceFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.cpp");
 
+            List<FileInfo> headFileInfos = new List<FileInfo>();
+            List<FileInfo> sourceFileInfos = new List<FileInfo>();
+            foreach (string item in headFiles)
+            {
+                headFileInfos.Add(new FileInfo(item));
+            }
+            foreach (string item in sourceFiles)
+            {
+                sourceFileInfos.Add(new FileInfo(item));
+            }
+
+            foreach (FileInfo item in headFileInfos)
+            {
+                bool ok = false;
+                string headFileName = item.Name.Substring(0, item.Name.Length - item.Extension.Length);
+                foreach (FileInfo fileInfo in sourceFileInfos)
+                {
+                    string sourceFileName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length);
+                    if (headFileName == sourceFileName)
+                    {
+                        ok = true;
+                        break;
+                    }
+                }
+                if (!ok)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(headFileName + ".h does not have source file!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+            }
+
+            foreach (FileInfo item in sourceFileInfos)
+            {
+                bool ok = false;
+                string sourceFileName = item.Name.Substring(0, item.Name.Length - item.Extension.Length);
+                foreach (FileInfo fileInfo in headFileInfos)
+                {
+                    string headFileName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length);
+                    if (headFileName == sourceFileName)
+                    {
+                        ok = true;
+                        break;
+                    }
+                }
+                if (!ok)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(sourceFileName + ".cpp does not have head file!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+            }
+
             //-----------generate MinConsoleNativeFuncs.cs-----------
             GenMinConsoleNativeFuncs(MinConsoleFolder, headFiles);
 
