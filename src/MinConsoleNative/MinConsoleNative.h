@@ -30,7 +30,6 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "VTConverter.h"
-#include "Win32Window.h"
 #include "WinCon.h"
 #include "Window.h"
 #include "WinVersion.h"

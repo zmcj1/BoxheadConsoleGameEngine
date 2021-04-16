@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "MinDefines.h"
+#include <Windows.h>
 #include <string>
 
 LRESULT __stdcall WindowProcedure(

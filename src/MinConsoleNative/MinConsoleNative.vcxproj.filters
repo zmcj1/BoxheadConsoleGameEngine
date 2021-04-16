@@ -8,9 +8,6 @@
     <Filter Include="ThirdParty">
       <UniqueIdentifier>{9c484f60-90b4-4f74-90cd-d948dcb986e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Dev">
-      <UniqueIdentifier>{a53dc9eb-b64c-4e4c-b5f7-43fafee90557}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -103,9 +100,6 @@
     </ClInclude>
     <ClInclude Include="ConsoleLite.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Win32Window.h">
-      <Filter>Dev</Filter>
     </ClInclude>
     <ClInclude Include="PaletteSystem.h">
       <Filter>Header Files</Filter>
@@ -201,12 +195,6 @@
     </ClCompile>
     <ClCompile Include="ConsoleLite.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="win_main.cpp">
-      <Filter>Dev</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32Window.cpp">
-      <Filter>Dev</Filter>
     </ClCompile>
     <ClCompile Include="PaletteSystem.cpp">
       <Filter>Source Files</Filter>

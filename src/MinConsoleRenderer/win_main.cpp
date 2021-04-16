@@ -1,8 +1,5 @@
 ﻿#ifdef _DEBUG
 
-//#define GUI
-#include "MinDefines.h"
-
 //0x2591 ░
 //0x2592 ▒
 //0x2593 ▓
