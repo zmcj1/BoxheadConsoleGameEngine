@@ -1,6 +1,6 @@
-# MinConsole
+# 最小控制台
 
-免费，便携与强大的Windows控制台/终端底层库。————由Min编写
+免费，便携与强大的Windows控制台/终端底层库。
 
 <p style="color:red">这个项目处于早期开发阶段，所有事情都在高速变化！</p>
 
@@ -44,23 +44,32 @@
 
 当前可靠的办法是使用VS2019编译MinConsoleNative。
 
-MinConsoleNativeExample提供一系列的示例。
+注意陷阱：你不能简单地在VisualStudio项目中的C/C++附加包含目录中添加此项目头文件所处的文件夹的路径，因为某一些头文件与Windows系统的头文件存在命名冲突。
+
+你只能这样引入项目的头文件：
+
+``` cpp
+#include "../MinConsoleNative/MinConsoleNative.h"
+using namespace MinConsoleNative;
+```
+
+[MinConsoleNativeExample](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsoleNativeExample)提供一系列的示例。
 
 ## 历史：为什么我开发这个仓库？
 
-By chance, I used Windows Console as my 2D renderer in a console game(text-based) gamejam in January 2018.
+偶然的机会，我在2018年1月的控制台游戏Gamejam上使用过Windows控制台作为我的2D渲染器。
 
-In These years I have studied Unity, UE4. I master C# and know well C/C++. I always come back to are C/C++, Windows Console.
+这些年我学习过Unity，UE4。我熟练C#并且了解C/C++。令我总是回头的是C/C++，Windows控制台。
 
-I spent a lot of time researching Windows Console, Win32API, C/C++, C#, 3D Math. I have checked a lot of ConsoleGameEngine repos in github.com. I have also tried to write them myself, but after many times, I'm still not satisfied, I always want to do more!
+我花了不少时间研究Windows控制台，Win32 API，C/C++，C#，3D数学。我查看过许多Github上的控制台游戏引擎仓库。我也试过几次自己编写，但是几次过后我依然不满足，我总是想要更多！
 
-During this research I find the Windows console has great potential beyond your imagination!
+在这次研究期间我发现Windows控制台有你想象不到的潜能！
 
-About 1 week ago, I wanted to restart and create a awesome Console library and share my skills with Windows Console.
+大约2周前，我想开始创造一个超棒的Windows控制台库并且分享我的技能。
 
-Make some intresting stuffs.
+做一些有趣的事情。
 
-No hate, only fast code and bugs.
+没有仇恨，只有快速代码跟bug。
 
 ## 第三方库:
 

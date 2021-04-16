@@ -42,7 +42,7 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 The current reliable method is to use VS2019 to compile MinConsoleNative.
 
-Pay attention to the trap: You can't just add headerfile's path to C/C++ Additional Include Directories in Visual Studio project, because the names of some header files conflict with the names of some header files in Windows.
+Pay attention to the trap: You can't just add headerfile's folder's path to C/C++ Additional Include Directories in Visual Studio project, because the names of some header files conflict with the names of some header files in Windows.
 
 You can only include it like this:
 
@@ -63,7 +63,7 @@ I spent a lot of time researching Windows Console, Win32API, C/C++, C#, 3D Math.
 
 During this research I find the Windows console has great potential beyond your imagination!
 
-About 1 week ago, I wanted to restart and create a awesome Console library and share my skills with Windows Console.
+About 2 weeks ago, I wanted to restart and create a awesome Console library and share my skills with Windows Console.
 
 Make some intresting stuffs.
 
