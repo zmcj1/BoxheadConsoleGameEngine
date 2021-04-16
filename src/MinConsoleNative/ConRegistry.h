@@ -64,11 +64,11 @@ namespace MinConsoleNative
 {
     EXPORT_FUNC MinIsUsingLegacyConsole(_OUT_ bool* yes);
 
-    EXPORT_FUNC MinUseLegacyConsole(_IN_ bool yes);
+    EXPORT_FUNC MinUseLegacyConsole(bool yes);
 
-    EXPORT_FUNC_EX(bool) MinGetConsoleRegistryDWORD(const wchar* valueName, DWORD* data);
+    EXPORT_FUNC_EX(bool) MinGetConsoleRegistryDWORD(_IN_ const wchar* valueName, _OUT_ DWORD* data);
 
-    EXPORT_FUNC_EX(bool) MinSetConsoleRegistryDWORD(const wchar* valueName, DWORD data);
+    EXPORT_FUNC_EX(bool) MinSetConsoleRegistryDWORD(_IN_ const wchar* valueName, DWORD data);
 
     class ConRegistry
     {

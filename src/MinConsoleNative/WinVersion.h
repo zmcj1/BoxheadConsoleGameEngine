@@ -4,7 +4,7 @@
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC MinGetWinVersion(uint* MajorVer, uint* MinorVer, uint* BuildNumber);
+    EXPORT_FUNC MinGetWinVersion(_OUT_ uint* MajorVer, _OUT_ uint* MinorVer, _OUT_ uint* BuildNumber);
 
     EXPORT_FUNC MinIsWindows2000(uint MajorVer, uint MinorVer, uint BuildNumber);
 

@@ -4,7 +4,7 @@ namespace MinConsoleNative
 {
     const wchar* Kernel32Dll = L"kernel32.dll";
 
-    EXPORT_FUNC MinGetFuncFromDll(const wchar* dllName, const char* funcName, FARPROC* funcPtr)
+    bool GetFuncFromDll(const wchar* dllName, const char* funcName, FARPROC* funcPtr)
     {
         HMODULE hModule = ::LoadLibrary(dllName);
         if (hModule == nullptr) return false;
@@ -22,10 +22,10 @@ namespace MinConsoleNative
         return true;
     }
 
-    EXPORT_FUNC MinSetConsoleIcon(HICON hIcon)
+    bool SetConsoleIcon(HICON hIcon)
     {
         FARPROC func;
-        bool suc = MinGetFuncFromDll(Kernel32Dll, "SetConsoleIcon", &func);
+        bool suc = GetFuncFromDll(Kernel32Dll, "SetConsoleIcon", &func);
         if (!suc) return false;
 
         typedef BOOL(_stdcall* SetConsoleIconFunc)(HICON);

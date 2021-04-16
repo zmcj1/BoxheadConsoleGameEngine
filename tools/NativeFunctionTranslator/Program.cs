@@ -5,7 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
-//Version:2.3
+//Version:2.3.1
 
 namespace NativeFunctionTranslator
 {
@@ -278,6 +278,10 @@ namespace NativeFunctionTranslator
                         //varName is the last paramDefine
                         string varName = symbols[symbols.Length - 1];
 
+#if ENABLE_DEBUG
+                        bool containsPointer = false;
+#endif
+
                         //Analyze every symbol of each parameter
                         for (int i = 0; i < symbols.Length - 1; i++)
                         {
@@ -303,9 +307,17 @@ namespace NativeFunctionTranslator
                             {
                                 paramType = ParamType.Array;
                             }
+#if ENABLE_DEBUG
+                            int ptrIndex = symbol.LastIndexOf('*');
+                            //is pointer
+                            if (ptrIndex != -1)
+                            {
+                                containsPointer = true;
+                            }
+#endif
                         }
 #if ENABLE_DEBUG
-                        if (paramType == ParamType.None)
+                        if (containsPointer && paramType == ParamType.None)
                         {
                             DebugPause = true;
                             Console.ForegroundColor = ConsoleColor.White;
@@ -314,7 +326,19 @@ namespace NativeFunctionTranslator
                             Console.Write('.');
                             Console.Write(varName);
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine(" does not contain any ParamType");
+                            Console.WriteLine(" is pointer, but does not contain any ParamType");
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                        }
+                        else if (!containsPointer && paramType != ParamType.None)
+                        {
+                            DebugPause = true;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write(methodName);
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.Write('.');
+                            Console.Write(varName);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine(" is not pointer, but contains ParamType");
                             Console.ForegroundColor = ConsoleColor.Gray;
                         }
 #endif
@@ -394,6 +418,10 @@ namespace NativeFunctionTranslator
                                         else if (_symbol == "HANDLE")
                                         {
                                             varType = "out IntPtr";
+                                        }
+                                        else if(_symbol == "DWORD")
+                                        {
+                                            varType = "out uint";
                                         }
                                         else
                                         {
@@ -603,6 +631,7 @@ namespace NativeFunctionTranslator
             List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.h");
             List<string> sourceFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.cpp");
 
+#if ENABLE_DEBUG
             List<FileInfo> headFileInfos = new List<FileInfo>();
             List<FileInfo> sourceFileInfos = new List<FileInfo>();
             foreach (string item in headFiles)
@@ -651,10 +680,13 @@ namespace NativeFunctionTranslator
                 if (!ok)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(sourceFileName + ".cpp does not have head file!");
+                    Console.WriteLine(sourceFileName + ".cpp does not have header file!");
                     Console.ForegroundColor = ConsoleColor.Gray;
                 }
             }
+
+            Console.WriteLine();
+#endif
 
             //-----------generate MinConsoleNativeFuncs.cs-----------
             GenMinConsoleNativeFuncs(MinConsoleFolder, headFiles);

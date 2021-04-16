@@ -258,15 +258,6 @@ namespace MinConsoleNative
         Console::Global.GetInstance().Write(VT_DISABLE_MOUSE_INPUT);
     }
 
-    bool MinVTIsVTInput(const INPUT_RECORD* record)
-    {
-        return
-            record->EventType == KEY_EVENT &&
-            record->Event.KeyEvent.bKeyDown &&
-            record->Event.KeyEvent.wVirtualKeyCode == 0 &&
-            record->Event.KeyEvent.wVirtualScanCode == 0;
-    }
-
     EXPORT_FUNC_EX(COORD) MinVTGetCursorPos()
     {
         COORD pos;
@@ -279,7 +270,7 @@ namespace MinConsoleNative
         wstring str;
         for (size_t i = 0; i < readCount; i++)
         {
-            if (MinVTIsVTInput(&buffer[i]))
+            if (IsVTInput(&buffer[i]))
             {
                 str += buffer[i].Event.KeyEvent.uChar.UnicodeChar;
             }
@@ -303,12 +294,21 @@ namespace MinConsoleNative
         wstring wstr;
         for (size_t i = 0; i < readCount; i++)
         {
-            if (MinVTIsVTInput(&buffer[i]))
+            if (IsVTInput(&buffer[i]))
             {
                 wstr += buffer[i].Event.KeyEvent.uChar.UnicodeChar;
             }
         }
         wcscpy_s(str, strLen, wstr.c_str());
+    }
+
+    bool IsVTInput(const INPUT_RECORD* record)
+    {
+        return
+            record->EventType == KEY_EVENT &&
+            record->Event.KeyEvent.bKeyDown &&
+            record->Event.KeyEvent.wVirtualKeyCode == 0 &&
+            record->Event.KeyEvent.wVirtualScanCode == 0;
     }
 
     std::wstring VTConverter::ResetStyle()
@@ -417,11 +417,6 @@ namespace MinConsoleNative
     void VTConverter::VTDisableMouseInput()
     {
         MinVTDisableMouseInput();
-    }
-
-    bool VTConverter::IsVTInput(const INPUT_RECORD* record)
-    {
-        return MinVTIsVTInput(record);
     }
 
     COORD VTConverter::GetCursorPos()

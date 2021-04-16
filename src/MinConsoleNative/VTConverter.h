@@ -92,13 +92,13 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(void) MinVTDisableMouseInput();
 
-    //Determine whether an input is issued by the VT sequence.
-    bool MinVTIsVTInput(const INPUT_RECORD* record);
-
     //This API internally shows how to use the VT sequence.
     EXPORT_FUNC_EX(COORD) MinVTGetCursorPos();
 
     EXPORT_FUNC_EX(void) MinVTGetDeviceAttributes(wchar* str, int strLen);
+
+    //Determine whether an input is issued by the VT sequence.
+    bool IsVTInput(const INPUT_RECORD* record);
 
     class VTConverter
     {
@@ -140,9 +140,6 @@ namespace MinConsoleNative
         static void VTEnableMouseInput();
 
         static void VTDisableMouseInput();
-
-        //Determine whether an input is issued by the VT sequence.
-        static bool IsVTInput(const INPUT_RECORD* record);
 
         //This API internally shows how to use the VT sequence.
         static COORD GetCursorPos();

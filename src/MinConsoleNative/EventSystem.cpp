@@ -116,7 +116,7 @@ namespace MinConsoleNative
             for (size_t index = 0; index < eventNumber; index++)
             {
                 //make sure they are all ASCII code!
-                if (VTConverter::IsVTInput(&inputBuffer[index]) &&
+                if (IsVTInput(&inputBuffer[index]) &&
                     inputBuffer[index].Event.KeyEvent.uChar.UnicodeChar <= 127)
                 {
                     wstr += inputBuffer[index].Event.KeyEvent.uChar.UnicodeChar;

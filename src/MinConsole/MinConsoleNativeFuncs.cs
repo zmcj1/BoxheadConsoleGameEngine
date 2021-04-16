@@ -23,7 +23,7 @@ namespace MinConsole
         public extern static bool MinUseLegacyConsole(bool yes);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetConsoleRegistryDWORD(string valueName, ref uint data);
+        public extern static bool MinGetConsoleRegistryDWORD(string valueName, out uint data);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetConsoleRegistryDWORD(string valueName, uint data);
@@ -218,12 +218,6 @@ namespace MinConsole
         public extern static bool MinTimeTimer(ref MinTimer timer, ref double deltaTime, int iterations);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetFuncFromDll(string dllName, ref char funcName, ref object funcPtr);
-
-        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinSetConsoleIcon(ref ICON hIcon);
-
-        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinVTResetStyle(string str, int strLen);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
@@ -335,7 +329,7 @@ namespace MinConsole
         public extern static bool MinIsMinimized(IntPtr windowHandle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetWinVersion(ref uint MajorVer, ref uint MinorVer, ref uint BuildNumber);
+        public extern static bool MinGetWinVersion(out uint MajorVer, out uint MinorVer, out uint BuildNumber);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinIsWindows2000(uint MajorVer, uint MinorVer, uint BuildNumber);
