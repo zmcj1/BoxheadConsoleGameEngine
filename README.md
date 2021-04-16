@@ -14,6 +14,10 @@ This is a low-level Console Lib for Windows10 Console.
 
 The purpose is to develop upper-level softwares such as text editors, 3D renderer, music player, etc with this library :).
 
+If you think this project has brought you help, please leave a star!🌟
+
+If you want to contribute code, welcome submit a [pull request](https://github.com/OpenGreatDream/MinConsole/pulls)!👍
+
 ## Features:
 
 todo
