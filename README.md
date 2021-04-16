@@ -1,16 +1,12 @@
 # MinConsole
 
-On April 11, 2021, this project is officially open source!
-
-Made in Minsk, Belarus.
-
-<p style="color:yellow">IMPORTANT: This document will change at any time.</p>
+free, portable and powerful Windows Console/Terminal low-level library. - Written by Min
 
 <p style="color:red">This project is in the early development stage, everything is changing at a high speed!</p>
 
 ## What is this?
 
-This is a low-level Console Lib for Windows10 Console.
+This is a low-level Console Lib for Windows10 Console, you can use it to draw in the console, get user input etc.
 
 The purpose is to develop upper-level softwares such as text editors, 3D renderer, music player, etc with this library :).
 
@@ -65,3 +61,9 @@ No hate, only fast code and bugs.
 ## Third Party:
 
 [WinReg](https://github.com/GiovanniDicanio/WinReg)(MIT License): High-level C++ Wrapper Around the Low-level Windows Registry C-interface API.
+
+## Postscript
+
+On April 11, 2021, this project is officially open source!
+
+Made in Minsk, Belarus.
