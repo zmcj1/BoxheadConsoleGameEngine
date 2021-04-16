@@ -4,6 +4,10 @@
 
 <p style="color:red">这个项目处于早期开发阶段，所有事情都在高速变化！</p>
 
+## QQ群：1013032729
+
+欢迎加入QQ群获取帮助！
+
 ## 这是什么？
 
 这是一个针对Windows 10的底层控制台库，你可以使用它在控制台中渲染，获取用户输入等。
@@ -58,12 +62,12 @@ Make some intresting stuffs.
 
 No hate, only fast code and bugs.
 
-## Third Party:
+## 第三方库:
 
 [WinReg](https://github.com/GiovanniDicanio/WinReg)(MIT License): High-level C++ Wrapper Around the Low-level Windows Registry C-interface API.
 
-## Postscript
+## 后记
 
-On April 11, 2021, this project is officially open source!
+在2021年四月11日，这个仓库正式开源！
 
 Made in Minsk, Belarus.
