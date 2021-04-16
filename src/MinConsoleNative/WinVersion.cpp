@@ -8,7 +8,7 @@ namespace MinConsoleNative
     EXPORT_FUNC MinGetWinVersion(uint* MajorVer, uint* MinorVer, uint* BuildNumber)
     {
         FARPROC func;
-        bool suc = GetFuncFromDll(L"ntdll.dll", "RtlGetNtVersionNumbers", &func);
+        bool suc = UnusualMethods::GetFuncFromDll(L"ntdll.dll", "RtlGetNtVersionNumbers", &func);
         if (!suc) return false;
 
         typedef void (WINAPI* pfRTLGETNTVERSIONNUMBERS)(DWORD*, DWORD*, DWORD*);

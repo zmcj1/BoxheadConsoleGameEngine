@@ -2,11 +2,17 @@
 
 #include "MinDefines.h"
 
+//Here are some functions with very low usage.
+
 namespace MinConsoleNative
 {
-    extern const wchar* Kernel32Dll;
+    class UnusualMethods
+    {
+    public:
+        static constexpr const wchar* Kernel32DLL = L"kernel32.dll";
 
-    bool GetFuncFromDll(const wchar* dllName, const char* funcName, FARPROC* funcPtr);
+        static bool GetFuncFromDll(const wchar* dllName, const char* funcName, FARPROC* funcPtr);
 
-    bool SetConsoleIcon(HICON hIcon);
+        static bool SetConsoleIcon(HICON hIcon);
+    };
 }
