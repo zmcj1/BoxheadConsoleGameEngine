@@ -42,7 +42,16 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 The current reliable method is to use VS2019 to compile MinConsoleNative.
 
-[MinConsoleNativeExample]() provides a series of examples.
+Pay attention to the trap: You can't just add headerfile's path to C/C++ Additional Include Directories in Visual Studio project, because the names of some header files conflict with the names of some header files in Windows.
+
+You can only include it like this:
+
+``` cpp
+#include "../MinConsoleNative/MinConsoleNative.h"
+using namespace MinConsoleNative;
+```
+
+[MinConsoleNativeExample](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsoleNativeExample) provides a series of examples.
 
 ## History: Why I develop this repository?
 
