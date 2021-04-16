@@ -7,7 +7,7 @@
 
 namespace MinConsoleNative
 {
-    enum class MessageBoxButtons
+    EXPORT_ENUM_CLASS MessageBoxButtons
     {
         OK = 1,
         OKCANCEL,
@@ -15,21 +15,21 @@ namespace MinConsoleNative
         YESNOCANCEL,
     };
 
-    enum class MessageBoxDefaultButton
+    EXPORT_ENUM_CLASS MessageBoxDefaultButton
     {
         First = 1,
         Second,
         Third,
     };
 
-    enum class MessageBoxIcon
+    EXPORT_ENUM_CLASS MessageBoxIcon
     {
         Warning = 1,
         Information,
         Error,
     };
 
-    enum class MessageBoxResult
+    EXPORT_ENUM_CLASS MessageBoxResult
     {
         OK = 1,
         YES,

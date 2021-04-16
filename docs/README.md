@@ -77,6 +77,6 @@ using namespace MinConsoleNative;
 
 ## 后记
 
-在2021年四月11日，这个仓库正式开源！
+在2021年4月11日，这个仓库正式开源！
 
 Made in Minsk, Belarus.

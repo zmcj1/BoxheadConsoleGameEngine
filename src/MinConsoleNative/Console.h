@@ -11,7 +11,7 @@
 
 namespace MinConsoleNative
 {
-    enum class ConsoleType
+    EXPORT_ENUM_CLASS ConsoleType
     {
         Unknown = 0,
         WindowsLegacyConsole = 1,
@@ -19,20 +19,20 @@ namespace MinConsoleNative
         WindowsTerminal = 4,
     };
 
-    enum class ConsoleFile
+    EXPORT_ENUM_CLASS ConsoleFile
     {
         Read = 1,
         Write = 2,
     };
 
-    enum class CharWidth
+    EXPORT_ENUM_CLASS CharWidth
     {
         Unknown = 0,
         Half = 1,
         Full = 2,
     };
 
-    enum class ConsoleColor
+    EXPORT_ENUM_CLASS ConsoleColor
     {
         BLACK = 0,
         DARKBLUE = 1,
@@ -52,7 +52,7 @@ namespace MinConsoleNative
         WHITE = 15,
     };
 
-    enum class MouseWheelDirection
+    EXPORT_ENUM_CLASS MouseWheelDirection
     {
         None = 0,
         Up = 1,     //The mouse wheel turns away from the player

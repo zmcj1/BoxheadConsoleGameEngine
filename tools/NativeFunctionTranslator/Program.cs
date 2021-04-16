@@ -4,8 +4,9 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
-//Version:2.3.4
+//Version:2.4
 
 namespace NativeFunctionTranslator
 {
@@ -159,6 +160,7 @@ namespace NativeFunctionTranslator
             lines.Add("using System;");
             lines.Add("using System.Runtime.InteropServices;");
             lines.Add("using static MinConsole.MinConsoleNativeStructs;");
+            lines.Add("using ConsoleColor = MinConsole.MinConsoleNativeStructs.ConsoleColor;");
             lines.Add("");
             lines.Add("namespace MinConsole");
             lines.Add("{");
@@ -656,6 +658,8 @@ namespace NativeFunctionTranslator
         {
             string MinConsoleNativeStructsFile = Path.Combine(MinConsoleFolder, "src\\MinConsole\\MinConsoleNativeStructs.cs");
 
+            List<string> enums = new List<string>();
+
             foreach (string file in headFiles)
             {
                 string[] lines = File.ReadAllLines(file);
@@ -664,20 +668,51 @@ namespace NativeFunctionTranslator
                     string line = lines[i];
                     int exEnumIndex = line.IndexOf(EXPORT_ENUM_CLASS);
                     int defineIndex = line.IndexOf("#define");
+                    //find EXPORT_ENUM_CLASS line
                     if (exEnumIndex != -1 && defineIndex == -1)
                     {
                         //we find the define line of EXPORT_ENUM_CLASS
-                        string[] defs = line.Trim().Split(' ');
-                        string enumName = defs[1]; //part 2 is the def of this enum.
-                        //avoid contains {
-                        enumName = enumName.Replace('{', ' ').Trim();
+                        List<string> define_items = line.Trim().Split(' ').ToList();
+                        //remove all empty char
+                        define_items.RemoveAll(item => string.IsNullOrEmpty(item));
+                        string enumName = define_items[1]; //part 2 must be the name of this enum.
+                        List<string> enumBody = new List<string>();
+
+                        //add lines util we successful find };
+                        //why here is i+2?
+                        //because here is our code style:
+                        //EXPORT_ENUM_CLASS EnumName
+                        //{
+                        //    ...
+                        //}
+                        for (int j = i + 2; j < lines.Length; j++)
+                        {
+                            string nextLine = lines[j];
+                            if (!nextLine.Contains("};"))
+                            {
+                                enumBody.Add(nextLine.Trim());
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        enums.Add(GetIndentString() + "public enum " + enumName);
+                        enums.Add(GetIndentString() + "{");
+                        foreach (var _body in enumBody)
+                        {
+                            enums.Add(GetIndentString() + "    " + _body);
+                        }
+                        enums.Add(GetIndentString() + "}");
+                        enums.Add("");
                     }
                 }
             }
 
             List<string> Content = new List<string>();
             Content.AddRange(GetHeaderLines2());
-            //todo
+            Content.AddRange(enums);
             Content.AddRange(GetTailLines2());
 
             StringBuilder stringBuilder = new StringBuilder();

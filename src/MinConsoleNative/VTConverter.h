@@ -35,7 +35,7 @@ namespace MinConsoleNative
     constexpr const wchar* VT_GET_CURSOR_POS = L"\x1b[6n";
     constexpr const wchar* VT_GET_DEVICE_ATTRIBUTES = L"\x1b[0c";
 
-    enum class TerminalColor
+    EXPORT_ENUM_CLASS TerminalColor
     {
         Black = 0,
         DarkBlue = 4,

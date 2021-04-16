@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using static MinConsole.MinConsoleNativeStructs;
+using ConsoleColor = MinConsole.MinConsoleNativeStructs.ConsoleColor;
 
 namespace MinConsole
 {
