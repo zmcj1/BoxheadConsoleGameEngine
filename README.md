@@ -20,7 +20,25 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 ## Features:
 
-todo
+1. Clipboard interface
+
+1. powerful Console class (Package of Windows Console API)
+
+1. Render RGB true color in the console(Break the limit of 16 colors!)
+
+1. Database class for basic data reading and writing
+
+1. Support mouse wheel, mouse coordinates(You can even use the mouse in Windows Terminal!)
+
+1. Nice Input class(Allows you to handle the mouse)
+
+1. PaletteSystem!
+
+1. High precision Timer class
+
+1. VTConverter class helps you generate VT sequence without manual spelling
+
+1. Window class encapsulates common window operations
 
 ## How can I use it?
 
