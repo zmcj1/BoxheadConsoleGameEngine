@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8d6859bb-1049-4975-b2b3-c720ba50cbcd}</ProjectGuid>
-    <RootNamespace>MinConsoleNative</RootNamespace>
+    <ProjectGuid>{2b206c70-cb2a-4196-b0a5-3fe4abf6e4a2}</ProjectGuid>
+    <RootNamespace>MinConsoleNativeExample</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -72,19 +72,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>../MinConsole/bin/Debug/net5.0/</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../MinConsole/bin/Debug/net5.0/</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>../MinConsole/bin/Debug/net5.0/</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../MinConsole/bin/Debug/net5.0/</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -92,11 +88,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>MinConsoleNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../MinConsole/bin/Debug/net5.0</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,13 +104,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>MinConsoleNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../MinConsole/bin/Debug/net5.0</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,11 +120,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>MinConsoleNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../MinConsole/bin/Debug/net5.0</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,81 +136,18 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>MinConsoleNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../MinConsole/bin/Debug/net5.0</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\third_party\WinReg.hpp" />
-    <ClInclude Include="Audio.h" />
-    <ClInclude Include="Clipboard.h" />
-    <ClInclude Include="ConRegistry.h" />
-    <ClInclude Include="Console.h" />
-    <ClInclude Include="ConsoleLite.h" />
-    <ClInclude Include="Database.h" />
-    <ClInclude Include="Debug.h" />
-    <ClInclude Include="EventSystem.h" />
-    <ClInclude Include="File.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Math.h" />
-    <ClInclude Include="MessageBox.h" />
-    <ClInclude Include="MinConsoleNative.h" />
-    <ClInclude Include="MinDefines.h" />
-    <ClInclude Include="ObjectPool.h" />
-    <ClInclude Include="PaletteSystem.h" />
-    <ClInclude Include="PixelRenderer.h" />
-    <ClInclude Include="Process.h" />
-    <ClInclude Include="Random.h" />
-    <ClInclude Include="Singleton.h" />
-    <ClInclude Include="String.h" />
-    <ClInclude Include="TextLayout.h" />
-    <ClInclude Include="TextRenderer.h" />
-    <ClInclude Include="Timer.h" />
-    <ClInclude Include="UnusualMethods.h" />
-    <ClInclude Include="Utils.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="VTConverter.h" />
-    <ClInclude Include="WinCon.h" />
-    <ClInclude Include="Window.h" />
-    <ClInclude Include="WinVersion.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="Clipboard.cpp" />
-    <ClCompile Include="ConRegistry.cpp" />
-    <ClCompile Include="Console.cpp" />
-    <ClCompile Include="ConsoleLite.cpp" />
-    <ClCompile Include="Database.cpp" />
-    <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="debug_main.cpp" />
-    <ClCompile Include="EventSystem.cpp" />
-    <ClCompile Include="File.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Math.cpp" />
-    <ClCompile Include="MessageBox.cpp" />
-    <ClCompile Include="MinConsoleNative.cpp" />
-    <ClCompile Include="PaletteSystem.cpp" />
-    <ClCompile Include="PixelRenderer.cpp" />
-    <ClCompile Include="Process.cpp" />
-    <ClCompile Include="Random.cpp" />
-    <ClCompile Include="String.cpp" />
-    <ClCompile Include="TextLayout.cpp" />
-    <ClCompile Include="TextRenderer.cpp" />
-    <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="UnusualMethods.cpp" />
-    <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="Vector2.cpp" />
-    <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="VTConverter.cpp" />
-    <ClCompile Include="WinCon.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WinVersion.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

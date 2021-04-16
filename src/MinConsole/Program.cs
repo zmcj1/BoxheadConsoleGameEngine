@@ -2,7 +2,9 @@
 using System.IO;
 using System.Threading;
 
+using static MinConsole.MinConsoleNativeFuncs;
 using static MinConsole.MinConsoleNativeStructs;
+using static MinConsole.MinConsoleNativeWrapper;
 
 namespace MinConsole
 {
@@ -20,6 +22,8 @@ namespace MinConsole
 
         static void Main(string[] args)
         {
+            IntPtr intPtr = MinGetConsoleWindow();
+            Console.ReadKey();
         }
     }
 }
