@@ -95,7 +95,7 @@
 #define _ARRAY_
 
 //Macros for NativeFunctionTranslator
-#define EXPORT_ENUM
+#define EXPORT_ENUM_CLASS enum class
 #define EXPORT_STRUCT
 
 //add namespace, ensure wont causes a naming conflict with the standard library(std)

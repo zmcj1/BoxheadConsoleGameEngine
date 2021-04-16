@@ -5,7 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
-//Version:2.3.3
+//Version:2.3.4
 
 namespace NativeFunctionTranslator
 {
@@ -75,6 +75,8 @@ namespace NativeFunctionTranslator
         public const string _OUT_ = "_OUT_";
         public const string _REF_ = "_REF_";
         public const string _ARRAY_ = "_ARRAY_";
+
+        public const string EXPORT_ENUM_CLASS = "EXPORT_ENUM_CLASS";
 
         public const string DECLARATION =
 @"////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -653,6 +655,25 @@ namespace NativeFunctionTranslator
         public static void GenMinConsoleNativeStructs(string MinConsoleFolder, List<string> headFiles)
         {
             string MinConsoleNativeStructsFile = Path.Combine(MinConsoleFolder, "src\\MinConsole\\MinConsoleNativeStructs.cs");
+
+            foreach (string file in headFiles)
+            {
+                string[] lines = File.ReadAllLines(file);
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string line = lines[i];
+                    int exEnumIndex = line.IndexOf(EXPORT_ENUM_CLASS);
+                    int defineIndex = line.IndexOf("#define");
+                    if (exEnumIndex != -1 && defineIndex == -1)
+                    {
+                        //we find the define line of EXPORT_ENUM_CLASS
+                        string[] defs = line.Trim().Split(' ');
+                        string enumName = defs[1]; //part 2 is the def of this enum.
+                        //avoid contains {
+                        enumName = enumName.Replace('{', ' ').Trim();
+                    }
+                }
+            }
 
             List<string> Content = new List<string>();
             Content.AddRange(GetHeaderLines2());

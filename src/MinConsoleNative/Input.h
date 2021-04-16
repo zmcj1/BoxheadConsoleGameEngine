@@ -10,7 +10,7 @@
 //See VirtualKeys:https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 namespace MinConsoleNative
 {
-    enum class MouseAxis
+    EXPORT_ENUM_CLASS MouseAxis
     {
         MOUSE_X = 1,
         MOUSE_Y = 2,
