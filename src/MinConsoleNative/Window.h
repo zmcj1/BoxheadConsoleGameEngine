@@ -5,9 +5,9 @@
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC MinGetForegroundWindow(HWND* windowHandle);
+    EXPORT_FUNC_EX(HWND) MinGetForegroundWindow();
 
-    EXPORT_FUNC MinGetConsoleWindow(HWND* windowHandle);
+    EXPORT_FUNC_EX(HWND) MinGetConsoleWindow();
 
     EXPORT_FUNC MinGetWindowPos(HWND windowHandle, POINT* pos);
 

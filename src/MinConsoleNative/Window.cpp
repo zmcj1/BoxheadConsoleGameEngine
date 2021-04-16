@@ -2,16 +2,14 @@
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC MinGetForegroundWindow(HWND* windowHandle)
+    EXPORT_FUNC_EX(HWND) MinGetForegroundWindow()
     {
-        *windowHandle = ::GetForegroundWindow();
-        return true;
+        return ::GetForegroundWindow();
     }
 
-    EXPORT_FUNC MinGetConsoleWindow(HWND* windowHandle)
+    EXPORT_FUNC_EX(HWND) MinGetConsoleWindow()
     {
-        *windowHandle = ::GetConsoleWindow();
-        return true;
+        return ::GetConsoleWindow();
     }
 
     EXPORT_FUNC MinGetWindowPos(HWND windowHandle, POINT* pos)
@@ -195,16 +193,12 @@ namespace MinConsoleNative
 
     HWND Window::GetForegroundWindow()
     {
-        HWND windowHandle;
-        MinGetForegroundWindow(&windowHandle);
-        return windowHandle;
+        return MinGetForegroundWindow();
     }
 
     HWND Window::GetConsoleWindow()
     {
-        HWND windowHandle;
-        MinGetConsoleWindow(&windowHandle);
-        return windowHandle;
+        return MinGetConsoleWindow();
     }
 
     POINT Window::GetWindowPos()

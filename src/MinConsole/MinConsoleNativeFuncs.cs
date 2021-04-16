@@ -272,10 +272,10 @@ namespace MinConsole
         public extern static void MinVTGetDeviceAttributes(string str, int strLen);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetForegroundWindow(IntPtr windowHandle);
+        public extern static IntPtr MinGetForegroundWindow();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetConsoleWindow(IntPtr windowHandle);
+        public extern static IntPtr MinGetConsoleWindow();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetWindowPos(IntPtr windowHandle, ref POINT pos);

@@ -5,7 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
-//Version:2.3.1
+//Version:2.3.2
 
 namespace NativeFunctionTranslator
 {
@@ -225,6 +225,12 @@ namespace NativeFunctionTranslator
                     int _leftBracketIndex = item.IndexOf('(');
                     int _rightBracketIndex = item.IndexOf(')');
                     string returnType = item.Substring(_leftBracketIndex + 1, _rightBracketIndex - _leftBracketIndex - 1);
+
+                    //replace returnType
+                    if(returnType == "HWND")
+                    {
+                        returnType = "IntPtr";
+                    }
 
                     declaration += EXPORT_FUNC_RETURN_TYPE_EX;
                     declaration += returnType;
