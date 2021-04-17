@@ -5,6 +5,7 @@
 #include "Clipboard.h"
 #include "ConRegistry.h"
 #include "Console.h"
+#include "ConsoleEngine.h"
 #include "ConsoleLite.h"
 #include "Database.h"
 #include "Debug.h"

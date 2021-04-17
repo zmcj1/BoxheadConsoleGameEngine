@@ -152,6 +152,7 @@
     <ClInclude Include="Clipboard.h" />
     <ClInclude Include="ConRegistry.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="ConsoleEngine.h" />
     <ClInclude Include="ConsoleLite.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="Debug.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="Clipboard.cpp" />
     <ClCompile Include="ConRegistry.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="ConsoleEngine.cpp" />
     <ClCompile Include="ConsoleLite.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="Debug.cpp" />
