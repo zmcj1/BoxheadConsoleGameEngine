@@ -9,8 +9,13 @@ namespace MinConsoleNative
 {
     class ConsoleEngine
     {
+    public:
+        std::wstring title;
+
     private:
         bool running = false;
+        float fpsTimer = 0.0f;
+        const float fpsInterval = 0.25f;
 
     protected:
         virtual void OnStart();

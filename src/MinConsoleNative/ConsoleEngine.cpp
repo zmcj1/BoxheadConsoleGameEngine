@@ -11,6 +11,15 @@ namespace MinConsoleNative
 
     void ConsoleEngine::OnUpdate(float deltaTime)
     {
+        this->fpsTimer += deltaTime;
+        if (this->fpsTimer >= this->fpsInterval)
+        {
+            this->fpsTimer = 0.0f;
+            //Show FPS in the title bar
+            wchar_t newTitle[MAX_PATH];
+            swprintf_s(newTitle, MAX_PATH, _T("%s - FPS: %3.2f"), this->title.c_str(), 1.0f / deltaTime);
+            Console::Global.GetInstance().SetTitle(newTitle);
+        }
     }
 
     void ConsoleEngine::OnDestroy()
@@ -19,6 +28,8 @@ namespace MinConsoleNative
 
     void ConsoleEngine::ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight)
     {
+        this->title = title;
+
         //Before setting the font, you must first set the console palette and console mode
         if (PaletteSystem::Global.GetInstance().palettes.count(paletteType) != 0)
         {
@@ -73,7 +84,7 @@ namespace MinConsoleNative
 
     void ConsoleEngine::ConstructTerminal(const std::wstring& title)
     {
-
+        this->title = title;
     }
 
     void ConsoleEngine::StartLoop(int fps, bool disableConsoleCursor)
