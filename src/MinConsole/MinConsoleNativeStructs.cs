@@ -201,5 +201,11 @@ namespace MinConsole
             public long frequency;
         }
 
+        public delegate void OnReadConsoleMouseInputRecord(ConsoleMouseInputRecord mouseInput);
+
+        public delegate void OnReadConsoleKeyboardInputRecord(ConsoleKeyboardInputRecord keyboardInput);
+
+        public delegate void OnConsoleOutputBufferChanged(COORD newSize);
+
     }
 }

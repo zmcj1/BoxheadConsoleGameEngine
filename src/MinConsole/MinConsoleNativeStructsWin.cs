@@ -6,7 +6,7 @@ namespace MinConsole
     //This class is hand-written by Min.
     public static partial class MinConsoleNativeStructs
     {
-        [StructLayout(LayoutKind.Sequential)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct POINT
         {
             public int x;
@@ -19,7 +19,7 @@ namespace MinConsole
             }
         }
 
-        [StructLayout(LayoutKind.Sequential)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct COORD
         {
             public short X;

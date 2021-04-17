@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.5.1
+//Version:2.6
 
 namespace NativeFunctionTranslator
 {
@@ -665,6 +665,7 @@ namespace NativeFunctionTranslator
 
             List<string> enums = new List<string>();
             List<string> structs = new List<string>();
+            List<string> delegates = new List<string>();
 
             foreach (string file in headFiles)
             {
@@ -799,7 +800,26 @@ namespace NativeFunctionTranslator
                     //find EXPORT_DELEGATE line
                     if (exFuncPtrIndex != -1 && defineIndex == -1)
                     {
-                        //todo
+                        const string typedef = "typedef";
+                        int typedefIndex = line.IndexOf(typedef);
+                        string delegateDef = line.Substring(typedefIndex + typedef.Length + 1, line.Length - (typedefIndex + typedef.Length) - 1);
+
+                        //return type
+                        string delegateReturnType = delegateDef.Substring(0, delegateDef.IndexOf(' '));
+
+                        //delegate name
+                        int nameDefStartIndex = delegateDef.IndexOf("(*");
+                        int nameDefEndIndex = delegateDef.IndexOf(")");
+                        string delegateName = delegateDef.Substring(nameDefStartIndex + 2,
+                            delegateDef.Length - nameDefStartIndex - 2 -
+                            (delegateDef.Length - nameDefEndIndex));
+
+                        //params
+                        string paramsDef = delegateDef.Substring(nameDefEndIndex + 2, delegateDef.Length - nameDefEndIndex - 4);
+
+                        delegates.Add(GetIndentString() + "public delegate " +
+                            delegateReturnType + " " + delegateName + "(" + paramsDef + ");");
+                        delegates.Add("");
                     }
                 }
             }
@@ -808,6 +828,7 @@ namespace NativeFunctionTranslator
             Content.AddRange(GetHeaderLines2());
             Content.AddRange(enums);
             Content.AddRange(structs);
+            Content.AddRange(delegates);
             Content.AddRange(GetTailLines2());
 
             StringBuilder stringBuilder = new StringBuilder();
