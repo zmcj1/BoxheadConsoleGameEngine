@@ -332,7 +332,7 @@ namespace MinConsoleNative
             Debug::SetLastMinErrorMsg(_T("The specified consoleWidth is too large"));
             return false;
         }
-        if (size.x > maxSize.Y)
+        if (size.y > maxSize.Y)
         {
             Debug::SetLastMinErrorMsg(_T("The specified consoleHeight is too large"));
             return false;

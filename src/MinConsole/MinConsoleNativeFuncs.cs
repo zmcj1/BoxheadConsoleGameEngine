@@ -78,6 +78,12 @@ namespace MinConsole
         public extern static bool MinSetConsoleBufferSize(IntPtr consoleOutput, POINT size);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinCheckSize(IntPtr consoleOutput, POINT size);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static void MinSetConsoleWindowAndBufferSize(IntPtr consoleOutput, POINT size);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetConsoleForeColor(IntPtr consoleOutput, out ConsoleColor foreColor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
