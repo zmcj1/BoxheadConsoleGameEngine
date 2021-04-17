@@ -85,7 +85,7 @@ namespace MinConsoleNative
     EXPORT_FUNC MinVTPaletteColor(wchar* str, int strLen, int index, byte r, byte g, byte b);
 
     //Check if the current console supports VT sequence.
-    EXPORT_FUNC MinVTSupport(bool* yes);
+    EXPORT_FUNC MinVTSupport(_OUT_ bool* yes);
 
     //These two APIs are specifically designed to be compatible with Windows Terminal.
     EXPORT_FUNC_EX(void) MinVTEnableMouseInput();

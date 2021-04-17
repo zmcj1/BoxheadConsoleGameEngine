@@ -395,12 +395,12 @@ namespace MinConsoleNative
     extern const int MAX_INPUT_CHAR_COUNT;
 
     //Initialize the console inside, don't worry.
-    EXPORT_FUNC MinInitConsoleSession(ConsoleSession* cons);
+    EXPORT_FUNC MinInitConsoleSession(_OUT_ ConsoleSession* cons);
 
     //return true means successful enable VT!
     EXPORT_FUNC MinEnableConsoleVT(HANDLE consoleInput, HANDLE consoleOutput);
 
-    EXPORT_FUNC MinGetConsolePalette(HANDLE consoleOutput, DWORD index, Color24* color);
+    EXPORT_FUNC MinGetConsolePalette(HANDLE consoleOutput, DWORD index, _OUT_ Color24* color);
 
     //Notice:After calling this API, the screen buffer will change!
     EXPORT_FUNC MinSetConsolePalette(HANDLE consoleOutput, DWORD index, Color24 color);
@@ -413,31 +413,31 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinSetConsoleOutputMode(HANDLE consoleOutput, ConsoleOutputMode mode);
 
-    EXPORT_FUNC MinGetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode* consoleMode);
+    EXPORT_FUNC MinGetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, _OUT_ ConsoleMode* consoleMode);
 
     EXPORT_FUNC MinSetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode consoleMode);
 
-    EXPORT_FUNC MinGetConsoleFont(HANDLE consoleOutput, ConsoleFont* consoleFont);
+    EXPORT_FUNC MinGetConsoleFont(HANDLE consoleOutput, _OUT_ ConsoleFont* consoleFont);
 
     EXPORT_FUNC MinSetConsoleFont(HANDLE consoleOutput, ConsoleFont consoleFont);
 
-    EXPORT_FUNC MinGetConsoleWindowSize(HANDLE consoleOutput, POINT* size);
+    EXPORT_FUNC MinGetConsoleWindowSize(HANDLE consoleOutput, _OUT_ POINT* size);
 
     EXPORT_FUNC MinSetConsoleWindowSize(HANDLE consoleOutput, POINT size);
 
-    EXPORT_FUNC MinGetConsoleBufferSize(HANDLE consoleOutput, POINT* size);
+    EXPORT_FUNC MinGetConsoleBufferSize(HANDLE consoleOutput, _OUT_ POINT* size);
 
     EXPORT_FUNC MinSetConsoleBufferSize(HANDLE consoleOutput, POINT size);
 
-    EXPORT_FUNC MinGetConsoleForeColor(HANDLE consoleOutput, ConsoleColor* foreColor);
+    EXPORT_FUNC MinGetConsoleForeColor(HANDLE consoleOutput, _OUT_ ConsoleColor* foreColor);
 
-    EXPORT_FUNC MinGetConsoleBackColor(HANDLE consoleOutput, ConsoleColor* backColor);
+    EXPORT_FUNC MinGetConsoleBackColor(HANDLE consoleOutput, _OUT_ ConsoleColor* backColor);
 
     EXPORT_FUNC MinSetConsoleForeColor(HANDLE consoleOutput, ConsoleColor foreColor);
 
     EXPORT_FUNC MinSetConsoleBackColor(HANDLE consoleOutput, ConsoleColor backColor);
 
-    EXPORT_FUNC MinGetConsoleCursorPos(HANDLE consoleOutput, COORD* pos);
+    EXPORT_FUNC MinGetConsoleCursorPos(HANDLE consoleOutput, _OUT_ COORD* pos);
 
     EXPORT_FUNC MinSetConsoleCursorPos(HANDLE consoleOutput, COORD pos);
 
@@ -472,7 +472,7 @@ namespace MinConsoleNative
     EXPORT_FUNC MinCloseConsoleScreenBuffer(HANDLE consoleOutput);
 
     //SEE:https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew#consoles
-    EXPORT_FUNC MinCreateFile(ConsoleFile fileMode, HANDLE* handle);
+    EXPORT_FUNC MinCreateFile(ConsoleFile fileMode, _OUT_ HANDLE* handle);
 
     //IMPORTANT!!!  File I/O function does not support Unicode.
     EXPORT_FUNC MinWriteFile(HANDLE handle, const char* str);
@@ -480,7 +480,7 @@ namespace MinConsoleNative
     //IMPORTANT!!!  File I/O function does not support Unicode.
     EXPORT_FUNC MinReadFile(HANDLE handle, char* buffer, DWORD bufferLen);
 
-    EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, CharWidth* cw);
+    EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, _OUT_ CharWidth* cw);
 
     EXPORT_FUNC MinGetStringWidth(HWND consoleWindow, HANDLE consoleOutput, const wchar* str, int* width);
 
@@ -489,7 +489,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinSetTitle(const wchar* titleBuffer);
 
-    EXPORT_FUNC MinGetConsoleCursorVisible(HANDLE consoleOutput, bool* visible);
+    EXPORT_FUNC MinGetConsoleCursorVisible(HANDLE consoleOutput, _OUT_ bool* visible);
 
     EXPORT_FUNC MinSetConsoleCursorVisible(HANDLE consoleOutput, bool visible);
 
@@ -500,7 +500,7 @@ namespace MinConsoleNative
     EXPORT_FUNC MinSetConsoleCtrlHandler(PHANDLER_ROUTINE handler, bool add);
 
     //Get type of Console Emulator on Windows.
-    EXPORT_FUNC MinGetConsoleType(ConsoleType* type);
+    EXPORT_FUNC MinGetConsoleType(_OUT_ ConsoleType* type);
 
     class Console
     {

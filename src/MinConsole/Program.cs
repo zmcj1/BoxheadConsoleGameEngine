@@ -23,6 +23,9 @@ namespace MinConsole
         static void Main(string[] args)
         {
             IntPtr intPtr = MinGetConsoleWindow();
+            MinReadFromClipboard(out string data);
+            MinInitConsoleSession(out ConsoleSession session);
+            Console.WriteLine(data);
             Console.ReadKey();
         }
     }

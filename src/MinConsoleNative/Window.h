@@ -9,29 +9,29 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(HWND) MinGetConsoleWindow();
 
-    EXPORT_FUNC MinGetWindowPos(HWND windowHandle, POINT* pos);
+    EXPORT_FUNC MinGetWindowPos(HWND windowHandle, _OUT_ POINT* pos);
 
     EXPORT_FUNC MinSetWindowPos(HWND windowHandle, POINT pos);
 
-    EXPORT_FUNC MinGetWindowSize(HWND windowHandle, POINT* size);
+    EXPORT_FUNC MinGetWindowSize(HWND windowHandle, _OUT_ POINT* size);
 
     EXPORT_FUNC MinSetWindowSize(HWND windowHandle, POINT size);
 
-    EXPORT_FUNC MinGetDesktopSize(POINT* size);
+    EXPORT_FUNC MinGetDesktopSize(_OUT_ POINT* size);
 
-    EXPORT_FUNC MinGetClientSize(HWND windowHandle, POINT* size);
+    EXPORT_FUNC MinGetClientSize(HWND windowHandle, _OUT_ POINT* size);
 
-    EXPORT_FUNC MinGetMousePos(POINT* pos);
+    EXPORT_FUNC MinGetMousePos(_OUT_ POINT* pos);
 
-    EXPORT_FUNC MinGetMappedMousePos(HWND windowHandle, POINT* pos);
+    EXPORT_FUNC MinGetMappedMousePos(HWND windowHandle, _OUT_ POINT* pos);
 
-    EXPORT_FUNC MinGetMouseInClient(HWND windowHandle, bool* yes);
+    EXPORT_FUNC MinGetMouseInClient(HWND windowHandle, _OUT_ bool* yes);
 
-    EXPORT_FUNC MinGetWindowInFocus(HWND windowHandle, bool* yes);
+    EXPORT_FUNC MinGetWindowInFocus(HWND windowHandle, _OUT_ bool* yes);
 
-    EXPORT_FUNC MinGetCenterPosOfWindowInDesktop(HWND windowHandle, POINT* pos);
+    EXPORT_FUNC MinGetCenterPosOfWindowInDesktop(HWND windowHandle, _OUT_ POINT* pos);
 
-    EXPORT_FUNC MinGetCenterPosOfWindow(HWND windowHandle, POINT* pos);
+    EXPORT_FUNC MinGetCenterPosOfWindow(HWND windowHandle, _OUT_ POINT* pos);
 
     //ex:
 
@@ -40,7 +40,7 @@ namespace MinConsoleNative
     //If the window has been maximized and parameter maximize is false, the window size will be restored
     EXPORT_FUNC MinMaximizeWindow(HWND windowHandle, bool maximize);
 
-    EXPORT_FUNC MinGetWindowAlpha(HWND windowHandle, byte* alpha);
+    EXPORT_FUNC MinGetWindowAlpha(HWND windowHandle, _OUT_ byte* alpha);
 
     EXPORT_FUNC MinSetWindowAlpha(HWND windowHandle, byte alpha);
 
