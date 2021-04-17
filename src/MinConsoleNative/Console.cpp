@@ -324,6 +324,30 @@ namespace MinConsoleNative
         return ::SetConsoleScreenBufferSize(consoleOutput, coord);
     }
 
+    EXPORT_FUNC_EX(bool) MinCheckSize(HANDLE consoleOutput, POINT size)
+    {
+        COORD maxSize = ::GetLargestConsoleWindowSize(consoleOutput);
+        if (size.x > maxSize.X)
+        {
+            Debug::SetLastMinErrorMsg(_T("The specified consoleWidth is too large"));
+            return false;
+        }
+        if (size.x > maxSize.Y)
+        {
+            Debug::SetLastMinErrorMsg(_T("The specified consoleHeight is too large"));
+            return false;
+        }
+        return true;
+    }
+
+    EXPORT_FUNC_EX(void) MinSetConsoleWindowAndBufferSize(HANDLE consoleOutput, POINT size)
+    {
+        //Avoid the console buffer size is smaller than the console window size, so we set it to 1, 1.
+        MinSetConsoleWindowSize(consoleOutput, { 1, 1 });
+        MinSetConsoleBufferSize(consoleOutput, size);
+        MinSetConsoleWindowSize(consoleOutput, size);
+    }
+
     EXPORT_FUNC MinGetConsoleForeColor(HANDLE consoleOutput, ConsoleColor* foreColor)
     {
         CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -909,6 +933,16 @@ namespace MinConsoleNative
     bool Console::SetConsoleBufferSize(POINT size)
     {
         return MinSetConsoleBufferSize(cons.consoleOutput, size);
+    }
+
+    bool Console::CheckSize(POINT size)
+    {
+        return MinCheckSize(cons.consoleOutput, size);
+    }
+
+    void Console::SetConsoleWindowAndBufferSize(POINT size)
+    {
+        MinSetConsoleWindowAndBufferSize(cons.consoleOutput, size);
     }
 
     ConsoleColor Console::GetConsoleForeColor()

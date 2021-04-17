@@ -429,6 +429,11 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinSetConsoleBufferSize(HANDLE consoleOutput, POINT size);
 
+    //if this function returns false, you should use Debug::GetLastMinErrorMsg to get more information.
+    EXPORT_FUNC_EX(bool) MinCheckSize(HANDLE consoleOutput, POINT size);
+
+    EXPORT_FUNC_EX(void) MinSetConsoleWindowAndBufferSize(HANDLE consoleOutput, POINT size);
+
     EXPORT_FUNC MinGetConsoleForeColor(HANDLE consoleOutput, _OUT_ ConsoleColor* foreColor);
 
     EXPORT_FUNC MinGetConsoleBackColor(HANDLE consoleOutput, _OUT_ ConsoleColor* backColor);
@@ -589,6 +594,11 @@ namespace MinConsoleNative
         POINT GetConsoleBufferSize();
 
         bool SetConsoleBufferSize(POINT size);
+
+        //if this function returns false, you should use Debug::GetLastMinErrorMsg to get more information.
+        bool CheckSize(POINT size);
+
+        void SetConsoleWindowAndBufferSize(POINT size);
 
         ConsoleColor GetConsoleForeColor();
 
