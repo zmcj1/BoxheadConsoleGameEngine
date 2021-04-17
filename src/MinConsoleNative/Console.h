@@ -442,7 +442,7 @@ namespace MinConsoleNative
     EXPORT_FUNC MinSetConsoleCursorPos(HANDLE consoleOutput, COORD pos);
 
     //size of buffer should be : charCount * sizeof(wchar)
-    EXPORT_FUNC MinReadConsole(HANDLE consoleInput, wchar* buffer, int charCount);
+    EXPORT_FUNC MinReadConsole(HANDLE consoleInput, _OUT_ wchar* buffer, int charCount);
 
     //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
     //Call this function in update.
@@ -454,18 +454,18 @@ namespace MinConsoleNative
     //IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode
     EXPORT_FUNC_EX(bool) MinReadConsoleOneInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
 
-    EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, const wchar* buffer);
+    EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, _IN_ const wchar* buffer);
 
     //You can use something like this:arr[i].Attributes |= COMMON_LVB_UNDERSCORE
-    EXPORT_FUNC MinWriteConsoleOutput(HANDLE consoleOutput, const CHAR_INFO* charInfos, short x, short y, short width, short height);
+    EXPORT_FUNC MinWriteConsoleOutput(HANDLE consoleOutput, _IN_ const CHAR_INFO* charInfos, short x, short y, short width, short height);
 
-    EXPORT_FUNC MinWriteConsoleOutputAttribute(HANDLE consoleOutput, const ushort* att, int attCount, COORD pos);
+    EXPORT_FUNC MinWriteConsoleOutputAttribute(HANDLE consoleOutput, _IN_ const ushort* att, int attCount, COORD pos);
 
     //This function is useful for mixed renderer.
-    EXPORT_FUNC MinWriteConsoleOutputCharacter(HANDLE consoleOutput, const wchar* str, int charCount, COORD pos);
+    EXPORT_FUNC MinWriteConsoleOutputCharacter(HANDLE consoleOutput, _IN_ const wchar* str, int charCount, COORD pos);
 
     //The created HANDLE can be recycled using the MinCloseConsoleScreenBuffer function
-    EXPORT_FUNC MinCreateConsoleScreenBuffer(HANDLE* consoleOutput);
+    EXPORT_FUNC MinCreateConsoleScreenBuffer(_OUT_ HANDLE* consoleOutput);
 
     EXPORT_FUNC MinSetConsoleActiveScreenBuffer(HANDLE consoleOutput);
 
@@ -475,19 +475,19 @@ namespace MinConsoleNative
     EXPORT_FUNC MinCreateFile(ConsoleFile fileMode, _OUT_ HANDLE* handle);
 
     //IMPORTANT!!!  File I/O function does not support Unicode.
-    EXPORT_FUNC MinWriteFile(HANDLE handle, const char* str);
+    EXPORT_FUNC MinWriteFile(HANDLE handle, _IN_ const char* str);
 
     //IMPORTANT!!!  File I/O function does not support Unicode.
-    EXPORT_FUNC MinReadFile(HANDLE handle, char* buffer, DWORD bufferLen);
+    EXPORT_FUNC MinReadFile(HANDLE handle, _OUT_ char* buffer, DWORD bufferLen);
 
     EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, _OUT_ CharWidth* cw);
 
-    EXPORT_FUNC MinGetStringWidth(HWND consoleWindow, HANDLE consoleOutput, const wchar* str, int* width);
+    EXPORT_FUNC MinGetStringWidth(HWND consoleWindow, HANDLE consoleOutput, _IN_ const wchar* str, _OUT_ int* width);
 
     //sizeof(title) should be MAX_PATH
-    EXPORT_FUNC MinGetTitle(wchar* titleBuffer, int sizeOfBuffer);
+    EXPORT_FUNC MinGetTitle(_OUT_ wchar* titleBuffer, int sizeOfBuffer);
 
-    EXPORT_FUNC MinSetTitle(const wchar* titleBuffer);
+    EXPORT_FUNC MinSetTitle(_IN_ const wchar* titleBuffer);
 
     EXPORT_FUNC MinGetConsoleCursorVisible(HANDLE consoleOutput, _OUT_ bool* visible);
 

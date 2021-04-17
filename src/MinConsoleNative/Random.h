@@ -7,7 +7,7 @@ namespace MinConsoleNative
     extern uint counter;
 
     //random range[minimum(inclusive), maximum(inclusive)]
-    EXPORT_FUNC MinGetRandomValue(uint minimum, uint maximum, uint* value);
+    EXPORT_FUNC MinGetRandomValue(uint minimum, uint maximum, _OUT_ uint* value);
 
     class Random
     {

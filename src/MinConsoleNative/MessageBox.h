@@ -37,7 +37,7 @@ namespace MinConsoleNative
         CANCEL,
     };
 
-    EXPORT_FUNC_EX(MessageBoxResult) MinShowMessageBox(const wchar* text, const wchar* title, MessageBoxButtons buttons, MessageBoxDefaultButton defButton, MessageBoxIcon iconType);
+    EXPORT_FUNC_EX(MessageBoxResult) MinShowMessageBox(_IN_ const wchar* text, _IN_ const wchar* title, MessageBoxButtons buttons, MessageBoxDefaultButton defButton, MessageBoxIcon iconType);
 
     class WMessageBox
     {
