@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.5
+//Version:2.5.1
 
 namespace NativeFunctionTranslator
 {
@@ -81,6 +81,8 @@ namespace NativeFunctionTranslator
         public const string EXPORT_STRUCT = "EXPORT_STRUCT";
         public const string EXPORT_STRUCT_MEMBER = "EXPORT_STRUCT_MEMBER";
         public const string EXPORT_STRUCT_DLLIMPORT = "[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]";
+        public const string EXPORT_DELEGATE = "EXPORT_DELEGATE";
+
 
         public const string DECLARATION =
 @"////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -716,6 +718,7 @@ namespace NativeFunctionTranslator
                         enums.Add("");
                     }
 
+                    //-------------struct-------------
                     int exStructIndex = line.IndexOf(EXPORT_STRUCT);
                     int exStrcutMemberIndex = line.IndexOf(EXPORT_STRUCT_MEMBER);
                     //find EXPORT_STRUCT line
@@ -774,14 +777,29 @@ namespace NativeFunctionTranslator
                             if (wcharIndex != -1)
                             {
                                 int _index = _body.IndexOf("[");
-                                string memberName = _body.Substring(wcharIndex + wchar.Length, _index - (wcharIndex + wchar.Length));
-                                newBody = "public string" + memberName + ";";
+                                if (_index != -1)
+                                {
+                                    string memberName = _body.Substring(wcharIndex + wchar.Length, _index - (wcharIndex + wchar.Length));
+                                    newBody = "public string" + memberName + ";";
+                                }
+                                else
+                                {
+                                    newBody = newBody.Replace(wchar, "char");
+                                }
                             }
 
                             structs.Add(GetIndentString() + "    " + newBody);
                         }
                         structs.Add(GetIndentString() + "}");
                         structs.Add("");
+                    }
+
+                    //-------------delegate-------------
+                    int exFuncPtrIndex = line.IndexOf(EXPORT_DELEGATE);
+                    //find EXPORT_DELEGATE line
+                    if (exFuncPtrIndex != -1 && defineIndex == -1)
+                    {
+                        //todo
                     }
                 }
             }

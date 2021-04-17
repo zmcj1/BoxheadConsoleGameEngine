@@ -169,6 +169,31 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct ConsoleMouseInputRecord
+        {
+            public bool moved;                         //Whether the mouse is moving
+            public bool doubleClick;                   //Double click
+            public COORD position;                     //The unit is cell
+            public MouseWheelDirection mouseWheelDir;  //Mouse wheel direction
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct ConsoleKeyboardInputRecord
+        {
+            public char KeyChar;
+            public ushort VirualKey;
+            public bool _RIGHT_ALT_PRESSED;        // the right alt key is pressed.
+            public bool _LEFT_ALT_PRESSED;         // the left alt key is pressed.
+            public bool _RIGHT_CTRL_PRESSED;       // the right ctrl key is pressed.
+            public bool _LEFT_CTRL_PRESSED;        // the left ctrl key is pressed.
+            public bool _SHIFT_PRESSED;            // the shift key is pressed.
+            public bool _NUMLOCK_ON;               // the numlock light is on.
+            public bool _SCROLLLOCK_ON;            // the scrolllock light is on.
+            public bool _CAPSLOCK_ON;              // the capslock light is on.
+            public bool _ENHANCED_KEY;             // the key is enhanced.
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct MinTimer
         {
             public long start;

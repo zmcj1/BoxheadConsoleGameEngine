@@ -338,13 +338,13 @@ namespace MinConsoleNative
         }
     };
 
-    struct ConsoleMouseInputRecord
+    EXPORT_STRUCT ConsoleMouseInputRecord
     {
     public:
-        bool moved;                         //Whether the mouse is moving
-        bool doubleClick;                   //Double click
-        COORD position;                     //The unit is cell
-        MouseWheelDirection mouseWheelDir;  //Mouse wheel direction
+        EXPORT_STRUCT_MEMBER bool moved;                         //Whether the mouse is moving
+        EXPORT_STRUCT_MEMBER bool doubleClick;                   //Double click
+        EXPORT_STRUCT_MEMBER COORD position;                     //The unit is cell
+        EXPORT_STRUCT_MEMBER MouseWheelDirection mouseWheelDir;  //Mouse wheel direction
 
         ConsoleMouseInputRecord()
         {
@@ -355,20 +355,20 @@ namespace MinConsoleNative
         }
     };
 
-    struct ConsoleKeyboardInputRecord
+    EXPORT_STRUCT ConsoleKeyboardInputRecord
     {
     public:
-        wchar KeyChar;
-        ushort VirualKey;
-        bool _RIGHT_ALT_PRESSED;        // the right alt key is pressed.
-        bool _LEFT_ALT_PRESSED;         // the left alt key is pressed.
-        bool _RIGHT_CTRL_PRESSED;       // the right ctrl key is pressed.
-        bool _LEFT_CTRL_PRESSED;        // the left ctrl key is pressed.
-        bool _SHIFT_PRESSED;            // the shift key is pressed.
-        bool _NUMLOCK_ON;               // the numlock light is on.
-        bool _SCROLLLOCK_ON;            // the scrolllock light is on.
-        bool _CAPSLOCK_ON;              // the capslock light is on.
-        bool _ENHANCED_KEY;             // the key is enhanced.
+        EXPORT_STRUCT_MEMBER wchar KeyChar;
+        EXPORT_STRUCT_MEMBER ushort VirualKey;
+        EXPORT_STRUCT_MEMBER bool _RIGHT_ALT_PRESSED;        // the right alt key is pressed.
+        EXPORT_STRUCT_MEMBER bool _LEFT_ALT_PRESSED;         // the left alt key is pressed.
+        EXPORT_STRUCT_MEMBER bool _RIGHT_CTRL_PRESSED;       // the right ctrl key is pressed.
+        EXPORT_STRUCT_MEMBER bool _LEFT_CTRL_PRESSED;        // the left ctrl key is pressed.
+        EXPORT_STRUCT_MEMBER bool _SHIFT_PRESSED;            // the shift key is pressed.
+        EXPORT_STRUCT_MEMBER bool _NUMLOCK_ON;               // the numlock light is on.
+        EXPORT_STRUCT_MEMBER bool _SCROLLLOCK_ON;            // the scrolllock light is on.
+        EXPORT_STRUCT_MEMBER bool _CAPSLOCK_ON;              // the capslock light is on.
+        EXPORT_STRUCT_MEMBER bool _ENHANCED_KEY;             // the key is enhanced.
 
         ConsoleKeyboardInputRecord()
         {
@@ -386,11 +386,11 @@ namespace MinConsoleNative
         }
     };
 
-    typedef void (*OnReadConsoleMouseInputRecord)(ConsoleMouseInputRecord mouseInput);
+    EXPORT_DELEGATE typedef void (*OnReadConsoleMouseInputRecord)(ConsoleMouseInputRecord mouseInput);
 
-    typedef void (*OnReadConsoleKeyboardInputRecord)(ConsoleKeyboardInputRecord keyboardInput);
+    EXPORT_DELEGATE typedef void (*OnReadConsoleKeyboardInputRecord)(ConsoleKeyboardInputRecord keyboardInput);
 
-    typedef void (*OnConsoleOutputBufferChanged)(COORD newSize);
+    EXPORT_DELEGATE typedef void (*OnConsoleOutputBufferChanged)(COORD newSize);
 
     extern const int MAX_INPUT_CHAR_COUNT;
 
