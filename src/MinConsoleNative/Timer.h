@@ -6,12 +6,12 @@
 
 namespace MinConsoleNative
 {
-    struct MinTimer
+    EXPORT_STRUCT MinTimer
     {
     public:
-        LONGLONG start;
-        LONGLONG stop;
-        LONGLONG frequency;
+        EXPORT_STRUCT_MEMBER LONGLONG start;
+        EXPORT_STRUCT_MEMBER LONGLONG stop;
+        EXPORT_STRUCT_MEMBER LONGLONG frequency;
 
         MinTimer()
         {

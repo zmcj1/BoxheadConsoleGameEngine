@@ -110,5 +110,71 @@ namespace MinConsole
             White = 15,
         }
 
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct Color24
+        {
+            public byte r;
+            public byte g;
+            public byte b;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct ConsoleInputMode
+        {
+            public bool _ENABLE_PROCESSED_INPUT;               //default is TRUE(recommend to FALSE to avoid pressing CTRL+C to close the console program)
+            public bool _ENABLE_LINE_INPUT;                    //default is TRUE
+            public bool _ENABLE_ECHO_INPUT;                    //default is TRUE
+            public bool _ENABLE_WINDOW_INPUT;                  //default is FALSE(recommend to TRUE)
+            public bool _ENABLE_MOUSE_INPUT;                   //default is TRUE
+            public bool _ENABLE_INSERT_MODE;                   //default is TRUE
+            public bool _ENABLE_QUICK_EDIT_MODE;               //default is TRUE(recommend to FALSE)
+            public bool _ENABLE_EXTENDED_FLAGS;                //default is TRUE
+            public bool _ENABLE_AUTO_POSITION;                 //default is TRUE
+            public bool _ENABLE_VIRTUAL_TERMINAL_INPUT;        //default is FALSE
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct ConsoleOutputMode
+        {
+            public bool _ENABLE_PROCESSED_OUTPUT;              //default is TRUE
+            public bool _ENABLE_WRAP_AT_EOL_OUTPUT;            //default is TRUE
+            public bool _ENABLE_VIRTUAL_TERMINAL_PROCESSING;   //default is FALSE(recommend to TRUE, If want to use the VT100 sequence)
+            public bool _DISABLE_NEWLINE_AUTO_RETURN;          //default is FALSE
+            public bool _ENABLE_LVB_GRID_WORLDWIDE;            //default is FALSE
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct ConsoleMode
+        {
+            public ConsoleInputMode inputMode;
+            public ConsoleOutputMode outputMode;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct ConsoleSession
+        {
+            public IntPtr consoleWindow;
+            public IntPtr consoleInput;
+            public IntPtr consoleOutput;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct ConsoleFont
+        {
+            public uint FontIndex;
+            public COORD FontSize;
+            public uint FontFamily;
+            public uint FontWeight; //Over 400 is bold
+            public string FaceName;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct MinTimer
+        {
+            public long start;
+            public long stop;
+            public long frequency;
+        }
+
     }
 }

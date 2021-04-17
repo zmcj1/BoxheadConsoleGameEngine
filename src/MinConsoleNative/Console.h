@@ -109,12 +109,12 @@ namespace MinConsoleNative
         }
     };
 
-    struct Color24
+    EXPORT_STRUCT Color24
     {
     public:
-        byte r;
-        byte g;
-        byte b;
+        EXPORT_STRUCT_MEMBER byte r;
+        EXPORT_STRUCT_MEMBER byte g;
+        EXPORT_STRUCT_MEMBER byte b;
 
         Color24()
         {
@@ -157,19 +157,19 @@ namespace MinConsoleNative
         ConsoleColor ToConsoleColor();
     };
 
-    struct ConsoleInputMode
+    EXPORT_STRUCT ConsoleInputMode
     {
     public:
-        bool _ENABLE_PROCESSED_INPUT;               //default is TRUE(recommend to FALSE to avoid pressing CTRL+C to close the console program)
-        bool _ENABLE_LINE_INPUT;                    //default is TRUE
-        bool _ENABLE_ECHO_INPUT;                    //default is TRUE
-        bool _ENABLE_WINDOW_INPUT;                  //default is FALSE(recommend to TRUE)
-        bool _ENABLE_MOUSE_INPUT;                   //default is TRUE
-        bool _ENABLE_INSERT_MODE;                   //default is TRUE
-        bool _ENABLE_QUICK_EDIT_MODE;               //default is TRUE(recommend to FALSE)
-        bool _ENABLE_EXTENDED_FLAGS;                //default is TRUE
-        bool _ENABLE_AUTO_POSITION;                 //default is TRUE
-        bool _ENABLE_VIRTUAL_TERMINAL_INPUT;        //default is FALSE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_PROCESSED_INPUT;               //default is TRUE(recommend to FALSE to avoid pressing CTRL+C to close the console program)
+        EXPORT_STRUCT_MEMBER bool _ENABLE_LINE_INPUT;                    //default is TRUE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_ECHO_INPUT;                    //default is TRUE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_WINDOW_INPUT;                  //default is FALSE(recommend to TRUE)
+        EXPORT_STRUCT_MEMBER bool _ENABLE_MOUSE_INPUT;                   //default is TRUE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_INSERT_MODE;                   //default is TRUE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_QUICK_EDIT_MODE;               //default is TRUE(recommend to FALSE)
+        EXPORT_STRUCT_MEMBER bool _ENABLE_EXTENDED_FLAGS;                //default is TRUE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_AUTO_POSITION;                 //default is TRUE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_VIRTUAL_TERMINAL_INPUT;        //default is FALSE
 
         ConsoleInputMode()
         {
@@ -195,14 +195,14 @@ namespace MinConsoleNative
         }
     };
 
-    struct ConsoleOutputMode
+    EXPORT_STRUCT ConsoleOutputMode
     {
     public:
-        bool _ENABLE_PROCESSED_OUTPUT;              //default is TRUE
-        bool _ENABLE_WRAP_AT_EOL_OUTPUT;            //default is TRUE
-        bool _ENABLE_VIRTUAL_TERMINAL_PROCESSING;   //default is FALSE(recommend to TRUE, If want to use the VT100 sequence)
-        bool _DISABLE_NEWLINE_AUTO_RETURN;          //default is FALSE
-        bool _ENABLE_LVB_GRID_WORLDWIDE;            //default is FALSE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_PROCESSED_OUTPUT;              //default is TRUE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_WRAP_AT_EOL_OUTPUT;            //default is TRUE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_VIRTUAL_TERMINAL_PROCESSING;   //default is FALSE(recommend to TRUE, If want to use the VT100 sequence)
+        EXPORT_STRUCT_MEMBER bool _DISABLE_NEWLINE_AUTO_RETURN;          //default is FALSE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_LVB_GRID_WORLDWIDE;            //default is FALSE
 
         ConsoleOutputMode()
         {
@@ -221,11 +221,11 @@ namespace MinConsoleNative
         }
     };
 
-    struct ConsoleMode
+    EXPORT_STRUCT ConsoleMode
     {
     public:
-        ConsoleInputMode inputMode;
-        ConsoleOutputMode outputMode;
+        EXPORT_STRUCT_MEMBER ConsoleInputMode inputMode;
+        EXPORT_STRUCT_MEMBER ConsoleOutputMode outputMode;
 
         ConsoleMode()
         {
@@ -248,12 +248,12 @@ namespace MinConsoleNative
         }
     };
 
-    struct ConsoleSession
+    EXPORT_STRUCT ConsoleSession
     {
     public:
-        HWND consoleWindow;
-        HANDLE consoleInput;
-        HANDLE consoleOutput;
+        EXPORT_STRUCT_MEMBER HWND consoleWindow;
+        EXPORT_STRUCT_MEMBER HANDLE consoleInput;
+        EXPORT_STRUCT_MEMBER HANDLE consoleOutput;
 
     public:
         ConsoleSession()
@@ -271,17 +271,22 @@ namespace MinConsoleNative
         }
     };
 
-    struct ConsoleFont
+    EXPORT_STRUCT ConsoleFont
     {
     public:
-        DWORD FontIndex{ 0 };
-        COORD FontSize{ 0 };
-        uint FontFamily{ 0 };
-        uint FontWeight{ 0 }; //Over 400 is bold
-        wchar FaceName[LF_FACESIZE]{ 0 };
+        EXPORT_STRUCT_MEMBER DWORD FontIndex;
+        EXPORT_STRUCT_MEMBER COORD FontSize;
+        EXPORT_STRUCT_MEMBER uint FontFamily;
+        EXPORT_STRUCT_MEMBER uint FontWeight; //Over 400 is bold
+        EXPORT_STRUCT_MEMBER wchar FaceName[LF_FACESIZE];
 
         ConsoleFont()
         {
+            this->FontIndex = 0;
+            this->FontSize = { 0, 0 };
+            this->FontFamily = 0;
+            this->FontWeight = 0; //Over 400 is bold
+            SetFontName(L"");
         }
 
         bool GetFontBold()

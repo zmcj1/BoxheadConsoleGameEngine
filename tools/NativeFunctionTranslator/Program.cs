@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.4
+//Version:2.5
 
 namespace NativeFunctionTranslator
 {
@@ -78,6 +78,9 @@ namespace NativeFunctionTranslator
         public const string _ARRAY_ = "_ARRAY_";
 
         public const string EXPORT_ENUM_CLASS = "EXPORT_ENUM_CLASS";
+        public const string EXPORT_STRUCT = "EXPORT_STRUCT";
+        public const string EXPORT_STRUCT_MEMBER = "EXPORT_STRUCT_MEMBER";
+        public const string EXPORT_STRUCT_DLLIMPORT = "[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]";
 
         public const string DECLARATION =
 @"////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -659,15 +662,19 @@ namespace NativeFunctionTranslator
             string MinConsoleNativeStructsFile = Path.Combine(MinConsoleFolder, "src\\MinConsole\\MinConsoleNativeStructs.cs");
 
             List<string> enums = new List<string>();
+            List<string> structs = new List<string>();
 
             foreach (string file in headFiles)
             {
                 string[] lines = File.ReadAllLines(file);
+
                 for (int i = 0; i < lines.Length; i++)
                 {
                     string line = lines[i];
-                    int exEnumIndex = line.IndexOf(EXPORT_ENUM_CLASS);
                     int defineIndex = line.IndexOf("#define");
+
+                    //-------------enums-------------
+                    int exEnumIndex = line.IndexOf(EXPORT_ENUM_CLASS);
                     //find EXPORT_ENUM_CLASS line
                     if (exEnumIndex != -1 && defineIndex == -1)
                     {
@@ -676,6 +683,7 @@ namespace NativeFunctionTranslator
                         //remove all empty char
                         define_items.RemoveAll(item => string.IsNullOrEmpty(item));
                         string enumName = define_items[1]; //part 2 must be the name of this enum.
+
                         List<string> enumBody = new List<string>();
 
                         //add lines util we successful find };
@@ -707,12 +715,81 @@ namespace NativeFunctionTranslator
                         enums.Add(GetIndentString() + "}");
                         enums.Add("");
                     }
+
+                    int exStructIndex = line.IndexOf(EXPORT_STRUCT);
+                    int exStrcutMemberIndex = line.IndexOf(EXPORT_STRUCT_MEMBER);
+                    //find EXPORT_STRUCT line
+                    if (exStructIndex != -1 && defineIndex == -1 && exStrcutMemberIndex == -1)
+                    {
+                        //we find the define line of EXPORT_ENUM_CLASS
+                        List<string> define_items = line.Trim().Split(' ').ToList();
+                        //remove all empty char
+                        define_items.RemoveAll(item => string.IsNullOrEmpty(item));
+                        //part 2 must be the name of this struct.
+                        string structName = define_items[1];
+
+                        List<string> structBody = new List<string>();
+                        //add lines util we successful find };
+                        //why here is i+2?
+                        //because here is our code style:
+                        //EXPORT_STRUCT StructName
+                        //{
+                        //    ...
+                        //}
+                        for (int j = i + 2; j < lines.Length; j++)
+                        {
+                            string nextLine = lines[j];
+                            if (!nextLine.Contains("};"))
+                            {
+                                structBody.Add(nextLine.Trim());
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        structBody.RemoveAll(str =>
+                            str.Equals("public:") ||
+                            string.IsNullOrEmpty(str) ||
+                            !str.Contains(EXPORT_STRUCT_MEMBER));
+
+                        structs.Add(GetIndentString() + EXPORT_STRUCT_DLLIMPORT);
+                        structs.Add(GetIndentString() + "public struct " + structName);
+                        structs.Add(GetIndentString() + "{");
+                        foreach (string _body in structBody)
+                        {
+                            //replacement of Access modifier
+                            string newBody = _body.Replace(EXPORT_STRUCT_MEMBER, "public");
+
+                            //replacement of type:
+                            newBody = newBody.Replace("LONGLONG", "long");
+                            newBody = newBody.Replace("HWND", "IntPtr");
+                            newBody = newBody.Replace("HANDLE", "IntPtr");
+                            newBody = newBody.Replace("DWORD", "uint");
+
+                            //handle char/wchar_t array
+                            const string wchar = "wchar";
+                            int wcharIndex = _body.IndexOf(wchar);
+                            if (wcharIndex != -1)
+                            {
+                                int _index = _body.IndexOf("[");
+                                string memberName = _body.Substring(wcharIndex + wchar.Length, _index - (wcharIndex + wchar.Length));
+                                newBody = "public string" + memberName + ";";
+                            }
+
+                            structs.Add(GetIndentString() + "    " + newBody);
+                        }
+                        structs.Add(GetIndentString() + "}");
+                        structs.Add("");
+                    }
                 }
             }
 
             List<string> Content = new List<string>();
             Content.AddRange(GetHeaderLines2());
             Content.AddRange(enums);
+            Content.AddRange(structs);
             Content.AddRange(GetTailLines2());
 
             StringBuilder stringBuilder = new StringBuilder();

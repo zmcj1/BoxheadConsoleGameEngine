@@ -96,7 +96,8 @@
 
 //Macros for NativeFunctionTranslator
 #define EXPORT_ENUM_CLASS enum class
-#define EXPORT_STRUCT
+#define EXPORT_STRUCT struct
+#define EXPORT_STRUCT_MEMBER
 
 //add namespace, ensure wont causes a naming conflict with the standard library(std)
 namespace MinConsoleNative
