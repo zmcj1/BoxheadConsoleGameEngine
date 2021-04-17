@@ -61,6 +61,16 @@ namespace MinConsoleNative
         Window::Global.GetInstance().SetWindowPos(centerPos);
     }
 
+    void ConsoleEngine::ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight, const std::wstring& fontName, int fontWeight)
+    {
+        ConsoleFont consoleFont = Console::Global.GetInstance().GetConsoleFont();
+        consoleFont.FontWeight = (uint)fontWidth;
+        consoleFont.SetFontName(fontName);
+        Console::Global.GetInstance().SetConsoleFont(consoleFont);
+
+        ConsoleEngine::ConstructConsole(title, paletteType, consoleWidth, consoleHeight, fontWeight, fontHeight);
+    }
+
     void ConsoleEngine::ConstructTerminal(const std::wstring& title)
     {
 
@@ -69,6 +79,14 @@ namespace MinConsoleNative
     void ConsoleEngine::StartLoop(int fps, bool disableConsoleCursor)
     {
         this->running = true;
+
+        ConsoleType consoleType = Console::Global.GetInstance().GetConsoleType();
+        //For Windows Terminal, we only need to set once.
+        if (disableConsoleCursor && consoleType == ConsoleType::WindowsTerminal)
+        {
+            //this code is also useful for Windows Terminal.
+            Console::Global.GetInstance().SetConsoleCursorVisible(false);
+        }
 
         //The time that should be consumed per frame(milli-second).
         double tickTime = 0.0;
@@ -89,7 +107,7 @@ namespace MinConsoleNative
 
             //What is the use of the code?
             //After testing, the cursor will reappear after the console window size changes, which seems to be a bug.
-            if (disableConsoleCursor)
+            if (disableConsoleCursor && consoleType == ConsoleType::WindowsConsole)
             {
                 Console::Global.GetInstance().SetConsoleCursorVisible(false);
             }
