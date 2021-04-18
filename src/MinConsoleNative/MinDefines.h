@@ -99,6 +99,7 @@
 #define EXPORT_STRUCT struct
 #define EXPORT_STRUCT_MEMBER
 #define EXPORT_DELEGATE
+#define EXPORT_CONSTEXPR constexpr
 
 //add namespace, ensure wont causes a naming conflict with the standard library(std)
 namespace MinConsoleNative

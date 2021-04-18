@@ -9,12 +9,12 @@ namespace MinConsoleNative
 {
     static int LastMCIResult = 0;
 
-    constexpr int MCI_MIN_VOLUME = 0;
-    constexpr int MCI_MAX_VOLUME = 1000;
+    EXPORT_CONSTEXPR int MCI_MIN_VOLUME = 0;
+    EXPORT_CONSTEXPR int MCI_MAX_VOLUME = 1000;
 
-    constexpr int MCI_SLOW_SPEED = 500;
-    constexpr int MCI_NORMAL_SPEED = 1000;
-    constexpr int MCI_FAST_SPEED = 2000;
+    EXPORT_CONSTEXPR int MCI_SLOW_SPEED = 500;
+    EXPORT_CONSTEXPR int MCI_NORMAL_SPEED = 1000;
+    EXPORT_CONSTEXPR int MCI_FAST_SPEED = 2000;
 
     EXPORT_ENUM_CLASS MCIAudioMode
     {

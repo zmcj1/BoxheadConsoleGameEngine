@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.6.1
+//Version:2.7
 
 namespace NativeFunctionTranslator
 {
@@ -82,7 +82,7 @@ namespace NativeFunctionTranslator
         public const string EXPORT_STRUCT_MEMBER = "EXPORT_STRUCT_MEMBER";
         public const string EXPORT_STRUCT_DLLIMPORT = "[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]";
         public const string EXPORT_DELEGATE = "EXPORT_DELEGATE";
-
+        public const string EXPORT_CONSTEXPR = "EXPORT_CONSTEXPR";
 
         public const string DECLARATION =
 @"////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -678,6 +678,7 @@ namespace NativeFunctionTranslator
             List<string> enums = new List<string>();
             List<string> structs = new List<string>();
             List<string> delegates = new List<string>();
+            List<string> constexprs = new List<string>();
 
             foreach (string file in headFiles)
             {
@@ -833,11 +834,23 @@ namespace NativeFunctionTranslator
                             delegateReturnType + " " + delegateName + "(" + paramsDef + ");");
                         delegates.Add("");
                     }
+
+                    //-------------constexpr-------------
+                    int exConstexprIndex = line.IndexOf(EXPORT_CONSTEXPR);
+                    //find EXPORT_CONSTEXPR line
+                    if (exConstexprIndex != -1 && defineIndex == -1)
+                    {
+                        line = line.Replace(EXPORT_CONSTEXPR, "public const").Trim();
+
+                        constexprs.Add(GetIndentString() + line);
+                        constexprs.Add("");
+                    }
                 }
             }
 
             List<string> Content = new List<string>();
             Content.AddRange(GetHeaderLines2());
+            Content.AddRange(constexprs);
             Content.AddRange(enums);
             Content.AddRange(structs);
             Content.AddRange(delegates);
