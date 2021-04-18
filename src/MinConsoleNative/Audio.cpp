@@ -11,13 +11,20 @@ namespace MinConsoleNative
     EXPORT_FUNC_EX(bool) MinMCISendString(_IN_ const wchar* str)
     {
         MCIERROR mci_result = ::mciSendString(str, nullptr, 0, nullptr);
+        LastMCIResult = mci_result;
         return mci_result == 0;
     }
 
     EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen)
     {
         MCIERROR mci_result = ::mciSendString(str, returnStr, returnStrLen, nullptr);
+        LastMCIResult = mci_result;
         return mci_result == 0;
+    }
+
+    EXPORT_FUNC_EX(void) MinMCIGetErrorString(_OUT_ wchar* errStr, int errStrLen)
+    {
+        ::mciGetErrorString(LastMCIResult, errStr, errStrLen);
     }
 
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay)

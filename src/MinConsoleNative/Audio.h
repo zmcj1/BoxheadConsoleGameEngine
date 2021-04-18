@@ -7,9 +7,13 @@
 
 namespace MinConsoleNative
 {
+    static int LastMCIResult = 0;
+
     EXPORT_FUNC_EX(bool) MinMCISendString(_IN_ const wchar* str);
 
     EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen);
+
+    EXPORT_FUNC_EX(void) MinMCIGetErrorString(_OUT_ wchar* errStr, int errStrLen);
 
     //This method is very simple and only supports playing .wav files
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay);
