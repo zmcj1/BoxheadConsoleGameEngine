@@ -39,7 +39,7 @@ namespace MinConsoleNative
         }
     }
 
-    EXPORT_FUNC_EX(bool) InitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path)
+    EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path)
     {
         ::wcscpy_s(mciAudio->Path, ::wcslen(path) + 1, path);
 
@@ -70,7 +70,7 @@ namespace MinConsoleNative
         return true;
     }
 
-    EXPORT_FUNC_EX(bool) DeinitMCIAudio(_IN_ const MCIAudio* mciAudio)
+    EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ const MCIAudio* mciAudio)
     {
         return Audio::MCISendString(L"close " + wstring(mciAudio->ShortPathName));
     }

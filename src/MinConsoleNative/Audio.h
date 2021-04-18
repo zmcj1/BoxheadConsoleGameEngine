@@ -33,9 +33,9 @@ namespace MinConsoleNative
         EXPORT_STRUCT_MEMBER bool Paused;        //paused
     };
 
-    EXPORT_FUNC_EX(bool) InitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path);
+    EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path);
 
-    EXPORT_FUNC_EX(bool) DeinitMCIAudio(_IN_ const MCIAudio* mciAudio);
+    EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ const MCIAudio* mciAudio);
 
     class Audio
     {

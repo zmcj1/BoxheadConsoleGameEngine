@@ -111,6 +111,19 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct MCIAudio
+        {
+            public string Path;
+            public string ShortPathName;
+            public string Extension;
+            public int Minute;         //minute part of this audio
+            public int Second;         //second part of this audio
+            public int MilliSecond;    //milliSecond part of this audio
+            public int Volume;         //volume of this audio
+            public bool Paused;        //paused
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct Color24
         {
             public byte r;
