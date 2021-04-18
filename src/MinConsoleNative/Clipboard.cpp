@@ -5,66 +5,69 @@ namespace MinConsoleNative
 {
     EXPORT_FUNC MinReadFromClipboard(wchar** data)
     {
-        bool open_suc = OpenClipboard(0);
+        bool open_suc = ::OpenClipboard(0);
         if (!open_suc) return false;
 
-        bool data_available = IsClipboardFormatAvailable(CF_UNICODETEXT);
+        bool data_available = ::IsClipboardFormatAvailable(CF_UNICODETEXT);
         if (!data_available)
         {
-            CloseClipboard();
+            ::CloseClipboard();
             return false;
         }
 
-        wchar* rawData = (wchar*)GetClipboardData(CF_UNICODETEXT);
+        wchar* rawData = (wchar*)::GetClipboardData(CF_UNICODETEXT);
         if (rawData == nullptr)
         {
-            CloseClipboard();
+            ::CloseClipboard();
             return false;
         }
 
         *data = rawData;
         //GlobalFree(rawData); //remember to free the mem after use.
 
-        CloseClipboard();
+        ::CloseClipboard();
         return true;
     }
 
     EXPORT_FUNC MinFreeClipboardData(wchar* data)
     {
-        GlobalFree(data);
+        if (data != nullptr)
+        {
+            ::GlobalFree(data);
+        }
         return true;
     }
 
     EXPORT_FUNC MinWriteToClipboard(const wchar* data, int charCount)
     {
-        bool open_suc = OpenClipboard(0);
+        bool open_suc = ::OpenClipboard(0);
         if (!open_suc) return false;
 
-        EmptyClipboard();
+        ::EmptyClipboard();
 
         int length = (charCount + 1) * sizeof(wchar);
-        wchar* rawData = (wchar*)GlobalAlloc(GMEM_FIXED, length);
+        wchar* rawData = (wchar*)::GlobalAlloc(GMEM_FIXED, length);
 
         if (rawData == nullptr)
         {
-            CloseClipboard();
+            ::CloseClipboard();
             return false;
         }
 
-        ZeroMemory(rawData, length);
-        wcscpy_s(rawData, length, data);
+        ::ZeroMemory(rawData, length);
+        ::wcscpy_s(rawData, length, data);
 
-        HANDLE set_data_suc = SetClipboardData(CF_UNICODETEXT, rawData);
-        GlobalUnlock(rawData);
+        HANDLE set_data_suc = ::SetClipboardData(CF_UNICODETEXT, rawData);
+        ::GlobalUnlock(rawData);
         //GlobalFree(rawData); //Use this will cause a breakpoint!
 
         if (!set_data_suc)
         {
-            CloseClipboard();
+            ::CloseClipboard();
             return false;
         }
 
-        CloseClipboard();
+        ::CloseClipboard();
         return true;
     }
 
