@@ -62,3 +62,13 @@ namespace MinConsoleNative
         return deltaTime;
     }
 }
+
+EXPORT_FUNC_EX(float) MinMilliToMinute(int milliSecond)
+{
+    return milliSecond / 60.0f / 1000;
+}
+
+EXPORT_FUNC_EX(int) MinMinuteToMilli(float minute)
+{
+    return (int)(minute * 60.0f * 1000);
+}

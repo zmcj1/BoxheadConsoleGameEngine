@@ -9,6 +9,15 @@ namespace MinConsole
     internal static class MinConsoleNativeFuncs
     {
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinMCISendString(string str);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinMCISendString2(string str, out string returnStr, int returnStrLen);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinPlaySound(string path, bool repeatPlay);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinReadFromClipboard(out string data);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
@@ -229,6 +238,12 @@ namespace MinConsole
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinTimeTimer(ref MinTimer timer, out double deltaTime, int iterations);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static float MinMilliToMinute(int milliSecond);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static int MinMinuteToMilli(float minute);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinVTResetStyle(string str, int strLen);

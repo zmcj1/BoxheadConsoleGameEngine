@@ -32,6 +32,10 @@ namespace MinConsoleNative
     //To return the value in milliseconds, please set iterations to 1000
     EXPORT_FUNC MinTimeTimer(_IN_ const MinTimer* timer, _OUT_ double* deltaTime, int iterations);
 
+    EXPORT_FUNC_EX(float) MinMilliToMinute(int milliSecond);
+
+    EXPORT_FUNC_EX(int) MinMinuteToMilli(float minute);
+
     class Timer
     {
     public:
