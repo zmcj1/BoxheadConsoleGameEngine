@@ -91,6 +91,7 @@ namespace MinConsoleNative
     void ConsoleEngine::ConstructTerminal(const std::wstring& title)
     {
         this->title = title;
+        Console::Global.GetInstance().Clear();
     }
 
     void ConsoleEngine::StartLoop(int fps, bool disableConsoleCursor)

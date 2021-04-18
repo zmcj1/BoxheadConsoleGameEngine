@@ -795,12 +795,13 @@ namespace MinConsoleNative
         COORD coord = { 0, 0 };
         DWORD written = 0;
 
+        //Put the cursor at its home coordinates.
+        MinSetConsoleCursorPos(consoleOutput, { 0, 0 });
+
         ::FillConsoleOutputCharacter(consoleOutput, _T(' '), length, coord, &written);
 
         CONSOLE_SCREEN_BUFFER_INFO csbi;
         ::GetConsoleScreenBufferInfo(consoleOutput, &csbi);
-
-        //Put the cursor at its home coordinates. //Console::SetConsoleCursorPos({ 0,0 });
 
         return ::FillConsoleOutputAttribute(consoleOutput, csbi.wAttributes, length, coord, &written);
     }

@@ -24,6 +24,6 @@ int main()
     {
         consoleEngine.ConstructTerminal(L"my terminal program");
     }
-    consoleEngine.StartLoop();
+    consoleEngine.StartLoop(60, false);
     return 0;
 }

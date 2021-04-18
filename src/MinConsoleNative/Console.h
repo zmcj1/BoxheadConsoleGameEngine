@@ -498,6 +498,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinSetConsoleCursorVisible(HANDLE consoleOutput, bool visible);
 
+    //This API will cause the mouse coordinates to return to zero.
     //See:https://docs.microsoft.com/en-us/windows/console/clearing-the-screen
     EXPORT_FUNC MinClear(HANDLE consoleOutput);
 
@@ -667,6 +668,7 @@ namespace MinConsoleNative
 
         bool WriteLine(const std::wstring& msg, ConsoleColor foreColor, ConsoleColor backColor);
 
+        //This API will cause the mouse coordinates to return to zero.
         //See:https://docs.microsoft.com/en-us/windows/console/clearing-the-screen
         bool Clear();
 
