@@ -11,11 +11,39 @@ namespace MinConsoleNative
 {
     const int MAX_INPUT_CHAR_COUNT = 2048;
 
+    EXPORT_FUNC_EX(bool) MinAllocConsole(_OUT_ ConsoleSession* cons)
+    {
+        bool allocSuc = ::AllocConsole();
+        if (allocSuc)
+        {
+            bool initSuc = MinInitConsoleSession(cons);
+            return initSuc;
+        }
+        return false;
+    }
+
+    EXPORT_FUNC_EX(bool) MinFreeConsole()
+    {
+        return ::FreeConsole();
+    }
+
     EXPORT_FUNC MinInitConsoleSession(ConsoleSession* cons)
     {
         cons->consoleInput = ::GetStdHandle(STD_INPUT_HANDLE);
+        if (cons->consoleInput == INVALID_HANDLE_VALUE)
+        {
+            return false;
+        }
         cons->consoleOutput = ::GetStdHandle(STD_OUTPUT_HANDLE);
+        if (cons->consoleOutput == INVALID_HANDLE_VALUE)
+        {
+            return false;
+        }
         cons->consoleWindow = ::GetConsoleWindow();
+        if (cons->consoleWindow == nullptr)
+        {
+            return false;
+        }
         //Set CodePage to UTF-8, this will always be right.
         ::SetConsoleCP(CP_UTF8);
         ::SetConsoleOutputCP(CP_UTF8);

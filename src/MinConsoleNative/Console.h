@@ -394,6 +394,12 @@ namespace MinConsoleNative
 
     extern const int MAX_INPUT_CHAR_COUNT;
 
+    //The API is mainly to serve GUI programs.
+    //Important fact: A process can only be associated with one console, and a console can be associated with multiple processes.
+    EXPORT_FUNC_EX(bool) MinAllocConsole(_OUT_ ConsoleSession* cons);
+
+    EXPORT_FUNC_EX(bool) MinFreeConsole();
+
     //Initialize the console inside, don't worry.
     EXPORT_FUNC MinInitConsoleSession(_OUT_ ConsoleSession* cons);
 
