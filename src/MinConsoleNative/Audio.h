@@ -18,6 +18,25 @@ namespace MinConsoleNative
     //This method is very simple and only supports playing .wav files
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay);
 
+    EXPORT_STRUCT MCIAudio
+    {
+    public:
+        EXPORT_STRUCT_MEMBER wchar Path[MAX_PATH];
+        EXPORT_STRUCT_MEMBER wchar ShortPathName[MAX_PATH];
+        EXPORT_STRUCT_MEMBER wchar Extension[32];
+
+        EXPORT_STRUCT_MEMBER int Minute;         //minute part of this audio
+        EXPORT_STRUCT_MEMBER int Second;         //second part of this audio
+        EXPORT_STRUCT_MEMBER int MilliSecond;    //milliSecond part of this audio
+
+        EXPORT_STRUCT_MEMBER int Volume;         //volume of this audio
+        EXPORT_STRUCT_MEMBER bool Paused;        //paused
+    };
+
+    EXPORT_FUNC_EX(bool) InitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path);
+
+    EXPORT_FUNC_EX(bool) DeinitMCIAudio(_IN_ const MCIAudio* mciAudio);
+
     class Audio
     {
     public:

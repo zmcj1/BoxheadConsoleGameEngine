@@ -15,6 +15,9 @@ namespace MinConsole
         public extern static bool MinMCISendStringEx(string str, out string returnStr, int returnStrLen);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static void MinMCIGetErrorString(out string errStr, int errStrLen);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinPlaySound(string path, bool repeatPlay);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]

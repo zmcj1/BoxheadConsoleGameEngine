@@ -39,6 +39,42 @@ namespace MinConsoleNative
         }
     }
 
+    EXPORT_FUNC_EX(bool) InitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path)
+    {
+        ::wcscpy_s(mciAudio->Path, ::wcslen(path) + 1, path);
+
+        wstring shortPathName = File::ToShortPathName(path);
+        ::wcscpy_s(mciAudio->ShortPathName, ::wcslen(shortPathName.c_str()) + 1, shortPathName.c_str());
+
+        wstring extension = File::GetFileExtension(path);
+        ::wcscpy_s(mciAudio->Extension, ::wcslen(extension.c_str()) + 1, extension.c_str());
+
+        //open the audio(should close audio when you dont use it.)
+        bool openSuccess = Audio::MCISendString(_T("open ") + shortPathName);
+        if (!openSuccess) return false;
+
+        //get the length of the audio(you can directly use this cmd without open operation)
+        wstring length = Audio::MCISendStringEx(_T("status ") + shortPathName + _T(" length"));
+        int totalMilliSecond = ::_wtoi(length.c_str());
+        mciAudio->Minute = (int)(totalMilliSecond / 1000 / 60);
+        mciAudio->Second = totalMilliSecond / 1000 - mciAudio->Minute * 60;
+        mciAudio->MilliSecond = totalMilliSecond % 1000;
+
+        //get the volume of this audio(you should open audio before call this)
+        wstring volume = Audio::MCISendStringEx(_T("status ") + shortPathName + _T(" volume"));
+        mciAudio->Volume = ::_wtoi(volume.c_str());
+
+        //defualt is paused
+        mciAudio->Paused = true;
+
+        return true;
+    }
+
+    EXPORT_FUNC_EX(bool) DeinitMCIAudio(_IN_ const MCIAudio* mciAudio)
+    {
+        return Audio::MCISendString(L"close " + wstring(mciAudio->ShortPathName));
+    }
+
     bool Audio::MCISendString(const wstring& cmd)
     {
         return MinMCISendString(cmd.c_str());
