@@ -6,6 +6,10 @@ class Example : public ConsoleEngine
     void OnUpdate(float deltaTime)
     {
         ConsoleEngine::OnUpdate(deltaTime);
+        if (Input::GetKey('A'))
+        {
+            Console::Global.GetInstance().WriteLine(L"asdlkajsask");
+        }
         if (Input::GetKey('C'))
         {
             Console::Global.GetInstance().Clear();

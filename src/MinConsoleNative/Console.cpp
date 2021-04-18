@@ -788,22 +788,33 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinClear(HANDLE consoleOutput)
     {
-        POINT bufSize;
-        MinGetConsoleBufferSize(consoleOutput, &bufSize);
+        ConsoleType consoleType = ConsoleType::WindowsConsole;
+        MinGetConsoleType(&consoleType);
+        if (consoleType == ConsoleType::WindowsTerminal)
+        {
+            //Especially effective in Windows Terminal.
+            ::system("cls");
+            return true;
+        }
+        else
+        {
+            POINT bufSize;
+            MinGetConsoleBufferSize(consoleOutput, &bufSize);
 
-        int length = bufSize.x * bufSize.y;
-        COORD coord = { 0, 0 };
-        DWORD written = 0;
+            int length = bufSize.x * bufSize.y;
+            COORD coord = { 0, 0 };
+            DWORD written = 0;
 
-        //Put the cursor at its home coordinates.
-        MinSetConsoleCursorPos(consoleOutput, { 0, 0 });
+            //Put the cursor at its home coordinates.
+            MinSetConsoleCursorPos(consoleOutput, { 0, 0 });
 
-        ::FillConsoleOutputCharacter(consoleOutput, _T(' '), length, coord, &written);
+            ::FillConsoleOutputCharacter(consoleOutput, _T(' '), length, coord, &written);
 
-        CONSOLE_SCREEN_BUFFER_INFO csbi;
-        ::GetConsoleScreenBufferInfo(consoleOutput, &csbi);
+            CONSOLE_SCREEN_BUFFER_INFO csbi;
+            ::GetConsoleScreenBufferInfo(consoleOutput, &csbi);
 
-        return ::FillConsoleOutputAttribute(consoleOutput, csbi.wAttributes, length, coord, &written);
+            return ::FillConsoleOutputAttribute(consoleOutput, csbi.wAttributes, length, coord, &written);
+        }
     }
 
     EXPORT_FUNC MinSetConsoleCtrlHandler(PHANDLER_ROUTINE handler, bool add)
