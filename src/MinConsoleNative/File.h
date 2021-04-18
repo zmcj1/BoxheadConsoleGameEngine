@@ -32,6 +32,8 @@ namespace MinConsoleNative
 
         static std::wstring Combine(const std::wstring& p1, const std::wstring& p2);
 
+        static std::wstring GetFileExtension(const std::wstring& path);
+
         static bool Exists(const std::wstring& path);
 
         //See:https://stackoverflow.com/questions/8233842/how-to-check-if-directory-exist-using-c-and-winapi

@@ -49,7 +49,7 @@ namespace MinConsoleNative
     {
         this->path = path;
         this->shortPathName = File::ToShortPathName(path);
-
+        this->extension = File::GetFileExtension(path);
         this->paused = !MCISendString(_T("open ") + this->shortPathName);
 
         SetVolume(defaultVolume);
@@ -74,7 +74,17 @@ namespace MinConsoleNative
         wstring cmd;
         if (repeat)
         {
-            cmd = _T("play ") + this->shortPathName + _T(" repeat");
+            //NOTICE:if play .wav music, repeat is useless.
+            //if file is .wav and repeat is on, it will fail.
+            //seems it's a bug in MCI.
+            if (String::CompareIgnoreCase(L".wav", this->extension))
+            {
+                cmd = _T("play ") + this->shortPathName;
+            }
+            else
+            {
+                cmd = _T("play ") + this->shortPathName + _T(" repeat");
+            }
         }
         else
         {

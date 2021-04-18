@@ -31,7 +31,7 @@ namespace MinConsoleNative
         ~Audio();
 
         //play audio(.mp3, .wav etc) this function wont block the main thread.
-        //NOTICE:if play .wav music, you should not repeat.
+        //NOTICE:if play .wav music, repeat is useless.
         bool Play(bool repeat = false);
 
         void Pause();
@@ -53,6 +53,7 @@ namespace MinConsoleNative
 
         std::wstring path;
         std::wstring shortPathName;
+        std::wstring extension;
         bool paused;
 
         int minute;         //minute part of this audio

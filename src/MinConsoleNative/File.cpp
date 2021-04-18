@@ -54,6 +54,20 @@ namespace MinConsoleNative
         return path;
     }
 
+    std::wstring File::GetFileExtension(const std::wstring& path)
+    {
+        wstring extension;
+
+        size_t pos = path.find_last_of(L'.');
+        if (pos == wstring::npos)
+        {
+            return extension;
+        }
+
+        extension = path.substr(pos + 1);
+        return extension;
+    }
+
     bool File::Exists(const std::wstring& path)
     {
         FileMode type = File::Status(path);
