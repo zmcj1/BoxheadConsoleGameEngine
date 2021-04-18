@@ -45,11 +45,9 @@ namespace MinConsoleNative
         EXPORT_STRUCT_MEMBER int Minute;            //minute part of this audio
         EXPORT_STRUCT_MEMBER int Second;            //second part of this audio
         EXPORT_STRUCT_MEMBER int MilliSecond;       //milliSecond part of this audio
-
-        EXPORT_STRUCT_MEMBER int Volume;            //volume of this audio
     };
 
-    EXPORT_FUNC_EX(MCIAudio*) MinInitMCIAudio(_IN_ const wchar* path);
+    EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path);
 
     EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio);
 

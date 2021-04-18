@@ -39,10 +39,8 @@ namespace MinConsoleNative
         }
     }
 
-    EXPORT_FUNC_EX(MCIAudio*) MinInitMCIAudio(_IN_ const wchar* path)
+    EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path)
     {
-        MCIAudio* mciAudio = new MCIAudio;
-
         ::wcscpy_s(mciAudio->Path, ::wcslen(path) + 1, path);
 
         wstring shortPathName = File::ToShortPathName(path);
@@ -55,8 +53,7 @@ namespace MinConsoleNative
         bool openSuccess = Audio::MCISendString(_T("open ") + shortPathName);
         if (!openSuccess)
         {
-            delete mciAudio;
-            return nullptr;
+            return false;
         }
 
         //get the length of the audio(you can directly use this cmd without open operation)
@@ -66,11 +63,7 @@ namespace MinConsoleNative
         mciAudio->Second = mciAudio->TotalMilliSecond / 1000 - mciAudio->Minute * 60;
         mciAudio->MilliSecond = mciAudio->TotalMilliSecond % 1000;
 
-        //get the volume of this audio(you should open audio before call this)
-        wstring volume = Audio::MCISendStringEx(_T("status ") + shortPathName + _T(" volume"));
-        mciAudio->Volume = ::_wtoi(volume.c_str());
-
-        return mciAudio;
+        return true;
     }
 
     EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio)
@@ -130,17 +123,12 @@ namespace MinConsoleNative
     {
         //get the volume of this audio(you should open audio before call this)
         wstring volume = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->ShortPathName) + _T(" volume"));
-        mciAudio->Volume = ::_wtoi(volume.c_str());
-        return mciAudio->Volume;
+        return ::_wtoi(volume.c_str());
     }
 
     EXPORT_FUNC_EX(bool) MinSetMCIAudioVolume(_IN_ MCIAudio* mciAudio, int volume)
     {
         bool set_volume_suc = Audio::MCISendString(_T("setaudio ") + wstring(mciAudio->ShortPathName) + _T(" volume to ") + to_wstring(volume));
-        if (set_volume_suc)
-        {
-            mciAudio->Volume = volume;
-        }
         return set_volume_suc;
     }
 

@@ -129,7 +129,6 @@ namespace MinConsole
             public int Minute;            //minute part of this audio
             public int Second;            //second part of this audio
             public int MilliSecond;       //milliSecond part of this audio
-            public int Volume;            //volume of this audio
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
