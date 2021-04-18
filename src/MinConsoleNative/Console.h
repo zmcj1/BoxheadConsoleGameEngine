@@ -514,6 +514,8 @@ namespace MinConsoleNative
     //Get type of Console Emulator on Windows.
     EXPORT_FUNC MinGetConsoleType(_OUT_ ConsoleType* type);
 
+    EXPORT_FUNC_EX(bool) MinRefreshScreen(HANDLE consoleOutput, wchar c, ushort att);
+
     class Console
     {
     public:

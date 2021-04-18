@@ -878,6 +878,23 @@ namespace MinConsoleNative
         return true;
     }
 
+    EXPORT_FUNC_EX(bool) MinRefreshScreen(HANDLE consoleOutput, wchar c, ushort att)
+    {
+        POINT bufSize;
+        MinGetConsoleBufferSize(consoleOutput, &bufSize);
+
+        int length = bufSize.x * bufSize.y;
+        COORD coord = { 0, 0 };
+        DWORD written = 0;
+
+        //Put the cursor at its home coordinates.
+        MinSetConsoleCursorPos(consoleOutput, { 0, 0 });
+
+        ::FillConsoleOutputCharacter(consoleOutput, c, length, coord, &written);
+
+        return ::FillConsoleOutputAttribute(consoleOutput, att, length, coord, &written);
+    }
+
     bool Console::forceVT = false;
 
     Console::Console()

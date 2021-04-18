@@ -30,6 +30,12 @@ namespace MinConsole
         public extern static bool MinSetConsoleRegistryDWORD(string valueName, uint data);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinAllocConsole(out ConsoleSession cons);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinFreeConsole();
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinInitConsoleSession(out ConsoleSession cons);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
@@ -166,6 +172,9 @@ namespace MinConsole
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetConsoleType(out ConsoleType type);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinRefreshScreen(IntPtr consoleOutput, char c, ushort att);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetKey(int virtualKey, out bool yes);
