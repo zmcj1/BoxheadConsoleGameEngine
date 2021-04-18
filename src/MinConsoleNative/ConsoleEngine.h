@@ -11,6 +11,7 @@ namespace MinConsoleNative
     {
     public:
         std::wstring title;
+        ConsoleType consoleType;
 
     private:
         bool running = false;
@@ -25,6 +26,8 @@ namespace MinConsoleNative
         virtual void OnDestroy();
 
     public:
+        ConsoleEngine();
+
         void ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight);
 
         void ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight, const std::wstring& fontName, int fontWeight);

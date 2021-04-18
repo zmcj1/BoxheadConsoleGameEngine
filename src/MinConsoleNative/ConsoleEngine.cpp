@@ -18,12 +18,18 @@ namespace MinConsoleNative
             //Show FPS in the title bar
             wchar_t newTitle[MAX_PATH];
             swprintf_s(newTitle, MAX_PATH, _T("%s - FPS: %3.2f"), this->title.c_str(), 1.0f / deltaTime);
+            //this API works in Windows Terminal :)
             Console::Global.GetInstance().SetTitle(newTitle);
         }
     }
 
     void ConsoleEngine::OnDestroy()
     {
+    }
+
+    ConsoleEngine::ConsoleEngine()
+    {
+        this->consoleType = Console::Global.GetInstance().GetConsoleType();
     }
 
     void ConsoleEngine::ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight)
@@ -91,11 +97,10 @@ namespace MinConsoleNative
     {
         this->running = true;
 
-        ConsoleType consoleType = Console::Global.GetInstance().GetConsoleType();
         //For Windows Terminal, we only need to set once.
-        if (disableConsoleCursor && consoleType == ConsoleType::WindowsTerminal)
+        if (disableConsoleCursor && this->consoleType == ConsoleType::WindowsTerminal)
         {
-            //this code is also useful for Windows Terminal.
+            //this function is also useful for Windows Terminal.
             Console::Global.GetInstance().SetConsoleCursorVisible(false);
         }
 
@@ -118,7 +123,7 @@ namespace MinConsoleNative
 
             //What is the use of the code?
             //After testing, the cursor will reappear after the console window size changes, which seems to be a bug.
-            if (disableConsoleCursor && consoleType == ConsoleType::WindowsConsole)
+            if (disableConsoleCursor && this->consoleType == ConsoleType::WindowsConsole)
             {
                 Console::Global.GetInstance().SetConsoleCursorVisible(false);
             }
