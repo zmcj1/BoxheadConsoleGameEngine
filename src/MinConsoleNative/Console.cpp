@@ -342,6 +342,9 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(void) MinSetConsoleWindowAndBufferSize(HANDLE consoleOutput, POINT size)
     {
+        //It may be possible to avoid the Windows console crashing when adjusting the screen size in Windows 10.
+        //MinSetConsoleCursorPos(consoleOutput, { 0, 0 });
+
         //Avoid the console buffer size is smaller than the console window size, so we set it to 1, 1. But if this line cause an exception, try to disable this line of code.
         MinSetConsoleWindowSize(consoleOutput, { 1, 1 });
         MinSetConsoleBufferSize(consoleOutput, size);
