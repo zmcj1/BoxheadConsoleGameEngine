@@ -14,7 +14,7 @@ namespace MinConsoleNative
         return mci_result == 0;
     }
 
-    EXPORT_FUNC_EX(bool) MinMCISendString2(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen)
+    EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen)
     {
         MCIERROR mci_result = ::mciSendString(str, returnStr, returnStrLen, nullptr);
         return mci_result == 0;
@@ -37,10 +37,10 @@ namespace MinConsoleNative
         return MinMCISendString(cmd.c_str());
     }
 
-    wstring Audio::MCISendString2(const wstring& cmd)
+    wstring Audio::MCISendStringEx(const wstring& cmd)
     {
         wchar res[MAX_PATH] = { 0 };
-        MinMCISendString2(cmd.c_str(), res, MAX_PATH);
+        MinMCISendStringEx(cmd.c_str(), res, MAX_PATH);
         wstring result(res);
         return result;
     }
@@ -48,14 +48,14 @@ namespace MinConsoleNative
     Audio::Audio(const wstring& path, int defaultVolume)
     {
         this->path = path;
-        this->short_path_name = File::ToShortPathName(path);
+        this->shortPathName = File::ToShortPathName(path);
 
-        this->paused = !MCISendString(_T("open ") + this->short_path_name);
+        this->paused = !MCISendString(_T("open ") + this->shortPathName);
 
         SetVolume(defaultVolume);
 
         //get the length of the audio
-        wstring result = MCISendString2(_T("status ") + this->short_path_name + _T(" length"));
+        wstring result = MCISendStringEx(_T("status ") + this->shortPathName + _T(" length"));
 
         int totalMilliSecond = ::_wtoi(result.c_str());
 
@@ -66,7 +66,7 @@ namespace MinConsoleNative
 
     Audio::~Audio()
     {
-        MCISendString(_T("close ") + this->short_path_name);
+        MCISendString(_T("close ") + this->shortPathName);
     }
 
     bool Audio::Play(bool repeat)
@@ -74,11 +74,11 @@ namespace MinConsoleNative
         wstring cmd;
         if (repeat)
         {
-            cmd = _T("play ") + this->short_path_name + _T(" repeat");
+            cmd = _T("play ") + this->shortPathName + _T(" repeat");
         }
         else
         {
-            cmd = _T("play ") + this->short_path_name;
+            cmd = _T("play ") + this->shortPathName;
         }
         this->paused = !MCISendString(cmd);
         return !this->paused;
@@ -86,7 +86,7 @@ namespace MinConsoleNative
 
     void Audio::Pause()
     {
-        this->paused = MCISendString(_T("pause ") + this->short_path_name);
+        this->paused = MCISendString(_T("pause ") + this->shortPathName);
     }
 
     int Audio::GetVolume()
@@ -96,7 +96,7 @@ namespace MinConsoleNative
 
     void Audio::SetVolume(int volume)
     {
-        bool suc = MCISendString(_T("setaudio ") + this->short_path_name + _T(" volume to ") + to_wstring(volume));
+        bool suc = MCISendString(_T("setaudio ") + this->shortPathName + _T(" volume to ") + to_wstring(volume));
 
         if (suc)
         {
@@ -106,19 +106,19 @@ namespace MinConsoleNative
 
     int Audio::GetPosition()
     {
-        wstring r = MCISendString2(_T("status ") + this->short_path_name + _T(" position"));
+        wstring r = MCISendStringEx(_T("status ") + this->shortPathName + _T(" position"));
 
-        int pos = _wtoi(r.c_str());
+        int pos = ::_wtoi(r.c_str());
         return pos;
     }
 
     void Audio::SetPosition(int milliSecond)
     {
-        MCISendString(_T("seek ") + this->short_path_name + _T(" to ") + to_wstring(milliSecond));
+        MCISendString(_T("seek ") + this->shortPathName + _T(" to ") + to_wstring(milliSecond));
     }
 
     wstring Audio::GetMode()
     {
-        return MCISendString2(_T("status ") + this->short_path_name + _T(" mode"));
+        return MCISendStringEx(_T("status ") + this->shortPathName + _T(" mode"));
     }
 }

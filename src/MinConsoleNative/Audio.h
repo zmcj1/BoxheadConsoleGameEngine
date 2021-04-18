@@ -9,7 +9,7 @@ namespace MinConsoleNative
 {
     EXPORT_FUNC_EX(bool) MinMCISendString(_IN_ const wchar* str);
 
-    EXPORT_FUNC_EX(bool) MinMCISendString2(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen);
+    EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen);
 
     //This method is very simple and only supports playing .wav files
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay);
@@ -23,7 +23,7 @@ namespace MinConsoleNative
 
         static bool MCISendString(const std::wstring& cmd);
 
-        static std::wstring MCISendString2(const std::wstring& cmd);
+        static std::wstring MCISendStringEx(const std::wstring& cmd);
 
     public:
         Audio(const std::wstring& path, int defaultVolume = MAX_VOLUME);
@@ -52,7 +52,7 @@ namespace MinConsoleNative
         std::wstring GetMode();
 
         std::wstring path;
-        std::wstring short_path_name;
+        std::wstring shortPathName;
         bool paused;
 
         int minute;         //minute part of this audio
