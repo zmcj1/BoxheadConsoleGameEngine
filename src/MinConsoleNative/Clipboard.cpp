@@ -15,6 +15,8 @@ namespace MinConsoleNative
             return false;
         }
 
+        //The clipboard controls the handle that the GetClipboardData function returns, not the application. The application should copy the data immediately. The application must not free the handle nor leave it locked.
+        //So we should not free this rawData, we can copy it.
         wchar* rawData = (wchar*)::GetClipboardData(CF_UNICODETEXT);
         if (rawData == nullptr)
         {
@@ -23,18 +25,8 @@ namespace MinConsoleNative
         }
 
         *data = rawData;
-        //GlobalFree(rawData); //remember to free the mem after use.
 
         ::CloseClipboard();
-        return true;
-    }
-
-    EXPORT_FUNC MinFreeClipboardData(wchar* data)
-    {
-        if (data != nullptr)
-        {
-            ::GlobalFree(data);
-        }
         return true;
     }
 
@@ -80,8 +72,6 @@ namespace MinConsoleNative
         if (!suc) return wstr;
 
         wstr = data;
-        MinFreeClipboardData(data);
-
         return wstr;
     }
 
