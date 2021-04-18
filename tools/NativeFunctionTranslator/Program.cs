@@ -240,6 +240,10 @@ namespace NativeFunctionTranslator
                     {
                         returnType = "IntPtr";
                     }
+                    if (returnType.Contains('*'))
+                    {
+                        continue; // right now I dont want to fix this.
+                    }
 
                     declaration += EXPORT_FUNC_RETURN_TYPE_EX;
                     declaration += returnType;

@@ -22,9 +22,9 @@ namespace MinConsoleNative
         return mci_result == 0;
     }
 
-    EXPORT_FUNC_EX(void) MinMCIGetErrorString(_OUT_ wchar* errStr, int errStrLen)
+    EXPORT_FUNC_EX(bool) MinMCIGetErrorString(_OUT_ wchar* errStr, int errStrLen)
     {
-        ::mciGetErrorString(LastMCIResult, errStr, errStrLen);
+        return ::mciGetErrorString(LastMCIResult, errStr, errStrLen);
     }
 
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay)
@@ -39,8 +39,10 @@ namespace MinConsoleNative
         }
     }
 
-    EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path)
+    EXPORT_FUNC_EX(MCIAudio*) MinInitMCIAudio(_IN_ const wchar* path)
     {
+        MCIAudio* mciAudio = new MCIAudio;
+
         ::wcscpy_s(mciAudio->Path, ::wcslen(path) + 1, path);
 
         wstring shortPathName = File::ToShortPathName(path);
@@ -51,28 +53,170 @@ namespace MinConsoleNative
 
         //open the audio(should close audio when you dont use it.)
         bool openSuccess = Audio::MCISendString(_T("open ") + shortPathName);
-        if (!openSuccess) return false;
+        if (!openSuccess)
+        {
+            delete mciAudio;
+            return nullptr;
+        }
 
         //get the length of the audio(you can directly use this cmd without open operation)
         wstring length = Audio::MCISendStringEx(_T("status ") + shortPathName + _T(" length"));
-        int totalMilliSecond = ::_wtoi(length.c_str());
-        mciAudio->Minute = (int)(totalMilliSecond / 1000 / 60);
-        mciAudio->Second = totalMilliSecond / 1000 - mciAudio->Minute * 60;
-        mciAudio->MilliSecond = totalMilliSecond % 1000;
+        mciAudio->TotalMilliSecond = ::_wtoi(length.c_str());
+        mciAudio->Minute = (int)(mciAudio->TotalMilliSecond / 1000 / 60);
+        mciAudio->Second = mciAudio->TotalMilliSecond / 1000 - mciAudio->Minute * 60;
+        mciAudio->MilliSecond = mciAudio->TotalMilliSecond % 1000;
 
         //get the volume of this audio(you should open audio before call this)
         wstring volume = Audio::MCISendStringEx(_T("status ") + shortPathName + _T(" volume"));
         mciAudio->Volume = ::_wtoi(volume.c_str());
 
-        //defualt is paused
-        mciAudio->Paused = true;
-
-        return true;
+        return mciAudio;
     }
 
-    EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ const MCIAudio* mciAudio)
+    EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio)
     {
-        return Audio::MCISendString(L"close " + wstring(mciAudio->ShortPathName));
+        bool closeSuccess = Audio::MCISendString(L"close " + wstring(mciAudio->ShortPathName));
+        delete mciAudio;
+        return closeSuccess;
+    }
+
+    EXPORT_FUNC_EX(bool) MinPlayMCIAudio(_IN_ MCIAudio* mciAudio, bool repeat, bool wait)
+    {
+        return MinPlayMCIAudioEx(mciAudio, repeat, wait, 0, mciAudio->TotalMilliSecond);
+    }
+
+    EXPORT_FUNC_EX(bool) MinPlayMCIAudioEx(_IN_ MCIAudio* mciAudio, bool repeat, bool wait, int from, int to)
+    {
+        wstring cmd = _T("play ") + wstring(mciAudio->ShortPathName);
+
+        //from x ms to y ms
+        cmd += L" from " + to_wstring(from) + L" to " + to_wstring(to);
+
+        //NOTICE:if play .wav music, repeat is useless.
+        //if file is .wav and repeat is on, it will fail.
+        //seems it's a bug in MCI.
+        if (repeat && !String::CompareIgnoreCase(L".wav", mciAudio->Extension))
+        {
+            cmd += L" repeat";
+        }
+        //wait will block the thread.
+        if (wait)
+        {
+            cmd += L" wait";
+        }
+
+        bool suc = Audio::MCISendString(cmd);
+        return suc;
+    }
+
+    EXPORT_FUNC_EX(bool) MinStopMCIAudio(_IN_ MCIAudio* mciAudio)
+    {
+        return Audio::MCISendString(L"stop " + wstring(mciAudio->ShortPathName));
+    }
+
+    EXPORT_FUNC_EX(bool) MinPauseMCIAudio(_IN_ MCIAudio* mciAudio)
+    {
+        bool pause_suc = Audio::MCISendString(L"pause " + wstring(mciAudio->ShortPathName));
+        return pause_suc;
+    }
+
+    EXPORT_FUNC_EX(bool) MinResumeMCIAudio(_IN_ MCIAudio* mciAudio)
+    {
+        bool resume_suc = Audio::MCISendString(L"resume " + wstring(mciAudio->ShortPathName));
+        return resume_suc;
+    }
+
+    EXPORT_FUNC_EX(int) MinGetMCIAudioVolume(_IN_ MCIAudio* mciAudio)
+    {
+        //get the volume of this audio(you should open audio before call this)
+        wstring volume = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->ShortPathName) + _T(" volume"));
+        mciAudio->Volume = ::_wtoi(volume.c_str());
+        return mciAudio->Volume;
+    }
+
+    EXPORT_FUNC_EX(bool) MinSetMCIAudioVolume(_IN_ MCIAudio* mciAudio, int volume)
+    {
+        bool set_volume_suc = Audio::MCISendString(_T("setaudio ") + wstring(mciAudio->ShortPathName) + _T(" volume to ") + to_wstring(volume));
+        if (set_volume_suc)
+        {
+            mciAudio->Volume = volume;
+        }
+        return set_volume_suc;
+    }
+
+    EXPORT_FUNC_EX(int) MinGetMCIAudioPosition(_IN_ MCIAudio* mciAudio)
+    {
+        wstring position = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->ShortPathName) + _T(" position"));
+        int pos = ::_wtoi(position.c_str());
+        return pos;
+    }
+
+    EXPORT_FUNC_EX(bool) MinSetMCIAudioPosition(_IN_ MCIAudio* mciAudio, int position)
+    {
+        bool seek_suc = Audio::MCISendString(_T("seek ") + wstring(mciAudio->ShortPathName) + _T(" to ") + to_wstring(position));
+        return seek_suc;
+    }
+
+    EXPORT_FUNC_EX(int) MinGetMCIAudioSpeed(_IN_ MCIAudio* mciAudio)
+    {
+        wstring speed = Audio::MCISendStringEx(L"status " + wstring(mciAudio->ShortPathName) + L" speed");
+        return ::_wtoi(speed.c_str());
+    }
+
+    EXPORT_FUNC_EX(bool) MinSetMCIAudioSpeed(_IN_ MCIAudio* mciAudio, int speed)
+    {
+        bool set_speed_suc = Audio::MCISendString(L"set " + wstring(mciAudio->ShortPathName) + L" speed " + to_wstring(speed));
+        return set_speed_suc;
+    }
+
+    EXPORT_FUNC_EX(MCIAudioMode) MinGetMCIAudioMode(_IN_ MCIAudio* mciAudio)
+    {
+        wstring mode = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->ShortPathName) + _T(" mode"));
+        if (String::CompareIgnoreCase(mode, L"not ready"))
+        {
+            return MCIAudioMode::NotReady;
+        }
+        else if (String::CompareIgnoreCase(mode, L"paused"))
+        {
+            return MCIAudioMode::Paused;
+        }
+        else if (String::CompareIgnoreCase(mode, L"playing"))
+        {
+            return MCIAudioMode::Playing;
+        }
+        else if (String::CompareIgnoreCase(mode, L"stopped"))
+        {
+            return MCIAudioMode::Stopped;
+        }
+        else
+        {
+            return MCIAudioMode::Unknown;
+        }
+    }
+
+    EXPORT_FUNC_EX(bool) MinGetMCIAudioIsPlaying(_IN_ MCIAudio* mciAudio)
+    {
+        MCIAudioMode audioMode = MinGetMCIAudioMode(mciAudio);
+        return audioMode == MCIAudioMode::Playing;
+    }
+
+    EXPORT_FUNC_EX(bool) MinGetMCIAudioIsOver(_IN_ MCIAudio* mciAudio)
+    {
+        return MinGetMCIAudioIsOverEx(mciAudio, mciAudio->TotalMilliSecond);
+    }
+
+    EXPORT_FUNC_EX(bool) MinGetMCIAudioIsOverEx(_IN_ MCIAudio* mciAudio, int length)
+    {
+        MCIAudioMode mode = MinGetMCIAudioMode(mciAudio);
+        if (mode == MCIAudioMode::Stopped)
+        {
+            int curPos = MinGetMCIAudioPosition(mciAudio);
+            if (curPos >= length)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     bool Audio::MCISendString(const wstring& cmd)

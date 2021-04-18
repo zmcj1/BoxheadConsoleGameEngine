@@ -15,16 +15,58 @@ namespace MinConsole
         public extern static bool MinMCISendStringEx(string str, out string returnStr, int returnStrLen);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static void MinMCIGetErrorString(out string errStr, int errStrLen);
+        public extern static bool MinMCIGetErrorString(out string errStr, int errStrLen);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinPlaySound(string path, bool repeatPlay);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinInitMCIAudio(out MCIAudio mciAudio, string path);
+        public extern static bool MinDeinitMCIAudio(ref MCIAudio mciAudio);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinDeinitMCIAudio(ref MCIAudio mciAudio);
+        public extern static bool MinPlayMCIAudio(ref MCIAudio mciAudio, bool repeat, bool wait);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinPlayMCIAudioEx(ref MCIAudio mciAudio, bool repeat, bool wait, int from, int to);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinStopMCIAudio(ref MCIAudio mciAudio);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinPauseMCIAudio(ref MCIAudio mciAudio);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinResumeMCIAudio(ref MCIAudio mciAudio);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static int MinGetMCIAudioVolume(ref MCIAudio mciAudio);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinSetMCIAudioVolume(ref MCIAudio mciAudio, int volume);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static int MinGetMCIAudioPosition(ref MCIAudio mciAudio);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinSetMCIAudioPosition(ref MCIAudio mciAudio, int position);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static int MinGetMCIAudioSpeed(ref MCIAudio mciAudio);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinSetMCIAudioSpeed(ref MCIAudio mciAudio, int speed);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static MCIAudioMode MinGetMCIAudioMode(ref MCIAudio mciAudio);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinGetMCIAudioIsPlaying(ref MCIAudio mciAudio);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinGetMCIAudioIsOver(ref MCIAudio mciAudio);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinGetMCIAudioIsOverEx(ref MCIAudio mciAudio, int length);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinReadFromClipboard(out string data);

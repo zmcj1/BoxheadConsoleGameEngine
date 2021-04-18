@@ -9,11 +9,27 @@ namespace MinConsoleNative
 {
     static int LastMCIResult = 0;
 
+    constexpr int MCI_MIN_VOLUME = 0;
+    constexpr int MCI_MAX_VOLUME = 1000;
+
+    constexpr int MCI_SLOW_SPEED = 500;
+    constexpr int MCI_NORMAL_SPEED = 1000;
+    constexpr int MCI_FAST_SPEED = 2000;
+
+    EXPORT_ENUM_CLASS MCIAudioMode
+    {
+        Unknown = 0,
+        NotReady = 1,   //even I dont know when will return this value
+        Paused = 2,     //paused
+        Playing = 3,    //is playing
+        Stopped = 4,    //when audio is not opened or finished.
+    };
+
     EXPORT_FUNC_EX(bool) MinMCISendString(_IN_ const wchar* str);
 
     EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen);
 
-    EXPORT_FUNC_EX(void) MinMCIGetErrorString(_OUT_ wchar* errStr, int errStrLen);
+    EXPORT_FUNC_EX(bool) MinMCIGetErrorString(_OUT_ wchar* errStr, int errStrLen);
 
     //This method is very simple and only supports playing .wav files
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay);
@@ -25,31 +41,58 @@ namespace MinConsoleNative
         EXPORT_STRUCT_MEMBER wchar ShortPathName[MAX_PATH];
         EXPORT_STRUCT_MEMBER wchar Extension[32];
 
-        EXPORT_STRUCT_MEMBER int Minute;         //minute part of this audio
-        EXPORT_STRUCT_MEMBER int Second;         //second part of this audio
-        EXPORT_STRUCT_MEMBER int MilliSecond;    //milliSecond part of this audio
+        EXPORT_STRUCT_MEMBER int TotalMilliSecond;  //total milliSecond of this audio
+        EXPORT_STRUCT_MEMBER int Minute;            //minute part of this audio
+        EXPORT_STRUCT_MEMBER int Second;            //second part of this audio
+        EXPORT_STRUCT_MEMBER int MilliSecond;       //milliSecond part of this audio
 
-        EXPORT_STRUCT_MEMBER int Volume;         //volume of this audio
-        EXPORT_STRUCT_MEMBER bool Paused;        //paused
+        EXPORT_STRUCT_MEMBER int Volume;            //volume of this audio
     };
 
-    EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path);
+    EXPORT_FUNC_EX(MCIAudio*) MinInitMCIAudio(_IN_ const wchar* path);
 
-    EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ const MCIAudio* mciAudio);
+    EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio);
+
+    EXPORT_FUNC_EX(bool) MinPlayMCIAudio(_IN_ MCIAudio* mciAudio, bool repeat, bool wait);
+
+    EXPORT_FUNC_EX(bool) MinPlayMCIAudioEx(_IN_ MCIAudio* mciAudio, bool repeat, bool wait, int from, int to);
+
+    //The stop command will stop playback and reset the current track position to zero.
+    EXPORT_FUNC_EX(bool) MinStopMCIAudio(_IN_ MCIAudio* mciAudio);
+
+    EXPORT_FUNC_EX(bool) MinPauseMCIAudio(_IN_ MCIAudio* mciAudio);
+
+    EXPORT_FUNC_EX(bool) MinResumeMCIAudio(_IN_ MCIAudio* mciAudio);
+
+    EXPORT_FUNC_EX(int) MinGetMCIAudioVolume(_IN_ MCIAudio* mciAudio);
+
+    EXPORT_FUNC_EX(bool) MinSetMCIAudioVolume(_IN_ MCIAudio* mciAudio, int volume);
+
+    EXPORT_FUNC_EX(int) MinGetMCIAudioPosition(_IN_ MCIAudio* mciAudio);
+
+    EXPORT_FUNC_EX(bool) MinSetMCIAudioPosition(_IN_ MCIAudio* mciAudio, int position);
+
+    EXPORT_FUNC_EX(int) MinGetMCIAudioSpeed(_IN_ MCIAudio* mciAudio);
+
+    EXPORT_FUNC_EX(bool) MinSetMCIAudioSpeed(_IN_ MCIAudio* mciAudio, int speed);
+
+    EXPORT_FUNC_EX(MCIAudioMode) MinGetMCIAudioMode(_IN_ MCIAudio* mciAudio);
+
+    EXPORT_FUNC_EX(bool) MinGetMCIAudioIsPlaying(_IN_ MCIAudio* mciAudio);
+
+    EXPORT_FUNC_EX(bool) MinGetMCIAudioIsOver(_IN_ MCIAudio* mciAudio);
+
+    EXPORT_FUNC_EX(bool) MinGetMCIAudioIsOverEx(_IN_ MCIAudio* mciAudio, int length);
 
     class Audio
     {
     public:
-        static const int MIN_VOLUME = 0;
-
-        static const int MAX_VOLUME = 1000;
-
         static bool MCISendString(const std::wstring& cmd);
 
         static std::wstring MCISendStringEx(const std::wstring& cmd);
 
     public:
-        Audio(const std::wstring& path, int defaultVolume = MAX_VOLUME);
+        Audio(const std::wstring& path, int defaultVolume = 1000);
 
         ~Audio();
 
