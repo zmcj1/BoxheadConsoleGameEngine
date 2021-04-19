@@ -50,8 +50,6 @@ namespace MinConsoleNative
     //This method is very simple and only supports playing .wav files
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay);
 
-    extern std::vector<MCIAudio*> shots;
-
     //volumeScale[0, 1]
     EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ const wchar* path, double volumeScale);
 
@@ -98,6 +96,8 @@ namespace MinConsoleNative
     class Audio
     {
     public:
+        static std::vector<MCIAudio*> shots;
+
         static bool MCISendString(const std::wstring& cmd);
 
         static std::wstring MCISendStringEx(const std::wstring& cmd);

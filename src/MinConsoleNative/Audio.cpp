@@ -39,45 +39,42 @@ namespace MinConsoleNative
         }
     }
 
-    std::vector<MCIAudio*> shots;
-
     EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ const wchar* path, double volumeScale)
     {
-        MCIAudio shot;
-        bool init_suc = MinInitMCIAudio(&shot, path);
+        MCIAudio* shot = new MCIAudio;
+        bool init_suc = MinInitMCIAudio(shot, path);
         if (!init_suc)
         {
             return false;
         }
 
         int volume = volumeScale * 1000;
-        bool set_volume_suc = MinSetMCIAudioVolume(&shot, volume);
+        bool set_volume_suc = MinSetMCIAudioVolume(shot, volume);
         if (!set_volume_suc)
         {
-            MinDeinitMCIAudio(&shot);
+            MinDeinitMCIAudio(shot);
             return false;
         }
 
-        bool play_suc = MinPlayMCIAudio(&shot, false, false);
+        bool play_suc = MinPlayMCIAudio(shot, false, false);
         if (!play_suc)
         {
-            MinDeinitMCIAudio(&shot);
+            MinDeinitMCIAudio(shot);
             return false;
         }
 
-        //add to shots
-        shots.push_back(&shot);
+        Audio::shots.push_back(shot);
         return true;
     }
 
     EXPORT_FUNC_EX(void) MinCleanShots()
     {
-        for (size_t i = 0; i < shots.size(); i++)
+        for (size_t i = 0; i < Audio::shots.size(); i++)
         {
-            if (MinGetMCIAudioIsOver(shots[i]))
+            if (MinGetMCIAudioIsOver(Audio::shots[i]))
             {
-                shots.erase(shots.begin() + i);
-                MinDeinitMCIAudio(shots[i]);
+                MinDeinitMCIAudio(Audio::shots[i]);
+                Audio::shots.erase(Audio::shots.begin() + i);
             }
         }
     }
@@ -249,6 +246,8 @@ namespace MinConsoleNative
         }
         return false;
     }
+
+    std::vector<MCIAudio*> Audio::shots;
 
     bool Audio::MCISendString(const wstring& cmd)
     {
