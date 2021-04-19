@@ -2,12 +2,15 @@
 
 #include "MinDefines.h"
 #include <string>
+#include <vector>
 
 //SEE:https://docs.microsoft.com/en-us/windows/win32/multimedia/mci
 
 namespace MinConsoleNative
 {
     static int LastMCIResult = 0;
+    static std::wstring MCIAlias = L"MIN_MCI_ALIAS_";
+    static int MCIAliasIncrement = 1;
 
     EXPORT_CONSTEXPR int MCI_MIN_VOLUME = 0;
     EXPORT_CONSTEXPR int MCI_MAX_VOLUME = 1000;
@@ -28,9 +31,9 @@ namespace MinConsoleNative
     EXPORT_STRUCT MCIAudio
     {
     public:
-        EXPORT_STRUCT_MEMBER wchar Path[MAX_PATH];
-        EXPORT_STRUCT_MEMBER wchar ShortPathName[MAX_PATH];
-        EXPORT_STRUCT_MEMBER wchar Extension[32];
+        EXPORT_STRUCT_MEMBER wchar Path[MAX_PATH];  //Absolute path
+        EXPORT_STRUCT_MEMBER wchar Extension[32];   //File extension
+        EXPORT_STRUCT_MEMBER wchar Alias[32];       //Similar to a unique ID
 
         EXPORT_STRUCT_MEMBER int TotalMilliSecond;  //total milliSecond of this audio
         EXPORT_STRUCT_MEMBER int Minute;            //minute part of this audio
@@ -47,7 +50,9 @@ namespace MinConsoleNative
     //This method is very simple and only supports playing .wav files
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay);
 
-    //This function is very important, but it is temporarily impossible to implement.
+    static std::vector<MCIAudio*> shots; //todo:remove element from shots and Deinit it when it's over.
+
+    //volumeScale[0, 1]
     EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ const wchar* path, double volumeScale);
 
     //-------------------------------MCIAudio functions---------------------------------

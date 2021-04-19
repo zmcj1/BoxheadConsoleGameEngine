@@ -41,28 +41,53 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ const wchar* path, double volumeScale)
     {
-        return false;
+        MCIAudio shot;
+        bool init_suc = MinInitMCIAudio(&shot, path);
+        if (!init_suc)
+        {
+            return false;
+        }
+
+        int volume = volumeScale * 1000;
+        bool set_volume_suc = MinSetMCIAudioVolume(&shot, volume);
+        if (!set_volume_suc)
+        {
+            MinDeinitMCIAudio(&shot);
+            return false;
+        }
+
+        bool play_suc = MinPlayMCIAudio(&shot, false, false);
+        if (!play_suc)
+        {
+            MinDeinitMCIAudio(&shot);
+            return false;
+        }
+
+        //add to shots
+        shots.push_back(&shot);
+        return true;
     }
 
     EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path)
     {
         ::wcscpy_s(mciAudio->Path, ::wcslen(path) + 1, path);
 
-        wstring shortPathName = File::ToShortPathName(path);
-        ::wcscpy_s(mciAudio->ShortPathName, ::wcslen(shortPathName.c_str()) + 1, shortPathName.c_str());
-
         wstring extension = File::GetFileExtension(path);
         ::wcscpy_s(mciAudio->Extension, ::wcslen(extension.c_str()) + 1, extension.c_str());
 
-        //open the audio(should close audio when you dont use it.)
-        bool openSuccess = Audio::MCISendString(_T("open ") + shortPathName);
+        wstring alias = MCIAlias + to_wstring(MCIAliasIncrement++);
+        ::wcscpy_s(mciAudio->Alias, ::wcslen(alias.c_str()) + 1, alias.c_str());
+
+        //open the audio with alias.(should close audio when you dont use it.)
+        wstring shortPathName = File::ToShortPathName(path);
+        bool openSuccess = Audio::MCISendString(_T("open ") + shortPathName + L" alias " + alias);
         if (!openSuccess)
         {
             return false;
         }
 
         //get the length of the audio(you can directly use this cmd without open operation)
-        wstring length = Audio::MCISendStringEx(_T("status ") + shortPathName + _T(" length"));
+        wstring length = Audio::MCISendStringEx(_T("status ") + alias + _T(" length"));
         mciAudio->TotalMilliSecond = ::_wtoi(length.c_str());
         mciAudio->Minute = (int)(mciAudio->TotalMilliSecond / 1000 / 60);
         mciAudio->Second = mciAudio->TotalMilliSecond / 1000 - mciAudio->Minute * 60;
@@ -73,7 +98,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio)
     {
-        bool closeSuccess = Audio::MCISendString(L"close " + wstring(mciAudio->ShortPathName));
+        bool closeSuccess = Audio::MCISendString(L"close " + wstring(mciAudio->Alias));
         delete mciAudio;
         return closeSuccess;
     }
@@ -85,14 +110,13 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinPlayMCIAudioEx(_IN_ MCIAudio* mciAudio, bool repeat, bool wait, int from, int to)
     {
-        wstring cmd = _T("play ") + wstring(mciAudio->ShortPathName);
+        //Use alias instead of path as param to implement API:PlayOneShot!
+        wstring cmd = _T("play ") + wstring(mciAudio->Alias);
 
         //from x ms to y ms
         cmd += L" from " + to_wstring(from) + L" to " + to_wstring(to);
 
-        //NOTICE:if play .wav music, repeat is useless.
-        //if file is .wav and repeat is on, it will fail.
-        //seems it's a bug in MCI.
+        //NOTICE:if play .wav music, repeat is useless. If file is .wav and repeat is on, it will fail. Seems it's a bug in MCI.
         if (repeat && !String::CompareIgnoreCase(L".wav", mciAudio->Extension))
         {
             cmd += L" repeat";
@@ -109,62 +133,62 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinStopMCIAudio(_IN_ MCIAudio* mciAudio)
     {
-        return Audio::MCISendString(L"stop " + wstring(mciAudio->ShortPathName));
+        return Audio::MCISendString(L"stop " + wstring(mciAudio->Alias));
     }
 
     EXPORT_FUNC_EX(bool) MinPauseMCIAudio(_IN_ MCIAudio* mciAudio)
     {
-        bool pause_suc = Audio::MCISendString(L"pause " + wstring(mciAudio->ShortPathName));
+        bool pause_suc = Audio::MCISendString(L"pause " + wstring(mciAudio->Alias));
         return pause_suc;
     }
 
     EXPORT_FUNC_EX(bool) MinResumeMCIAudio(_IN_ MCIAudio* mciAudio)
     {
-        bool resume_suc = Audio::MCISendString(L"resume " + wstring(mciAudio->ShortPathName));
+        bool resume_suc = Audio::MCISendString(L"resume " + wstring(mciAudio->Alias));
         return resume_suc;
     }
 
     EXPORT_FUNC_EX(int) MinGetMCIAudioVolume(_IN_ MCIAudio* mciAudio)
     {
         //get the volume of this audio(you should open audio before call this)
-        wstring volume = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->ShortPathName) + _T(" volume"));
+        wstring volume = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->Alias) + _T(" volume"));
         return ::_wtoi(volume.c_str());
     }
 
     EXPORT_FUNC_EX(bool) MinSetMCIAudioVolume(_IN_ MCIAudio* mciAudio, int volume)
     {
-        bool set_volume_suc = Audio::MCISendString(_T("setaudio ") + wstring(mciAudio->ShortPathName) + _T(" volume to ") + to_wstring(volume));
+        bool set_volume_suc = Audio::MCISendString(_T("setaudio ") + wstring(mciAudio->Alias) + _T(" volume to ") + to_wstring(volume));
         return set_volume_suc;
     }
 
     EXPORT_FUNC_EX(int) MinGetMCIAudioPosition(_IN_ MCIAudio* mciAudio)
     {
-        wstring position = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->ShortPathName) + _T(" position"));
+        wstring position = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->Alias) + _T(" position"));
         int pos = ::_wtoi(position.c_str());
         return pos;
     }
 
     EXPORT_FUNC_EX(bool) MinSetMCIAudioPosition(_IN_ MCIAudio* mciAudio, int position)
     {
-        bool seek_suc = Audio::MCISendString(_T("seek ") + wstring(mciAudio->ShortPathName) + _T(" to ") + to_wstring(position));
+        bool seek_suc = Audio::MCISendString(_T("seek ") + wstring(mciAudio->Alias) + _T(" to ") + to_wstring(position));
         return seek_suc;
     }
 
     EXPORT_FUNC_EX(int) MinGetMCIAudioSpeed(_IN_ MCIAudio* mciAudio)
     {
-        wstring speed = Audio::MCISendStringEx(L"status " + wstring(mciAudio->ShortPathName) + L" speed");
+        wstring speed = Audio::MCISendStringEx(L"status " + wstring(mciAudio->Alias) + L" speed");
         return ::_wtoi(speed.c_str());
     }
 
     EXPORT_FUNC_EX(bool) MinSetMCIAudioSpeed(_IN_ MCIAudio* mciAudio, int speed)
     {
-        bool set_speed_suc = Audio::MCISendString(L"set " + wstring(mciAudio->ShortPathName) + L" speed " + to_wstring(speed));
+        bool set_speed_suc = Audio::MCISendString(L"set " + wstring(mciAudio->Alias) + L" speed " + to_wstring(speed));
         return set_speed_suc;
     }
 
     EXPORT_FUNC_EX(MCIAudioMode) MinGetMCIAudioMode(_IN_ MCIAudio* mciAudio)
     {
-        wstring mode = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->ShortPathName) + _T(" mode"));
+        wstring mode = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->Alias) + _T(" mode"));
         if (String::CompareIgnoreCase(mode, L"not ready"))
         {
             return MCIAudioMode::NotReady;
