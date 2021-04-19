@@ -39,6 +39,8 @@ namespace MinConsoleNative
         }
     }
 
+    std::vector<MCIAudio*> shots;
+
     EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ const wchar* path, double volumeScale)
     {
         MCIAudio shot;
@@ -66,6 +68,18 @@ namespace MinConsoleNative
         //add to shots
         shots.push_back(&shot);
         return true;
+    }
+
+    EXPORT_FUNC_EX(void) MinCleanShots()
+    {
+        for (size_t i = 0; i < shots.size(); i++)
+        {
+            if (MinGetMCIAudioIsOver(shots[i]))
+            {
+                shots.erase(shots.begin() + i);
+                MinDeinitMCIAudio(shots[i]);
+            }
+        }
     }
 
     EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path)
