@@ -9,7 +9,7 @@
 namespace MinConsoleNative
 {
     static int LastMCIResult = 0;
-    static std::wstring MCIAlias = L"MIN_MCI_ALIAS_";
+    static const std::wstring MCIAlias = L"MIN_MCI_ALIAS_";
     static int MCIAliasIncrement = 1;
 
     EXPORT_CONSTEXPR int MCI_MIN_VOLUME = 0;
