@@ -25,15 +25,6 @@ namespace MinConsoleNative
         Stopped = 4,    //when audio is not opened or finished.
     };
 
-    EXPORT_FUNC_EX(bool) MinMCISendString(_IN_ const wchar* str);
-
-    EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen);
-
-    EXPORT_FUNC_EX(bool) MinMCIGetErrorString(_OUT_ wchar* errStr, int errStrLen);
-
-    //This method is very simple and only supports playing .wav files
-    EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay);
-
     EXPORT_STRUCT MCIAudio
     {
     public:
@@ -46,6 +37,20 @@ namespace MinConsoleNative
         EXPORT_STRUCT_MEMBER int Second;            //second part of this audio
         EXPORT_STRUCT_MEMBER int MilliSecond;       //milliSecond part of this audio
     };
+
+    EXPORT_FUNC_EX(bool) MinMCISendString(_IN_ const wchar* str);
+
+    EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen);
+
+    EXPORT_FUNC_EX(bool) MinMCIGetErrorString(_OUT_ wchar* errStr, int errStrLen);
+
+    //This method is very simple and only supports playing .wav files
+    EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay);
+
+    //This function is very important, but it is temporarily impossible to implement.
+    EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ const wchar* path, double volumeScale);
+
+    //-------------------------------MCIAudio functions---------------------------------
 
     EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path);
 

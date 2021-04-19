@@ -39,6 +39,11 @@ namespace MinConsoleNative
         }
     }
 
+    EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ const wchar* path, double volumeScale)
+    {
+        return false;
+    }
+
     EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path)
     {
         ::wcscpy_s(mciAudio->Path, ::wcslen(path) + 1, path);
