@@ -133,8 +133,8 @@ namespace MinConsole
         public struct MCIAudio
         {
             public string Path;
-            public string ShortPathName;
             public string Extension;
+            public string Alias;
             public int TotalMilliSecond;  //total milliSecond of this audio
             public int Minute;            //minute part of this audio
             public int Second;            //second part of this audio
