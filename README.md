@@ -18,6 +18,8 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 ## Features:
 
+1. Simple but powerful class Audio, and you can use AudioPool too!
+
 1. Clipboard interface
 
 1. powerful Console class (Package of Windows Console API)
