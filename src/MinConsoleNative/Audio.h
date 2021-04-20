@@ -3,6 +3,7 @@
 #include "MinDefines.h"
 #include "ObjectPool.h"
 #include <map>
+#include <vector>
 #include <string>
 
 //SEE:https://docs.microsoft.com/en-us/windows/win32/multimedia/mci
@@ -52,21 +53,6 @@ namespace MinConsoleNative
 
     //This method is very simple and only supports playing .wav files
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay);
-
-    //---------------------------------PlayOneShot---------------------------------
-
-    static std::map<std::wstring, ObjectPool<MCIAudio>*> SoundPools;
-    static std::vector<MCIAudio*> PlayingSounds;
-
-    EXPORT_FUNC_EX(bool) MinInitSoundPool(_IN_ const wchar* path);
-
-    EXPORT_FUNC_EX(bool) MinDeinitSoundPool(_IN_ const wchar* path);
-
-    //volumeScale[0, 1]
-    EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ const wchar* path, double volumeScale);
-
-    //call this to remove and delete audios that has finished playing.
-    EXPORT_FUNC_EX(void) MinCleanShots();
 
     //---------------------------------MCIAudio functions---------------------------------
 
@@ -126,6 +112,12 @@ namespace MinConsoleNative
         MCIAudio* mciAudio = nullptr;
 
     public:
+        //Initialized successfully
+        inline bool Success()
+        {
+            return this->mciAudio != nullptr;
+        }
+
         //Absolute path
         inline std::wstring Path()
         {
@@ -203,4 +195,77 @@ namespace MinConsoleNative
 
         bool IsOverEx(int length);
     };
+
+    //---------------------------------PlayOneShot---------------------------------
+
+    class AudioPool
+    {
+    public:
+        std::vector<Audio*> readyAudios;
+        std::vector<Audio*> playingAudios;
+
+        AudioPool(const std::wstring& path, int allocCount)
+        {
+            for (size_t i = 0; i < allocCount; i++)
+            {
+                Audio* audio_ptr = new Audio(path);
+                if (audio_ptr->Success())
+                {
+                    readyAudios.push_back(audio_ptr);
+                }
+            }
+        }
+
+        ~AudioPool()
+        {
+            //clean both of them.
+            for (size_t i = 0; i < readyAudios.size(); i++)
+            {
+                Audio* audio_ptr = readyAudios[i];
+                delete audio_ptr;
+            }
+            for (size_t i = 0; i < playingAudios.size(); i++)
+            {
+                Audio* audio_ptr = playingAudios[i];
+                delete audio_ptr;
+            }
+        }
+
+        bool PlayOneShot()
+        {
+            Audio* audio_ptr = readyAudios.back();
+            readyAudios.pop_back();
+            audio_ptr->Play();
+            playingAudios.push_back(audio_ptr);
+            return true;
+        }
+
+        void Clean()
+        {
+            //check playing audios
+            for (size_t i = 0; i < playingAudios.size(); i++)
+            {
+                Audio* audio_ptr = playingAudios[i];
+                if (audio_ptr->IsOver())
+                {
+                    audio_ptr->SetPosition(0);
+                    playingAudios.erase(playingAudios.begin() + i);
+                    readyAudios.push_back(audio_ptr);
+                }
+            }
+        }
+    };
+
+    static std::map<std::wstring, ObjectPool<MCIAudio>*> SoundPools;
+    static std::vector<MCIAudio*> PlayingSounds;
+
+    EXPORT_FUNC_EX(bool) MinInitSoundPool(_IN_ const wchar* path);
+
+    EXPORT_FUNC_EX(bool) MinDeinitSoundPool(_IN_ const wchar* path);
+
+    //volumeScale[0, 1]
+    EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ const wchar* path, double volumeScale);
+
+    //call this to remove and delete audios that has finished playing.
+    EXPORT_FUNC_EX(void) MinCleanShots();
 }
