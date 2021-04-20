@@ -1,5 +1,5 @@
 ﻿#include "Input.h"
-#include <conio.h> //Windows only
+#include "Console.h"
 #include <stdint.h>
 
 namespace MinConsoleNative
@@ -73,7 +73,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(int) MinGetHitKey()
     {
-        if (::_kbhit()) return ::_getch();
+        if (console.KeyAvailable()) return console.ReadKey(false);
         else return 0;
     }
 

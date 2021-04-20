@@ -663,6 +663,10 @@ namespace MinConsoleNative
         //The return value does not contain \r\n
         int Read();
 
+        bool KeyAvailable();
+
+        int ReadKey(bool echo = true);
+
         //The return value does not contain \r\n
         std::wstring ReadLine();
 

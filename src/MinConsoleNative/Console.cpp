@@ -4,6 +4,7 @@
 #include "ConRegistry.h"
 #include "Debug.h"
 #include "PaletteSystem.h"
+#include <conio.h> //Windows only
 
 using namespace std;
 
@@ -1222,6 +1223,23 @@ namespace MinConsoleNative
 
         if (!strWithOutNewLine.empty()) return strWithOutNewLine[0];
         else return 0;
+    }
+
+    bool Console::KeyAvailable()
+    {
+        return ::_kbhit();
+    }
+
+    int Console::ReadKey(bool echo)
+    {
+        if (echo)
+        {
+            return ::_getche();
+        }
+        else
+        {
+            return ::_getch();
+        }
     }
 
     std::wstring Console::ReadLine()
