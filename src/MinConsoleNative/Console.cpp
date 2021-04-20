@@ -770,7 +770,16 @@ namespace MinConsoleNative
         bool isTrueType = textm.tmPitchAndFamily == TMPF_TRUETYPE;
 
         int width = 0;
-        GetCharWidth32(hdc, c, c, &width); //GetCharWidth
+        if (isTrueType)
+        {
+            ABC abc;
+            GetCharABCWidths(hdc, c, c, &abc); //GetCharWidth
+            width = abc.abcA + abc.abcB + abc.abcC;
+        }
+        else
+        {
+            GetCharWidth32(hdc, c, c, &width); //GetCharWidth
+        }
 
         if (width >= textm.tmMaxCharWidth)
         {
