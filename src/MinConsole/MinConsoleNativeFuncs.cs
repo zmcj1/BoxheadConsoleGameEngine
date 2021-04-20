@@ -162,6 +162,9 @@ namespace MinConsole
         public extern static bool MinSetConsoleBackColor(IntPtr consoleOutput, ConsoleColor backColor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinResetConsoleColor(IntPtr consoleOutput);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetConsoleCursorPos(IntPtr consoleOutput, out COORD pos);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
