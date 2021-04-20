@@ -10,7 +10,7 @@ namespace MinConsoleNative
     class ConsoleEngine
     {
     public:
-        std::wstring title;
+        std::wstring title = L"MinConsole Program";
         ConsoleType consoleType;
 
     private:

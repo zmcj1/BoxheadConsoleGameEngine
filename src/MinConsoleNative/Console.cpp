@@ -411,6 +411,13 @@ namespace MinConsoleNative
         return ::SetConsoleTextAttribute(consoleOutput, att);
     }
 
+    EXPORT_FUNC_EX(bool) MinResetConsoleColor(HANDLE consoleOutput)
+    {
+        bool set_foreColor_suc = MinSetConsoleForeColor(consoleOutput, ConsoleColor::GRAY);
+        bool set_backColor_suc = MinSetConsoleBackColor(consoleOutput, ConsoleColor::BLACK);
+        return set_foreColor_suc && set_backColor_suc;
+    }
+
     EXPORT_FUNC MinGetConsoleCursorPos(HANDLE consoleOutput, COORD* pos)
     {
         CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -1029,6 +1036,11 @@ namespace MinConsoleNative
         return MinSetConsoleBackColor(cons.consoleOutput, backColor);
     }
 
+    bool Console::ResetConsoleColor()
+    {
+        return MinResetConsoleColor(this->cons.consoleOutput);
+    }
+
     COORD Console::GetConsoleCursorPos()
     {
         COORD pos;
@@ -1361,4 +1373,7 @@ namespace MinConsoleNative
             return PaletteSystem::Global.GetInstance().GetCurPaletteClosestConsoleColor(*this);
         }
     }
+
+    //The short name of the singleton
+    Console console = Console::Global.GetInstance();
 }

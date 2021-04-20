@@ -448,6 +448,8 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinSetConsoleBackColor(HANDLE consoleOutput, ConsoleColor backColor);
 
+    EXPORT_FUNC_EX(bool) MinResetConsoleColor(HANDLE consoleOutput);
+
     EXPORT_FUNC MinGetConsoleCursorPos(HANDLE consoleOutput, _OUT_ COORD* pos);
 
     EXPORT_FUNC MinSetConsoleCursorPos(HANDLE consoleOutput, COORD pos);
@@ -617,6 +619,8 @@ namespace MinConsoleNative
 
         bool SetConsoleBackColor(ConsoleColor backColor);
 
+        bool ResetConsoleColor();
+
         COORD GetConsoleCursorPos();
 
         bool SetConsoleCursorPos(COORD pos);
@@ -706,4 +710,7 @@ namespace MinConsoleNative
 
         bool WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score);
     };
+
+    //The short name of the singleton
+    extern Console console;
 }
