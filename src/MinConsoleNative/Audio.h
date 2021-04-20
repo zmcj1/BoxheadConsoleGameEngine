@@ -1,8 +1,9 @@
 ﻿#pragma once
 
 #include "MinDefines.h"
+#include "ObjectPool.h"
+#include <map>
 #include <string>
-#include <vector>
 
 //SEE:https://docs.microsoft.com/en-us/windows/win32/multimedia/mci
 
@@ -41,6 +42,8 @@ namespace MinConsoleNative
         EXPORT_STRUCT_MEMBER int MilliSecond;       //milliSecond part of this audio
     };
 
+    //---------------------------------static functions---------------------------------
+
     EXPORT_FUNC_EX(bool) MinMCISendString(_IN_ const wchar* str);
 
     EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen);
@@ -50,20 +53,33 @@ namespace MinConsoleNative
     //This method is very simple and only supports playing .wav files
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay);
 
+    //---------------------------------PlayOneShot---------------------------------
+
+    static std::map<std::wstring, ObjectPool<MCIAudio>*> SoundPools;
+    static std::vector<MCIAudio*> PlayingSounds;
+
+    EXPORT_FUNC_EX(bool) MinInitSoundPool(_IN_ const wchar* path);
+
+    EXPORT_FUNC_EX(bool) MinDeinitSoundPool(_IN_ const wchar* path);
+
     //volumeScale[0, 1]
     EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ const wchar* path, double volumeScale);
 
     //call this to remove and delete audios that has finished playing.
     EXPORT_FUNC_EX(void) MinCleanShots();
 
-    //-------------------------------MCIAudio functions---------------------------------
+    //---------------------------------MCIAudio functions---------------------------------
 
     EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path);
 
     EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio);
 
+    //play audio(.mp3, .wav etc) this function wont block the main thread.
+    //NOTICE:if play .wav music, repeat is useless.
     EXPORT_FUNC_EX(bool) MinPlayMCIAudio(_IN_ MCIAudio* mciAudio, bool repeat, bool wait);
 
+    //play audio(.mp3, .wav etc) this function wont block the main thread.
+    //NOTICE:if play .wav music, repeat is useless.
     EXPORT_FUNC_EX(bool) MinPlayMCIAudioEx(_IN_ MCIAudio* mciAudio, bool repeat, bool wait, int from, int to);
 
     //The stop command will stop playback and reset the current track position to zero.
@@ -73,16 +89,22 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinResumeMCIAudio(_IN_ MCIAudio* mciAudio);
 
+    //volume [0-1000]
     EXPORT_FUNC_EX(int) MinGetMCIAudioVolume(_IN_ MCIAudio* mciAudio);
 
+    //volume [0-1000]
     EXPORT_FUNC_EX(bool) MinSetMCIAudioVolume(_IN_ MCIAudio* mciAudio, int volume);
 
+    //get audio current position (in milliSecond)
     EXPORT_FUNC_EX(int) MinGetMCIAudioPosition(_IN_ MCIAudio* mciAudio);
 
+    //seek to (in milliSecond) after calling this API, you need to use Play to start playing audio.
     EXPORT_FUNC_EX(bool) MinSetMCIAudioPosition(_IN_ MCIAudio* mciAudio, int position);
 
+    //standard speed(1000)
     EXPORT_FUNC_EX(int) MinGetMCIAudioSpeed(_IN_ MCIAudio* mciAudio);
 
+    //standard speed(1000)
     EXPORT_FUNC_EX(bool) MinSetMCIAudioSpeed(_IN_ MCIAudio* mciAudio, int speed);
 
     EXPORT_FUNC_EX(MCIAudioMode) MinGetMCIAudioMode(_IN_ MCIAudio* mciAudio);
@@ -96,47 +118,89 @@ namespace MinConsoleNative
     class Audio
     {
     public:
-        static std::vector<MCIAudio*> shots;
-
         static bool MCISendString(const std::wstring& cmd);
 
         static std::wstring MCISendStringEx(const std::wstring& cmd);
 
+    private:
+        MCIAudio* mciAudio = nullptr;
+
     public:
-        Audio(const std::wstring& path, int defaultVolume = 1000);
+        //Absolute path
+        inline std::wstring Path()
+        {
+            return std::wstring(mciAudio->Path);
+        }
+
+        //File extension
+        inline std::wstring Extension()
+        {
+            return std::wstring(mciAudio->Extension);
+        }
+
+        //Similar to a unique ID
+        inline std::wstring Alias()
+        {
+            return std::wstring(mciAudio->Alias);
+        }
+
+        //total milliSecond of this audio
+        inline int TotalMilliSecond()
+        {
+            return mciAudio->TotalMilliSecond;
+        }
+
+        //minute part of this audio
+        inline int Minute()
+        {
+            return mciAudio->Minute;
+        }
+
+        //second part of this audio
+        inline int Second()
+        {
+            return mciAudio->Second;
+        }
+
+        //milliSecond part of this audio
+        inline int MilliSecond()
+        {
+            return mciAudio->Second;
+        }
+
+    public:
+        Audio(const std::wstring& path);
 
         ~Audio();
 
-        //play audio(.mp3, .wav etc) this function wont block the main thread.
-        //NOTICE:if play .wav music, repeat is useless.
-        bool Play(bool repeat = false);
+        bool Play(bool repeat = false, bool wait = false);
 
-        void Pause();
+        bool PlayEx(bool repeat, bool wait, int from, int to);
 
-        //set volume [0-1000]
+        bool Stop();
+
+        bool Pause();
+
+        bool Resume();
+
         int GetVolume();
 
-        //set volume [0-1000]
-        void SetVolume(int volume);
+        bool SetVolume(int volume);
 
-        //get audio current position (in milliSecond)
         int GetPosition();
 
-        //seek to (in milliSecond) after calling this API, you need to use Play to start playing audio.
-        void SetPosition(int milliSecond);
+        bool SetPosition(int position);
 
-        //get status return(playing paused stopped)
-        std::wstring GetMode();
+        int GetSpeed();
 
-        std::wstring path;
-        std::wstring shortPathName;
-        std::wstring extension;
-        bool paused;
+        bool SetSpeed(int speed);
 
-        int minute;         //minute part of this audio
-        int second;         //second part of this audio
-        int milliSecond;    //milliSecond part of this audio
-    private:
-        int volume;
+        MCIAudioMode GetMode();
+
+        bool IsPlaying();
+
+        bool IsOver();
+
+        bool IsOverEx(int length);
     };
 }

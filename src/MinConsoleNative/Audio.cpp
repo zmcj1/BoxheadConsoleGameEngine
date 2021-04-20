@@ -39,42 +39,82 @@ namespace MinConsoleNative
         }
     }
 
+    EXPORT_FUNC_EX(bool) MinInitSoundPool(_IN_ const wchar* path)
+    {
+        //can't add the same key.
+        if (SoundPools.count(path) != 0)
+        {
+            return false;
+        }
+        const int Count = 32;
+        ObjectPool<MCIAudio>* pool = new ObjectPool<MCIAudio>(0);
+        for (size_t i = 0; i < Count; i++)
+        {
+            MCIAudio* mciAudio = new MCIAudio;
+            bool init_suc = MinInitMCIAudio(mciAudio, path);
+            if (!init_suc)
+            {
+                delete mciAudio;
+                return false;
+            }
+            pool->ReturnInstance(mciAudio);
+        }
+        SoundPools[path] = pool;
+        return true;
+    }
+
+    EXPORT_FUNC_EX(bool) MinDeinitSoundPool(_IN_ const wchar* path)
+    {
+        //doesn't exsist
+        if (SoundPools.count(path) == 0)
+        {
+            return false;
+        }
+        ObjectPool<MCIAudio>* pool = SoundPools[path];
+        for (size_t i = 0; i < pool->pool.size(); i++)
+        {
+            MCIAudio* mciAudio = pool->pool[i];
+            MinDeinitMCIAudio(mciAudio);
+        }
+        delete pool;
+        return true;
+    }
+
     EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ const wchar* path, double volumeScale)
     {
-        MCIAudio* shot = new MCIAudio;
-        bool init_suc = MinInitMCIAudio(shot, path);
-        if (!init_suc)
+        //doesn't exsist
+        if (SoundPools.count(path) == 0)
         {
             return false;
         }
+        ObjectPool<MCIAudio>* pool = SoundPools[path];
+        MCIAudio* mciAudio = pool->GetInstance();
 
         int volume = volumeScale * 1000;
-        bool set_volume_suc = MinSetMCIAudioVolume(shot, volume);
+        bool set_volume_suc = MinSetMCIAudioVolume(mciAudio, volume);
         if (!set_volume_suc)
         {
-            MinDeinitMCIAudio(shot);
             return false;
         }
 
-        bool play_suc = MinPlayMCIAudio(shot, false, false);
+        bool play_suc = MinPlayMCIAudio(mciAudio, false, false);
         if (!play_suc)
         {
-            MinDeinitMCIAudio(shot);
             return false;
         }
 
-        Audio::shots.push_back(shot);
+        PlayingSounds.push_back(mciAudio);
         return true;
     }
 
     EXPORT_FUNC_EX(void) MinCleanShots()
     {
-        for (size_t i = 0; i < Audio::shots.size(); i++)
+        for (size_t i = 0; i < PlayingSounds.size(); i++)
         {
-            if (MinGetMCIAudioIsOver(Audio::shots[i]))
+            MCIAudio* mciAudio = PlayingSounds[i];
+            if (MinGetMCIAudioIsOver(mciAudio))
             {
-                MinDeinitMCIAudio(Audio::shots[i]);
-                Audio::shots.erase(Audio::shots.begin() + i);
+                SoundPools[mciAudio->Path]->ReturnInstance(mciAudio);
             }
         }
     }
@@ -247,8 +287,6 @@ namespace MinConsoleNative
         return false;
     }
 
-    std::vector<MCIAudio*> Audio::shots;
-
     bool Audio::MCISendString(const wstring& cmd)
     {
         return MinMCISendString(cmd.c_str());
@@ -262,90 +300,93 @@ namespace MinConsoleNative
         return result;
     }
 
-    Audio::Audio(const wstring& path, int defaultVolume)
+    Audio::Audio(const wstring& path)
     {
-        this->path = path;
-        this->shortPathName = File::ToShortPathName(path);
-        this->extension = File::GetFileExtension(path);
-        this->paused = !MCISendString(_T("open ") + this->shortPathName);
-
-        SetVolume(defaultVolume);
-
-        //get the length of the audio
-        wstring result = MCISendStringEx(_T("status ") + this->shortPathName + _T(" length"));
-
-        int totalMilliSecond = ::_wtoi(result.c_str());
-
-        this->minute = (int)(totalMilliSecond / 1000 / 60);
-        this->second = totalMilliSecond / 1000 - this->minute * 60;
-        this->milliSecond = totalMilliSecond % 1000;
+        this->mciAudio = new MCIAudio;
+        bool init_suc = MinInitMCIAudio(this->mciAudio, path.c_str());
+        if (!init_suc)
+        {
+            delete this->mciAudio;
+        }
     }
 
     Audio::~Audio()
     {
-        MCISendString(_T("close ") + this->shortPathName);
+        MinDeinitMCIAudio(this->mciAudio);
     }
 
-    bool Audio::Play(bool repeat)
+    bool Audio::Play(bool repeat, bool wait)
     {
-        wstring cmd;
-        if (repeat)
-        {
-            //NOTICE:if play .wav music, repeat is useless.
-            //if file is .wav and repeat is on, it will fail.
-            //seems it's a bug in MCI.
-            if (String::CompareIgnoreCase(L".wav", this->extension))
-            {
-                cmd = _T("play ") + this->shortPathName;
-            }
-            else
-            {
-                cmd = _T("play ") + this->shortPathName + _T(" repeat");
-            }
-        }
-        else
-        {
-            cmd = _T("play ") + this->shortPathName;
-        }
-        this->paused = !MCISendString(cmd);
-        return !this->paused;
+        return MinPlayMCIAudio(this->mciAudio, repeat, wait);
     }
 
-    void Audio::Pause()
+    bool Audio::PlayEx(bool repeat, bool wait, int from, int to)
     {
-        this->paused = MCISendString(_T("pause ") + this->shortPathName);
+        return MinPlayMCIAudioEx(this->mciAudio, repeat, wait, from, to);
+    }
+
+    bool Audio::Stop()
+    {
+        return MinStopMCIAudio(this->mciAudio);
+    }
+
+    bool Audio::Pause()
+    {
+        return MinPauseMCIAudio(this->mciAudio);
+    }
+
+    bool Audio::Resume()
+    {
+        return MinResumeMCIAudio(this->mciAudio);
     }
 
     int Audio::GetVolume()
     {
-        return this->volume;
+        return MinGetMCIAudioVolume(this->mciAudio);
     }
 
-    void Audio::SetVolume(int volume)
+    bool Audio::SetVolume(int volume)
     {
-        bool suc = MCISendString(_T("setaudio ") + this->shortPathName + _T(" volume to ") + to_wstring(volume));
-
-        if (suc)
-        {
-            this->volume = volume;
-        }
+        return MinSetMCIAudioVolume(this->mciAudio, volume);
     }
 
     int Audio::GetPosition()
     {
-        wstring r = MCISendStringEx(_T("status ") + this->shortPathName + _T(" position"));
-
-        int pos = ::_wtoi(r.c_str());
-        return pos;
+        return MinGetMCIAudioPosition(this->mciAudio);
     }
 
-    void Audio::SetPosition(int milliSecond)
+    bool Audio::SetPosition(int position)
     {
-        MCISendString(_T("seek ") + this->shortPathName + _T(" to ") + to_wstring(milliSecond));
+        return MinSetMCIAudioPosition(this->mciAudio, position);
     }
 
-    wstring Audio::GetMode()
+    int Audio::GetSpeed()
     {
-        return MCISendStringEx(_T("status ") + this->shortPathName + _T(" mode"));
+        return MinGetMCIAudioSpeed(this->mciAudio);
+    }
+
+    bool Audio::SetSpeed(int speed)
+    {
+        return MinSetMCIAudioSpeed(this->mciAudio, speed);
+    }
+
+    MCIAudioMode Audio::GetMode()
+    {
+        return MinGetMCIAudioMode(this->mciAudio);
+    }
+
+    bool Audio::IsPlaying()
+    {
+        return MinGetMCIAudioIsPlaying(this->mciAudio);
+    }
+
+    bool Audio::IsOver()
+    {
+        return MinGetMCIAudioIsOver(this->mciAudio);
+    }
+
+    bool Audio::IsOverEx(int length)
+    {
+        return MinGetMCIAudioIsOverEx(this->mciAudio, length);
     }
 }
