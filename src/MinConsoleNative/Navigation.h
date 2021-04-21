@@ -16,8 +16,8 @@ namespace MinConsoleNative
     struct Node
     {
     public:
-        Vector2 position = Vector2::zero;
-        int depth = 0;
+        Vector2 position;
+        int depth;
 
         Node(Vector2 position, int depth)
         {
@@ -73,11 +73,19 @@ namespace MinConsoleNative
     public:
         //calculate when SearchDirection == SearchDirection::Four
         //input:depth(Number of searches) output:Number of nodes searched
-        static int BFS4Depth(int depth)
+        static int BFS4_Depth(int depth)
         {
             if (depth < 1) return 1;
             //Arithmetic sequence
             return (4 + 4 * depth) * depth / 2 + 1;
+        }
+
+        //calculate when SearchDirection == SearchDirection::Eight
+        //input:depth(Number of searches) output:Number of nodes searched
+        static int BFS8_Depth(int depth)
+        {
+            if (depth < 1) return 1;
+            return (2 * depth + 1) * (2 * depth + 1);
         }
 
         static SearchResult BFS(Vector2 startPos, Vector2 endPos, SearchDirection searchDir, int depthLimit, std::vector<Vector2>& obstacles)
