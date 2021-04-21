@@ -27,12 +27,12 @@ namespace MinConsoleNative
     {
     }
 
-    Vector2 Vector2::operator-()
+    Vector2 Vector2::operator-() const
     {
         return Vector2(-x, -y);
     }
 
-    bool Vector2::operator==(const Vector2& other)
+    bool Vector2::operator==(const Vector2& other) const
     {
         if (x == other.x && y == other.y)
         {
@@ -44,7 +44,7 @@ namespace MinConsoleNative
         }
     }
 
-    bool Vector2::operator!=(const Vector2& other)
+    bool Vector2::operator!=(const Vector2& other) const
     {
         if (x != other.x || y != other.y)
         {
@@ -56,7 +56,7 @@ namespace MinConsoleNative
         }
     }
 
-    Vector2 Vector2::operator+(const Vector2& other)
+    Vector2 Vector2::operator+(const Vector2& other) const
     {
         Vector2 vector;
         vector.x = x + other.x;
@@ -64,7 +64,7 @@ namespace MinConsoleNative
         return vector;
     }
 
-    Vector2 Vector2::operator-(const Vector2& other)
+    Vector2 Vector2::operator-(const Vector2& other) const
     {
         Vector2 vector;
         vector.x = x - other.x;
@@ -72,7 +72,7 @@ namespace MinConsoleNative
         return vector;
     }
 
-    Vector2 Vector2::operator*(int s)
+    Vector2 Vector2::operator*(int s) const
     {
         Vector2 vector;
         vector.x = x * s;
@@ -80,7 +80,7 @@ namespace MinConsoleNative
         return vector;
     }
 
-    Vector2 Vector2::operator/(int s)
+    Vector2 Vector2::operator/(int s) const
     {
         Vector2 vector;
         if (s == 0)
@@ -92,7 +92,7 @@ namespace MinConsoleNative
         return vector;
     }
 
-    wstring Vector2::ToString()
+    wstring Vector2::ToString() const
     {
         wstring wstr;
         wstr += _T("[X:");

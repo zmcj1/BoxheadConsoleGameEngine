@@ -25,20 +25,20 @@ namespace MinConsoleNative
 
         Vector2(POINT point);
 
-        Vector2 operator-();
+        Vector2 operator-() const;
 
-        bool operator ==(const Vector2& other);
+        bool operator ==(const Vector2& other) const;
 
-        bool operator !=(const Vector2& other);
+        bool operator !=(const Vector2& other) const;
 
-        Vector2 operator+(const Vector2& other);
+        Vector2 operator+(const Vector2& other) const;
 
-        Vector2 operator-(const Vector2& other);
+        Vector2 operator-(const Vector2& other) const;
 
-        Vector2 operator*(int s);
+        Vector2 operator*(int s) const;
 
-        Vector2 operator/(int s);
+        Vector2 operator/(int s) const;
 
-        std::wstring ToString();
+        std::wstring ToString() const;
     };
 }
