@@ -93,7 +93,7 @@ namespace MinConsoleNative
             return (2 * depth + 1) * (2 * depth + 1);
         }
 
-        static SearchResult Navigate(Vector2 startPos, Vector2 endPos, SearchDirection searchDir, int depthLimit, std::vector<Vector2>& obstacles, SearchMethod searchMethod)
+        static SearchResult Navigate(Vector2 startPos, Vector2 endPos, SearchDirection searchDir, int depthLimit, const std::vector<Vector2>& obstacles, SearchMethod searchMethod)
         {
             SearchResult searchResult;
 
