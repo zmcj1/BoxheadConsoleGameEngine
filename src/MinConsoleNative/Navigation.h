@@ -83,7 +83,9 @@ namespace MinConsoleNative
         static SearchResult BFS(Vector2 startPos, Vector2 endPos, SearchDirection searchDir, int depthLimit, std::vector<Vector2>& obstacles)
         {
             SearchResult searchResult;
+
             if (startPos == endPos) return searchResult;
+            if (ContainsPosition(obstacles, endPos)) return searchResult;
 
             std::vector<SearchNode*> searchedNodes;
             std::queue<SearchNode*> searchingQueue;
