@@ -3,7 +3,6 @@
 #include "MinDefines.h"
 #include "Vector2.h"
 #include <vector>
-#include <queue>
 
 namespace MinConsoleNative
 {
@@ -13,11 +12,17 @@ namespace MinConsoleNative
         Eight = 8,
     };
 
+    enum class SearchMethod
+    {
+        BFS = 1,
+        DFS = 2,
+    };
+
     struct Node
     {
     public:
-        Vector2 position;
-        int depth;
+        Vector2 position;   //position of this node
+        int depth;          //distance to the origin position(Obstacles have been considered).
 
         Node(Vector2 position, int depth)
         {
@@ -30,8 +35,8 @@ namespace MinConsoleNative
     {
     public:
         bool success = false;
-        std::vector<Node> searchedNodes;
-        std::vector<Node> path;
+        std::vector<Node> searchedNodes;    //All searched nodes
+        std::vector<Node> path;             //The result of pathfinding includes the starting point and the ending point
     };
 
     class Navigation
@@ -88,7 +93,7 @@ namespace MinConsoleNative
             return (2 * depth + 1) * (2 * depth + 1);
         }
 
-        static SearchResult BFS(Vector2 startPos, Vector2 endPos, SearchDirection searchDir, int depthLimit, std::vector<Vector2>& obstacles)
+        static SearchResult Navigate(Vector2 startPos, Vector2 endPos, SearchDirection searchDir, int depthLimit, std::vector<Vector2>& obstacles, SearchMethod searchMethod)
         {
             SearchResult searchResult;
 
@@ -96,11 +101,11 @@ namespace MinConsoleNative
             if (ContainsPosition(obstacles, endPos)) return searchResult;
 
             std::vector<SearchNode*> searchedNodes;
-            std::queue<SearchNode*> searchingQueue;
+            std::vector<SearchNode*> searchingQueue;
 
             SearchNode* startNode = new SearchNode(startPos, 0, nullptr);
             searchedNodes.push_back(startNode);
-            searchingQueue.push(startNode);
+            searchingQueue.push_back(startNode);
 
             std::vector<Vector2> searchDirection;
             if (searchDir == SearchDirection::Four)
@@ -127,7 +132,7 @@ namespace MinConsoleNative
             while (!searchingQueue.empty())
             {
                 SearchNode* currentNode = searchingQueue.front();
-                searchingQueue.pop();
+                searchingQueue.erase(searchingQueue.begin());
 
                 int nextDepth = currentNode->depth + 1;
                 //depth limit
@@ -152,15 +157,28 @@ namespace MinConsoleNative
                     SearchNode* nextNode = new SearchNode(nextPosition, nextDepth, currentNode);
                     searchedNodes.push_back(nextNode);
 
-                    //search success
                     if (nextPosition == endPos)
                     {
                         success = true;
                         break;
                     }
-                    else
+
+                    if (searchMethod == SearchMethod::BFS)
                     {
-                        searchingQueue.push(nextNode);
+                        searchingQueue.push_back(nextNode);
+                    }
+                    else if (searchMethod == SearchMethod::DFS)
+                    {
+                        //Distance guidance
+                        if (Vector2::Distance(nextPosition, endPos) <
+                            Vector2::Distance(currentNode->position, endPos))
+                        {
+                            searchingQueue.insert(searchingQueue.begin(), nextNode);
+                        }
+                        else
+                        {
+                            searchingQueue.push_back(nextNode);
+                        }
                     }
                 }
 
