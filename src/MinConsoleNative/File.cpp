@@ -189,7 +189,11 @@ namespace MinConsoleNative
         DWORD written = 0;
         bool readSuccess = ReadFile(fileHandle, arr, size, &written, nullptr);
 
-        if (!readSuccess) return text;
+        if (!readSuccess)
+        {
+            delete[] arr;
+            return text;
+        }
 
         bool utf8String = is_str_utf8(arr);
         if (utf8String)
