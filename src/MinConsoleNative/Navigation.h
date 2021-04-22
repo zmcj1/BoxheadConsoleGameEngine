@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "MinDefines.h"
+#include "Vector.h"
 #include "Vector2.h"
 #include <vector>
 
@@ -57,15 +58,6 @@ namespace MinConsoleNative
             }
         };
 
-        static bool ContainsPosition(const std::vector<Vector2>& container, const Vector2& element)
-        {
-            for (int i = 0; i < container.size(); i++)
-            {
-                if (container[i] == element) return true;
-            }
-            return false;
-        }
-
         static bool ContainsPosition(const std::vector<SearchNode*>& container, const Vector2& element)
         {
             for (int i = 0; i < container.size(); i++)
@@ -93,12 +85,21 @@ namespace MinConsoleNative
             return (2 * depth + 1) * (2 * depth + 1);
         }
 
+        static bool ContainsPosition(const std::vector<Node>& container, const Vector2& element)
+        {
+            for (int i = 0; i < container.size(); i++)
+            {
+                if (container[i].position == element) return true;
+            }
+            return false;
+        }
+
         static SearchResult Navigate(Vector2 startPos, Vector2 endPos, SearchDirection searchDir, int depthLimit, const std::vector<Vector2>& obstacles, SearchMethod searchMethod)
         {
             SearchResult searchResult;
 
             if (startPos == endPos) return searchResult;
-            if (ContainsPosition(obstacles, endPos)) return searchResult;
+            if (Vector<Vector2>::Contains(obstacles, endPos)) return searchResult;
 
             std::vector<SearchNode*> searchedNodes;
             std::vector<SearchNode*> searchingQueue;
@@ -149,7 +150,7 @@ namespace MinConsoleNative
                     {
                         continue;
                     }
-                    if (ContainsPosition(obstacles, nextPosition))
+                    if (Vector<Vector2>::Contains(obstacles, nextPosition))
                     {
                         continue;
                     }
