@@ -282,7 +282,7 @@ namespace MinConsole
         public extern static MessageBoxResult MinShowMessageBox(string text, string title, MessageBoxButtons buttons, MessageBoxDefaultButton defButton, MessageBoxIcon iconType);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetRandomValue(uint minimum, uint maximum, out uint value);
+        public extern static uint MinGetRandomValue(uint minimum, uint maximum);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinInitTimer(out MinTimer timer);
