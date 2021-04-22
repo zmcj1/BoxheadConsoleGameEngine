@@ -16,6 +16,10 @@ If you think this project has brought you help, please leave a star!🌟
 
 If you want to contribute code, welcome submit a [pull request](https://github.com/OpenGreatDream/MinConsole/pulls)!👍
 
+## Examples:
+
+![MazeExample](https://github.com/OpenGreatDream/MinConsole/blob/main/docs/pics/MazeExample.gif)
+
 ## Features:
 
 1. Navigation and Maze support!
