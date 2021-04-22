@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "MinDefines.h"
-#include "Vector.h"
 #include "Vector2.h"
 #include <vector>
 

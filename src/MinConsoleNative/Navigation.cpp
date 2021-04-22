@@ -1,4 +1,5 @@
 ﻿#include "Navigation.h"
+#include "Vector.h"
 
 namespace MinConsoleNative
 {

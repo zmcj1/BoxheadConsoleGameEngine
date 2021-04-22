@@ -94,7 +94,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>MinConsoleNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../MinConsole/bin/Debug/net5.0</AdditionalLibraryDirectories>
-      <StackReserveSize>52428800</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,7 +112,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>MinConsoleNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../MinConsole/bin/Debug/net5.0</AdditionalLibraryDirectories>
-      <StackReserveSize>52428800</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,7 +126,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>MinConsoleNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../MinConsole/bin/Debug/net5.0</AdditionalLibraryDirectories>
-      <StackReserveSize>52428800</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,7 +144,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>MinConsoleNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../MinConsole/bin/Debug/net5.0</AdditionalLibraryDirectories>
-      <StackReserveSize>52428800</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
