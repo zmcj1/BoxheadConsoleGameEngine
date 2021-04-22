@@ -60,28 +60,29 @@ namespace MinConsoleNative
         }
 
     public:
+        //return the positions of obstacles as a std::vector<Vector2>
+        //NOTICE:The generation algorithm requires the length and width of the maze to be an odd number!
         static std::vector<Vector2> GenerateMaze(int width, int height)
         {
-            std::vector<Vector2> pathPositions;
-
             if (height % 2 != 1 || width % 2 != 1)
             {
-                Debug::OutputLine(L"The generation algorithm requires the length and width of the maze to be an odd number!");
-                return pathPositions;
+                throw "The generation algorithm requires the length and width of the maze to be an odd number!";
             }
 
+            std::vector<Vector2> pathPositions;
+            std::vector<Vector2> obstaclesPositions;
             std::vector<Vector2> availablePos;
+            std::vector<Vector2> arrivedPos;
+            std::vector<Vector2> routePos;
+
             for (int i = 1; i < height; i += 2)
             {
                 for (int j = 1; j < width; j += 2)
                 {
-                    availablePos.push_back(Vector2(j, i));
                     pathPositions.push_back(Vector2(j, i));
+                    availablePos.push_back(Vector2(j, i));
                 }
             }
-
-            std::vector<Vector2> arrivedPos;
-            std::vector<Vector2> routePos;
 
             Vector2 startPos = availablePos[Random::Range(0, availablePos.size() - 1)];
 
@@ -92,7 +93,18 @@ namespace MinConsoleNative
                 pathPositions.push_back(routePos[i]);
             }
 
-            return pathPositions;
+            for (size_t i = 0; i < height; i++)
+            {
+                for (size_t j = 0; j < width; j++)
+                {
+                    if (!Vector<Vector2>::Contains(pathPositions, Vector2(j, i)))
+                    {
+                        obstaclesPositions.push_back(Vector2(j, i));
+                    }
+                }
+            }
+
+            return obstaclesPositions;
         }
     };
 }
