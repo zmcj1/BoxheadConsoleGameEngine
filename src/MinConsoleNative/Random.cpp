@@ -5,7 +5,7 @@ namespace MinConsoleNative
 {
     extern uint counter = 0;
 
-    EXPORT_FUNC MinGetRandomValue(uint minimum, uint maximum, uint* value)
+    EXPORT_FUNC_EX(uint) MinGetRandomValue(uint minimum, uint maximum)
     {
         if (minimum >= maximum)
         {
@@ -20,14 +20,11 @@ namespace MinConsoleNative
         ::srand(base + counter);
         counter++;
 
-        *value = (uint)(::rand() % (maximum - minimum + 1) + minimum);
-        return true;
+        return (uint)(::rand() % (maximum - minimum + 1) + minimum);
     }
 
     uint Random::Range(uint minimum, uint maximum)
     {
-        uint value;
-        MinGetRandomValue(minimum, maximum, &value);
-        return value;
+        return MinGetRandomValue(minimum, maximum);
     }
 }
