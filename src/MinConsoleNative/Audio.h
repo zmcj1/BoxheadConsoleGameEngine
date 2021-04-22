@@ -198,6 +198,8 @@ namespace MinConsoleNative
 
     //---------------------------------AudioPool---------------------------------
 
+    typedef void (*AudioPoolLoadingCallback)(int index);
+
     class AudioPool
     {
     public:
@@ -214,6 +216,23 @@ namespace MinConsoleNative
                 if (audio_ptr->Success())
                 {
                     readyAudios.push_back(audio_ptr);
+                }
+            }
+        }
+
+        AudioPool(const std::wstring& path, int allocCount, AudioPoolLoadingCallback loadingCallback)
+        {
+            this->path = path;
+            for (size_t i = 0; i < allocCount; i++)
+            {
+                Audio* audio_ptr = new Audio(path);
+                if (audio_ptr->Success())
+                {
+                    readyAudios.push_back(audio_ptr);
+                    if (loadingCallback != nullptr)
+                    {
+                        loadingCallback(i);
+                    }
                 }
             }
         }

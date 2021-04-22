@@ -2,7 +2,7 @@
 #include <vector>
 #define MAZE_WIDTH   59
 #define MAZE_HEIGHT  59
-#define CONW (MAZE_WIDTH * 2) + 1 //+1 for legacy windows
+#define CONW (MAZE_WIDTH * 2) + 1 //+1 for compatibility with legacy console
 #define CONH (MAZE_HEIGHT + 1)
 
 int main()
@@ -20,7 +20,7 @@ int main()
 
     std::vector<Vector2> obstacles = MazeGenerator::GenerateMaze(MAZE_WIDTH, MAZE_HEIGHT);
 
-    SearchResult navResult = Navigation::Navigate({ 1, 1 }, { MAZE_WIDTH - 2, MAZE_HEIGHT - 2 }, SearchDirection::Four, 10000, obstacles, SearchMethod::DFS);
+    SearchResult navResult = Navigation::Navigate({ 1, 1 }, { MAZE_WIDTH - 2, MAZE_HEIGHT - 2 }, SearchDirection::Four, NAV_UNLIMITED_DEPTH, obstacles, SearchMethod::DFS);
 
     for (int i = 0; i < MAZE_HEIGHT; i++)
     {
