@@ -12,92 +12,109 @@ namespace MinConsoleNative
     class MazeGenerator
     {
     private:
-        static void LinkTo(Vector2& current, std::vector<Vector2>& availablePos, std::vector<Vector2>& arrivedPos, std::vector<Vector2>& routePos)
+        static void LinkTo(Vector2& point, std::vector<Vector2>& availablePoints, std::vector<Vector2>& arrivedPoints, std::vector<Vector2>& routePoints)
         {
-            std::vector<Vector2> canLinkPos;
+            std::vector<Vector2> canLinkPoints;
 
-            if (Vector<Vector2>::Contains(availablePos, current + Vector2::up * 2))
+            if (Vector<Vector2>::Contains(availablePoints, point + Vector2::up * 2))
             {
-                canLinkPos.push_back(current + Vector2::up * 2);
+                canLinkPoints.push_back(point + Vector2::up * 2);
             }
-            if (Vector<Vector2>::Contains(availablePos, current + Vector2::down * 2))
+            if (Vector<Vector2>::Contains(availablePoints, point + Vector2::down * 2))
             {
-                canLinkPos.push_back(current + Vector2::down * 2);
+                canLinkPoints.push_back(point + Vector2::down * 2);
             }
-            if (Vector<Vector2>::Contains(availablePos, current + Vector2::left * 2))
+            if (Vector<Vector2>::Contains(availablePoints, point + Vector2::left * 2))
             {
-                canLinkPos.push_back(current + Vector2::left * 2);
+                canLinkPoints.push_back(point + Vector2::left * 2);
             }
-            if (Vector<Vector2>::Contains(availablePos, current + Vector2::right * 2))
+            if (Vector<Vector2>::Contains(availablePoints, point + Vector2::right * 2))
             {
-                canLinkPos.push_back(current + Vector2::right * 2);
-            }
-
-            if (!Vector<Vector2>::Contains(arrivedPos, current))
-            {
-                Vector<Vector2>::Remove(availablePos, current);
-                arrivedPos.push_back(current);
+                canLinkPoints.push_back(point + Vector2::right * 2);
             }
 
-            if (canLinkPos.size() == 0)
+            if (!Vector<Vector2>::Contains(arrivedPoints, point))
             {
-                Vector<Vector2>::Remove(arrivedPos, current);
+                Vector<Vector2>::Remove(availablePoints, point);
+                arrivedPoints.push_back(point);
+            }
 
-                if (arrivedPos.size() == 0) return;
+            if (canLinkPoints.size() == 0)
+            {
+                Vector<Vector2>::Remove(arrivedPoints, point);
+                if (arrivedPoints.size() == 0)
+                {
+                    return;
+                }
                 else
                 {
-                    int r = Random::Range(0, arrivedPos.size() - 1);
-                    LinkTo(arrivedPos[r], availablePos, arrivedPos, routePos);
+                    int r = Random::Range(0, arrivedPoints.size() - 1);
+                    Vector2 nextPos = arrivedPoints[r];
+                    //Vector2 nextPos = arrivedPoints.front();
+                    LinkTo(nextPos, availablePoints, arrivedPoints, routePoints);
                 }
             }
             else
             {
-                int r = Random::Range(0, canLinkPos.size() - 1);
-                Vector2 nextPos = canLinkPos[r];
-                routePos.push_back((current + nextPos) / 2);
-                LinkTo(nextPos, availablePos, arrivedPos, routePos);
+                int r = Random::Range(0, canLinkPoints.size() - 1);
+                Vector2 nextPos = canLinkPoints[r];
+                //Break through the wall in the middle
+                routePoints.push_back((point + nextPos) / 2);
+                LinkTo(nextPos, availablePoints, arrivedPoints, routePoints);
             }
         }
 
     public:
-        //return the positions of obstacles as a std::vector<Vector2>
-        //NOTICE:The generation algorithm requires the length and width of the maze to be an odd number!
-        static std::vector<Vector2> GenerateMaze(int width, int height)
+        static std::vector<Vector2> GenerateKeyPoints(int width, int height)
         {
-            if (height % 2 != 1 || width % 2 != 1)
-            {
-                throw "The generation algorithm requires the length and width of the maze to be an odd number!";
-            }
-
-            std::vector<Vector2> pathPositions;
-            std::vector<Vector2> obstaclesPositions;
-            std::vector<Vector2> availablePos;
-            std::vector<Vector2> arrivedPos;
-            std::vector<Vector2> routePos;
-
+            std::vector<Vector2> keyPoints;
             for (int i = 1; i < height; i += 2)
             {
                 for (int j = 1; j < width; j += 2)
                 {
-                    pathPositions.push_back(Vector2(j, i));
-                    availablePos.push_back(Vector2(j, i));
+                    keyPoints.push_back(Vector2(j, i));
                 }
             }
+            return keyPoints;
+        }
 
-            Vector2 startPos = availablePos[Random::Range(0, availablePos.size() - 1)];
-
-            LinkTo(startPos, availablePos, arrivedPos, routePos);
-
-            for (int i = 0; i < routePos.size(); i++)
+        //return:the positions of obstacles as a std::vector<Vector2>
+        //NOTICE:width and height must be odd number!
+        //NOTICE:The generation algorithm requires the length and width of the maze to be an odd number!
+        static std::vector<Vector2> GenerateMaze(int width, int height)
+        {
+            if (width < 3 || height < 3)
             {
-                pathPositions.push_back(routePos[i]);
+                throw "Invalid size!";
+            }
+            if (width % 2 != 1 || height % 2 != 1)
+            {
+                throw "The generation algorithm requires the length and width of the maze to be an odd number!";
+            }
+
+            std::vector<Vector2> emptyPositions;
+            std::vector<Vector2> obstaclesPositions;
+
+            std::vector<Vector2> availablePoints;   //key points here
+            std::vector<Vector2> arrivedPoints;     //Points that have been visited
+            std::vector<Vector2> routePoints;       //Beaten road
+
+            emptyPositions = GenerateKeyPoints(width, height);
+            availablePoints = emptyPositions;
+            Vector2 startPos = availablePoints[Random::Range(0, availablePoints.size() - 1)];
+
+            LinkTo(startPos, availablePoints, arrivedPoints, routePoints);
+
+            for (int i = 0; i < routePoints.size(); i++)
+            {
+                emptyPositions.push_back(routePoints[i]);
             }
 
             for (size_t i = 0; i < height; i++)
             {
                 for (size_t j = 0; j < width; j++)
                 {
-                    if (!Vector<Vector2>::Contains(pathPositions, Vector2(j, i)))
+                    if (!Vector<Vector2>::Contains(emptyPositions, Vector2(j, i)))
                     {
                         obstaclesPositions.push_back(Vector2(j, i));
                     }
