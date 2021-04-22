@@ -18,30 +18,38 @@ int main()
         console.SetConsoleWindowAndBufferSize({ CONW, CONH });
     }
 
-    std::vector<Vector2> obstacles = MazeGenerator::GenerateMaze(MAZE_WIDTH, MAZE_HEIGHT);
-
-    SearchResult navResult = Navigation::Navigate({ 1, 1 }, { MAZE_WIDTH - 2, MAZE_HEIGHT - 2 }, SearchDirection::Four, NAV_UNLIMITED_DEPTH, obstacles, SearchMethod::DFS);
-
-    for (int i = 0; i < MAZE_HEIGHT; i++)
+    while (true)
     {
-        for (int j = 0; j < MAZE_WIDTH; j++)
+        std::vector<Vector2> obstacles = MazeGenerator::GenerateMaze(MAZE_WIDTH, MAZE_HEIGHT);
+
+        SearchResult navResult = Navigation::Navigate({ 1, 1 }, { MAZE_WIDTH - 2, MAZE_HEIGHT - 2 }, SearchDirection::Four, NAV_UNLIMITED_DEPTH, obstacles, SearchMethod::DFS);
+
+        for (int i = 0; i < MAZE_HEIGHT; i++)
         {
-            if (Vector<Vector2>::Contains(obstacles, Vector2(j, i)))
+            for (int j = 0; j < MAZE_WIDTH; j++)
             {
-                console.Write(L"  ", { 0, 0, 0 }, { 207, 238, 238 });
+                if (Vector<Vector2>::Contains(obstacles, Vector2(j, i)))
+                {
+                    console.Write(L"  ", { 0, 0, 0 }, { 207, 238, 238 });
+                }
+                else if (Navigation::ContainsPosition(navResult.path, Vector2(j, i)))
+                {
+                    console.Write(L"  ", { 0, 0, 0 }, { 255, 30, 0 });
+                }
+                else
+                {
+                    console.Write(L"  ");
+                }
             }
-            else if (Navigation::ContainsPosition(navResult.path, Vector2(j, i)))
-            {
-                console.Write(L"  ", { 0, 0, 0 }, { 255, 30, 0 });
-            }
-            else
-            {
-                console.Write(L"  ");
-            }
+            console.WriteLine();
         }
-        console.WriteLine();
+
+        std::wstring input = console.ReadLine();
+        if (String::CompareIgnoreCase(input, L"exit"))
+        {
+            break;
+        }
     }
 
-    console.ReadLine();
     return 0;
 }

@@ -1254,8 +1254,20 @@ namespace MinConsoleNative
     std::wstring Console::ReadLine()
     {
         wstring str = Console::ReadConsoleW();
-        size_t index = str.find_last_of(WNEW_LINE);
-        return str.substr(0, index - 1);
+
+        if (str.find(WNEW_LINE) == str.size() - 2)
+        {
+            str = str.substr(0, str.size() - 2);
+        }
+        else
+        {
+            wchar lastChar = str[str.size() - 1];
+            if (lastChar == L'\r' || lastChar == L'\n')
+            {
+                str = str.substr(0, str.size() - 1);
+            }
+        }
+        return str;
     }
 
     bool Console::Write(const std::wstring& msg)
