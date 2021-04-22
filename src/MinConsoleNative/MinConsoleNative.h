@@ -13,6 +13,7 @@
 #include "File.h"
 #include "Input.h"
 #include "Math.h"
+#include "Maze.h"
 #include "MessageBox.h"
 #include "MinConsoleNative.h"
 #include "MinDefines.h"
