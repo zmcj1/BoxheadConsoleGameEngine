@@ -2,14 +2,21 @@
 #include <vector>
 #define MAZE_WIDTH   59
 #define MAZE_HEIGHT  59
-#define CONW (MAZE_WIDTH * 2)
+#define CONW (MAZE_WIDTH * 2) + 1 //+1 for legacy windows
 #define CONH (MAZE_HEIGHT + 1)
 
 int main()
 {
     ConsoleEngine consoleEngine;
-    consoleEngine.ConstructConsole(L"Maze", PaletteType::Legacy, CONW, CONH,
-        6, 12, L"Consolas", FW_NORMAL);
+    if (consoleEngine.consoleType == ConsoleType::WindowsConsole)
+    {
+        consoleEngine.ConstructConsole(L"Maze", PaletteType::Legacy, CONW, CONH,
+            6, 12, L"Consolas", FW_NORMAL);
+    }
+    else if (consoleEngine.consoleType == ConsoleType::WindowsLegacyConsole)
+    {
+        console.SetConsoleWindowAndBufferSize({ CONW, CONH });
+    }
 
     std::vector<Vector2> obstacles = MazeGenerator::GenerateMaze(MAZE_WIDTH, MAZE_HEIGHT);
 
