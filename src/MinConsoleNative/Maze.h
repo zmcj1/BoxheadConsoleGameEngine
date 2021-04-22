@@ -79,8 +79,7 @@ namespace MinConsoleNative
         }
 
         //return:the positions of obstacles as a std::vector<Vector2>
-        //NOTICE:width and height must be odd number!
-        //NOTICE:The generation algorithm requires the length and width of the maze to be an odd number!
+        //NOTICE:The generation algorithm requires the length and width of the maze to be an odd number!(3, 5, 7, 9, 11, 13, 15...)
         static std::vector<Vector2> GenerateMaze(int width, int height)
         {
             if (width < 3 || height < 3)
@@ -92,36 +91,30 @@ namespace MinConsoleNative
                 throw "The generation algorithm requires the length and width of the maze to be an odd number!";
             }
 
-            std::vector<Vector2> emptyPositions;
-            std::vector<Vector2> obstaclesPositions;
-
-            std::vector<Vector2> availablePoints;   //key points here
+            std::vector<Vector2> emptyPoints;
+            std::vector<Vector2> obstaclesPoints;
+            std::vector<Vector2> keyPoints;         //key points here
             std::vector<Vector2> arrivedPoints;     //Points that have been visited
-            std::vector<Vector2> routePoints;       //Beaten road
 
-            emptyPositions = GenerateKeyPoints(width, height);
-            availablePoints = emptyPositions;
-            Vector2 startPos = availablePoints[Random::Range(0, availablePoints.size() - 1)];
+            keyPoints = GenerateKeyPoints(width, height);
+            emptyPoints = keyPoints;
 
-            LinkTo(startPos, availablePoints, arrivedPoints, routePoints);
+            Vector2 startPos = keyPoints[Random::Range(0, keyPoints.size() - 1)];
 
-            for (int i = 0; i < routePoints.size(); i++)
-            {
-                emptyPositions.push_back(routePoints[i]);
-            }
+            LinkTo(startPos, keyPoints, arrivedPoints, emptyPoints);
 
             for (size_t i = 0; i < height; i++)
             {
                 for (size_t j = 0; j < width; j++)
                 {
-                    if (!Vector<Vector2>::Contains(emptyPositions, Vector2(j, i)))
+                    if (!Vector<Vector2>::Contains(emptyPoints, Vector2(j, i)))
                     {
-                        obstaclesPositions.push_back(Vector2(j, i));
+                        obstaclesPoints.push_back(Vector2(j, i));
                     }
                 }
             }
 
-            return obstaclesPositions;
+            return obstaclesPoints;
         }
     };
 }
