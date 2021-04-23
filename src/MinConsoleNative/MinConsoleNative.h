@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Audio.h"
+#include "CharacterController.h"
 #include "Clipboard.h"
 #include "ConRegistry.h"
 #include "Console.h"
