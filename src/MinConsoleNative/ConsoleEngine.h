@@ -28,6 +28,8 @@ namespace MinConsoleNative
     public:
         ConsoleEngine();
 
+        void ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight);
+
         void ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight);
 
         void ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight, const std::wstring& fontName, int fontWeight);

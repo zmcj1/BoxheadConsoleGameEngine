@@ -32,6 +32,12 @@ namespace MinConsoleNative
         this->consoleType = Console::Global.GetInstance().GetConsoleType();
     }
 
+    void ConsoleEngine::ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight)
+    {
+        ConsoleFont consoleFont = console.GetConsoleFont();
+        ConsoleEngine::ConstructConsole(title, paletteType, consoleWidth, consoleHeight, consoleFont.FontSize.X, consoleFont.FontSize.Y);
+    }
+
     void ConsoleEngine::ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight)
     {
         this->title = title;
