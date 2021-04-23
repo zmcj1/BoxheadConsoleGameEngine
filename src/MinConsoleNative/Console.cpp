@@ -694,7 +694,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinCloseConsoleScreenBuffer(HANDLE consoleOutput)
     {
-        return CloseHandle(consoleOutput);
+        return ::CloseHandle(consoleOutput);
     }
 
     EXPORT_FUNC MinCreateFile(ConsoleFile fileMode, HANDLE* handle)
@@ -712,7 +712,7 @@ namespace MinConsoleNative
 
         if (modeString == nullptr) return false;
 
-        *handle = CreateFile(modeString,
+        *handle = ::CreateFile(modeString,
             GENERIC_READ | GENERIC_WRITE,
             FILE_SHARE_READ | FILE_SHARE_WRITE,
             nullptr, OPEN_EXISTING, 0, nullptr);
@@ -723,13 +723,13 @@ namespace MinConsoleNative
     EXPORT_FUNC MinWriteFile(HANDLE handle, const char* str)
     {
         DWORD written = 0;
-        return WriteFile(handle, str, strlen(str), &written, nullptr);
+        return ::WriteFile(handle, str, strlen(str), &written, nullptr);
     }
 
     EXPORT_FUNC MinReadFile(HANDLE handle, char* buffer, DWORD bufferLen)
     {
         DWORD readCount = 0;
-        return ReadFile(handle, buffer, bufferLen, &readCount, nullptr);
+        return ::ReadFile(handle, buffer, bufferLen, &readCount, nullptr);
     }
 
     EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, CharWidth* cw)
