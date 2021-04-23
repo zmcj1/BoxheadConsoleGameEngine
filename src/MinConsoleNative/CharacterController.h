@@ -37,6 +37,13 @@ namespace MinConsoleNative
 
         CharacterController(Vector2 position, float speed);
 
+        void Reset()
+        {
+            this->moved = false;
+            this->moveTimer = 0.0f;
+            this->moveSlash = false;
+        }
+
         MoveDirection Move4(float deltaTime);
 
         MoveDirection Move8(float deltaTime);
