@@ -98,9 +98,6 @@
     <ClInclude Include="MessageBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleLite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PaletteSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -203,9 +200,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MessageBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConsoleLite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PaletteSystem.cpp">

@@ -154,7 +154,6 @@
     <ClInclude Include="ConRegistry.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="ConsoleEngine.h" />
-    <ClInclude Include="ConsoleLite.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="EventSystem.h" />
@@ -193,7 +192,6 @@
     <ClCompile Include="ConRegistry.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="ConsoleEngine.cpp" />
-    <ClCompile Include="ConsoleLite.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="EventSystem.cpp" />
