@@ -27,8 +27,8 @@ namespace MinConsoleNative
         float moveTimer = 0.0f;
 
     public:
-        Vector2 position;
-        float speed;
+        Vector2 position;   //This coordinate is screen coordinate
+        float speed;        //Moving speed per second
 
         CharacterController(Vector2 position, float speed);
 
