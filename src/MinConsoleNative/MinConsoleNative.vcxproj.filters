@@ -133,9 +133,6 @@
     <ClCompile Include="UnusualMethods.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="debug_main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Clipboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

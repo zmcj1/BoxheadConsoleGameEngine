@@ -196,7 +196,6 @@
     <ClCompile Include="ConsoleLite.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="debug_main.cpp" />
     <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="Input.cpp" />

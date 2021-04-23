@@ -1,4 +1,4 @@
-#include "../MinConsoleNative/MinConsoleNative.h"
+﻿#include "../MinConsoleNative/MinConsoleNative.h"
 #include <vector>
 #define MAZE_WIDTH   59
 #define MAZE_HEIGHT  59
