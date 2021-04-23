@@ -5,11 +5,9 @@
 
 namespace MinConsoleNative
 {
-    constexpr float R2 = 1.4142135;
-
     enum class MoveDirection
     {
-        UNKNOWN = 0,
+        NONE = 0,
         UP = 1,
         DOWN = 2,
         LEFT = 3,
@@ -25,6 +23,7 @@ namespace MinConsoleNative
     private:
         bool moved = false;
         float moveTimer = 0.0f;
+        bool moveSlash = false;
 
     public:
         Vector2 position;   //This coordinate is screen coordinate
@@ -33,5 +32,7 @@ namespace MinConsoleNative
         CharacterController(Vector2 position, float speed);
 
         MoveDirection Update(float deltaTime);
+
+        MoveDirection Update2(float deltaTime);
     };
 }

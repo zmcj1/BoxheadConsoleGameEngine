@@ -11,7 +11,7 @@ class SimpleGame : public ConsoleEngine
 
     void OnUpdate(float deltaTime)
     {
-        cc->Update(deltaTime);
+        cc->Update2(deltaTime);
 
         Debug::OutputLine(
             std::to_wstring(cc->position.x) + L" " + std::to_wstring(cc->position.y));
