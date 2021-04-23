@@ -26,13 +26,19 @@ namespace MinConsoleNative
         bool moveSlash = false;
 
     public:
+        static int LeftKey;
+        static int RightKey;
+        static int UpKey;
+        static int DownKey;
+
+    public:
         Vector2 position;   //This coordinate is screen coordinate
         float speed;        //Moving speed per second
 
         CharacterController(Vector2 position, float speed);
 
-        MoveDirection Update(float deltaTime);
+        MoveDirection Move4(float deltaTime);
 
-        MoveDirection Update2(float deltaTime);
+        MoveDirection Move8(float deltaTime);
     };
 }
