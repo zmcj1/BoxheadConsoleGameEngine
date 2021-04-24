@@ -357,4 +357,6 @@ namespace MinConsoleNative
             return true;
         else return false;
     }
+
+    WinVersion& winVersion = WinVersion::Global.GetInstance();
 }

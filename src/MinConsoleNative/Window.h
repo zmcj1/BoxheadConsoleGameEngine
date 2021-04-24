@@ -101,4 +101,6 @@ namespace MinConsoleNative
         //Determines whether the specified window is minimized (iconic).
         bool IsMinimized();
     };
+
+    extern Window& window;
 }

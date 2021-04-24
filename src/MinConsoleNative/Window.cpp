@@ -307,4 +307,6 @@ namespace MinConsoleNative
     {
         return MinIsMinimized(this->windowHandle);
     }
+
+    Window& window = Window::Global.GetInstance();
 }

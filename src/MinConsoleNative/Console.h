@@ -716,5 +716,5 @@ namespace MinConsoleNative
     };
 
     //The short name of the singleton
-    extern Console console;
+    extern Console& console;
 }

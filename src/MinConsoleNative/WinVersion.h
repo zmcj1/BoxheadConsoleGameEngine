@@ -127,4 +127,6 @@ namespace MinConsoleNative
 
         WinVersion();
     };
+
+    extern WinVersion& winVersion;
 }

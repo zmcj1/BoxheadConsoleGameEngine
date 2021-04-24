@@ -69,4 +69,6 @@ namespace MinConsoleNative
         //FROM:https://stackoverflow.com/questions/1988833/converting-color-to-consolecolor
         ConsoleColor GetCurPaletteClosestConsoleColor(const Color24& color);
     };
+
+    extern PaletteSystem& paletteSystem;
 }

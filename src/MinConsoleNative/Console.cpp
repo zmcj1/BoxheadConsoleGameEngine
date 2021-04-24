@@ -1414,5 +1414,5 @@ namespace MinConsoleNative
     }
 
     //The short name of the singleton
-    Console console = Console::Global.GetInstance();
+    Console& console = Console::Global.GetInstance();
 }

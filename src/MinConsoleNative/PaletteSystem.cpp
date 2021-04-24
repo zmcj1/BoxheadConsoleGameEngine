@@ -112,4 +112,6 @@ namespace MinConsoleNative
         }
         return result;
     }
+
+    PaletteSystem& paletteSystem = PaletteSystem::Global.GetInstance();
 }
