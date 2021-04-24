@@ -116,14 +116,32 @@ namespace MinConsoleNative
 
         bool IsWindows8Or8point1OrLater();
 
+        //(Version:1507)
         bool IsWindows10OrLater();
 
-        //See:https://devblogs.microsoft.com/commandline/windows-10-creators-update-whats-new-in-bashwsl-windows-console/
+        bool IsWindows10Version1511OrLater();
+
+        bool IsWindows10Version1607OrLater();
+
+        //(Version:1703) See:https://devblogs.microsoft.com/commandline/windows-10-creators-update-whats-new-in-bashwsl-windows-console/
         bool IsWindows10CreatorsOrLater();
 
+        //(Version:1709)
         bool IsWindows10FallCreatorsOrLater();
 
+        bool IsWindows10Version1803OrLater();
+
         bool IsWindows10Version1809OrLater();
+
+        bool IsWindows10Version1903OrLater();
+
+        bool IsWindows10Version1909OrLater();
+
+        bool IsWindows10Version2004OrLater();
+
+        bool IsWindows10Version20H2OrLater();
+
+        bool IsWindows10Version21H1OrLater();
 
         WinVersion();
     };

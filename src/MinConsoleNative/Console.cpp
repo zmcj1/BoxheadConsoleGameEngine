@@ -912,6 +912,11 @@ namespace MinConsoleNative
         return ::FillConsoleOutputAttribute(consoleOutput, att, length, coord, &written);
     }
 
+    EXPORT_FUNC_EX(bool) MinFlushConsoleInputBuffer(HANDLE consoleInput)
+    {
+        return ::FlushConsoleInputBuffer(consoleInput);
+    }
+
     bool Console::forceVT = false;
 
     Console::Console()
@@ -1107,6 +1112,11 @@ namespace MinConsoleNative
     bool Console::RefreshScreen(wchar c, ushort att)
     {
         return MinRefreshScreen(cons.consoleOutput, c, att);
+    }
+
+    bool Console::FlushConsoleInputBuffer()
+    {
+        return MinFlushConsoleInputBuffer(cons.consoleInput);
     }
 
     ConsoleSession Console::InitConsoleSession()

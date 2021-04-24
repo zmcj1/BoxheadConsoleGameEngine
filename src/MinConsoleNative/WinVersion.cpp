@@ -325,6 +325,16 @@ namespace MinConsoleNative
         return MajorVer() >= 10;
     }
 
+    bool WinVersion::IsWindows10Version1511OrLater()
+    {
+        return MinIsWindows10Version1511OrLater(MajorVer(), MinorVer(), BuildNumber());
+    }
+
+    bool WinVersion::IsWindows10Version1607OrLater()
+    {
+        return MinIsWindows10Version1607OrLater(MajorVer(), MinorVer(), BuildNumber());
+    }
+
     bool WinVersion::IsWindows10CreatorsOrLater()
     {
         if (MajorVer() > 10)
@@ -347,6 +357,11 @@ namespace MinConsoleNative
         else return false;
     }
 
+    bool WinVersion::IsWindows10Version1803OrLater()
+    {
+        return MinIsWindows10Version1803OrLater(MajorVer(), MinorVer(), BuildNumber());
+    }
+
     bool WinVersion::IsWindows10Version1809OrLater()
     {
         if (MajorVer() > 10)
@@ -356,6 +371,31 @@ namespace MinConsoleNative
         else if (MajorVer() == 10 && MinorVer() == 0 && BuildNumber() >= 17763)
             return true;
         else return false;
+    }
+
+    bool WinVersion::IsWindows10Version1903OrLater()
+    {
+        return MinIsWindows10Version1903OrLater(MajorVer(), MinorVer(), BuildNumber());
+    }
+
+    bool WinVersion::IsWindows10Version1909OrLater()
+    {
+        return MinIsWindows10Version1909OrLater(MajorVer(), MinorVer(), BuildNumber());
+    }
+
+    bool WinVersion::IsWindows10Version2004OrLater()
+    {
+        return MinIsWindows10Version2004OrLater(MajorVer(), MinorVer(), BuildNumber());
+    }
+
+    bool WinVersion::IsWindows10Version20H2OrLater()
+    {
+        return MinIsWindows10Version20H2OrLater(MajorVer(), MinorVer(), BuildNumber());
+    }
+
+    bool WinVersion::IsWindows10Version21H1OrLater()
+    {
+        return MinIsWindows10Version21H1OrLater(MajorVer(), MinorVer(), BuildNumber());
     }
 
     WinVersion& winVersion = WinVersion::Global.GetInstance();

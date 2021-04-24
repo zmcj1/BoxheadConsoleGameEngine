@@ -518,6 +518,8 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinRefreshScreen(HANDLE consoleOutput, wchar c, ushort att);
 
+    EXPORT_FUNC_EX(bool) MinFlushConsoleInputBuffer(HANDLE consoleInput);
+
     class Console
     {
     public:
@@ -653,6 +655,8 @@ namespace MinConsoleNative
         bool WriteConsoleOutputCharacterW(const std::wstring& str, COORD pos);
 
         bool RefreshScreen(wchar c, ushort att);
+
+        bool FlushConsoleInputBuffer();
 
         //Console file IO functions:
 

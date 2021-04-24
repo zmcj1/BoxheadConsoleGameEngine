@@ -240,6 +240,9 @@ namespace MinConsole
         public extern static bool MinRefreshScreen(IntPtr consoleOutput, char c, ushort att);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinFlushConsoleInputBuffer(IntPtr consoleInput);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetKey(int virtualKey, out bool yes);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
