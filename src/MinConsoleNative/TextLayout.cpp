@@ -6,13 +6,6 @@ using namespace std;
 
 namespace MinConsoleNative
 {
-    TextLayout::TextLayout(Console console)
-    {
-        this->console = console;
-        this->useASCIICache = true;
-        this->useCJKCache = true;
-    }
-
     CharWidth TextLayout::GetWcharWidth(wchar c)
     {
         CharWidth charWidth;
@@ -206,4 +199,6 @@ namespace MinConsoleNative
 
         return lines;
     }
+
+    TextLayout& textLayout = TextLayout::Global.GetInstance();
 }

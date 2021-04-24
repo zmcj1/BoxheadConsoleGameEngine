@@ -11,16 +11,15 @@ namespace MinConsoleNative
     class TextLayout
     {
     public:
+        static Singleton<TextLayout> Global;
+
         static std::wstring CombineWchar(wchar a1, wchar a2);
 
     public:
-        Console console;
         std::map<wchar, CharWidth> charWidthCacheDict;      //cache
         std::map<wchar, CharWidth> charWidthUserDefineDict; //Highest priority.
-        bool useASCIICache;
-        bool useCJKCache;
-
-        TextLayout(Console console);
+        bool useASCIICache = true;
+        bool useCJKCache = true;
 
         CharWidth GetWcharWidth(wchar c);
 
@@ -32,4 +31,6 @@ namespace MinConsoleNative
         //NOTICE:if width is 1, will return single char as line. width can't < 1!
         std::vector<std::wstring> WstringToLines(const std::wstring wstr, int width, bool fillAll = true);
     };
+
+    extern TextLayout& textLayout;
 }

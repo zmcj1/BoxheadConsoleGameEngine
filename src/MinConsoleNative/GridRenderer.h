@@ -1,8 +1,10 @@
 ﻿#pragma once
 
 #include "MinDefines.h"
+#include "Vector2.h"
 #include "Console.h"
 #include <string>
+#include <vector>
 
 namespace MinConsoleNative
 {
@@ -12,14 +14,14 @@ namespace MinConsoleNative
         std::wstring wstr;
         Color24 foreColor;
         Color24 backColor;
-        bool under_score;
+        bool underScore;
 
         Grid()
         {
             this->wstr = _T("");
             this->foreColor = Color24();
             this->backColor = Color24();
-            this->under_score = false;
+            this->underScore = false;
         }
 
         Grid(std::wstring wstr)
@@ -27,7 +29,7 @@ namespace MinConsoleNative
             this->wstr = wstr;
             this->foreColor = Color24();
             this->backColor = Color24();
-            this->under_score = false;
+            this->underScore = false;
         }
 
         Grid(std::wstring wstr, Color24 foreColor)
@@ -35,7 +37,7 @@ namespace MinConsoleNative
             this->wstr = wstr;
             this->foreColor = foreColor;
             this->backColor = Color24();
-            this->under_score = false;
+            this->underScore = false;
         }
 
         Grid(std::wstring wstr, Color24 foreColor, Color24 backColor)
@@ -43,7 +45,7 @@ namespace MinConsoleNative
             this->wstr = wstr;
             this->foreColor = foreColor;
             this->backColor = backColor;
-            this->under_score = false;
+            this->underScore = false;
         }
 
         Grid(std::wstring wstr, Color24 foreColor, Color24 backColor, bool under_score)
@@ -51,7 +53,7 @@ namespace MinConsoleNative
             this->wstr = wstr;
             this->foreColor = foreColor;
             this->backColor = backColor;
-            this->under_score = under_score;
+            this->underScore = under_score;
         }
 
         bool operator ==(const Grid& other) const
@@ -59,7 +61,7 @@ namespace MinConsoleNative
             if (wstr == other.wstr &&
                 foreColor == other.foreColor &&
                 backColor == other.backColor &&
-                under_score == other.under_score)
+                underScore == other.underScore)
             {
                 return true;
             }
@@ -74,7 +76,7 @@ namespace MinConsoleNative
             if (wstr == other.wstr &&
                 foreColor == other.foreColor &&
                 backColor == other.backColor &&
-                under_score == other.under_score)
+                underScore == other.underScore)
             {
                 return false;
             }
@@ -85,9 +87,35 @@ namespace MinConsoleNative
         }
     };
 
+    enum class GridRendererMode
+    {
+        TrueColor = 1,
+        Fast = 2,
+        Mixed = 3,
+    };
+
     class GridRenderer
     {
     public:
+        int logicalWidth;
+        int logicalHeight;
+        GridRendererMode mode;
 
+    private:
+        Grid* gridArray;
+
+    public:
+        GridRenderer(int logicalWidth, int logicalHeight, GridRendererMode mode);
+
+        ~GridRenderer();
+
+        void Clear();
+
+        void Render();
+
+        void Draw(Vector2 pos, Grid grid);
+
+        //return the logicalWidth of wstr
+        int Draw(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore);
     };
 }
