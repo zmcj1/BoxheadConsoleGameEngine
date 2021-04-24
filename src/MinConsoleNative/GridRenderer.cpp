@@ -19,14 +19,11 @@ namespace MinConsoleNative
         delete[] this->gridArray;
     }
 
-    void GridRenderer::Clear()
+    void GridRenderer::Clear(const Grid& grid)
     {
         for (int i = 0; i < logicalWidth * logicalHeight; i++)
         {
-            this->gridArray[i].wstr = L"  ";
-            this->gridArray[i].foreColor = Color24();
-            this->gridArray[i].backColor = Color24();
-            this->gridArray[i].underScore = false;
+            this->gridArray[i] = grid;
         }
     }
 
@@ -61,9 +58,16 @@ namespace MinConsoleNative
                     charInfos[i * 2 + 1].Attributes = att;
                     charInfos[i * 2 + 1].Char.UnicodeChar = grid.wstr[1];
                 }
+                else if (grid.wstr.size() == 0)
+                {
+                    charInfos[i * 2].Attributes = att;
+                    charInfos[i * 2].Char.UnicodeChar = L' ';
+                    charInfos[i * 2 + 1].Attributes = att;
+                    charInfos[i * 2 + 1].Char.UnicodeChar = L' ';
+                }
                 else
                 {
-                    throw "error";
+                    throw GridRendererException::WrongWstrGridSize;
                 }
             }
 

@@ -15,6 +15,11 @@ namespace MinConsoleNative
         Mixed = 3,
     };
 
+    enum class GridRendererException
+    {
+        WrongWstrGridSize = 1,
+    };
+
     struct Grid
     {
     public:
@@ -109,7 +114,7 @@ namespace MinConsoleNative
 
         ~GridRenderer();
 
-        void Clear();
+        void Clear(const Grid& grid = Grid());
 
         void Render();
 
