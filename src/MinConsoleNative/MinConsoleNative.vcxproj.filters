@@ -119,6 +119,9 @@
     <ClInclude Include="CharacterController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GridRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -209,6 +212,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CharacterController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GridRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

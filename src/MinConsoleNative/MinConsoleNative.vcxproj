@@ -158,6 +158,7 @@
     <ClInclude Include="Debug.h" />
     <ClInclude Include="EventSystem.h" />
     <ClInclude Include="File.h" />
+    <ClInclude Include="GridRenderer.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Maze.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="File.cpp" />
+    <ClCompile Include="GridRenderer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Maze.cpp" />

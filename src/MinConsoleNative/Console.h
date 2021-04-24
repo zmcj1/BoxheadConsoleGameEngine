@@ -130,7 +130,7 @@ namespace MinConsoleNative
             this->b = b;
         }
 
-        bool operator ==(const Color24& other)
+        bool operator ==(const Color24& other) const
         {
             if (r == other.r && g == other.g && b == other.b)
             {
@@ -142,7 +142,7 @@ namespace MinConsoleNative
             }
         }
 
-        bool operator !=(const Color24& other)
+        bool operator !=(const Color24& other) const
         {
             if (r == other.r && g == other.g && b == other.b)
             {
