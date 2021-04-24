@@ -62,6 +62,18 @@ namespace NativeFunctionTranslator
         }
     }
 
+    public struct MethodInfo
+    {
+        public string HeaderFile;
+        public string MethodName;
+
+        public MethodInfo(string headerFile, string methodName)
+        {
+            this.HeaderFile = headerFile;
+            this.MethodName = methodName;
+        }
+    }
+
     public class Program
     {
         public const string EXPORT_FUNC = "EXPORT_FUNC";
@@ -128,6 +140,8 @@ namespace NativeFunctionTranslator
 
         public static bool DebugPause = false;
 
+        public static Dictionary<string, List<string>> MethodInfoDict = new Dictionary<string, List<string>>();
+
         public static List<string> GetFileListWithExtend(DirectoryInfo directory, string pattern)
         {
             List<string> pathList = new List<string>();
@@ -183,9 +197,9 @@ namespace NativeFunctionTranslator
             return lines;
         }
 
-        public static List<string> GetNativeMethodsDeclaration(List<string> headFiles)
+        public static List<MethodInfo> GetNativeMethodsDeclaration(List<string> headFiles)
         {
-            List<string> nativeMethodDeclaration = new List<string>();
+            List<MethodInfo> nativeMethodDeclaration = new List<MethodInfo>();
 
             foreach (string headFile in headFiles)
             {
@@ -209,9 +223,19 @@ namespace NativeFunctionTranslator
                         }
                     }
                     //Don't add duplicate methods
-                    if (equal && !nativeMethodDeclaration.Contains(lineWithOutSpace))
+                    bool contains = false;
+                    foreach (var item in nativeMethodDeclaration)
                     {
-                        nativeMethodDeclaration.Add(lineWithOutSpace);
+                        if (item.MethodName == lineWithOutSpace)
+                        {
+                            contains = true;
+                            break;
+                        }
+                    }
+
+                    if (equal && !contains)
+                    {
+                        nativeMethodDeclaration.Add(new MethodInfo(headFile, lineWithOutSpace));
                     }
                 }
             }
@@ -219,12 +243,14 @@ namespace NativeFunctionTranslator
             return nativeMethodDeclaration;
         }
 
-        public static List<string> ParseNativeMethodDeclaration(List<string> nativeMethodsDeclaration)
+        public static List<string> ParseNativeMethodDeclaration(List<MethodInfo> nativeMethodsDeclaration)
         {
             List<string> nativeMethodNewDeclaration = new List<string>();
 
-            foreach (string item in nativeMethodsDeclaration)
+            foreach (MethodInfo methodInfo in nativeMethodsDeclaration)
             {
+                string item = methodInfo.MethodName;
+
                 string declaration = null;
                 string methodName = null;
 
@@ -265,6 +291,15 @@ namespace NativeFunctionTranslator
                     declaration = item.Replace(EXPORT_FUNC, EXPORT_FUNC_RETURN_TYPE);
 
                     methodName = item.Split(' ')[1].Substring(0, item.IndexOf('(') - EXPORT_FUNC.Length - 1);
+                }
+
+                if (!MethodInfoDict.ContainsKey(methodInfo.HeaderFile))
+                {
+                    MethodInfoDict.Add(methodInfo.HeaderFile, new List<string>() { methodName });
+                }
+                else
+                {
+                    MethodInfoDict[methodInfo.HeaderFile].Add(methodName);
                 }
 
                 int leftBracketIndex = declaration.IndexOf('(');
@@ -559,7 +594,7 @@ namespace NativeFunctionTranslator
         {
             string MinConsoleNativeFuncsFile = Path.Combine(MinConsoleFolder, "src\\MinConsole\\MinConsoleNativeFuncs.cs");
 
-            List<string> nativeMethodsDeclaration = GetNativeMethodsDeclaration(headFiles);
+            List<MethodInfo> nativeMethodsDeclaration = GetNativeMethodsDeclaration(headFiles);
 
             //native method result
             List<string> nativeMethodNewDeclaration = ParseNativeMethodDeclaration(nativeMethodsDeclaration);
@@ -922,6 +957,32 @@ namespace NativeFunctionTranslator
 #endif
         }
 
+        public static void Debug2(Dictionary<string, List<string>> MethodInfoDict)
+        {
+            foreach (var item in MethodInfoDict)
+            {
+                string[] lines = File.ReadAllLines(item.Key, Encoding.UTF8);
+                foreach (string methodName in item.Value)
+                {
+                    string methodNameWithOutMin = methodName.Substring(3, methodName.Length - 3);
+                    bool find = false;
+                    foreach (string line in lines)
+                    {
+                        if (line.IndexOf(methodName) == -1 &&
+                            line.IndexOf(methodNameWithOutMin) != -1)
+                        {
+                            find = true;
+                            break;
+                        }
+                    }
+                    if (!find)
+                    {
+                        Console.WriteLine(methodName);
+                    }
+                }
+            }
+        }
+
         public static void Main()
         {
             //Common
@@ -942,6 +1003,9 @@ namespace NativeFunctionTranslator
 
             //-----------generate MinConsoleNative.h-----------
             GenMinConsoleNative(MinConsoleNativeFolder, headFiles);
+
+            //-----------for debugging-----------
+            Debug2(MethodInfoDict);
 
             //-----------generate MinConsoleHeaderFileDeclaration and License-----------
             //GenMinConsoleHeaderFileDeclarationAndLicense(headFiles, sourceFiles, true);
