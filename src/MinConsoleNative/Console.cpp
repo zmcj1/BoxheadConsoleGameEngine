@@ -1339,8 +1339,8 @@ namespace MinConsoleNative
             return Console::Write(msg, fc);
         }
 
-        wstring fore_str = VTConverter::ForeColor(foreColor);
-        wstring reset_str = VTConverter::ResetStyle();
+        wstring fore_str = VTConverter::VTForeColor(foreColor);
+        wstring reset_str = VTConverter::VTResetStyle();
         return Console::Write(fore_str + msg + reset_str);
     }
 
@@ -1353,9 +1353,9 @@ namespace MinConsoleNative
             return Console::Write(msg, fc, bc);
         }
 
-        wstring fore_str = VTConverter::ForeColor(foreColor);
-        wstring back_str = VTConverter::BackColor(backColor);
-        wstring reset_str = VTConverter::ResetStyle();
+        wstring fore_str = VTConverter::VTForeColor(foreColor);
+        wstring back_str = VTConverter::VTBackColor(backColor);
+        wstring reset_str = VTConverter::VTResetStyle();
         return Console::Write(fore_str + back_str + msg + reset_str);
     }
 
@@ -1368,10 +1368,10 @@ namespace MinConsoleNative
             return Console::Write(msg, fc, bc);
         }
 
-        wstring fore_str = VTConverter::ForeColor(foreColor);
-        wstring back_str = VTConverter::BackColor(backColor);
-        wstring us_str = VTConverter::Underline(under_score);
-        wstring reset_str = VTConverter::ResetStyle();
+        wstring fore_str = VTConverter::VTForeColor(foreColor);
+        wstring back_str = VTConverter::VTBackColor(backColor);
+        wstring us_str = VTConverter::VTUnderline(under_score);
+        wstring reset_str = VTConverter::VTResetStyle();
         return Console::Write(fore_str + back_str + us_str + msg + reset_str);
     }
 

@@ -108,31 +108,31 @@ namespace MinConsoleNative
         }
 
     public:
-        static std::wstring ResetStyle();
+        static std::wstring VTResetStyle();
 
-        static std::wstring ForeColor(Color24 foreColor);
+        static std::wstring VTForeColor(Color24 foreColor);
 
-        static std::wstring BackColor(Color24 backColor);
+        static std::wstring VTBackColor(Color24 backColor);
 
-        static std::wstring Color(Color24 foreColor, Color24 backColor);
+        static std::wstring VTColor(Color24 foreColor, Color24 backColor);
 
-        static std::wstring Underline(bool underLine);
+        static std::wstring VTUnderline(bool underLine);
 
-        static std::wstring WindowTitle(std::wstring title);
+        static std::wstring VTWindowTitle(std::wstring title);
 
-        static std::wstring CursorPos(COORD pos);
+        static std::wstring VTCursorPos(COORD pos);
 
-        static std::wstring CursorVisible(bool visible);
+        static std::wstring VTCursorVisible(bool visible);
 
-        static std::wstring TerminalColor(int color);
+        static std::wstring VTTerminalColor(int color);
 
-        static std::wstring TerminalForeColor(MinConsoleNative::TerminalColor tcolor);
+        static std::wstring VTTerminalForeColor(MinConsoleNative::TerminalColor tcolor);
 
-        static std::wstring TerminalBackColor(MinConsoleNative::TerminalColor tcolor);
+        static std::wstring VTTerminalBackColor(MinConsoleNative::TerminalColor tcolor);
 
-        static std::wstring TerminalSize(COORD size);
+        static std::wstring VTTerminalSize(COORD size);
 
-        static std::wstring PaletteColor(int index, byte r, byte g, byte b);
+        static std::wstring VTPaletteColor(int index, byte r, byte g, byte b);
 
         static bool VTSupport();
 
@@ -142,8 +142,8 @@ namespace MinConsoleNative
         static void VTDisableMouseInput();
 
         //This API internally shows how to use the VT sequence.
-        static COORD GetCursorPos();
+        static COORD VTGetCursorPos();
 
-        static void GetDeviceAttributes(wchar* str, int strLen);
+        static std::wstring VTGetDeviceAttributes();
     };
 }

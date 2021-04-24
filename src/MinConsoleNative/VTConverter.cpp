@@ -311,91 +311,91 @@ namespace MinConsoleNative
             record->Event.KeyEvent.wVirtualScanCode == 0;
     }
 
-    std::wstring VTConverter::ResetStyle()
+    std::wstring VTConverter::VTResetStyle()
     {
         wchar buf[VT_STR_LEN];
         MinVTResetStyle(buf, VT_STR_LEN);
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::ForeColor(Color24 foreColor)
+    std::wstring VTConverter::VTForeColor(Color24 foreColor)
     {
         wchar buf[VT_STR_LEN];
         MinVTForeColor(buf, VT_STR_LEN, foreColor);
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::BackColor(Color24 backColor)
+    std::wstring VTConverter::VTBackColor(Color24 backColor)
     {
         wchar buf[VT_STR_LEN];
         MinVTBackColor(buf, VT_STR_LEN, backColor);
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::Color(Color24 foreColor, Color24 backColor)
+    std::wstring VTConverter::VTColor(Color24 foreColor, Color24 backColor)
     {
         wchar buf[VT_STR_LEN];
         MinVTColor(buf, VT_STR_LEN, foreColor, backColor);
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::Underline(bool underLine)
+    std::wstring VTConverter::VTUnderline(bool underLine)
     {
         wchar buf[VT_STR_LEN];
         MinVTUnderline(buf, VT_STR_LEN, underLine);
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::WindowTitle(std::wstring title)
+    std::wstring VTConverter::VTWindowTitle(std::wstring title)
     {
         wchar buf[VT_STR_LEN];
         MinVTWindowTitle(buf, VT_STR_LEN, title.c_str());
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::CursorPos(COORD pos)
+    std::wstring VTConverter::VTCursorPos(COORD pos)
     {
         wchar buf[VT_STR_LEN];
         MinVTCursorPos(buf, VT_STR_LEN, pos);
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::CursorVisible(bool visible)
+    std::wstring VTConverter::VTCursorVisible(bool visible)
     {
         wchar buf[VT_STR_LEN];
         MinVTCursorVisible(buf, VT_STR_LEN, visible);
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::TerminalColor(int color)
+    std::wstring VTConverter::VTTerminalColor(int color)
     {
         wchar buf[VT_STR_LEN];
         MinVTTerminalColor(buf, VT_STR_LEN, color);
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::TerminalForeColor(MinConsoleNative::TerminalColor tcolor)
+    std::wstring VTConverter::VTTerminalForeColor(MinConsoleNative::TerminalColor tcolor)
     {
         wchar buf[VT_STR_LEN];
         MinVTTerminalForeColor(buf, VT_STR_LEN, tcolor);
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::TerminalBackColor(MinConsoleNative::TerminalColor tcolor)
+    std::wstring VTConverter::VTTerminalBackColor(MinConsoleNative::TerminalColor tcolor)
     {
         wchar buf[VT_STR_LEN];
         MinVTTerminalBackColor(buf, VT_STR_LEN, tcolor);
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::TerminalSize(COORD size)
+    std::wstring VTConverter::VTTerminalSize(COORD size)
     {
         wchar buf[VT_STR_LEN];
         MinVTTerminalSize(buf, VT_STR_LEN, size);
         return std::wstring(buf);
     }
 
-    std::wstring VTConverter::PaletteColor(int index, byte r, byte g, byte b)
+    std::wstring VTConverter::VTPaletteColor(int index, byte r, byte g, byte b)
     {
         wchar buf[VT_STR_LEN];
         MinVTPaletteColor(buf, VT_STR_LEN, index, r, g, b);
@@ -419,13 +419,15 @@ namespace MinConsoleNative
         MinVTDisableMouseInput();
     }
 
-    COORD VTConverter::GetCursorPos()
+    COORD VTConverter::VTGetCursorPos()
     {
         return MinVTGetCursorPos();
     }
 
-    void VTConverter::GetDeviceAttributes(wchar* str, int strLen)
+    std::wstring VTConverter::VTGetDeviceAttributes()
     {
-        MinVTGetDeviceAttributes(str, strLen);
+        wchar str[32];
+        MinVTGetDeviceAttributes(str, LEN(str));
+        return wstring(str);
     }
 }
