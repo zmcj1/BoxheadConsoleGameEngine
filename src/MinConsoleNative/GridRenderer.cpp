@@ -11,19 +11,21 @@ namespace MinConsoleNative
         this->logicalHeight = logicalHeight;
         this->mode = mode;
         this->gridArray = new Grid[logicalWidth * logicalHeight];
-        GridRenderer::Clear();
+        this->gridArrayBuffer = new Grid[logicalWidth * logicalHeight];
     }
 
     GridRenderer::~GridRenderer()
     {
         delete[] this->gridArray;
+        delete[] this->gridArrayBuffer;
     }
 
     void GridRenderer::Clear(const Grid& grid)
     {
         for (int i = 0; i < logicalWidth * logicalHeight; i++)
         {
-            this->gridArray[i] = grid;
+            this->gridArrayBuffer[i] = this->gridArray[i];  //copy
+            this->gridArray[i] = grid;                      //set default
         }
     }
 

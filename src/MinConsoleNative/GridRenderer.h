@@ -108,6 +108,7 @@ namespace MinConsoleNative
 
     private:
         Grid* gridArray;
+        Grid* gridArrayBuffer;
 
     public:
         GridRenderer(int logicalWidth, int logicalHeight, GridRendererMode mode);
@@ -120,10 +121,10 @@ namespace MinConsoleNative
 
         void Draw(const Vector2& pos, const Grid& grid);
 
-        //return the logicalWidth of wstr
+        //return the logicalWidth of wstr, return 0 if fails.
         int Draw(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore);
 
-        //return the logicalWidth of wstr
+        //return the logicalWidth of wstr, return 0 if fails.
         int DrawWrap(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore);
     };
 }
