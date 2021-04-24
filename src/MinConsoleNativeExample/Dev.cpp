@@ -2,6 +2,10 @@
 
 int main()
 {
+    ConsoleEngine ce;
+    ce.ConstructConsole(L"dev", PaletteType::Legacy, 60, 30, FontSize::_10x20);
+    console.ReadLine();
+
     int x = GetSystemMetrics(SM_CXSCREEN) / 2;
     int y = GetSystemMetrics(SM_CYSCREEN) / 2;
 
