@@ -7,6 +7,18 @@
 
 namespace MinConsoleNative
 {
+    enum class FontSize
+    {
+        _6x12,
+        _8x16,
+        _10x20,
+    };
+
+    enum class ConsoleEngineException
+    {
+        WrongFontSize = 1,
+    };
+
     class ConsoleEngine
     {
     public:
@@ -29,6 +41,8 @@ namespace MinConsoleNative
         ConsoleEngine();
 
         void ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight);
+
+        void ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, FontSize fontSize);
 
         void ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight);
 
