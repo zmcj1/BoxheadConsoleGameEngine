@@ -1104,6 +1104,11 @@ namespace MinConsoleNative
         return MinWriteConsoleOutputCharacter(cons.consoleOutput, str.c_str(), str.size(), pos);
     }
 
+    bool Console::RefreshScreen(wchar c, ushort att)
+    {
+        return MinRefreshScreen(cons.consoleOutput, c, att);
+    }
+
     ConsoleSession Console::InitConsoleSession()
     {
         ConsoleSession cons;

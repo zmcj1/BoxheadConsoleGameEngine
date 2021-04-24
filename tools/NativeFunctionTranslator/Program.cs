@@ -977,7 +977,7 @@ namespace NativeFunctionTranslator
                     }
                     if (!find)
                     {
-                        Console.WriteLine(methodName);
+                        Console.WriteLine(item.Key + " " + methodName);
                     }
                 }
             }

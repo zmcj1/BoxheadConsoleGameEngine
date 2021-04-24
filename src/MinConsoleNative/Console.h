@@ -652,6 +652,8 @@ namespace MinConsoleNative
 
         bool WriteConsoleOutputCharacterW(const std::wstring& str, COORD pos);
 
+        bool RefreshScreen(wchar c, ushort att);
+
         //Console file IO functions:
 
         bool WriteFile(std::string str);

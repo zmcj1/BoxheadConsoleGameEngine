@@ -108,6 +108,10 @@ namespace MinConsoleNative
 
         static std::wstring MCISendStringEx(const std::wstring& cmd);
 
+        static std::wstring MCIGetErrorString();
+
+        static bool PlaySoundW(const std::wstring& path, bool repeatPlay);
+
     private:
         MCIAudio* mciAudio = nullptr;
 

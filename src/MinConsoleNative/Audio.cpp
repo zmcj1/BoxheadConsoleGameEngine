@@ -220,6 +220,18 @@ namespace MinConsoleNative
         return result;
     }
 
+    std::wstring Audio::MCIGetErrorString()
+    {
+        wchar errString[MAX_PATH];
+        MinMCIGetErrorString(errString, LEN(errString));
+        return wstring(errString);
+    }
+
+    bool Audio::PlaySoundW(const std::wstring& path, bool repeatPlay)
+    {
+        return MinPlaySound(path.c_str(), repeatPlay);
+    }
+
     Audio::Audio(const wstring& path)
     {
         this->mciAudio = new MCIAudio;
