@@ -2,11 +2,11 @@
 
 int main()
 {
-    GridRenderer renderer(60, 30, GridRendererMode::Fast);
+    GridRenderer renderer(10, 30, GridRendererMode::Fast);
 
     renderer.Clear();
 
-    renderer.Draw(Vector2::zero, L"rushB冲冲冲asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊!!!", { 255,0,0 }, { 0,0,0 }, false);
+    renderer.DrawWrap(Vector2::zero, L"墙墙墙墙墙墙墙墙墙墙墙墙墙墙墙墙墙墙墙墙1234", { 255,0,0 }, { 0,0,0 }, false);
 
     renderer.Render();
 

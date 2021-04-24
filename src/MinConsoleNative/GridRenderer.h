@@ -117,5 +117,8 @@ namespace MinConsoleNative
 
         //return the logicalWidth of wstr
         int Draw(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore);
+
+        //return the logicalWidth of wstr
+        int DrawWrap(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore);
     };
 }

@@ -90,9 +90,26 @@ namespace MinConsoleNative
 
         for (int i = 0; i < wstrGrids.size(); i++)
         {
-            Vector2 position(pos.x + i, pos.y);
-            wstring wstrGrid = wstrGrids[i];
-            GridRenderer::Draw(position, Grid(wstrGrid, foreColor, backColor, underScore));
+            GridRenderer::Draw(Vector2(pos.x + i, pos.y), Grid(wstrGrids[i], foreColor, backColor, underScore));
+        }
+
+        return wstrGrids.size();
+    }
+
+    int GridRenderer::DrawWrap(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore)
+    {
+        vector<wstring> wstrGrids = textLayout.WstringToGrids(wstr);
+
+        for (int i = 0; i < wstrGrids.size(); i++)
+        {
+            int positionX = pos.x + i;
+            int positionY = pos.y;
+            while (positionX > logicalWidth - 1)
+            {
+                positionX -= logicalWidth;
+                positionY++;
+            }
+            GridRenderer::Draw(Vector2(positionX, positionY), Grid(wstrGrids[i], foreColor, backColor, underScore));
         }
 
         return wstrGrids.size();
