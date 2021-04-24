@@ -167,13 +167,11 @@
     <ClInclude Include="Navigation.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="PaletteSystem.h" />
-    <ClInclude Include="PixelRenderer.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="TextLayout.h" />
-    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UnusualMethods.h" />
     <ClInclude Include="Utils.h" />
@@ -203,12 +201,10 @@
     <ClCompile Include="MinConsoleNative.cpp" />
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="PaletteSystem.cpp" />
-    <ClCompile Include="PixelRenderer.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="TextLayout.cpp" />
-    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UnusualMethods.cpp" />
     <ClCompile Include="Utils.cpp" />
