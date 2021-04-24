@@ -113,7 +113,7 @@ namespace MinConsoleNative
 
         void Render();
 
-        void Draw(Vector2 pos, Grid grid);
+        void Draw(const Vector2& pos, const Grid& grid);
 
         //return the logicalWidth of wstr
         int Draw(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore);

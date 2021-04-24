@@ -41,9 +41,7 @@ namespace MinConsoleNative
                 Grid grid = this->gridArray[i];
 
                 ushort att = 0;
-                //foreColor and backColor
                 att |= ConsoleColorToUshort(grid.foreColor.ToConsoleColor(), grid.backColor.ToConsoleColor());
-                //underScore
                 if (grid.underScore)
                 {
                     att |= COMMON_LVB_UNDERSCORE;
@@ -75,7 +73,7 @@ namespace MinConsoleNative
         }
     }
 
-    void GridRenderer::Draw(Vector2 pos, Grid grid)
+    void GridRenderer::Draw(const Vector2& pos, const Grid& grid)
     {
         if (pos.x < 0 || pos.x > logicalWidth - 1 ||
             pos.y < 0 || pos.y > logicalHeight - 1)
