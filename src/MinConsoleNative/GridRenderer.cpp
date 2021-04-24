@@ -38,7 +38,7 @@ namespace MinConsoleNative
 
             for (int i = 0; i < logicalWidth * logicalHeight; i++)
             {
-                Grid grid = this->gridArray[i];
+                const Grid& grid = this->gridArray[i];
 
                 ushort att = 0;
                 att |= ConsoleColorToUshort(grid.foreColor.ToConsoleColor(), grid.backColor.ToConsoleColor());

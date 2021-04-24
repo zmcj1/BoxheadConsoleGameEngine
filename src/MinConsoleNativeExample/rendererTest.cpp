@@ -6,7 +6,7 @@ int main()
 
     renderer.Clear();
 
-    renderer.Draw(Vector2::zero, L"rushB冲冲冲!!!", { 255,0,0 }, { 0,0,0 }, false);
+    renderer.Draw(Vector2::zero, L"rushB冲冲冲asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊!!!", { 255,0,0 }, { 0,0,0 }, false);
 
     renderer.Render();
 

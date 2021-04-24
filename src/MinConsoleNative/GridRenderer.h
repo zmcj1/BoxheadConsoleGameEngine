@@ -8,6 +8,13 @@
 
 namespace MinConsoleNative
 {
+    enum class GridRendererMode
+    {
+        TrueColor = 1,
+        Fast = 2,
+        Mixed = 3,
+    };
+
     struct Grid
     {
     public:
@@ -85,13 +92,6 @@ namespace MinConsoleNative
                 return true;
             }
         }
-    };
-
-    enum class GridRendererMode
-    {
-        TrueColor = 1,
-        Fast = 2,
-        Mixed = 3,
     };
 
     class GridRenderer

@@ -1410,7 +1410,7 @@ namespace MinConsoleNative
         return Console::Write(msg + wstring(L"\n"), foreColor, backColor, under_score);
     }
 
-    ConsoleColor Color24::ToConsoleColor()
+    ConsoleColor Color24::ToConsoleColor() const
     {
         bool isLegacy = PaletteSystem::Global.GetInstance().CurPaletteIsLegacyPalette();
         //Algorithm:https://stackoverflow.com/questions/1988833/converting-color-to-consolecolor

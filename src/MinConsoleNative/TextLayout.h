@@ -27,8 +27,8 @@ namespace MinConsoleNative
 
         std::vector<std::wstring> WstringToGrids(const std::wstring wstr);
 
-        //width:the width of LineWidth(cell)
-        //NOTICE:if width is 1, will return single char as line. width can't < 1!
+        //width:the width of line(cell)
+        //NOTICE:if width is 1, returns single char as line. Width can't < 1!
         std::vector<std::wstring> WstringToLines(const std::wstring wstr, int width, bool fillAll = true);
     };
 

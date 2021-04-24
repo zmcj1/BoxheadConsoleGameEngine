@@ -154,7 +154,7 @@ namespace MinConsoleNative
             }
         }
 
-        ConsoleColor ToConsoleColor();
+        ConsoleColor ToConsoleColor() const;
     };
 
     EXPORT_STRUCT ConsoleInputMode
