@@ -77,6 +77,51 @@ namespace MinConsoleNative
 
             delete[] charInfos;
         }
+        else if (mode == GridRendererMode::TrueColor)
+        {
+            for (int i = 0; i < logicalWidth * logicalHeight; i++)
+            {
+                const Grid& grid = this->gridArray[i];
+                const Grid& gridBuffer = this->gridArrayBuffer[i];
+                if (grid != gridBuffer)
+                {
+                    COORD position = { i % logicalWidth * 2, i / logicalWidth };
+                    COORD beforePosition = console.GetConsoleCursorPos();
+                    console.SetConsoleCursorPos(position);
+                    console.Write(grid.wstr, grid.foreColor, grid.backColor, grid.underScore);
+                    console.SetConsoleCursorPos(beforePosition);
+                }
+            }
+        }
+        else if (mode == GridRendererMode::Mixed)
+        {
+            //draw true color
+            for (int i = 0; i < logicalWidth * logicalHeight; i++)
+            {
+                const Grid& grid = this->gridArray[i];
+                const Grid& gridBuffer = this->gridArrayBuffer[i];
+                if (grid != gridBuffer)
+                {
+                    COORD position = { i % logicalWidth * 2, i / logicalWidth };
+                    COORD beforePosition = console.GetConsoleCursorPos();
+                    console.SetConsoleCursorPos(position);
+                    console.Write(L"  ", grid.foreColor, grid.backColor, grid.underScore);
+                    console.SetConsoleCursorPos(beforePosition);
+                }
+            }
+            //draw string
+            wstring wstr;
+            for (int i = 0; i < logicalWidth * logicalHeight; i++)
+            {
+                if (this->gridArray[i].wstr == L"") wstr += L"  ";
+                else wstr += this->gridArray[i].wstr;
+            }
+            vector<wstring> lines = textLayout.WstringToLines(wstr, logicalWidth * 2, true);
+            for (int i = 0; i < lines.size(); i++)
+            {
+                console.WriteConsoleOutputCharacterW(lines[i], { 0, (short)i });
+            }
+        }
     }
 
     void GridRenderer::Draw(const Vector2& pos, const Grid& grid)
