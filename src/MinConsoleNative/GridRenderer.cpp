@@ -33,49 +33,99 @@ namespace MinConsoleNative
     {
         if (mode == GridRendererMode::Fast)
         {
-            CHAR_INFO* charInfos = new CHAR_INFO[logicalWidth * 2 * logicalHeight];
-
-            for (int i = 0; i < logicalWidth * logicalHeight; i++)
+            ConsoleType consoleType = console.GetConsoleType();
+            if (consoleType == ConsoleType::WindowsLegacyConsole)
             {
-                const Grid& grid = this->gridArray[i];
+                CHAR_INFO* charInfos = new CHAR_INFO[logicalWidth * 2 * logicalHeight];
 
-                ushort att = 0;
-                att |= ConsoleColorToUshort(grid.foreColor.ToConsoleColor(), grid.backColor.ToConsoleColor());
-                if (grid.underScore)
+                for (int i = 0; i < logicalWidth * logicalHeight; i++)
                 {
-                    att |= COMMON_LVB_UNDERSCORE;
+                    const Grid& grid = this->gridArray[i];
+
+                    ushort att = 0;
+                    att |= ConsoleColorToUshort(grid.foreColor.ToConsoleColor(), grid.backColor.ToConsoleColor());
+                    if (grid.underScore)
+                    {
+                        att |= COMMON_LVB_UNDERSCORE;
+                    }
+
+                    if (grid.wstr.size() == 1)
+                    {
+                        charInfos[i * 2].Attributes = att | COMMON_LVB_LEADING_BYTE;
+                        charInfos[i * 2].Char.UnicodeChar = grid.wstr[0];
+                        charInfos[i * 2 + 1].Attributes = att | COMMON_LVB_TRAILING_BYTE;
+                        charInfos[i * 2 + 1].Char.UnicodeChar = L' ';
+                    }
+                    else if (grid.wstr.size() == 2)
+                    {
+                        charInfos[i * 2].Attributes = att;
+                        charInfos[i * 2].Char.UnicodeChar = grid.wstr[0];
+                        charInfos[i * 2 + 1].Attributes = att;
+                        charInfos[i * 2 + 1].Char.UnicodeChar = grid.wstr[1];
+                    }
+                    else if (grid.wstr.size() == 0)
+                    {
+                        charInfos[i * 2].Attributes = att;
+                        charInfos[i * 2].Char.UnicodeChar = L' ';
+                        charInfos[i * 2 + 1].Attributes = att;
+                        charInfos[i * 2 + 1].Char.UnicodeChar = L' ';
+                    }
+                    else
+                    {
+                        throw GridRendererException::WrongWstrGridSize;
+                    }
                 }
 
-                if (grid.wstr.size() == 1)
-                {
-                    charInfos[i * 2].Attributes = att | COMMON_LVB_LEADING_BYTE;
-                    charInfos[i * 2].Char.UnicodeChar = grid.wstr[0];
-                    charInfos[i * 2 + 1].Attributes = att | COMMON_LVB_TRAILING_BYTE;
-                    charInfos[i * 2 + 1].Char.UnicodeChar = L' ';
-                }
-                else if (grid.wstr.size() == 2)
-                {
-                    charInfos[i * 2].Attributes = att;
-                    charInfos[i * 2].Char.UnicodeChar = grid.wstr[0];
-                    charInfos[i * 2 + 1].Attributes = att;
-                    charInfos[i * 2 + 1].Char.UnicodeChar = grid.wstr[1];
-                }
-                else if (grid.wstr.size() == 0)
-                {
-                    charInfos[i * 2].Attributes = att;
-                    charInfos[i * 2].Char.UnicodeChar = L' ';
-                    charInfos[i * 2 + 1].Attributes = att;
-                    charInfos[i * 2 + 1].Char.UnicodeChar = L' ';
-                }
-                else
-                {
-                    throw GridRendererException::WrongWstrGridSize;
-                }
+                console.WriteConsoleOutputW(charInfos, 0, 0, logicalWidth * 2, logicalHeight);
+
+                delete[] charInfos;
             }
+            else
+            {
+                CHAR_INFO* charInfos = new CHAR_INFO[logicalWidth * 2 * logicalHeight];
 
-            console.WriteConsoleOutputW(charInfos, 0, 0, logicalWidth * 2, logicalHeight);
+                for (int i = 0; i < logicalWidth * logicalHeight; i++)
+                {
+                    const Grid& grid = this->gridArray[i];
 
-            delete[] charInfos;
+                    ushort att = 0;
+                    att |= ConsoleColorToUshort(grid.foreColor.ToConsoleColor(), grid.backColor.ToConsoleColor());
+                    if (grid.underScore)
+                    {
+                        att |= COMMON_LVB_UNDERSCORE;
+                    }
+
+                    if (grid.wstr.size() == 1)
+                    {
+                        charInfos[i * 2].Attributes = att | COMMON_LVB_LEADING_BYTE;
+                        charInfos[i * 2].Char.UnicodeChar = grid.wstr[0];
+                        charInfos[i * 2 + 1].Attributes = att | COMMON_LVB_TRAILING_BYTE;
+                        charInfos[i * 2 + 1].Char.UnicodeChar = L' ';
+                    }
+                    else if (grid.wstr.size() == 2)
+                    {
+                        charInfos[i * 2].Attributes = att;
+                        charInfos[i * 2].Char.UnicodeChar = grid.wstr[0];
+                        charInfos[i * 2 + 1].Attributes = att;
+                        charInfos[i * 2 + 1].Char.UnicodeChar = grid.wstr[1];
+                    }
+                    else if (grid.wstr.size() == 0)
+                    {
+                        charInfos[i * 2].Attributes = att;
+                        charInfos[i * 2].Char.UnicodeChar = L' ';
+                        charInfos[i * 2 + 1].Attributes = att;
+                        charInfos[i * 2 + 1].Char.UnicodeChar = L' ';
+                    }
+                    else
+                    {
+                        throw GridRendererException::WrongWstrGridSize;
+                    }
+                }
+
+                console.WriteConsoleOutputW(charInfos, 0, 0, logicalWidth * 2, logicalHeight);
+
+                delete[] charInfos;
+            }
         }
         else if (mode == GridRendererMode::TrueColor)
         {

@@ -2,7 +2,7 @@
 
 int main()
 {
-    GridRenderer renderer(10, 30, GridRendererMode::Mixed);
+    GridRenderer renderer(10, 30, GridRendererMode::Fast);
 
     renderer.Clear();
 

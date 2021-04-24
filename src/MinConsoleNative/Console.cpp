@@ -872,20 +872,21 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinGetConsoleType(ConsoleType* type)
     {
-        bool legacy = false;
-        MinIsUsingLegacyConsole(&legacy);
-        if (legacy)
+        wchar buffer[MAX_PATH] = { 0 };
+        GetEnvironmentVariable(L"WT_SESSION", buffer, MAX_PATH);
+
+        //Now support Windows Terminal!
+        if (wcscmp(buffer, L"") != 0)
         {
-            *type = ConsoleType::WindowsLegacyConsole;
+            *type = ConsoleType::WindowsTerminal;
         }
         else
         {
-            wchar buffer[MAX_PATH] = { 0 };
-            GetEnvironmentVariable(L"WT_SESSION", buffer, MAX_PATH);
-            //Now support Windows Terminal!
-            if (wcscmp(buffer, L"") != 0)
+            bool legacy = false;
+            MinIsUsingLegacyConsole(&legacy);
+            if (legacy)
             {
-                *type = ConsoleType::WindowsTerminal;
+                *type = ConsoleType::WindowsLegacyConsole;
             }
             else
             {
