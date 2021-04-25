@@ -36,49 +36,32 @@ namespace MinConsoleNative
             ConsoleType consoleType = console.GetConsoleType();
             if (consoleType == ConsoleType::WindowsLegacyConsole)
             {
-                CHAR_INFO* charInfos = new CHAR_INFO[logicalWidth * 2 * logicalHeight];
-
+                //draw true color
                 for (int i = 0; i < logicalWidth * logicalHeight; i++)
                 {
                     const Grid& grid = this->gridArray[i];
-
-                    ushort att = 0;
-                    att |= ConsoleColorToUshort(grid.foreColor.ToConsoleColor(), grid.backColor.ToConsoleColor());
-                    if (grid.underScore)
+                    const Grid& gridBuffer = this->gridArrayBuffer[i];
+                    if (grid != gridBuffer)
                     {
-                        att |= COMMON_LVB_UNDERSCORE;
-                    }
-
-                    if (grid.wstr.size() == 1)
-                    {
-                        charInfos[i * 2].Attributes = att | COMMON_LVB_LEADING_BYTE;
-                        charInfos[i * 2].Char.UnicodeChar = grid.wstr[0];
-                        charInfos[i * 2 + 1].Attributes = att | COMMON_LVB_TRAILING_BYTE;
-                        charInfos[i * 2 + 1].Char.UnicodeChar = L' ';
-                    }
-                    else if (grid.wstr.size() == 2)
-                    {
-                        charInfos[i * 2].Attributes = att;
-                        charInfos[i * 2].Char.UnicodeChar = grid.wstr[0];
-                        charInfos[i * 2 + 1].Attributes = att;
-                        charInfos[i * 2 + 1].Char.UnicodeChar = grid.wstr[1];
-                    }
-                    else if (grid.wstr.size() == 0)
-                    {
-                        charInfos[i * 2].Attributes = att;
-                        charInfos[i * 2].Char.UnicodeChar = L' ';
-                        charInfos[i * 2 + 1].Attributes = att;
-                        charInfos[i * 2 + 1].Char.UnicodeChar = L' ';
-                    }
-                    else
-                    {
-                        throw GridRendererException::WrongWstrGridSize;
+                        COORD position = { i % logicalWidth * 2, i / logicalWidth };
+                        COORD beforePosition = console.GetConsoleCursorPos();
+                        console.SetConsoleCursorPos(position);
+                        console.Write(L"  ", grid.foreColor, grid.backColor, grid.underScore);
+                        console.SetConsoleCursorPos(beforePosition);
                     }
                 }
-
-                console.WriteConsoleOutputW(charInfos, 0, 0, logicalWidth * 2, logicalHeight);
-
-                delete[] charInfos;
+                //draw string
+                wstring wstr;
+                for (int i = 0; i < logicalWidth * logicalHeight; i++)
+                {
+                    if (this->gridArray[i].wstr == L"") wstr += L"  ";
+                    else wstr += this->gridArray[i].wstr;
+                }
+                vector<wstring> lines = textLayout.WstringToLines(wstr, logicalWidth * 2, true);
+                for (int i = 0; i < lines.size(); i++)
+                {
+                    console.WriteConsoleOutputCharacterW(lines[i], { 0, (short)i });
+                }
             }
             else
             {
