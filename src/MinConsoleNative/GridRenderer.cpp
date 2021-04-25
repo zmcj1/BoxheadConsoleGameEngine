@@ -66,7 +66,6 @@ namespace MinConsoleNative
             else
             {
                 CHAR_INFO* charInfos = new CHAR_INFO[logicalWidth * 2 * logicalHeight];
-
                 for (int i = 0; i < logicalWidth * logicalHeight; i++)
                 {
                     const Grid& grid = this->gridArray[i];
@@ -104,9 +103,7 @@ namespace MinConsoleNative
                         throw GridRendererException::WrongWstrGridSize;
                     }
                 }
-
                 console.WriteConsoleOutputW(charInfos, 0, 0, logicalWidth * 2, logicalHeight);
-
                 delete[] charInfos;
             }
         }
@@ -171,19 +168,16 @@ namespace MinConsoleNative
     int GridRenderer::Draw(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore)
     {
         vector<wstring> wstrGrids = textLayout.WstringToGrids(wstr);
-
         for (int i = 0; i < wstrGrids.size(); i++)
         {
             GridRenderer::Draw(Vector2(pos.x + i, pos.y), Grid(wstrGrids[i], foreColor, backColor, underScore));
         }
-
         return wstrGrids.size();
     }
 
     int GridRenderer::DrawWrap(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore)
     {
         vector<wstring> wstrGrids = textLayout.WstringToGrids(wstr);
-
         for (int i = 0; i < wstrGrids.size(); i++)
         {
             int positionX = pos.x + i;
@@ -195,7 +189,6 @@ namespace MinConsoleNative
             }
             GridRenderer::Draw(Vector2(positionX, positionY), Grid(wstrGrids[i], foreColor, backColor, underScore));
         }
-
         return wstrGrids.size();
     }
 }
