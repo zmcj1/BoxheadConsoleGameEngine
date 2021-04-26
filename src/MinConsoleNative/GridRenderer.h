@@ -30,7 +30,7 @@ namespace MinConsoleNative
 
         Grid()
         {
-            this->wstr = _T("");
+            this->wstr = _T("  "); //fill this with spaces
             this->foreColor = Color24();
             this->backColor = Color24();
             this->underScore = false;
@@ -126,5 +126,12 @@ namespace MinConsoleNative
 
         //return the logicalWidth of wstr, return 0 if fails.
         int DrawWrap(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore);
+
+    private:
+        void RenderFast();
+
+        void RenderMixed();
+
+        void RenderTrueColor();
     };
 }
