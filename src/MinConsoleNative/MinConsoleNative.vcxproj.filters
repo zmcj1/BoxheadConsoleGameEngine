@@ -122,6 +122,9 @@
     <ClInclude Include="GridRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CellRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -215,6 +218,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GridRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CellRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

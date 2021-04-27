@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\third_party\WinReg.hpp" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="CellRenderer.h" />
     <ClInclude Include="CharacterController.h" />
     <ClInclude Include="Clipboard.h" />
     <ClInclude Include="ConRegistry.h" />
@@ -186,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="CellRenderer.cpp" />
     <ClCompile Include="CharacterController.cpp" />
     <ClCompile Include="Clipboard.cpp" />
     <ClCompile Include="ConRegistry.cpp" />
