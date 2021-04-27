@@ -122,10 +122,10 @@ namespace MinConsoleNative
         void Draw(const Vector2& pos, const Grid& grid);
 
         //return the logicalWidth of wstr, return 0 if fails.
-        int Draw(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore);
+        int DrawString(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore);
 
         //return the logicalWidth of wstr, return 0 if fails.
-        int DrawWrap(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore);
+        int DrawStringWrap(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore);
 
     private:
         void RenderFast();

@@ -1,6 +1,5 @@
 ﻿#include "GridRenderer.h"
 #include "TextLayout.h"
-
 using namespace std;
 
 namespace MinConsoleNative
@@ -31,32 +30,20 @@ namespace MinConsoleNative
 
     void GridRenderer::Render()
     {
-        if (mode == GridRendererMode::Fast)
-        {
-            RenderFast();
-        }
-        else if (mode == GridRendererMode::TrueColor)
-        {
-            RenderTrueColor();
-        }
-        else if (mode == GridRendererMode::Mixed)
-        {
-            RenderMixed();
-        }
+        if (mode == GridRendererMode::Fast) RenderFast();
+        else if (mode == GridRendererMode::TrueColor) RenderTrueColor();
+        else if (mode == GridRendererMode::Mixed) RenderMixed();
     }
 
     void GridRenderer::Draw(const Vector2& pos, const Grid& grid)
     {
         if (pos.x < 0 || pos.x > logicalWidth - 1 ||
-            pos.y < 0 || pos.y > logicalHeight - 1)
-        {
-            return;
-        }
+            pos.y < 0 || pos.y > logicalHeight - 1) return;
         int index = logicalWidth * pos.y + pos.x;
         this->gridArray[index] = grid;
     }
 
-    int GridRenderer::Draw(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore)
+    int GridRenderer::DrawString(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore)
     {
         vector<wstring> wstrGrids = textLayout.WstringToGrids(wstr);
         for (int i = 0; i < wstrGrids.size(); i++)
@@ -66,7 +53,7 @@ namespace MinConsoleNative
         return wstrGrids.size();
     }
 
-    int GridRenderer::DrawWrap(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore)
+    int GridRenderer::DrawStringWrap(const Vector2& pos, const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore)
     {
         vector<wstring> wstrGrids = textLayout.WstringToGrids(wstr);
         for (int i = 0; i < wstrGrids.size(); i++)
@@ -94,9 +81,7 @@ namespace MinConsoleNative
             {
                 ushort* arr = new ushort[logicalWidth * 2];
                 for (int i = 0; i < logicalWidth * 2; i++)
-                {
                     arr[i] = 0x00;
-                }
                 colors.push_back(arr);
             }
             //assignment
@@ -109,25 +94,17 @@ namespace MinConsoleNative
             }
             //draw attributes
             for (int i = 0; i < colors.size(); i++)
-            {
                 console.WriteConsoleOutputAttribute(colors[i], logicalWidth * 2, { 0, (short)i });
-            }
             //deinitialize
             for (int i = 0; i < colors.size(); i++)
-            {
                 delete[] colors[i];
-            }
             //draw string
             wstring wstr;
             for (int i = 0; i < logicalWidth * logicalHeight; i++)
-            {
                 wstr += this->gridArray[i].wstr;
-            }
             vector<wstring> lines = textLayout.WstringToLines(wstr, logicalWidth * 2, true);
             for (int i = 0; i < lines.size(); i++)
-            {
                 console.WriteConsoleOutputCharacterW(lines[i], { 0, (short)i });
-            }
         }
         else
         {
@@ -138,10 +115,7 @@ namespace MinConsoleNative
 
                 ushort att = 0;
                 att |= ConsoleColorToUshort(grid.foreColor.ToConsoleColor(), grid.backColor.ToConsoleColor());
-                if (grid.underScore)
-                {
-                    att |= COMMON_LVB_UNDERSCORE;
-                }
+                if (grid.underScore) att |= COMMON_LVB_UNDERSCORE;
 
                 if (grid.wstr.size() == 1)
                 {
@@ -169,7 +143,7 @@ namespace MinConsoleNative
 
     void GridRenderer::RenderMixed()
     {
-        //draw true color
+        //draw true color:
         for (int i = 0; i < logicalWidth * logicalHeight; i++)
         {
             const Grid& grid = this->gridArray[i];
@@ -183,17 +157,13 @@ namespace MinConsoleNative
                 console.SetConsoleCursorPos(beforePosition);
             }
         }
-        //draw string
+        //draw string:
         wstring wstr;
         for (int i = 0; i < logicalWidth * logicalHeight; i++)
-        {
             wstr += this->gridArray[i].wstr;
-        }
         vector<wstring> lines = textLayout.WstringToLines(wstr, logicalWidth * 2, true);
         for (int i = 0; i < lines.size(); i++)
-        {
             console.WriteConsoleOutputCharacterW(lines[i], { 0, (short)i });
-        }
     }
 
     void GridRenderer::RenderTrueColor()
