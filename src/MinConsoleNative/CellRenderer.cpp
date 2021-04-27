@@ -1,7 +1,6 @@
 ﻿#include "CellRenderer.h"
 #include "String.h"
 #include <string>
-
 using namespace std;
 
 namespace MinConsoleNative
@@ -32,27 +31,15 @@ namespace MinConsoleNative
 
     void CellRenderer::Render()
     {
-        if (mode == CellRendererMode::Fast)
-        {
-            RenderFast();
-        }
-        else if (mode == CellRendererMode::TrueColor)
-        {
-            RenderTrueColor();
-        }
-        else if (mode == CellRendererMode::Mixed)
-        {
-            RenderMixed();
-        }
+        if (mode == CellRendererMode::Fast) RenderFast();
+        else if (mode == CellRendererMode::TrueColor) RenderTrueColor();
+        else if (mode == CellRendererMode::Mixed) RenderMixed();
     }
 
     void CellRenderer::Draw(const Vector2& pos, const Cell& cell)
     {
         if (pos.x < 0 || pos.x > consoleWidth - 1 ||
-            pos.y < 0 || pos.y > consoleHeight - 1)
-        {
-            return;
-        }
+            pos.y < 0 || pos.y > consoleHeight - 1) return;
         int index = consoleWidth * pos.y + pos.x;
         this->cellArray[index] = cell;
     }
@@ -63,14 +50,9 @@ namespace MinConsoleNative
         for (int i = 0; i < consoleWidth * consoleHeight; i++)
         {
             const Cell& cell = this->cellArray[i];
-
             ushort att = 0;
             att |= ConsoleColorToUshort(cell.foreColor.ToConsoleColor(), cell.backColor.ToConsoleColor());
-            if (cell.underScore)
-            {
-                att |= COMMON_LVB_UNDERSCORE;
-            }
-
+            if (cell.underScore) att |= COMMON_LVB_UNDERSCORE;
             charInfos[i].Attributes = att;
             charInfos[i].Char.UnicodeChar = cell.c;
         }
@@ -80,7 +62,7 @@ namespace MinConsoleNative
 
     void CellRenderer::RenderMixed()
     {
-        //draw true color
+        //draw true color:
         for (int i = 0; i < consoleWidth * consoleHeight; i++)
         {
             const Cell& cell = this->cellArray[i];
@@ -94,17 +76,11 @@ namespace MinConsoleNative
                 console.SetConsoleCursorPos(beforePosition);
             }
         }
-        //draw string
-        wstring* lines = new wstring[consoleHeight];
+        //draw string:
+        wstring wstr;
         for (int i = 0; i < consoleWidth * consoleHeight; i++)
-        {
-            lines[i / consoleWidth] += this->cellArray[i].c;
-        }
-        for (int i = 0; i < consoleHeight; i++)
-        {
-            console.WriteConsoleOutputCharacterW(lines[i], { 0, (short)i });
-        }
-        delete[] lines;
+            wstr += this->cellArray[i].c;
+        console.WriteConsoleOutputCharacterW(wstr, { 0,0 });
     }
 
     void CellRenderer::RenderTrueColor()
