@@ -40,27 +40,9 @@ namespace MinConsoleNative
 
     void ConsoleEngine::ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, FontSize fontSize)
     {
-        int fontWidth = 0;
-        int fontHeight = 0;
-        switch (fontSize)
-        {
-        case FontSize::_6x12:
-            fontWidth = 6;
-            fontHeight = 12;
-            break;
-        case FontSize::_8x16:
-            fontWidth = 8;
-            fontHeight = 16;
-            break;
-        case FontSize::_10x20:
-            fontWidth = 10;
-            fontHeight = 20;
-            break;
-        default:
-            throw ConsoleEngineException::WrongFontSize;
-            break;
-        }
-
+        POINT size = GetFontSize(fontSize);
+        int fontWidth = size.x;
+        int fontHeight = size.y;
         ConsoleEngine::ConstructConsole(title, paletteType, consoleWidth, consoleHeight, fontWidth, fontHeight);
     }
 

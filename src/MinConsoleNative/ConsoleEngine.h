@@ -7,6 +7,12 @@
 
 namespace MinConsoleNative
 {
+    enum class FontName
+    {
+        Terminal = 1,
+        Consolas = 2,
+    };
+
     enum class FontSize
     {
         _6x12,
@@ -16,8 +22,30 @@ namespace MinConsoleNative
 
     enum class ConsoleEngineException
     {
-        WrongFontSize = 1,
+        UnknownFontName = 1,
+        UnknownFontSize = 2,
     };
+
+    inline std::wstring GetFontName(FontName fontName)
+    {
+        switch (fontName)
+        {
+        case FontName::Terminal: return L"Terminal";
+        case FontName::Consolas: return L"Consolas";
+        }
+        throw ConsoleEngineException::UnknownFontName;
+    }
+
+    inline POINT GetFontSize(FontSize fontSize)
+    {
+        switch (fontSize)
+        {
+        case FontSize::_6x12: return { 6, 12 };
+        case FontSize::_8x16: return { 8, 16 };
+        case FontSize::_10x20: return { 10, 20 };
+        }
+        throw ConsoleEngineException::UnknownFontSize;
+    }
 
     class ConsoleEngine
     {
