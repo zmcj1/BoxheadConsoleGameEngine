@@ -48,7 +48,7 @@ namespace MinConsoleNative
         //Set CodePage to UTF-8, this will always be right.
         ::SetConsoleCP(CP_UTF8);
         ::SetConsoleOutputCP(CP_UTF8);
-        //Ensure that the input method works normally.
+        //Ensure that the Chinese input method works normally.
         COORD pos;
         MinGetConsoleCursorPos(cons->consoleOutput, &pos);
         MinSetConsoleCursorPos(cons->consoleOutput, pos);
