@@ -8,6 +8,7 @@
 #include "ConRegistry.h"
 #include "Console.h"
 #include "ConsoleEngine.h"
+#include "ConsoleGameEngine.h"
 #include "Database.h"
 #include "Debug.h"
 #include "EventSystem.h"
