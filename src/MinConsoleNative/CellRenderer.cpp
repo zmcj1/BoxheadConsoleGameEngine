@@ -77,10 +77,16 @@ namespace MinConsoleNative
             }
         }
         //draw string:
-        wstring wstr;
+        wstring* lines = new wstring[consoleHeight];
         for (int i = 0; i < consoleWidth * consoleHeight; i++)
-            wstr += this->cellArray[i].c;
-        console.WriteConsoleOutputCharacterW(wstr, { 0,0 });
+        {
+            lines[i / consoleWidth] += this->cellArray[i].c;
+        }
+        for (int i = 0; i < consoleHeight; i++)
+        {
+            console.WriteConsoleOutputCharacterW(lines[i], { 0, (short)i });
+        }
+        delete[] lines;
     }
 
     void CellRenderer::RenderTrueColor()

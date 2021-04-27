@@ -2,12 +2,12 @@
 
 int main()
 {
-    //CellRenderer cr(60, 30, CellRendererMode::Mixed);
-    //cr.Clear();
-    //cr.Draw({ 59,29 }, Cell(L'a', { 255,0,0 }, { 0,0,0 }, true));
-    //cr.Render();
-    //console.ReadLine();
-    //return 0;
+    CellRenderer cr(30, 30, CellRendererMode::Mixed);
+    cr.Clear();
+    cr.Draw({ 29,29 }, Cell(L'a', { 255,0,0 }, { 0,0,0 }, true));
+    cr.Render();
+    console.ReadLine();
+    return 0;
 
     GridRenderer renderer(10, 30, GridRendererMode::Fast);
     renderer.Clear();

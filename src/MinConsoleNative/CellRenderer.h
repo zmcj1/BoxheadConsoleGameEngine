@@ -9,9 +9,9 @@ namespace MinConsoleNative
 {
     enum class CellRendererMode
     {
-        TrueColor = 1,
-        Fast = 2,
-        Mixed = 3,
+        TrueColor = 1,  //RGB(24bit) support, partial render
+        Fast = 2,       //16 colors support, full render
+        Mixed = 3,      //RGB(24bit) support, mixed render
     };
 
     struct Cell
