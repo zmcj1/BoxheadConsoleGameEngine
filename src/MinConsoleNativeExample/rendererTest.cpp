@@ -2,7 +2,7 @@
 
 int main()
 {
-    CellRenderer cr(60, 30, CellRendererMode::Fast);
+    CellRenderer cr(60, 30, CellRendererMode::Mixed);
     cr.Clear();
     cr.Draw(Vector2(2, 2), Cell(L'a', { 188,0,0 }, { 0,0,0 }, false));
     cr.Render();

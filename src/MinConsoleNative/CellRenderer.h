@@ -9,9 +9,9 @@ namespace MinConsoleNative
 {
     enum class CellRendererMode
     {
-        //TrueColor = 1,
+        TrueColor = 1,
         Fast = 2,
-        //Mixed = 3,
+        Mixed = 3,
     };
 
     struct Cell
@@ -114,5 +114,12 @@ namespace MinConsoleNative
         void Render();
 
         void Draw(const Vector2& pos, const Cell& cell);
+
+    private:
+        void RenderFast();
+
+        void RenderMixed();
+
+        void RenderTrueColor();
     };
 }

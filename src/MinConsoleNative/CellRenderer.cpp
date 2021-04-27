@@ -1,4 +1,8 @@
 ﻿#include "CellRenderer.h"
+#include "String.h"
+#include <string>
+
+using namespace std;
 
 namespace MinConsoleNative
 {
@@ -28,6 +32,33 @@ namespace MinConsoleNative
 
     void CellRenderer::Render()
     {
+        if (mode == CellRendererMode::Fast)
+        {
+            RenderFast();
+        }
+        else if (mode == CellRendererMode::TrueColor)
+        {
+            RenderTrueColor();
+        }
+        else if (mode == CellRendererMode::Mixed)
+        {
+            RenderMixed();
+        }
+    }
+
+    void CellRenderer::Draw(const Vector2& pos, const Cell& cell)
+    {
+        if (pos.x < 0 || pos.x > consoleWidth - 1 ||
+            pos.y < 0 || pos.y > consoleHeight - 1)
+        {
+            return;
+        }
+        int index = consoleWidth * pos.y + pos.x;
+        this->cellArray[index] = cell;
+    }
+
+    void CellRenderer::RenderFast()
+    {
         CHAR_INFO* charInfos = new CHAR_INFO[consoleWidth * consoleHeight];
         for (int i = 0; i < consoleWidth * consoleHeight; i++)
         {
@@ -47,14 +78,49 @@ namespace MinConsoleNative
         delete[] charInfos;
     }
 
-    void CellRenderer::Draw(const Vector2& pos, const Cell& cell)
+    void CellRenderer::RenderMixed()
     {
-        if (pos.x < 0 || pos.x > consoleWidth - 1 ||
-            pos.y < 0 || pos.y > consoleHeight - 1)
+        //draw true color
+        for (int i = 0; i < consoleWidth * consoleHeight; i++)
         {
-            return;
+            const Cell& cell = this->cellArray[i];
+            const Cell& cellBuffer = this->cellArrayBuffer[i];
+            if (cell != cellBuffer)
+            {
+                COORD position = { i % consoleWidth, i / consoleWidth };
+                COORD beforePosition = console.GetConsoleCursorPos();
+                console.SetConsoleCursorPos(position);
+                console.Write(String::WcharToWstring(L' '), cell.foreColor, cell.backColor, cell.underScore);
+                console.SetConsoleCursorPos(beforePosition);
+            }
         }
-        int index = consoleWidth * pos.y + pos.x;
-        this->cellArray[index] = cell;
+        //draw string
+        wstring* lines = new wstring[consoleHeight];
+        for (int i = 0; i < consoleWidth * consoleHeight; i++)
+        {
+            lines[i / consoleWidth] += this->cellArray[i].c;
+        }
+        for (int i = 0; i < consoleHeight; i++)
+        {
+            console.WriteConsoleOutputCharacterW(lines[i], { 0, (short)i });
+        }
+        delete[] lines;
+    }
+
+    void CellRenderer::RenderTrueColor()
+    {
+        for (int i = 0; i < consoleWidth * consoleHeight; i++)
+        {
+            const Cell& cell = this->cellArray[i];
+            const Cell& cellBuffer = this->cellArrayBuffer[i];
+            if (cell != cellBuffer)
+            {
+                COORD position = { i % consoleWidth, i / consoleWidth };
+                COORD beforePosition = console.GetConsoleCursorPos();
+                console.SetConsoleCursorPos(position);
+                console.Write(String::WcharToWstring(cell.c), cell.foreColor, cell.backColor, cell.underScore);
+                console.SetConsoleCursorPos(beforePosition);
+            }
+        }
     }
 }
