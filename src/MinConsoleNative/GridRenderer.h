@@ -60,12 +60,12 @@ namespace MinConsoleNative
             this->underScore = false;
         }
 
-        Grid(const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool under_score)
+        Grid(const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool underScore)
         {
             this->wstr = wstr;
             this->foreColor = foreColor;
             this->backColor = backColor;
-            this->underScore = under_score;
+            this->underScore = underScore;
         }
 
         bool operator ==(const Grid& other) const

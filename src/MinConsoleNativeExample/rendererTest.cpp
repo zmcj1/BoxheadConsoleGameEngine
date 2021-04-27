@@ -2,6 +2,13 @@
 
 int main()
 {
+    CellRenderer cr(60, 30, CellRendererMode::Fast);
+    cr.Clear();
+    cr.Draw(Vector2(2, 2), Cell(L'a', { 188,0,0 }, { 0,0,0 }, false));
+    cr.Render();
+    console.ReadLine();
+    return 0;
+
     GridRenderer renderer(10, 30, GridRendererMode::Fast);
 
     renderer.Clear();
