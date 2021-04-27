@@ -22,6 +22,8 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 ## Features:
 
+1. GridRenderer!
+
 1. Navigation and Maze support!
 
 1. Simple but powerful class Audio, and you can use AudioPool too!

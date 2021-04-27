@@ -36,7 +36,7 @@ namespace MinConsoleNative
             this->underScore = false;
         }
 
-        Grid(std::wstring wstr)
+        Grid(const std::wstring& wstr)
         {
             this->wstr = wstr;
             this->foreColor = Color24();
@@ -44,7 +44,7 @@ namespace MinConsoleNative
             this->underScore = false;
         }
 
-        Grid(std::wstring wstr, Color24 foreColor)
+        Grid(const std::wstring& wstr, const Color24& foreColor)
         {
             this->wstr = wstr;
             this->foreColor = foreColor;
@@ -52,7 +52,7 @@ namespace MinConsoleNative
             this->underScore = false;
         }
 
-        Grid(std::wstring wstr, Color24 foreColor, Color24 backColor)
+        Grid(const std::wstring& wstr, const Color24& foreColor, const Color24& backColor)
         {
             this->wstr = wstr;
             this->foreColor = foreColor;
@@ -60,7 +60,7 @@ namespace MinConsoleNative
             this->underScore = false;
         }
 
-        Grid(std::wstring wstr, Color24 foreColor, Color24 backColor, bool under_score)
+        Grid(const std::wstring& wstr, const Color24& foreColor, const Color24& backColor, bool under_score)
         {
             this->wstr = wstr;
             this->foreColor = foreColor;
