@@ -22,7 +22,7 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 ## Features:
 
-1. GridRenderer!
+1. CellRenderer/GridRenderer!
 
 1. Navigation and Maze support!
 

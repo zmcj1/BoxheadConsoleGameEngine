@@ -105,7 +105,11 @@ namespace MinConsoleNative
     void ConsoleEngine::ConstructTerminal(const std::wstring& title)
     {
         this->title = title;
+        //clear the screen buffer
         Console::Global.GetInstance().Clear();
+        //Set window position
+        POINT centerPos = window.GetCenterPosOfWindowInDesktop();
+        window.SetWindowPos(centerPos);
     }
 
     void ConsoleEngine::StartLoop(int fps, bool disableConsoleCursor)

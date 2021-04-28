@@ -9,11 +9,11 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Games">
+      <UniqueIdentifier>{70a81ab9-b0bf-4263-bf88-cb6eafbaacf9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MazeExample.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -43,6 +43,9 @@
     </ClCompile>
     <ClCompile Include="ConsoleFPSSample.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxheadInConsole.cpp">
+      <Filter>Games</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
