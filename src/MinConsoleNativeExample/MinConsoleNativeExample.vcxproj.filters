@@ -47,5 +47,8 @@
     <ClCompile Include="BoxheadInConsole.cpp">
       <Filter>Games</Filter>
     </ClCompile>
+    <ClCompile Include="NewInputModuleExample.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
