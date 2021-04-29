@@ -159,7 +159,6 @@
     <ClInclude Include="Database.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="EventSystem.h" />
-    <ClInclude Include="EventSystemEx.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="GridRenderer.h" />
     <ClInclude Include="Input.h" />
@@ -199,7 +198,6 @@
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="EventSystem.cpp" />
-    <ClCompile Include="EventSystemEx.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="GridRenderer.cpp" />
     <ClCompile Include="Input.cpp" />
