@@ -60,9 +60,94 @@ namespace MinConsoleNative
 
         switch (EventSystem::target)
         {
-            //for Windows Console
+            //for Windows Console and Windows Legacy Console
         case EventSystemTarget::Win32Callback:
         {
+            //IMPORTANT:Invoke GetNumberOfConsoleInputEvents first instead of directly invoke ReadConsoleInput, otherwise it will block the entire thread.
+            DWORD eventNumber = 0;
+            bool getNumberSuccess = ::GetNumberOfConsoleInputEvents(console.cons.consoleInput, &eventNumber);
+
+            if (!getNumberSuccess) break;   //error
+            if (eventNumber == 0) break;    //no event
+
+            // The number read by GetNumberOfConsoleInputEvents is not necessarily equal to the real number, so we have to creat const array here.
+            INPUT_RECORD inputBuf[64];
+            bool readInputSuccess = ::ReadConsoleInput(console.cons.consoleInput, inputBuf, LEN(inputBuf), &eventNumber);
+
+            if (!readInputSuccess) break;   //error
+            if (eventNumber == 0) break;    //no event
+
+            for (int i = 0; i < eventNumber; i++)
+            {
+                ushort eventType = inputBuf[i].EventType;
+                KEY_EVENT_RECORD& keyEvent = inputBuf[i].Event.KeyEvent;
+                MOUSE_EVENT_RECORD& mouseEvent = inputBuf[i].Event.MouseEvent;
+                WINDOW_BUFFER_SIZE_RECORD& bufferEvent = inputBuf[i].Event.WindowBufferSizeEvent;
+
+                if (eventType == KEY_EVENT)
+                {
+                    for (auto item : handlers)
+                    {
+                        keyEvent.bKeyDown;
+                        keyEvent.wRepeatCount;
+                        keyEvent.wVirtualKeyCode;
+                        keyEvent.wVirtualScanCode;
+                        keyEvent.uChar.UnicodeChar;
+                        keyEvent.dwControlKeyState;
+                        console.Write(to_wstring(keyEvent.bKeyDown)); //for testing
+                    }
+                }
+                else if (eventType == MOUSE_EVENT)
+                {
+                    for (auto item : handlers)
+                    {
+                        //mouse position
+                        if (preMousePos.X != mouseEvent.dwMousePosition.X ||
+                            preMousePos.Y != mouseEvent.dwMousePosition.Y)
+                        {
+                            item->OnMousePositionChanged(mouseEvent.dwMousePosition);
+                            preMousePos = mouseEvent.dwMousePosition;
+                        }
+                        //event flags
+                        switch (mouseEvent.dwEventFlags)
+                        {
+                        case 0:
+                            //mouse button being pressed or released
+                            break;
+                        case DOUBLE_CLICK:
+                            item->OnMouseDoubleClicked();
+                            break;
+                        case MOUSE_HWHEELED:
+                            //ignore
+                            break;
+                        case MOUSE_MOVED:
+                            item->OnMouseMovedOrClicked();
+                            break;
+                        case MOUSE_WHEELED:
+                            int value = mouseEvent.dwButtonState >> sizeof(DWORD) * 8;
+                            if (value > 0)
+                                item->OnMouseWheeled(MouseWheelDirection::Up);
+                            else if (value < 0)
+                                item->OnMouseWheeled(MouseWheelDirection::Down);
+                            else
+                                item->OnMouseWheeled(MouseWheelDirection::None);
+                            break;
+                        }
+                        //control keystate
+                        mouseEvent.dwControlKeyState;
+                        //button state
+                        mouseEvent.dwButtonState;
+                    }
+                }
+                else if (eventType == WINDOW_BUFFER_SIZE_EVENT)
+                {
+                    for (auto item : handlers)
+                    {
+                        item->OnConsoleOutputBufferChanged(bufferEvent.dwSize);
+                    }
+                }
+            }
+
             auto callback1 = [](ConsoleMouseInputRecord mouseInput)
             {
                 for (size_t i = 0; i < handlers.size(); i++)
@@ -101,7 +186,7 @@ namespace MinConsoleNative
                     handlers[i]->OnConsoleOutputBufferChanged(newSize);
                 }
             };
-            Console::Global.GetInstance().ReadConsoleInputW(callback1, callback2, callback3);
+            //console.ReadConsoleInputW(callback1, callback2, callback3);
         }
         break;
 

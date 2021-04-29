@@ -45,7 +45,7 @@ namespace MinConsoleNative
         //This method is triggered when the console output buffer change
         virtual void OnConsoleOutputBufferChanged(COORD newSize);
 
-        //This method is triggered when the console output buffer change
+        //This method is triggered when the console window size change
         virtual void OnConsoleWindowSizeChanged(COORD newSize);
     
         //NOTICE:newSize is in pixel.

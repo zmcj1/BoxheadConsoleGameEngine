@@ -441,7 +441,7 @@ namespace MinConsoleNative
     EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3)
     {
         ConsoleInputMode inputMode = MinGetConsoleInputMode(consoleInput);
-        if (!inputMode._ENABLE_WINDOW_INPUT)
+        if (!inputMode._ENABLE_WINDOW_INPUT || inputMode._ENABLE_QUICK_EDIT_MODE)
         {
             Debug::OutputLine(L"IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode");
             return false;
@@ -544,15 +544,6 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinReadConsoleOneInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3)
     {
-        //we dont check this, because this function costs much time.
-#if 0
-        ConsoleInputMode inputMode = MinGetConsoleInputMode(consoleInput);
-        if (!inputMode._ENABLE_WINDOW_INPUT)
-        {
-            Debug::OutputLine(L"IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode");
-            return false;
-        }
-#endif
         //IMPORTANT!!!
         //Invoke GetNumberOfConsoleInputEvents first instead of directly invoke ReadConsoleInput, otherwise it will block the entire thread.
         DWORD eventNumber;
