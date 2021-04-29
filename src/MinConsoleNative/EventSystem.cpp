@@ -11,6 +11,7 @@ namespace MinConsoleNative
     COORD EventSystem::preMousePos = { -1, -1 };
     COORD EventSystem::preConsoleWindowSize;
     COORD EventSystem::preClientSize;
+    bool EventSystem::inited = false;
 
     std::vector<EventHandler*> EventSystem::handlers;
     EventSystemTarget EventSystem::target;
@@ -23,18 +24,21 @@ namespace MinConsoleNative
         EventSystem::preConsoleWindowSize = { (short)consoleWindowSize.x, (short)consoleWindowSize.y };
         EventSystem::preClientSize = { (short)clientSize.x, (short)clientSize.y };
         EventSystem::target = target;
-        ConsoleMode consoleMode;
+
+        ConsoleInputMode inputMode;
 
         switch (EventSystem::target)
         {
         case EventSystemTarget::Win32Callback:
-            consoleMode = Console::Global.GetInstance().GetConsoleMode();
-            consoleMode.inputMode._ENABLE_WINDOW_INPUT = true;
-            consoleMode.inputMode._ENABLE_QUICK_EDIT_MODE = false;
-            Console::Global.GetInstance().SetConsoleMode(consoleMode);
+            inputMode = console.GetConsoleInputMode();
+            inputMode._ENABLE_WINDOW_INPUT = true;
+            inputMode._ENABLE_QUICK_EDIT_MODE = false;
+            console.SetConsoleInputMode(inputMode);
+            EventSystem::inited = true;
             break;
         case EventSystemTarget::VTSequences:
             VTConverter::VTEnableMouseInput();
+            EventSystem::inited = true;
             break;
         }
     }
@@ -49,6 +53,11 @@ namespace MinConsoleNative
 
     void EventSystem::Update()
     {
+        if (!EventSystem::inited)
+        {
+            throw EventSystemException::SystemUninitialized;
+        }
+
         switch (EventSystem::target)
         {
             //for Windows Console
@@ -257,11 +266,11 @@ namespace MinConsoleNative
     {
     }
 
-    void MinConsoleNative::EventHandler::OnConsoleWindowSizeChanged(COORD newSize)
+    void EventHandler::OnConsoleWindowSizeChanged(COORD newSize)
     {
     }
 
-    void MinConsoleNative::EventHandler::OnClientSizeChanged(COORD newSize)
+    void EventHandler::OnClientSizeChanged(COORD newSize)
     {
     }
 }

@@ -19,6 +19,11 @@ namespace MinConsoleNative
         VTSequences = 2,
     };
 
+    enum EventSystemException
+    {
+        SystemUninitialized = 1,
+    };
+
     class EventHandler
     {
     public:
@@ -58,6 +63,7 @@ namespace MinConsoleNative
         static COORD preMousePos;
         static COORD preConsoleWindowSize;
         static COORD preClientSize;
+        static bool inited;
 
     public:
         static std::vector<EventHandler*> handlers;
