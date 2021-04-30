@@ -151,6 +151,7 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="CellRenderer.h" />
     <ClInclude Include="CharacterController.h" />
+    <ClInclude Include="Chess.h" />
     <ClInclude Include="Clipboard.h" />
     <ClInclude Include="ConRegistry.h" />
     <ClInclude Include="Console.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="CellRenderer.cpp" />
     <ClCompile Include="CharacterController.cpp" />
+    <ClCompile Include="Chess.cpp" />
     <ClCompile Include="Clipboard.cpp" />
     <ClCompile Include="ConRegistry.cpp" />
     <ClCompile Include="Console.cpp" />

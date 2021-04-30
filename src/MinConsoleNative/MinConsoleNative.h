@@ -4,6 +4,7 @@
 #include "Audio.h"
 #include "CellRenderer.h"
 #include "CharacterController.h"
+#include "Chess.h"
 #include "Clipboard.h"
 #include "ConRegistry.h"
 #include "Console.h"

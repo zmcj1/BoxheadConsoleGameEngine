@@ -11,6 +11,7 @@ namespace MinConsoleNative
     {
         Terminal = 1,
         Consolas = 2,
+        MSGothic = 3, //MS Gothic
     };
 
     enum class FontSize
@@ -32,6 +33,7 @@ namespace MinConsoleNative
         {
         case FontName::Terminal: return L"Terminal";
         case FontName::Consolas: return L"Consolas";
+        case FontName::MSGothic: return L"MS Gothic";
         }
         throw ConsoleEngineException::UnknownFontName;
     }

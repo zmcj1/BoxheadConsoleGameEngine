@@ -27,6 +27,8 @@ namespace MinConsoleNative
         //Log to current active console.
         static void LogToConsole(const std::wstring& msg, MessageType msgType = MessageType::Message);
 
+        static std::wstring FormatLastErrorMsg();
+
     public:
         static int LastMinError;
         static std::wstring LastMinErrorMsg;

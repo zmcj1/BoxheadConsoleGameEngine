@@ -103,6 +103,14 @@ namespace MinConsoleNative
         Console::CloseConsoleScreenBuffer(newConsoleOutput);
     }
 
+    std::wstring Debug::FormatLastErrorMsg()
+    {
+        //copy from olcConsoleGameEngine.h
+        wchar buf[MAX_PATH] = { 0 };
+        ::FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, ::GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, LEN(buf), NULL);
+        return std::wstring(buf);
+    }
+
     int Debug::LastMinError = 0;
     std::wstring Debug::LastMinErrorMsg = L"";
 
