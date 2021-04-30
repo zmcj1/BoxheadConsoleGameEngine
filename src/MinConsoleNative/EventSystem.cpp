@@ -12,11 +12,23 @@ namespace MinConsoleNative
     COORD EventSystem::preConsoleWindowSize;
     COORD EventSystem::preClientSize;
     bool EventSystem::inited = false;
+    bool EventSystem::useLegacy = false;
 
     std::vector<EventHandler*> EventSystem::handlers;
     EventSystemTarget EventSystem::target;
 
-    void EventSystem::Init(EventSystemTarget target)
+    bool EventSystem::mouseState[5];
+    bool EventSystem::_RIGHT_ALT_PRESSED;
+    bool EventSystem::_LEFT_ALT_PRESSED;
+    bool EventSystem::_RIGHT_CTRL_PRESSED;
+    bool EventSystem::_LEFT_CTRL_PRESSED;
+    bool EventSystem::_SHIFT_PRESSED;
+    bool EventSystem::_NUMLOCK_ON;
+    bool EventSystem::_SCROLLLOCK_ON;
+    bool EventSystem::_CAPSLOCK_ON;
+    bool EventSystem::_ENHANCED_KEY;
+
+    void EventSystem::Init(EventSystemTarget target, bool useLegacy)
     {
         POINT consoleWindowSize = Console::Global.GetInstance().GetConsoleWindowSize();
         POINT clientSize = Window::Global.GetInstance().GetClientSize();
@@ -24,6 +36,7 @@ namespace MinConsoleNative
         EventSystem::preConsoleWindowSize = { (short)consoleWindowSize.x, (short)consoleWindowSize.y };
         EventSystem::preClientSize = { (short)clientSize.x, (short)clientSize.y };
         EventSystem::target = target;
+        EventSystem::useLegacy = useLegacy;
 
         ConsoleInputMode inputMode;
 
@@ -53,140 +66,160 @@ namespace MinConsoleNative
 
     void EventSystem::Update()
     {
-        if (!EventSystem::inited)
-        {
-            throw EventSystemException::SystemUninitialized;
-        }
+        if (!EventSystem::inited) throw EventSystemException::SystemUninitialized;
 
         switch (EventSystem::target)
         {
             //for Windows Console and Windows Legacy Console
         case EventSystemTarget::Win32Callback:
         {
-            //IMPORTANT:Invoke GetNumberOfConsoleInputEvents first instead of directly invoke ReadConsoleInput, otherwise it will block the entire thread.
-            DWORD eventNumber = 0;
-            bool getNumberSuccess = ::GetNumberOfConsoleInputEvents(console.cons.consoleInput, &eventNumber);
-
-            if (!getNumberSuccess) break;   //error
-            if (eventNumber == 0) break;    //no event
-
-            // The number read by GetNumberOfConsoleInputEvents is not necessarily equal to the real number, so we have to creat const array here.
-            INPUT_RECORD inputBuf[64];
-            bool readInputSuccess = ::ReadConsoleInput(console.cons.consoleInput, inputBuf, LEN(inputBuf), &eventNumber);
-
-            if (!readInputSuccess) break;   //error
-            if (eventNumber == 0) break;    //no event
-
-            for (int i = 0; i < eventNumber; i++)
+            if (useLegacy)
             {
-                ushort eventType = inputBuf[i].EventType;
-                KEY_EVENT_RECORD& keyEvent = inputBuf[i].Event.KeyEvent;
-                MOUSE_EVENT_RECORD& mouseEvent = inputBuf[i].Event.MouseEvent;
-                WINDOW_BUFFER_SIZE_RECORD& bufferEvent = inputBuf[i].Event.WindowBufferSizeEvent;
+                auto callback1 = [](ConsoleMouseInputRecord mouseInput)
+                {
+                    for (size_t i = 0; i < handlers.size(); i++)
+                    {
+                        if (mouseInput.moved)
+                        {
+                            handlers[i]->OnMouseMovedOrClicked();
+                        }
+                        if (mouseInput.doubleClick)
+                        {
+                            handlers[i]->OnMouseDoubleClicked();
+                        }
+                        if (mouseInput.mouseWheelDir != MouseWheelDirection::None)
+                        {
+                            handlers[i]->OnMouseWheeled(mouseInput.mouseWheelDir);
+                        }
+                        if (preMousePos.X != mouseInput.position.X ||
+                            preMousePos.Y != mouseInput.position.Y)
+                        {
+                            handlers[i]->OnMousePositionChanged(mouseInput.position);
+                            preMousePos = mouseInput.position;
+                        }
+                    }
+                };
+                auto callback2 = [](ConsoleKeyboardInputRecord keyboardInput)
+                {
+                    for (size_t i = 0; i < handlers.size(); i++)
+                    {
+                        handlers[i]->OnReadKey(keyboardInput);
+                    }
+                };
+                auto callback3 = [](COORD newSize)
+                {
+                    for (size_t i = 0; i < handlers.size(); i++)
+                    {
+                        handlers[i]->OnConsoleOutputBufferChanged(newSize);
+                    }
+                };
+                console.ReadConsoleInputW(callback1, callback2, callback3);
+            }
+            else
+            {
+                //IMPORTANT:Invoke GetNumberOfConsoleInputEvents first instead of directly invoke ReadConsoleInput, otherwise it will block the entire thread.
+                DWORD eventNumber = 0;
+                bool getNumberSuccess = ::GetNumberOfConsoleInputEvents(console.cons.consoleInput, &eventNumber);
 
-                if (eventType == KEY_EVENT)
+                if (!getNumberSuccess) break;   //error
+                if (eventNumber == 0) break;    //no event
+
+                // The number read by GetNumberOfConsoleInputEvents is not necessarily equal to the real number, so we have to creat const array here.
+                INPUT_RECORD inputBuf[64];
+                bool readInputSuccess = ::ReadConsoleInput(console.cons.consoleInput, inputBuf, LEN(inputBuf), &eventNumber);
+
+                if (!readInputSuccess) break;   //error
+                if (eventNumber == 0) break;    //no event
+
+                for (int i = 0; i < eventNumber; i++)
                 {
-                    for (auto item : handlers)
+                    ushort eventType = inputBuf[i].EventType;
+                    KEY_EVENT_RECORD& keyEvent = inputBuf[i].Event.KeyEvent;
+                    MOUSE_EVENT_RECORD& mouseEvent = inputBuf[i].Event.MouseEvent;
+                    WINDOW_BUFFER_SIZE_RECORD& bufferEvent = inputBuf[i].Event.WindowBufferSizeEvent;
+
+                    if (eventType == KEY_EVENT)
                     {
-                        keyEvent.bKeyDown;
-                        keyEvent.wRepeatCount;
-                        keyEvent.wVirtualKeyCode;
-                        keyEvent.wVirtualScanCode;
-                        keyEvent.uChar.UnicodeChar;
-                        keyEvent.dwControlKeyState;
-                        console.Write(to_wstring(keyEvent.bKeyDown)); //for testing
-                    }
-                }
-                else if (eventType == MOUSE_EVENT)
-                {
-                    for (auto item : handlers)
-                    {
-                        //mouse position
-                        if (preMousePos.X != mouseEvent.dwMousePosition.X ||
-                            preMousePos.Y != mouseEvent.dwMousePosition.Y)
+                        for (auto item : handlers)
                         {
-                            item->OnMousePositionChanged(mouseEvent.dwMousePosition);
-                            preMousePos = mouseEvent.dwMousePosition;
+                            //onkey
+                            item->OnKey(keyEvent.bKeyDown, keyEvent.uChar.UnicodeChar, keyEvent.wVirtualKeyCode, keyEvent.wVirtualScanCode);
+                            //repeat count
+                            UNUSED(keyEvent.wRepeatCount);
+                            //control keystate
+                            _RIGHT_ALT_PRESSED = keyEvent.dwControlKeyState & RIGHT_ALT_PRESSED;
+                            _LEFT_ALT_PRESSED = keyEvent.dwControlKeyState & LEFT_ALT_PRESSED;
+                            _RIGHT_CTRL_PRESSED = keyEvent.dwControlKeyState & RIGHT_CTRL_PRESSED;
+                            _LEFT_CTRL_PRESSED = keyEvent.dwControlKeyState & LEFT_CTRL_PRESSED;
+                            _SHIFT_PRESSED = keyEvent.dwControlKeyState & SHIFT_PRESSED;
+                            _NUMLOCK_ON = keyEvent.dwControlKeyState & NUMLOCK_ON;
+                            _SCROLLLOCK_ON = keyEvent.dwControlKeyState & SCROLLLOCK_ON;
+                            _CAPSLOCK_ON = keyEvent.dwControlKeyState & CAPSLOCK_ON;
+                            _ENHANCED_KEY = keyEvent.dwControlKeyState & ENHANCED_KEY;
                         }
-                        //event flags
-                        switch (mouseEvent.dwEventFlags)
-                        {
-                        case 0:
-                            //mouse button being pressed or released
-                            break;
-                        case DOUBLE_CLICK:
-                            item->OnMouseDoubleClicked();
-                            break;
-                        case MOUSE_HWHEELED:
-                            //ignore
-                            break;
-                        case MOUSE_MOVED:
-                            item->OnMouseMovedOrClicked();
-                            break;
-                        case MOUSE_WHEELED:
-                            int value = mouseEvent.dwButtonState >> sizeof(DWORD) * 8;
-                            if (value > 0)
-                                item->OnMouseWheeled(MouseWheelDirection::Up);
-                            else if (value < 0)
-                                item->OnMouseWheeled(MouseWheelDirection::Down);
-                            else
-                                item->OnMouseWheeled(MouseWheelDirection::None);
-                            break;
-                        }
-                        //control keystate
-                        mouseEvent.dwControlKeyState;
-                        //button state
-                        mouseEvent.dwButtonState;
                     }
-                }
-                else if (eventType == WINDOW_BUFFER_SIZE_EVENT)
-                {
-                    for (auto item : handlers)
+                    else if (eventType == MOUSE_EVENT)
                     {
-                        item->OnConsoleOutputBufferChanged(bufferEvent.dwSize);
+                        for (auto item : handlers)
+                        {
+                            //mouse position
+                            if (preMousePos.X != mouseEvent.dwMousePosition.X ||
+                                preMousePos.Y != mouseEvent.dwMousePosition.Y)
+                            {
+                                item->OnMousePositionChanged(mouseEvent.dwMousePosition);
+                                preMousePos = mouseEvent.dwMousePosition;
+                            }
+                            //event flags
+                            switch (mouseEvent.dwEventFlags)
+                            {
+                            case 0:
+                                //mouse button being pressed or released
+                                break;
+                            case DOUBLE_CLICK:
+                                item->OnMouseDoubleClicked();
+                                break;
+                            case MOUSE_HWHEELED:
+                                //ignore
+                                break;
+                            case MOUSE_MOVED:
+                                item->OnMouseMovedOrClicked();
+                                break;
+                            case MOUSE_WHEELED:
+                                int value = mouseEvent.dwButtonState >> sizeof(DWORD) * 8;
+                                if (value > 0)
+                                    item->OnMouseWheeled(MouseWheelDirection::Up);
+                                else if (value < 0)
+                                    item->OnMouseWheeled(MouseWheelDirection::Down);
+                                else
+                                    item->OnMouseWheeled(MouseWheelDirection::None);
+                                break;
+                            }
+                            //button state
+                            for (int m = 0; m < 5; m++)
+                            {
+                                mouseState[m] = (mouseEvent.dwButtonState & (1 << m)) == 1;
+                            }
+                            //control keystate
+                            _RIGHT_ALT_PRESSED = mouseEvent.dwControlKeyState & RIGHT_ALT_PRESSED;
+                            _LEFT_ALT_PRESSED = mouseEvent.dwControlKeyState & LEFT_ALT_PRESSED;
+                            _RIGHT_CTRL_PRESSED = mouseEvent.dwControlKeyState & RIGHT_CTRL_PRESSED;
+                            _LEFT_CTRL_PRESSED = mouseEvent.dwControlKeyState & LEFT_CTRL_PRESSED;
+                            _SHIFT_PRESSED = mouseEvent.dwControlKeyState & SHIFT_PRESSED;
+                            _NUMLOCK_ON = mouseEvent.dwControlKeyState & NUMLOCK_ON;
+                            _SCROLLLOCK_ON = mouseEvent.dwControlKeyState & SCROLLLOCK_ON;
+                            _CAPSLOCK_ON = mouseEvent.dwControlKeyState & CAPSLOCK_ON;
+                            _ENHANCED_KEY = mouseEvent.dwControlKeyState & ENHANCED_KEY;
+                        }
+                    }
+                    else if (eventType == WINDOW_BUFFER_SIZE_EVENT)
+                    {
+                        for (auto item : handlers)
+                        {
+                            item->OnConsoleOutputBufferChanged(bufferEvent.dwSize);
+                        }
                     }
                 }
             }
-
-            auto callback1 = [](ConsoleMouseInputRecord mouseInput)
-            {
-                for (size_t i = 0; i < handlers.size(); i++)
-                {
-                    if (mouseInput.moved)
-                    {
-                        handlers[i]->OnMouseMovedOrClicked();
-                    }
-                    if (mouseInput.doubleClick)
-                    {
-                        handlers[i]->OnMouseDoubleClicked();
-                    }
-                    if (mouseInput.mouseWheelDir != MouseWheelDirection::None)
-                    {
-                        handlers[i]->OnMouseWheeled(mouseInput.mouseWheelDir);
-                    }
-                    if (preMousePos.X != mouseInput.position.X ||
-                        preMousePos.Y != mouseInput.position.Y)
-                    {
-                        handlers[i]->OnMousePositionChanged(mouseInput.position);
-                        preMousePos = mouseInput.position;
-                    }
-                }
-            };
-            auto callback2 = [](ConsoleKeyboardInputRecord keyboardInput)
-            {
-                for (size_t i = 0; i < handlers.size(); i++)
-                {
-                    handlers[i]->OnReadKey(keyboardInput);
-                }
-            };
-            auto callback3 = [](COORD newSize)
-            {
-                for (size_t i = 0; i < handlers.size(); i++)
-                {
-                    handlers[i]->OnConsoleOutputBufferChanged(newSize);
-                }
-            };
-            //console.ReadConsoleInputW(callback1, callback2, callback3);
         }
         break;
 
@@ -356,6 +389,10 @@ namespace MinConsoleNative
     }
 
     void EventHandler::OnClientSizeChanged(COORD newSize)
+    {
+    }
+
+    void EventHandler::OnKey(bool keyDown, wchar character, ushort virtualKeyCode, ushort virtualScanCode)
     {
     }
 }

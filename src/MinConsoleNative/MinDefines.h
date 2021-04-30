@@ -101,6 +101,11 @@
 #define EXPORT_DELEGATE
 #define EXPORT_CONSTEXPR constexpr
 
+//Unused
+#define UNUSED(v)
+//Obsoleted
+#define OBSOLETED(msg)
+
 //add namespace, ensure wont causes a naming conflict with the standard library(std)
 namespace MinConsoleNative
 {

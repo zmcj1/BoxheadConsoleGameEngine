@@ -1,5 +1,7 @@
 ﻿#include "..\MinConsoleNative\MinConsoleNative.h"
 
+using namespace std;
+
 class ExampleHandler : public EventHandler
 {
     void OnReadKey(ConsoleKeyboardInputRecord keyboardInput) override
@@ -10,7 +12,8 @@ class ExampleHandler : public EventHandler
     //Move and click will trigger this method
     void OnMouseMovedOrClicked()
     {
-        Console::Global.GetInstance().WriteLine(L"moved");
+        bool p = EventSystem::mouseState[0];
+        Console::Global.GetInstance().WriteLine(L"moved or clicked " + to_wstring(p));
     }
 
     //Only double click will trigger the method
@@ -54,6 +57,11 @@ class ExampleHandler : public EventHandler
     void OnClientSizeChanged(COORD newSize)
     {
         Console::Global.GetInstance().WriteLine(L"client" + Vector2(newSize).ToString());
+    }
+
+    void OnKey(bool keyDown, wchar character, ushort virtualKeyCode, ushort virtualScanCode)
+    {
+        console.WriteLine(to_wstring(keyDown));
     }
 };
 
