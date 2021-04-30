@@ -6,6 +6,13 @@
 
 namespace MinConsoleNative
 {
+    enum class ChessboardType
+    {
+        Normal = 1,
+        Double = 2,
+        Bold = 3,
+    };
+
     class Chess
     {
     private:
@@ -14,9 +21,21 @@ namespace MinConsoleNative
         }
 
     public:
-        //Construct a chessboard, notice that the chessboard displays differently in different fonts in Windows Console.
-        static std::vector<std::wstring> Generate(int width, int height);
+        static wchar FirstLineLeft;
+        static wchar FirstLineMiddle;
+        static wchar FirstLineRight;
+        static wchar LastLineLeft;
+        static wchar LastLineMiddle;
+        static wchar LastLineRight;
+        static wchar MiddleLineLeft;
+        static wchar MiddleLineMiddle;
+        static wchar MiddleLineRight;
+        static wchar ConnectSymbol;
 
-        static bool IsChessChar(wchar wc);
+    public:
+        static void Init(ChessboardType type);
+
+        //Construct a chessboard, notice that the chessboard maybe displays differently in different fonts in Windows Console.
+        static std::vector<std::vector<std::wstring>> Generate(int width, int height);
     };
 }
