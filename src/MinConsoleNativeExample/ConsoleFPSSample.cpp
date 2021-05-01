@@ -10,10 +10,10 @@ using namespace std;
 class ConsoleFPS : public ConsoleEngine
 {
 private:
-    int consoleWidth;
-    int consoleHeight;
-    Audio* lobbyAudio;
-    CellRenderer* crenderer;
+    int consoleWidth = 0;
+    int consoleHeight = 0;
+    Audio* lobbyAudio = nullptr;
+    CellRenderer* crenderer = nullptr;
 
 private:
     wstring map;
@@ -30,7 +30,7 @@ private:
     const float FOV = 3.14159f / 4;
     const float depth = 16.0f;
 
-    bool mouseSupport;
+    bool mouseSupport = false;
     bool mouseLockMode = true;
 
 public:

@@ -131,6 +131,9 @@
     <ClInclude Include="Chess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NativeRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -233,6 +236,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Chess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NativeRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

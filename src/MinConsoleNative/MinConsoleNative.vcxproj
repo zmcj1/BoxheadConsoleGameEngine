@@ -168,6 +168,7 @@
     <ClInclude Include="MessageBox.h" />
     <ClInclude Include="MinConsoleNative.h" />
     <ClInclude Include="MinDefines.h" />
+    <ClInclude Include="NativeRenderer.h" />
     <ClInclude Include="Navigation.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="PaletteSystem.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="MinConsoleNative.cpp" />
+    <ClCompile Include="NativeRenderer.cpp" />
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="PaletteSystem.cpp" />
     <ClCompile Include="Process.cpp" />
