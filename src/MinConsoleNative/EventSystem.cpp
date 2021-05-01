@@ -125,7 +125,7 @@ namespace MinConsoleNative
                 if (eventNumber == 0) break;    //no event
 
                 // The number read by GetNumberOfConsoleInputEvents is not necessarily equal to the real number, so we have to creat const array here.
-                INPUT_RECORD inputBuf[64];
+                INPUT_RECORD inputBuf[32];
                 bool readInputSuccess = ::ReadConsoleInput(console.cons.consoleInput, inputBuf, LEN(inputBuf), &eventNumber);
 
                 if (!readInputSuccess) break;   //error
@@ -140,20 +140,21 @@ namespace MinConsoleNative
 
                     if (eventType == KEY_EVENT)
                     {
+                        //control keystate
+                        _RIGHT_ALT_PRESSED = keyEvent.dwControlKeyState & RIGHT_ALT_PRESSED;
+                        _LEFT_ALT_PRESSED = keyEvent.dwControlKeyState & LEFT_ALT_PRESSED;
+                        _RIGHT_CTRL_PRESSED = keyEvent.dwControlKeyState & RIGHT_CTRL_PRESSED;
+                        _LEFT_CTRL_PRESSED = keyEvent.dwControlKeyState & LEFT_CTRL_PRESSED;
+                        _SHIFT_PRESSED = keyEvent.dwControlKeyState & SHIFT_PRESSED;
+                        _NUMLOCK_ON = keyEvent.dwControlKeyState & NUMLOCK_ON;
+                        _SCROLLLOCK_ON = keyEvent.dwControlKeyState & SCROLLLOCK_ON;
+                        _CAPSLOCK_ON = keyEvent.dwControlKeyState & CAPSLOCK_ON;
+                        _ENHANCED_KEY = keyEvent.dwControlKeyState & ENHANCED_KEY;
+                        //repeat count
+                        UNUSED(keyEvent.wRepeatCount);
+                        //send to
                         for (auto item : handlers)
                         {
-                            //control keystate
-                            _RIGHT_ALT_PRESSED = keyEvent.dwControlKeyState & RIGHT_ALT_PRESSED;
-                            _LEFT_ALT_PRESSED = keyEvent.dwControlKeyState & LEFT_ALT_PRESSED;
-                            _RIGHT_CTRL_PRESSED = keyEvent.dwControlKeyState & RIGHT_CTRL_PRESSED;
-                            _LEFT_CTRL_PRESSED = keyEvent.dwControlKeyState & LEFT_CTRL_PRESSED;
-                            _SHIFT_PRESSED = keyEvent.dwControlKeyState & SHIFT_PRESSED;
-                            _NUMLOCK_ON = keyEvent.dwControlKeyState & NUMLOCK_ON;
-                            _SCROLLLOCK_ON = keyEvent.dwControlKeyState & SCROLLLOCK_ON;
-                            _CAPSLOCK_ON = keyEvent.dwControlKeyState & CAPSLOCK_ON;
-                            _ENHANCED_KEY = keyEvent.dwControlKeyState & ENHANCED_KEY;
-                            //repeat count
-                            UNUSED(keyEvent.wRepeatCount);
                             //on read key
                             if (keyEvent.bKeyDown)
                             {
@@ -172,12 +173,28 @@ namespace MinConsoleNative
                                         _ENHANCED_KEY
                                     ));
                             }
-                            //onkey
+                            //on key
                             item->OnKey(keyEvent.bKeyDown, keyEvent.uChar.UnicodeChar, keyEvent.wVirtualKeyCode, keyEvent.wVirtualScanCode);
                         }
                     }
                     else if (eventType == MOUSE_EVENT)
                     {
+                        //control keystate
+                        _RIGHT_ALT_PRESSED = mouseEvent.dwControlKeyState & RIGHT_ALT_PRESSED;
+                        _LEFT_ALT_PRESSED = mouseEvent.dwControlKeyState & LEFT_ALT_PRESSED;
+                        _RIGHT_CTRL_PRESSED = mouseEvent.dwControlKeyState & RIGHT_CTRL_PRESSED;
+                        _LEFT_CTRL_PRESSED = mouseEvent.dwControlKeyState & LEFT_CTRL_PRESSED;
+                        _SHIFT_PRESSED = mouseEvent.dwControlKeyState & SHIFT_PRESSED;
+                        _NUMLOCK_ON = mouseEvent.dwControlKeyState & NUMLOCK_ON;
+                        _SCROLLLOCK_ON = mouseEvent.dwControlKeyState & SCROLLLOCK_ON;
+                        _CAPSLOCK_ON = mouseEvent.dwControlKeyState & CAPSLOCK_ON;
+                        _ENHANCED_KEY = mouseEvent.dwControlKeyState & ENHANCED_KEY;
+                        //button state
+                        for (int m = 0; m < 5; m++)
+                        {
+                            mouseState[m] = (mouseEvent.dwButtonState & (1 << m)) == 1;
+                        }
+                        //send to
                         for (auto item : handlers)
                         {
                             //mouse position
@@ -212,25 +229,11 @@ namespace MinConsoleNative
                                     item->OnMouseWheeled(MouseWheelDirection::None);
                                 break;
                             }
-                            //button state
-                            for (int m = 0; m < 5; m++)
-                            {
-                                mouseState[m] = (mouseEvent.dwButtonState & (1 << m)) == 1;
-                            }
-                            //control keystate
-                            _RIGHT_ALT_PRESSED = mouseEvent.dwControlKeyState & RIGHT_ALT_PRESSED;
-                            _LEFT_ALT_PRESSED = mouseEvent.dwControlKeyState & LEFT_ALT_PRESSED;
-                            _RIGHT_CTRL_PRESSED = mouseEvent.dwControlKeyState & RIGHT_CTRL_PRESSED;
-                            _LEFT_CTRL_PRESSED = mouseEvent.dwControlKeyState & LEFT_CTRL_PRESSED;
-                            _SHIFT_PRESSED = mouseEvent.dwControlKeyState & SHIFT_PRESSED;
-                            _NUMLOCK_ON = mouseEvent.dwControlKeyState & NUMLOCK_ON;
-                            _SCROLLLOCK_ON = mouseEvent.dwControlKeyState & SCROLLLOCK_ON;
-                            _CAPSLOCK_ON = mouseEvent.dwControlKeyState & CAPSLOCK_ON;
-                            _ENHANCED_KEY = mouseEvent.dwControlKeyState & ENHANCED_KEY;
                         }
                     }
                     else if (eventType == WINDOW_BUFFER_SIZE_EVENT)
                     {
+                        //send to
                         for (auto item : handlers)
                         {
                             item->OnConsoleOutputBufferChanged(bufferEvent.dwSize);
@@ -308,40 +311,58 @@ namespace MinConsoleNative
             {
                 for (size_t i = 0; i < eventNumber; i++)
                 {
-                    INPUT_RECORD curInput = inputBuffer[i];
-                    switch (curInput.EventType)
+                    ushort eventType = inputBuffer[i].EventType;
+                    KEY_EVENT_RECORD& keyEvent = inputBuffer[i].Event.KeyEvent;
+                    WINDOW_BUFFER_SIZE_RECORD& bufferEvent = inputBuffer[i].Event.WindowBufferSizeEvent;
+
+                    switch (eventType)
                     {
-                        //This event is not supported in Windows Terminal yet!
                     case MOUSE_EVENT:
+                        //This event is not supported in Windows Terminal yet!
                         break;
                     case WINDOW_BUFFER_SIZE_EVENT:
-                        for (size_t index = 0; index < handlers.size(); index++)
+                        //send to
+                        for (auto item : handlers)
                         {
-                            handlers[index]->OnConsoleOutputBufferChanged
-                            (curInput.Event.WindowBufferSizeEvent.dwSize);
+                            item->OnConsoleOutputBufferChanged(bufferEvent.dwSize);
                         }
                         break;
                     case KEY_EVENT:
-                        //Just normal input
-                        if (curInput.Event.KeyEvent.bKeyDown)
+                        //control keystate
+                        _RIGHT_ALT_PRESSED = keyEvent.dwControlKeyState & RIGHT_ALT_PRESSED;
+                        _LEFT_ALT_PRESSED = keyEvent.dwControlKeyState & LEFT_ALT_PRESSED;
+                        _RIGHT_CTRL_PRESSED = keyEvent.dwControlKeyState & RIGHT_CTRL_PRESSED;
+                        _LEFT_CTRL_PRESSED = keyEvent.dwControlKeyState & LEFT_CTRL_PRESSED;
+                        _SHIFT_PRESSED = keyEvent.dwControlKeyState & SHIFT_PRESSED;
+                        _NUMLOCK_ON = keyEvent.dwControlKeyState & NUMLOCK_ON;
+                        _SCROLLLOCK_ON = keyEvent.dwControlKeyState & SCROLLLOCK_ON;
+                        _CAPSLOCK_ON = keyEvent.dwControlKeyState & CAPSLOCK_ON;
+                        _ENHANCED_KEY = keyEvent.dwControlKeyState & ENHANCED_KEY;
+                        //UN USED
+                        UNUSED(keyEvent.wRepeatCount);
+                        //send to
+                        for (auto item : handlers)
                         {
-                            ConsoleKeyboardInputRecord keyboardInput;
-                            keyboardInput.KeyChar = curInput.Event.KeyEvent.uChar.UnicodeChar;
-                            keyboardInput.VirtualKey = curInput.Event.KeyEvent.wVirtualKeyCode;
-                            uint keyState = curInput.Event.KeyEvent.dwControlKeyState;
-                            keyboardInput._RIGHT_ALT_PRESSED = keyState & RIGHT_ALT_PRESSED;
-                            keyboardInput._LEFT_ALT_PRESSED = keyState & LEFT_ALT_PRESSED;
-                            keyboardInput._RIGHT_CTRL_PRESSED = keyState & RIGHT_CTRL_PRESSED;
-                            keyboardInput._LEFT_CTRL_PRESSED = keyState & LEFT_CTRL_PRESSED;
-                            keyboardInput._SHIFT_PRESSED = keyState & SHIFT_PRESSED;
-                            keyboardInput._NUMLOCK_ON = keyState & NUMLOCK_ON;
-                            keyboardInput._SCROLLLOCK_ON = keyState & SCROLLLOCK_ON;
-                            keyboardInput._CAPSLOCK_ON = keyState & CAPSLOCK_ON;
-                            keyboardInput._ENHANCED_KEY = keyState & ENHANCED_KEY;
-                            for (size_t index = 0; index < handlers.size(); index++)
+                            //on read key
+                            if (keyEvent.bKeyDown)
                             {
-                                handlers[index]->OnReadKey(keyboardInput);
+                                ConsoleKeyboardInputRecord keyboardInput;
+                                keyboardInput.KeyChar = keyEvent.uChar.UnicodeChar;
+                                keyboardInput.VirtualKey = keyEvent.wVirtualKeyCode;
+                                uint keyState = keyEvent.dwControlKeyState;
+                                keyboardInput._RIGHT_ALT_PRESSED = keyState & RIGHT_ALT_PRESSED;
+                                keyboardInput._LEFT_ALT_PRESSED = keyState & LEFT_ALT_PRESSED;
+                                keyboardInput._RIGHT_CTRL_PRESSED = keyState & RIGHT_CTRL_PRESSED;
+                                keyboardInput._LEFT_CTRL_PRESSED = keyState & LEFT_CTRL_PRESSED;
+                                keyboardInput._SHIFT_PRESSED = keyState & SHIFT_PRESSED;
+                                keyboardInput._NUMLOCK_ON = keyState & NUMLOCK_ON;
+                                keyboardInput._SCROLLLOCK_ON = keyState & SCROLLLOCK_ON;
+                                keyboardInput._CAPSLOCK_ON = keyState & CAPSLOCK_ON;
+                                keyboardInput._ENHANCED_KEY = keyState & ENHANCED_KEY;
+                                item->OnReadKey(keyboardInput);
                             }
+                            //on key
+                            item->OnKey(keyEvent.bKeyDown, keyEvent.uChar.UnicodeChar, keyEvent.wVirtualKeyCode, keyEvent.wVirtualScanCode);
                         }
                         break;
                     }

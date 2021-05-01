@@ -69,14 +69,15 @@ int main()
 {
     ConsoleType type = console.GetConsoleType();
 
-    if (type == ConsoleType::WindowsConsole || type == ConsoleType::WindowsLegacyConsole)
-    {
-        EventSystem::Init(EventSystemTarget::Win32Callback);
-    }
-    else if (type == ConsoleType::WindowsTerminal)
-    {
-        EventSystem::Init(EventSystemTarget::VTSequences);
-    }
+    EventSystem::Init(EventSystemTarget::VTSequences);
+    //if (type == ConsoleType::WindowsConsole || type == ConsoleType::WindowsLegacyConsole)
+    //{
+    //    EventSystem::Init(EventSystemTarget::Win32Callback);
+    //}
+    //else if (type == ConsoleType::WindowsTerminal)
+    //{
+    //    EventSystem::Init(EventSystemTarget::VTSequences);
+    //}
 
     ExampleHandler handler;
     EventSystem::handlers.push_back(&handler);
