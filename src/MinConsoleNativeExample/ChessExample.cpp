@@ -9,8 +9,10 @@ int main()
     console.SetConsoleCursorVisible(false);
 
     Chess::Init(ChessboardType::Bold);
+    Chess::ChangeChessSymbol(ChessSymbolType::HollowDiamond);
     vector<vector<wstring>> chessBoard = Chess::Generate(10, 10);
-    chessBoard[0][2] = _T("● ");
+    Chess::PlayChess(chessBoard, 9, 9);
+    Chess::PlayChess(chessBoard, 8, 9);
 
     GridRenderer grenderer(10, 10, GridRendererMode::Fast);
     grenderer.Clear();

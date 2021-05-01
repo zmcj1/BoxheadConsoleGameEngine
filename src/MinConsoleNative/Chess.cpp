@@ -13,6 +13,7 @@ namespace MinConsoleNative
     wchar Chess::MiddleLineMiddle = L'┼';
     wchar Chess::MiddleLineRight = L'┤';
     wchar Chess::ConnectSymbol = L'─';
+    wchar Chess::ChessSymbol = L'●';
 
     void Chess::Init(ChessboardType type)
     {
@@ -53,6 +54,31 @@ namespace MinConsoleNative
             Chess::MiddleLineMiddle = L'╋';
             Chess::MiddleLineRight = L'┫';
             Chess::ConnectSymbol = L'━';
+            break;
+        }
+    }
+
+    void Chess::ChangeChessSymbol(ChessSymbolType symbolType)
+    {
+        switch (symbolType)
+        {
+        case ChessSymbolType::Default:
+            Chess::ChessSymbol = L'●';
+            break;
+        case ChessSymbolType::Hollow:
+            Chess::ChessSymbol = L'○';
+            break;
+        case ChessSymbolType::Square:
+            Chess::ChessSymbol = L'■';
+            break;
+        case ChessSymbolType::HollowSquare:
+            Chess::ChessSymbol = L'□';
+            break;
+        case ChessSymbolType::Diamond:
+            Chess::ChessSymbol = L'◆';
+            break;
+        case ChessSymbolType::HollowDiamond:
+            Chess::ChessSymbol = L'◇';
             break;
         }
     }
@@ -100,5 +126,15 @@ namespace MinConsoleNative
         }
 
         return chessBoard;
+    }
+
+    bool Chess::PlayChess(std::vector<std::vector<std::wstring>>& chessboard, int x, int y)
+    {
+        if (y < 0 || x < 0 || y > chessboard.size() - 1 || x > chessboard[0].size() - 1)
+        {
+            return false;
+        }
+        chessboard[y][x] = TextLayout::CombineWchar(ChessSymbol, _T(' '));
+        return true;
     }
 }

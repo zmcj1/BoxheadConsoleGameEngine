@@ -13,6 +13,16 @@ namespace MinConsoleNative
         Bold = 3,
     };
 
+    enum class ChessSymbolType
+    {
+        Default = 1,
+        Hollow = 2,
+        Square = 3,
+        HollowSquare = 4,
+        Diamond = 5,
+        HollowDiamond = 6,
+    };
+
     class Chess
     {
     private:
@@ -32,11 +42,16 @@ namespace MinConsoleNative
         static wchar MiddleLineMiddle;
         static wchar MiddleLineRight;
         static wchar ConnectSymbol;
+        static wchar ChessSymbol;
 
     public:
         static void Init(ChessboardType type);
 
+        static void ChangeChessSymbol(ChessSymbolType symbolType);
+
         //Construct a chessboard, notice that the chessboard maybe displays differently in different fonts in Windows Console.
         static std::vector<std::vector<std::wstring>> Generate(int width, int height);
+
+        static bool PlayChess(std::vector<std::vector<std::wstring>>& chessboard, int x, int y);
     };
 }
