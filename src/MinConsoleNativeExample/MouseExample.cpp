@@ -61,7 +61,7 @@ class ExampleHandler : public EventHandler
 
     void OnKey(bool keyDown, wchar character, ushort virtualKeyCode, ushort virtualScanCode)
     {
-        console.WriteLine(to_wstring(keyDown));
+        //console.WriteLine(to_wstring(keyDown));
     }
 };
 

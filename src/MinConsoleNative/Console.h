@@ -359,7 +359,7 @@ namespace MinConsoleNative
     {
     public:
         EXPORT_STRUCT_MEMBER wchar KeyChar;
-        EXPORT_STRUCT_MEMBER ushort VirualKey;
+        EXPORT_STRUCT_MEMBER ushort VirtualKey;
         EXPORT_STRUCT_MEMBER bool _RIGHT_ALT_PRESSED;        // the right alt key is pressed.
         EXPORT_STRUCT_MEMBER bool _LEFT_ALT_PRESSED;         // the left alt key is pressed.
         EXPORT_STRUCT_MEMBER bool _RIGHT_CTRL_PRESSED;       // the right ctrl key is pressed.
@@ -373,7 +373,7 @@ namespace MinConsoleNative
         ConsoleKeyboardInputRecord()
         {
             this->KeyChar = 0;
-            this->VirualKey = 0;
+            this->VirtualKey = 0;
             this->_RIGHT_ALT_PRESSED = false;
             this->_LEFT_ALT_PRESSED = false;
             this->_RIGHT_CTRL_PRESSED = false;
@@ -383,6 +383,21 @@ namespace MinConsoleNative
             this->_SCROLLLOCK_ON = false;
             this->_CAPSLOCK_ON = false;
             this->_ENHANCED_KEY = false;
+        }
+
+        ConsoleKeyboardInputRecord(wchar KeyChar, ushort VirtualKey, bool _RIGHT_ALT_PRESSED, bool _LEFT_ALT_PRESSED, bool _RIGHT_CTRL_PRESSED, bool _LEFT_CTRL_PRESSED, bool _SHIFT_PRESSED, bool _NUMLOCK_ON, bool _SCROLLLOCK_ON, bool _CAPSLOCK_ON, bool _ENHANCED_KEY)
+        {
+            this->KeyChar = KeyChar;
+            this->VirtualKey = VirtualKey;
+            this->_RIGHT_ALT_PRESSED = _RIGHT_ALT_PRESSED;
+            this->_LEFT_ALT_PRESSED = _LEFT_ALT_PRESSED;
+            this->_RIGHT_CTRL_PRESSED = _RIGHT_CTRL_PRESSED;
+            this->_LEFT_CTRL_PRESSED = _LEFT_CTRL_PRESSED;
+            this->_SHIFT_PRESSED = _SHIFT_PRESSED;
+            this->_NUMLOCK_ON = _NUMLOCK_ON;
+            this->_SCROLLLOCK_ON = _SCROLLLOCK_ON;
+            this->_CAPSLOCK_ON = _CAPSLOCK_ON;
+            this->_ENHANCED_KEY = _ENHANCED_KEY;
         }
     };
 

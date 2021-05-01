@@ -40,7 +40,6 @@ namespace MinConsoleNative
         virtual void OnMouseWheeled(MouseWheelDirection wheelDir);
 
         //The method is triggered when you enter a character
-        OBSOLETED("Use OnKey instead.")
         virtual void OnReadKey(ConsoleKeyboardInputRecord keyboardInput);
 
         //This method is triggered when the console output buffer change
@@ -52,6 +51,7 @@ namespace MinConsoleNative
         //NOTICE:newSize is in pixel.
         virtual void OnClientSizeChanged(COORD newSize);
 
+        //The method is triggered when you press or release a key.
         virtual void OnKey(bool keyDown, wchar character, ushort virtualKeyCode, ushort virtualScanCode);
     };
 

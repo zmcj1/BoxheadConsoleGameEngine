@@ -486,7 +486,7 @@ namespace MinConsoleNative
                 if (inputBuf[i].Event.KeyEvent.bKeyDown)
                 {
                     keyboardInputRecord.KeyChar = inputBuf[i].Event.KeyEvent.uChar.UnicodeChar;
-                    keyboardInputRecord.VirualKey = inputBuf[i].Event.KeyEvent.wVirtualKeyCode;
+                    keyboardInputRecord.VirtualKey = inputBuf[i].Event.KeyEvent.wVirtualKeyCode;
                     //invoke callback
                     if (callback2 != nullptr)
                     {
@@ -578,7 +578,7 @@ namespace MinConsoleNative
             if (inputBuf.Event.KeyEvent.bKeyDown)
             {
                 keyboardInputRecord.KeyChar = inputBuf.Event.KeyEvent.uChar.UnicodeChar;
-                keyboardInputRecord.VirualKey = inputBuf.Event.KeyEvent.wVirtualKeyCode;
+                keyboardInputRecord.VirtualKey = inputBuf.Event.KeyEvent.wVirtualKeyCode;
                 //invoke callback
                 if (callback2 != nullptr)
                 {

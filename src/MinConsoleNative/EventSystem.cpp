@@ -142,10 +142,6 @@ namespace MinConsoleNative
                     {
                         for (auto item : handlers)
                         {
-                            //onkey
-                            item->OnKey(keyEvent.bKeyDown, keyEvent.uChar.UnicodeChar, keyEvent.wVirtualKeyCode, keyEvent.wVirtualScanCode);
-                            //repeat count
-                            UNUSED(keyEvent.wRepeatCount);
                             //control keystate
                             _RIGHT_ALT_PRESSED = keyEvent.dwControlKeyState & RIGHT_ALT_PRESSED;
                             _LEFT_ALT_PRESSED = keyEvent.dwControlKeyState & LEFT_ALT_PRESSED;
@@ -156,6 +152,28 @@ namespace MinConsoleNative
                             _SCROLLLOCK_ON = keyEvent.dwControlKeyState & SCROLLLOCK_ON;
                             _CAPSLOCK_ON = keyEvent.dwControlKeyState & CAPSLOCK_ON;
                             _ENHANCED_KEY = keyEvent.dwControlKeyState & ENHANCED_KEY;
+                            //repeat count
+                            UNUSED(keyEvent.wRepeatCount);
+                            //on read key
+                            if (keyEvent.bKeyDown)
+                            {
+                                item->OnReadKey(
+                                    ConsoleKeyboardInputRecord(
+                                        keyEvent.uChar.UnicodeChar,
+                                        keyEvent.wVirtualKeyCode,
+                                        _RIGHT_ALT_PRESSED,
+                                        _LEFT_ALT_PRESSED,
+                                        _RIGHT_CTRL_PRESSED,
+                                        _LEFT_CTRL_PRESSED,
+                                        _SHIFT_PRESSED,
+                                        _NUMLOCK_ON,
+                                        _SCROLLLOCK_ON,
+                                        _CAPSLOCK_ON,
+                                        _ENHANCED_KEY
+                                    ));
+                            }
+                            //onkey
+                            item->OnKey(keyEvent.bKeyDown, keyEvent.uChar.UnicodeChar, keyEvent.wVirtualKeyCode, keyEvent.wVirtualScanCode);
                         }
                     }
                     else if (eventType == MOUSE_EVENT)
@@ -309,7 +327,7 @@ namespace MinConsoleNative
                         {
                             ConsoleKeyboardInputRecord keyboardInput;
                             keyboardInput.KeyChar = curInput.Event.KeyEvent.uChar.UnicodeChar;
-                            keyboardInput.VirualKey = curInput.Event.KeyEvent.wVirtualKeyCode;
+                            keyboardInput.VirtualKey = curInput.Event.KeyEvent.wVirtualKeyCode;
                             uint keyState = curInput.Event.KeyEvent.dwControlKeyState;
                             keyboardInput._RIGHT_ALT_PRESSED = keyState & RIGHT_ALT_PRESSED;
                             keyboardInput._LEFT_ALT_PRESSED = keyState & LEFT_ALT_PRESSED;

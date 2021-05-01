@@ -21,6 +21,7 @@ namespace MinConsoleNative
         }
 
     public:
+        //SEE:https://en.wikipedia.org/wiki/Box-drawing_character
         static wchar FirstLineLeft;
         static wchar FirstLineMiddle;
         static wchar FirstLineRight;
