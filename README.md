@@ -18,10 +18,12 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 ## Examples:
 
-MazeExample:
+[MazeExample:](https://github.com/OpenGreatDream/MinConsole/blob/main/src/MinConsoleNativeExample/MazeExample.cpp)
+
 <img src="https://github.com/OpenGreatDream/MinConsole/blob/main/docs/pics/MazeExample.gif" width = "240">
 
-ConFPSSample:
+[ConFPSSample:](https://github.com/OpenGreatDream/MinConsole/blob/main/src/MinConsoleNativeExample/ConsoleFPSSample.cpp)
+
 ![ConFPSSample](https://github.com/OpenGreatDream/MinConsole/blob/main/docs/pics/ConFPSSample.gif)
 
 ## Features:
