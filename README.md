@@ -18,8 +18,10 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 ## Examples:
 
+MazeExample:
 <img src="https://github.com/OpenGreatDream/MinConsole/blob/main/docs/pics/MazeExample.gif" width = "240">
 
+ConFPSSample:
 ![ConFPSSample](https://github.com/OpenGreatDream/MinConsole/blob/main/docs/pics/ConFPSSample.gif)
 
 ## Features:
