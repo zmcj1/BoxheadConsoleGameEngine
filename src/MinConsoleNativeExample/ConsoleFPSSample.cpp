@@ -2,6 +2,11 @@
 
 using namespace std;
 
+#define light_shade     0x2591
+#define medium_shade    0x2592
+#define dark_shade      0x2593
+#define full_shade      0x2588
+
 class ConsoleFPS : public ConsoleEngine
 {
 private:
@@ -12,84 +17,206 @@ private:
 
 private:
     wstring map;
-    int mapWidth = 25;
-    int mapHeight = 25;
+    int mapWidth = 17;
+    int mapHeight = 17;
 
-    float playerX = 0;
-    float playerY = 0;
+    float playerX = 6.0f;
+    float playerY = 12.0f;
     float playerAngle = 0.0f;
-    float FOV = 3.14159f / 4;
-    float depth = 16.0f;
-    float rotateSpeed = 3.0f;
+
+    float rotateSpeed = 3.14159f;
     float moveSpeed = 5.0f;
 
+    const float FOV = 3.14159f / 4;
+    const float depth = 16.0f;
+
 public:
-    void Init(int consoleWidth, int consoleHeight)
+    void Init(int consoleWidth, int consoleHeight, bool useMaze = false)
     {
         this->consoleWidth = consoleWidth;
         this->consoleHeight = consoleHeight;
         this->lobbyAudio = new Audio(File::Combine(File::GetDirectoryPath(), L"..\\..\\res\\[CSO] Lobby Theme.mp3"));
-        this->crenderer = new CellRenderer(consoleWidth, consoleHeight, CellRendererMode::TrueColor);
-        CreateMap();
+        this->crenderer = new CellRenderer(consoleWidth, consoleHeight, CellRendererMode::Fast);
+        //create the map!
+        CreateMap(useMaze);
     }
 
-    void CreateMap()
+    void CreateMap(bool useMaze)
     {
-        for (int i = 0; i < mapWidth * mapHeight; i++)
+        if (useMaze)
         {
-            this->map += L' ';
+            for (int i = 0; i < mapWidth * mapHeight; i++)
+            {
+                this->map += L' ';
+            }
+            vector<Vector2> obstacles = MazeGenerator::GenerateMaze(mapWidth, mapHeight);
+            for (int i = 0; i < obstacles.size(); i++)
+            {
+                this->map[obstacles[i].y * mapWidth + obstacles[i].x] = L'#';
+            }
         }
-        vector<Vector2> obstacles = MazeGenerator::GenerateMaze(mapWidth, mapHeight);
-        for (int i = 0; i < obstacles.size(); i++)
+        else
         {
-            this->map[obstacles[i].y * mapWidth + obstacles[i].x] = L'#';
+            map += L"#################";
+            map += L"#...............#";
+            map += L"#........########";
+            map += L"#...............#";
+            map += L"#.......##......#";
+            map += L"#.......##......#";
+            map += L"#...............#";
+            map += L"###.............#";
+            map += L"##..............#";
+            map += L"#.......####..###";
+            map += L"#.......#.......#";
+            map += L"#.......#.......#";
+            map += L"#...............#";
+            map += L"#.......####..###";
+            map += L"#...............#";
+            map += L"#...............#";
+            map += L"#################";
         }
     }
 
     void OnStart() override
     {
-        this->lobbyAudio->SetVolume(MCI_MAX_VOLUME / 10);
+        this->lobbyAudio->SetVolume(MCI_MAX_VOLUME / 5);
         this->lobbyAudio->Play(true, false);
     }
 
     void OnUpdate(float deltaTime) override
     {
-        Input::CheckKeyboardEx();
+        ConsoleEngine::OnUpdate(deltaTime);
 
-        if (Input::GetKeyEx(VK_ESCAPE))
+        if (Input::GetKey(VK_ESCAPE))
         {
             StopLoop();
         }
 
-        if (Input::GetKeyEx('A'))
+        //rotation
+        if (Input::GetKey('A'))
         {
             playerAngle -= rotateSpeed * deltaTime;
         }
-        if (Input::GetKeyEx('D'))
+        if (Input::GetKey('D'))
         {
             playerAngle += rotateSpeed * deltaTime;
         }
-        if (Input::GetKeyEx('W'))
+        //movement forward
+        if (Input::GetKey('W'))
         {
-            playerX += ::cosf(playerAngle) * moveSpeed * deltaTime;
-            playerY += ::sinf(playerAngle) * moveSpeed * deltaTime;
+            float x = ::cosf(playerAngle) * moveSpeed * deltaTime;
+            float y = ::sinf(playerAngle) * moveSpeed * deltaTime;
+            playerX += x;
+            playerY += y;
             if (this->map.c_str()[(int)playerY * mapWidth + (int)playerX] == L'#')
             {
-                playerX -= ::cosf(playerAngle) * moveSpeed * deltaTime;
-                playerY -= ::sinf(playerAngle) * moveSpeed * deltaTime;
+                playerX -= x;
+                playerY -= y;
             }
         }
-        if (Input::GetKeyEx('S'))
+        //movement backward
+        if (Input::GetKey('S'))
         {
-            playerX -= ::cosf(playerAngle) * moveSpeed * deltaTime;
-            playerY -= ::sinf(playerAngle) * moveSpeed * deltaTime;
+            float x = ::cosf(playerAngle) * moveSpeed * deltaTime;
+            float y = ::sinf(playerAngle) * moveSpeed * deltaTime;
+            playerX -= x;
+            playerY -= y;
             if (this->map.c_str()[(int)playerY * mapWidth + (int)playerX] == L'#')
             {
-                playerX += ::cosf(playerAngle) * moveSpeed * deltaTime;
-                playerY += ::sinf(playerAngle) * moveSpeed * deltaTime;
+                playerX += x;
+                playerY += y;
             }
         }
 
+        crenderer->Clear();
+
+        //draw raycast
+        for (int x = 0; x < consoleWidth; x++)
+        {
+            float rayAngle = (playerAngle - FOV / 2.0f) + ((float)x / consoleWidth) * FOV;
+
+            float distanceToWall = 0.0f;
+            bool hitWall = false;
+
+            float eyeX = ::cosf(rayAngle);
+            float eyeY = ::sinf(rayAngle);
+
+            while (!hitWall && distanceToWall < depth)
+            {
+                distanceToWall += 0.1f;
+
+                int testX = (int)(playerX + eyeX * distanceToWall);
+                int testY = (int)(playerY + eyeY * distanceToWall);
+
+                if (testX < 0 || testX >= mapWidth || testY < 0 || testY >= mapHeight)
+                {
+                    hitWall = true;
+                    distanceToWall = depth;
+                }
+                else if (map[testY * mapWidth + testX] == L'#')
+                {
+                    hitWall = true;
+                }
+            }
+
+            int ceiling = (int)(consoleHeight / 2.0f - consoleHeight / distanceToWall);
+            int floor = consoleHeight - ceiling;
+
+            for (int y = 0; y < consoleHeight; y++)
+            {
+                //draw ceiling
+                if (y <= ceiling)
+                {
+                    crenderer->Draw({ x, y }, Cell(L' ', { 0,0,0 }, { 0, 0, 255 }));
+                }
+                //draw wall
+                else if (y > ceiling && y <= floor)
+                {
+                    //shade the wall
+                    wchar wallShade = L' ';
+                    if (distanceToWall <= depth / 4.0f) wallShade = full_shade;
+                    else if (distanceToWall <= depth / 3.0f) wallShade = dark_shade;
+                    else if (distanceToWall <= depth / 2.0f) wallShade = medium_shade;
+                    else if (distanceToWall < depth) wallShade = light_shade;
+                    else wallShade = L' ';
+
+                    crenderer->Draw({ x, y }, Cell(wallShade, { 255,0,0 }, { 0, 0, 0 }));
+                }
+                //draw floor
+                else
+                {
+                    //shade the floor
+                    wchar floorShade = L' ';
+                    float floorDistance = 1.0f - ((float)y - (float)consoleHeight / 2) /
+                        ((float)consoleHeight / 2);
+                    if (floorDistance <= 0.25f) floorShade = L'#';
+                    else if (floorDistance <= 0.5f) floorShade = L'x';
+                    else if (floorDistance <= 0.75f) floorShade = L'.';
+                    else if (floorDistance <= 0.9f) floorShade = L'-';
+                    else floorShade = L' ';
+
+                    crenderer->Draw({ x, y }, Cell(floorShade, { 128, 0, 0 }, { 0, 0, 0 }));
+                }
+            }
+        }
+        //draw status
+        wstring status = L"X:" + to_wstring(playerX) + L", Y:" + to_wstring(playerY) + L", A:" + to_wstring(playerAngle);
+        for (int i = 0; i < status.size(); i++)
+        {
+            crenderer->Draw({ i,0 }, Cell(status[i], { 255,0,0 }));
+        }
+        //draw map
+        for (int y = 0; y < mapHeight; y++)
+        {
+            for (int x = 0; x < mapWidth; x++)
+            {
+                crenderer->Draw({ x, y + 1 }, Cell(map.c_str()[y * mapWidth + x], { 255, 0, 0 }));
+            }
+        }
+        //draw player
+        crenderer->Draw({ (int)playerX, (int)playerY + 1 }, Cell(L'P', { 0, 255, 0 }));
+
+        crenderer->Render();
     }
 
     void OnDestroy() override
@@ -103,10 +230,14 @@ int main()
 {
     int consoleWidth = 120;
     int consoleHeight = 40;
+    POINT fontSize = GetFontSize(FontSize::_6x12);
+    wstring fontName = GetFontName(FontName::Consolas);
 
     ConsoleFPS consoleFPS;
-    consoleFPS.ConstructConsole(L"Console FPS", PaletteType::Legacy, consoleWidth, consoleHeight, 6, 12, L"Consolas", FW_NORMAL);
+    consoleFPS.ConstructConsole(L"Console FPS", PaletteType::Legacy, consoleWidth, consoleHeight,
+        fontSize.x, fontSize.y, fontName, FW_NORMAL);
     consoleFPS.Init(consoleWidth, consoleHeight);
     consoleFPS.StartLoop();
+
     return 0;
 }

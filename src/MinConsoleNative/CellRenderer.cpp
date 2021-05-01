@@ -12,12 +12,20 @@ namespace MinConsoleNative
         this->mode = mode;
         this->cellArray = new Cell[consoleWidth * consoleHeight];
         this->cellArrayBuffer = new Cell[consoleWidth * consoleHeight];
+        if (mode == CellRendererMode::Fast)
+        {
+            this->charInfos = new CHAR_INFO[consoleWidth * consoleHeight];
+        }
     }
 
     CellRenderer::~CellRenderer()
     {
         delete[] this->cellArray;
         delete[] this->cellArrayBuffer;
+        if (mode == CellRendererMode::Fast)
+        {
+            delete[] this->charInfos;
+        }
     }
 
     void CellRenderer::Clear(const Cell& cell)
@@ -46,7 +54,6 @@ namespace MinConsoleNative
 
     void CellRenderer::RenderFast()
     {
-        CHAR_INFO* charInfos = new CHAR_INFO[consoleWidth * consoleHeight];
         for (int i = 0; i < consoleWidth * consoleHeight; i++)
         {
             const Cell& cell = this->cellArray[i];
@@ -57,7 +64,6 @@ namespace MinConsoleNative
             charInfos[i].Char.UnicodeChar = cell.c;
         }
         console.WriteConsoleOutputW(charInfos, 0, 0, consoleWidth, consoleHeight);
-        delete[] charInfos;
     }
 
     void CellRenderer::RenderMixed()

@@ -103,6 +103,7 @@ namespace MinConsoleNative
     private:
         Cell* cellArray;
         Cell* cellArrayBuffer;
+        CHAR_INFO* charInfos;
 
     public:
         CellRenderer(int consoleWidth, int consoleHeight, CellRendererMode mode);

@@ -1404,7 +1404,8 @@ namespace MinConsoleNative
 
     ConsoleColor Color24::ToConsoleColor() const
     {
-        bool isLegacy = PaletteSystem::Global.GetInstance().CurPaletteIsLegacyPalette();
+        //bool isLegacy = paletteSystem.CurPaletteIsLegacyPalette();
+        bool isLegacy = true; //optimization for fast renderer mode
         //Algorithm:https://stackoverflow.com/questions/1988833/converting-color-to-consolecolor
         if (isLegacy)
         {
@@ -1416,7 +1417,7 @@ namespace MinConsoleNative
         }
         else
         {
-            return PaletteSystem::Global.GetInstance().GetCurPaletteClosestConsoleColor(*this);
+            return paletteSystem.GetCurPaletteClosestConsoleColor(*this);
         }
     }
 
