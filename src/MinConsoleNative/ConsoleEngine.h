@@ -76,6 +76,8 @@ namespace MinConsoleNative
 
         void ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight, const std::wstring& fontName, int fontWeight);
 
+        COORD ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight, const std::wstring& fontName, int fontWeight, bool fullScreen);
+
         void ConstructTerminal(const std::wstring& title);
 
         //If fps is not a positive number, it means that there is no frame rate limit.

@@ -95,11 +95,35 @@ namespace MinConsoleNative
     void ConsoleEngine::ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight, const std::wstring& fontName, int fontWeight)
     {
         ConsoleFont consoleFont = Console::Global.GetInstance().GetConsoleFont();
-        consoleFont.FontWeight = (uint)fontWidth;
+        consoleFont.FontWeight = (uint)fontWeight;
         consoleFont.SetFontName(fontName);
         Console::Global.GetInstance().SetConsoleFont(consoleFont);
 
-        ConsoleEngine::ConstructConsole(title, paletteType, consoleWidth, consoleHeight, fontWeight, fontHeight);
+        ConsoleEngine::ConstructConsole(title, paletteType, consoleWidth, consoleHeight, fontWidth, fontHeight);
+    }
+
+    COORD ConsoleEngine::ConstructConsole(const std::wstring& title, PaletteType paletteType, int consoleWidth, int consoleHeight, int fontWidth, int fontHeight, const std::wstring& fontName, int fontWeight, bool fullScreen)
+    {
+        //Set console font
+        ConsoleFont consoleFont = console.GetConsoleFont();
+        consoleFont.FontWeight = (uint)fontWeight;
+        consoleFont.SetFontName(fontName);
+        consoleFont.SetFontWidth(fontWidth);
+        consoleFont.SetFontHeight(fontHeight);
+        console.SetConsoleFont(consoleFont);
+
+        if (fullScreen)
+        {
+            COORD maxSize = ::GetLargestConsoleWindowSize(console.cons.consoleOutput);
+            ConsoleEngine::ConstructConsole(title, paletteType, maxSize.X, maxSize.Y, fontWidth, fontHeight);
+            ::ShowWindow(window.windowHandle, SW_MAXIMIZE);
+            return maxSize;
+        }
+        else
+        {
+            ConsoleEngine::ConstructConsole(title, paletteType, consoleWidth, consoleHeight, fontWidth, fontHeight);
+            return { (short)consoleWidth, (short)consoleHeight };
+        }
     }
 
     void ConsoleEngine::ConstructTerminal(const std::wstring& title)

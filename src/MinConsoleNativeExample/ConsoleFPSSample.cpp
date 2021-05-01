@@ -24,19 +24,33 @@ private:
     float playerY = 12.0f;
     float playerAngle = 0.0f;
 
-    float rotateSpeed = 3.14159f;
+    float rotateSpeed = 3.14159f; //1 ms rotate half circle(180 degrees)
     float moveSpeed = 5.0f;
 
     const float FOV = 3.14159f / 4;
     const float depth = 16.0f;
 
+    bool mouseSupport;
+    bool mouseLockMode = true;
+
 public:
-    void Init(int consoleWidth, int consoleHeight, bool useMaze = false)
+    void Init(int consoleWidth, int consoleHeight, bool useMaze = false, bool mouseSupport = true)
     {
         this->consoleWidth = consoleWidth;
         this->consoleHeight = consoleHeight;
-        this->lobbyAudio = new Audio(File::Combine(File::GetDirectoryPath(), L"..\\..\\res\\[CSO] Lobby Theme.mp3"));
+        //first we search music from the current dir
+        wstring lobbyAudioPath = File::Combine(File::GetDirectoryPath(), L"[CSO] Lobby Theme.mp3");
+        if (File::Exists(lobbyAudioPath))
+        {
+            this->lobbyAudio = new Audio(lobbyAudioPath);
+        }
+        else
+        {
+            this->lobbyAudio = new Audio(File::Combine(File::GetDirectoryPath(), L"..\\..\\res\\[CSO] Lobby Theme.mp3"));
+        }
+
         this->crenderer = new CellRenderer(consoleWidth, consoleHeight, CellRendererMode::Fast);
+        this->mouseSupport = mouseSupport;
         //create the map!
         CreateMap(useMaze);
     }
@@ -65,15 +79,43 @@ public:
             map += L"#.......##......#";
             map += L"#...............#";
             map += L"###.............#";
-            map += L"##..............#";
+            map += L"###.............#";
             map += L"#.......####..###";
             map += L"#.......#.......#";
-            map += L"#.......#.......#";
             map += L"#...............#";
+            map += L"#.......#.......#";
             map += L"#.......####..###";
             map += L"#...............#";
             map += L"#...............#";
             map += L"#################";
+        }
+    }
+
+    void ClampMouseInClient()
+    {
+        POINT mousePosInClient = window.GetMappedMousePos();
+        POINT clientSize = window.GetClientSize();
+        POINT windowCenterPos = window.GetCenterPosOfWindow();
+
+        RECT rect;
+        ::GetWindowRect(window.windowHandle, &rect);
+        rect.left += 10;
+        rect.right -= 10;
+        rect.top = windowCenterPos.y;
+        rect.bottom = windowCenterPos.y;
+        ::ClipCursor(&rect);
+
+        if (mousePosInClient.x < 10)
+        {
+            mousePosInClient.x = clientSize.x - 10;
+            ::SetCursorPos(mousePosInClient.x, windowCenterPos.y);
+            Input::ResetMouseAxis();
+        }
+        else if (mousePosInClient.x > clientSize.x - 10)
+        {
+            mousePosInClient.x = 10;
+            ::SetCursorPos(mousePosInClient.x, windowCenterPos.y);
+            Input::ResetMouseAxis();
         }
     }
 
@@ -87,19 +129,67 @@ public:
     {
         ConsoleEngine::OnUpdate(deltaTime);
 
-        if (Input::GetKey(VK_ESCAPE))
+        if (!mouseSupport)
         {
-            StopLoop();
+            if (Input::GetKey(VK_ESCAPE))
+            {
+                StopLoop();
+            }
+            //rotation
+            if (Input::GetKey('A'))
+            {
+                playerAngle -= rotateSpeed * deltaTime;
+            }
+            if (Input::GetKey('D'))
+            {
+                playerAngle += rotateSpeed * deltaTime;
+            }
         }
-
-        //rotation
-        if (Input::GetKey('A'))
+        else
         {
-            playerAngle -= rotateSpeed * deltaTime;
-        }
-        if (Input::GetKey('D'))
-        {
-            playerAngle += rotateSpeed * deltaTime;
+            if (Input::GetKey(VK_ESCAPE))
+            {
+                mouseLockMode = false;
+                //free cursor
+                ::ClipCursor(nullptr);
+            }
+            //movement left
+            if (Input::GetKey('A'))
+            {
+                float x = ::cosf(playerAngle) * moveSpeed * deltaTime;
+                float y = ::sinf(playerAngle) * moveSpeed * deltaTime;
+                playerX += y;
+                playerY -= x;
+                if (this->map.c_str()[(int)playerY * mapWidth + (int)playerX] == L'#')
+                {
+                    playerX -= y;
+                    playerY += x;
+                }
+            }
+            //movement right
+            if (Input::GetKey('D'))
+            {
+                float x = ::cosf(playerAngle) * moveSpeed * deltaTime;
+                float y = ::sinf(playerAngle) * moveSpeed * deltaTime;
+                playerX -= y;
+                playerY += x;
+                if (this->map.c_str()[(int)playerY * mapWidth + (int)playerX] == L'#')
+                {
+                    playerX += y;
+                    playerY -= x;
+                }
+            }
+            //mouse support
+            Input::CheckMouseAxis();
+            //get diff
+            int diffX = Input::GetMouseAxis(MouseAxis::MOUSE_X);
+            if (mouseLockMode)
+            {
+                //clamp mouse
+                ClampMouseInClient();
+            }
+            //rotate
+            playerAngle += diffX * rotateSpeed * deltaTime * 0.1f;
         }
         //movement forward
         if (Input::GetKey('W'))
@@ -234,9 +324,8 @@ int main()
     wstring fontName = GetFontName(FontName::Consolas);
 
     ConsoleFPS consoleFPS;
-    consoleFPS.ConstructConsole(L"Console FPS", PaletteType::Legacy, consoleWidth, consoleHeight,
-        fontSize.x, fontSize.y, fontName, FW_NORMAL);
-    consoleFPS.Init(consoleWidth, consoleHeight);
+    COORD size = consoleFPS.ConstructConsole(L"Console FPS", PaletteType::Legacy, consoleWidth, consoleHeight, fontSize.x, fontSize.y, fontName, FW_NORMAL, true);
+    consoleFPS.Init(size.X, size.Y, false, true);
     consoleFPS.StartLoop();
 
     return 0;
