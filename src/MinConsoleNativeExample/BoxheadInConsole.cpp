@@ -16,7 +16,7 @@ public:
     {
         this->grid = grid;
         this->grenderer = grenderer;
-        this->controller = new CharacterController(position, speed);
+        this->controller = new CharacterController(position, speed, CharacterControllerKeyboardLayout::WASD);
     }
 
     ~Character()
@@ -26,7 +26,7 @@ public:
 
     void Update(float deltaTime)
     {
-        this->controller->Move8(deltaTime);
+        this->controller->Move4(deltaTime);
         this->grenderer->Draw(this->controller->position, grid);
     }
 };

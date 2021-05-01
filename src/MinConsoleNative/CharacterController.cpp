@@ -5,15 +5,33 @@ namespace MinConsoleNative
 {
     constexpr float R2 = 1.4142135;
 
-    int CharacterController::LeftKey = 'A';
-    int CharacterController::RightKey = 'D';
-    int CharacterController::UpKey = 'W';
-    int CharacterController::DownKey = 'S';
-
-    CharacterController::CharacterController(Vector2 position, float speed)
+    CharacterController::CharacterController(Vector2 position, float speed, CharacterControllerKeyboardLayout layout)
     {
         this->position = position;
         this->speed = speed;
+        this->layout = layout;
+        switch (layout)
+        {
+        case CharacterControllerKeyboardLayout::WASD:
+            this->LeftKey = 'A';
+            this->RightKey = 'D';
+            this->UpKey = 'W';
+            this->DownKey = 'S';
+            break;
+        case CharacterControllerKeyboardLayout::ArrowKeys:
+            this->LeftKey = VK_LEFT;
+            this->RightKey = VK_RIGHT;
+            this->UpKey = VK_UP;
+            this->DownKey = VK_DOWN;
+            break;
+        }
+    }
+
+    void CharacterController::Reset()
+    {
+        this->moved = false;
+        this->moveTimer = 0.0f;
+        this->moveSlash = false;
     }
 
     MoveDirection CharacterController::Move4(float deltaTime)
