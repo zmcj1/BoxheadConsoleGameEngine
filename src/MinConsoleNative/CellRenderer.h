@@ -21,7 +21,7 @@ namespace MinConsoleNative
         Color24 foreColor;
         Color24 backColor;
         bool underScore;
-        bool isLeadingByte;
+        bool isLeadingByte; //This var is used internally and should be ignored.
 
         Cell()
         {
