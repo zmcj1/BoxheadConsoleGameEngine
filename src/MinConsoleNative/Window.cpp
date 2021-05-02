@@ -181,6 +181,11 @@ namespace MinConsoleNative
         return IsIconic(windowHandle);
     }
 
+    EXPORT_FUNC_EX(HINSTANCE) MinGetExeInstance()
+    {
+        return ::GetModuleHandle(nullptr);
+    }
+
     Window::Window()
     {
         this->windowHandle = ::GetForegroundWindow();
@@ -306,6 +311,11 @@ namespace MinConsoleNative
     bool Window::IsMinimized()
     {
         return MinIsMinimized(this->windowHandle);
+    }
+
+    HINSTANCE Window::GetExeInstance()
+    {
+        return MinGetExeInstance();
     }
 
     Window& window = Window::Global.GetInstance();

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.7
+//Version:2.7.1
 
 namespace NativeFunctionTranslator
 {
@@ -263,6 +263,10 @@ namespace NativeFunctionTranslator
 
                     //replace returnType
                     if (returnType == "HWND")
+                    {
+                        returnType = "IntPtr";
+                    }
+                    else if (returnType == "HINSTANCE")
                     {
                         returnType = "IntPtr";
                     }

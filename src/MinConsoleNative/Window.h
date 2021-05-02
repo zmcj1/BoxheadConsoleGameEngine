@@ -47,6 +47,8 @@ namespace MinConsoleNative
     //Determines whether the specified window is minimized (iconic).
     EXPORT_FUNC_EX(bool) MinIsMinimized(HWND windowHandle);
 
+    EXPORT_FUNC_EX(HINSTANCE) MinGetExeInstance();
+
     class Window
     {
     public:
@@ -100,6 +102,8 @@ namespace MinConsoleNative
 
         //Determines whether the specified window is minimized (iconic).
         bool IsMinimized();
+
+        HINSTANCE GetExeInstance();
     };
 
     extern Window& window;
