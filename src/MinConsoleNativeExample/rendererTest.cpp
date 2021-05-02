@@ -2,9 +2,11 @@
 
 int main()
 {
-    CellRenderer cr(30, 30, CellRendererMode::Mixed);
+    CellRenderer cr(30, 30, CellRendererMode::TrueColor);
     cr.Clear();
-    cr.Draw({ 29,29 }, Cell(L'a', { 255,0,0 }, { 0,0,0 }, true));
+    cr.Draw({ 29, 29 }, Cell(L'a', { 255,0,0 }, { 0,0,0 }, true));
+    cr.DrawStringWrap({ 20, 10 }, L"asdaasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", { 255,0,0 }, { 0,0,0 }, true);
+    cr.DrawString2Wrap({ 20, 20 }, L"askd的艰苦拉萨大家看来急啊抗衰老登陆看看奥斯卡大奖", { 255,0,0 }, { 0,0,0 }, true);
     cr.Render();
     console.ReadLine();
 

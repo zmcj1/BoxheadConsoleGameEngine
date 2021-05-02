@@ -1,5 +1,6 @@
 ﻿#include "CellRenderer.h"
 #include "String.h"
+#include "TextLayout.h"
 #include <string>
 using namespace std;
 
@@ -15,6 +16,10 @@ namespace MinConsoleNative
         if (mode == CellRendererMode::Fast)
         {
             this->charInfos = new CHAR_INFO[consoleWidth * consoleHeight];
+        }
+        else
+        {
+            this->charInfos = nullptr;
         }
     }
 
@@ -52,14 +57,95 @@ namespace MinConsoleNative
         this->cellArray[index] = cell;
     }
 
+    void CellRenderer::DrawString(const Vector2& pos, const std::wstring& wstr, Color24 foreColor, Color24 backColor, bool underScore)
+    {
+        for (int i = 0; i < wstr.size(); i++)
+        {
+            CellRenderer::Draw(Vector2(pos.x + i, pos.y), Cell(wstr[i], foreColor, backColor, underScore));
+        }
+    }
+
+    int CellRenderer::DrawString2(const Vector2& pos, const std::wstring& wstr, Color24 foreColor, Color24 backColor, bool underScore)
+    {
+        vector<wstring> grids = textLayout.WstringToGrids(wstr);
+        for (int i = 0; i < grids.size(); i++)
+        {
+            const wstring& gridStr = grids[i];
+            if (gridStr.size() == 1)
+            {
+                CellRenderer::Draw(Vector2(pos.x + i * 2, pos.y), Cell(gridStr[0], foreColor, backColor, underScore, true));
+                CellRenderer::Draw(Vector2(pos.x + i * 2 + 1, pos.y), Cell(L' ', foreColor, backColor, underScore, false));
+            }
+            else if (gridStr.size() == 2)
+            {
+                CellRenderer::Draw(Vector2(pos.x + i * 2, pos.y), Cell(gridStr[0], foreColor, backColor, underScore));
+                CellRenderer::Draw(Vector2(pos.x + i * 2 + 1, pos.y), Cell(gridStr[1], foreColor, backColor, underScore));
+            }
+        }
+        return grids.size();
+    }
+
+    void CellRenderer::DrawStringWrap(const Vector2& pos, const std::wstring& wstr, Color24 foreColor, Color24 backColor, bool underScore)
+    {
+        for (int i = 0; i < wstr.size(); i++)
+        {
+            int positionX = pos.x + i;
+            int positionY = pos.y;
+            while (positionX > consoleWidth - 1)
+            {
+                positionX -= consoleWidth;
+                positionY++;
+            }
+            CellRenderer::Draw(Vector2(positionX, positionY), Cell(wstr[i], foreColor, backColor, underScore));
+        }
+    }
+
+    int CellRenderer::DrawString2Wrap(const Vector2& pos, const std::wstring& wstr, Color24 foreColor, Color24 backColor, bool underScore)
+    {
+        vector<wstring> grids = textLayout.WstringToGrids(wstr);
+        for (int i = 0; i < grids.size(); i++)
+        {
+            int positionX = pos.x + i * 2;
+            int positionY = pos.y;
+            while (positionX > consoleWidth - 1)
+            {
+                positionX -= consoleWidth;
+                positionY++;
+            }
+            const wstring& gridStr = grids[i];
+            if (gridStr.size() == 1)
+            {
+                CellRenderer::Draw(Vector2(positionX, positionY), Cell(gridStr[0], foreColor, backColor, underScore, true));
+                CellRenderer::Draw(Vector2(positionX + 1, positionY), Cell(L' ', foreColor, backColor, underScore, false));
+            }
+            else if (gridStr.size() == 2)
+            {
+                CellRenderer::Draw(Vector2(positionX, positionY), Cell(gridStr[0], foreColor, backColor, underScore));
+                CellRenderer::Draw(Vector2(positionX + 1, positionY), Cell(gridStr[1], foreColor, backColor, underScore));
+            }
+        }
+        return grids.size();
+    }
+
     void CellRenderer::RenderFast()
     {
+        bool findLeadingByte = false;
         for (int i = 0; i < consoleWidth * consoleHeight; i++)
         {
             const Cell& cell = this->cellArray[i];
             ushort att = 0;
             att |= ConsoleColorToUshort(cell.foreColor.ToConsoleColor(), cell.backColor.ToConsoleColor());
             if (cell.underScore) att |= COMMON_LVB_UNDERSCORE;
+            if (cell.isLeadingByte)
+            {
+                att |= COMMON_LVB_LEADING_BYTE;
+                findLeadingByte = true;
+            }
+            else if (findLeadingByte)
+            {
+                att |= COMMON_LVB_TRAILING_BYTE;
+                findLeadingByte = false;
+            }
             charInfos[i].Attributes = att;
             charInfos[i].Char.UnicodeChar = cell.c;
         }

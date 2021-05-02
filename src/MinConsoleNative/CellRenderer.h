@@ -21,6 +21,7 @@ namespace MinConsoleNative
         Color24 foreColor;
         Color24 backColor;
         bool underScore;
+        bool isLeadingByte;
 
         Cell()
         {
@@ -28,6 +29,7 @@ namespace MinConsoleNative
             this->foreColor = Color24();
             this->backColor = Color24();
             this->underScore = false;
+            this->isLeadingByte = false;
         }
 
         Cell(wchar c)
@@ -36,6 +38,7 @@ namespace MinConsoleNative
             this->foreColor = Color24();
             this->backColor = Color24();
             this->underScore = false;
+            this->isLeadingByte = false;
         }
 
         Cell(wchar c, const Color24& foreColor)
@@ -44,6 +47,7 @@ namespace MinConsoleNative
             this->foreColor = foreColor;
             this->backColor = Color24();
             this->underScore = false;
+            this->isLeadingByte = false;
         }
 
         Cell(wchar c, const Color24& foreColor, const Color24& backColor)
@@ -52,6 +56,7 @@ namespace MinConsoleNative
             this->foreColor = foreColor;
             this->backColor = backColor;
             this->underScore = false;
+            this->isLeadingByte = false;
         }
 
         Cell(wchar c, const Color24& foreColor, const Color24& backColor, bool underScore)
@@ -60,6 +65,16 @@ namespace MinConsoleNative
             this->foreColor = foreColor;
             this->backColor = backColor;
             this->underScore = underScore;
+            this->isLeadingByte = false;
+        }
+
+        Cell(wchar c, const Color24& foreColor, const Color24& backColor, bool underScore, bool isLeadingByte)
+        {
+            this->c = c;
+            this->foreColor = foreColor;
+            this->backColor = backColor;
+            this->underScore = underScore;
+            this->isLeadingByte = isLeadingByte;
         }
 
         bool operator ==(const Cell& other) const
@@ -115,6 +130,14 @@ namespace MinConsoleNative
         void Render();
 
         void Draw(const Vector2& pos, const Cell& cell);
+
+        void DrawString(const Vector2& pos, const std::wstring& wstr, Color24 foreColor, Color24 backColor, bool underScore);
+
+        int DrawString2(const Vector2& pos, const std::wstring& wstr, Color24 foreColor, Color24 backColor, bool underScore);
+
+        void DrawStringWrap(const Vector2& pos, const std::wstring& wstr, Color24 foreColor, Color24 backColor, bool underScore);
+
+        int DrawString2Wrap(const Vector2& pos, const std::wstring& wstr, Color24 foreColor, Color24 backColor, bool underScore);
 
     private:
         void RenderFast();
