@@ -7,6 +7,8 @@ int main()
     cr.Draw({ 29, 29 }, Cell(L'a', { 255,0,0 }, { 0,0,0 }, true));
     cr.DrawStringWrap({ 20, 10 }, L"asdaasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", { 255,0,0 }, { 0,0,0 }, true);
     cr.DrawString2Wrap({ 20, 20 }, L"askd的艰苦拉萨大家看来急啊抗衰老登陆看看奥斯卡大奖", { 255,0,0 }, { 0,0,0 }, true);
+    cr.DrawBorderBox({ 0,0 }, { 15,15 }, { 1,1 }, Cell(L'0', { 0,255,0 }), Cell(L'#', { 255,0,0 }));
+    cr.DrawBorderBox2({ 2,0 }, { 10,10 }, { 1,1 }, L"内", { 0,0,255 }, { 0,0,0 }, false, L"墙", { 255,0,0 }, { 0,0,0 }, false);
     cr.Render();
     console.ReadLine();
 

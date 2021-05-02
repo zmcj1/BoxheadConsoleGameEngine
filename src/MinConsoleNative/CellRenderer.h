@@ -139,6 +139,10 @@ namespace MinConsoleNative
 
         int DrawString2Wrap(const Vector2& pos, const std::wstring& wstr, Color24 foreColor, Color24 backColor, bool underScore);
 
+        void DrawBorderBox(const Vector2& pos, const Vector2& size, const Vector2& borderSize, const Cell& cell, const Cell& borderCell);
+
+        void DrawBorderBox2(const Vector2& pos, const Vector2& size, const Vector2& borderSize, const std::wstring& cellWstr, Color24 cellForeColor, Color24 cellBackColor, bool cellUnderScore, const std::wstring& borderWstr, Color24 borderForeColor, Color24 borderBackColor, bool borderUnderScore);
+
     private:
         void RenderFast();
 

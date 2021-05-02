@@ -127,6 +127,46 @@ namespace MinConsoleNative
         return grids.size();
     }
 
+    void CellRenderer::DrawBorderBox(const Vector2& pos, const Vector2& size, const Vector2& borderSize, const Cell& cell, const Cell& borderCell)
+    {
+        for (int i = 0; i < size.y; i++)
+        {
+            for (int j = 0; j < size.x; j++)
+            {
+                if (i >= 0 && i < borderSize.y || j >= 0 && j < borderSize.x ||
+                    i <= size.y - 1 && i > size.y - 1 - borderSize.y ||
+                    j <= size.x - 1 && j > size.x - 1 - borderSize.x)
+                {
+                    CellRenderer::Draw(Vector2(pos.x + j, pos.y + i), borderCell);
+                }
+                else
+                {
+                    CellRenderer::Draw(Vector2(pos.x + j, pos.y + i), cell);
+                }
+            }
+        }
+    }
+
+    void CellRenderer::DrawBorderBox2(const Vector2& pos, const Vector2& size, const Vector2& borderSize, const std::wstring& cellWstr, Color24 cellForeColor, Color24 cellBackColor, bool cellUnderScore, const std::wstring& borderWstr, Color24 borderForeColor, Color24 borderBackColor, bool borderUnderScore)
+    {
+        for (int i = 0; i < size.y; i++)
+        {
+            for (int j = 0; j < size.x; j++)
+            {
+                if (i >= 0 && i < borderSize.y || j >= 0 && j < borderSize.x ||
+                    i <= size.y - 1 && i > size.y - 1 - borderSize.y ||
+                    j <= size.x - 1 && j > size.x - 1 - borderSize.x)
+                {
+                    CellRenderer::DrawString2(Vector2(pos.x + j * 2, pos.y + i), borderWstr, borderForeColor, borderBackColor, borderUnderScore);
+                }
+                else
+                {
+                    CellRenderer::DrawString2(Vector2(pos.x + j * 2, pos.y + i), cellWstr, cellForeColor, cellBackColor, cellUnderScore);
+                }
+            }
+        }
+    }
+
     void CellRenderer::RenderFast()
     {
         bool findLeadingByte = false;
