@@ -26,6 +26,18 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 ![ConFPSSample](https://github.com/OpenGreatDream/MinConsole/blob/main/docs/pics/ConFPSSample.gif)
 
+## Architecture:
+
+[MinConsole](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsole) is a C# wrapper, provide cross-platform interface.
+
+[MinConsoleNative](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsoleNative) is a C/C++ kernel, it's the base of this project.
+
+[MinConsoleNativeExample](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsoleNativeExample) is bunch of examples about how to use MinConsoleNative.
+
+[MinConsoleRenderer](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsoleRenderer) is next-gen console renderer(it's not simulator! it only provides real game-level rendering).
+
+[MinIO](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinIO) is a single header file solution.
+
 ## Features:
 
 1. CellRenderer/GridRenderer/NativeRenderer!

@@ -7,6 +7,8 @@
 
 //FOR WIN32 SEE:https://docs.microsoft.com/en-us/windows/win32/learnwin32/your-first-windows-program
 
+#include "Win32Window.h"
+
 #include <d2d1.h>
 #include <dwrite.h>
 #pragma comment(lib, "d2d1.lib")
@@ -28,8 +30,6 @@ wstring wstr = L"asdkjasld啊是大多数空间, 😄لغة عربية/ʔæl̚lu
 RECT rc = { 0 };
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-#include "Win32Window.h"
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {
