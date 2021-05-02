@@ -173,6 +173,11 @@ namespace MinConsoleNative
         for (int i = 0; i < consoleWidth * consoleHeight; i++)
         {
             lines[i / consoleWidth] += this->cellArray[i].c;
+            const Cell& cell = this->cellArray[i];
+            if (cell.isLeadingByte)
+            {
+                i++;
+            }
         }
         for (int i = 0; i < consoleHeight; i++)
         {
