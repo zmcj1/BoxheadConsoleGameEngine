@@ -4,5 +4,8 @@
 
 namespace MinConsoleNative
 {
-
+    class ConsoleGameEngine
+    {
+    public:
+    };
 }

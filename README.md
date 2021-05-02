@@ -28,7 +28,7 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 ## Features:
 
-1. CellRenderer/GridRenderer!
+1. CellRenderer/GridRenderer/NativeRenderer!
 
 1. Navigation and Maze support!
 
@@ -42,7 +42,7 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 1. Database class for basic data reading and writing
 
-1. Support mouse wheel, mouse coordinates(You can even use the mouse in Windows Terminal!)
+1. EventSystem class! Support mouse wheel input, mouse coordinates(You can even use mouse in Windows Terminal!)
 
 1. Nice Input class(Allows you to handle the mouse)
 
