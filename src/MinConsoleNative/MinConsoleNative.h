@@ -21,6 +21,7 @@
 #include "MessageBox.h"
 #include "MinConsoleNative.h"
 #include "MinDefines.h"
+#include "NativeRenderer.h"
 #include "Navigation.h"
 #include "ObjectPool.h"
 #include "PaletteSystem.h"

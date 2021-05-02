@@ -289,6 +289,7 @@ public:
                 }
             }
         }
+
         //draw status
         wstring status = L"X:" + to_wstring(playerX) + L", Y:" + to_wstring(playerY) + L", A:" + to_wstring(playerAngle);
         for (int i = 0; i < status.size(); i++)

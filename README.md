@@ -20,7 +20,7 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 [MazeExample:](https://github.com/OpenGreatDream/MinConsole/blob/main/src/MinConsoleNativeExample/MazeExample.cpp)
 
-<img src="https://github.com/OpenGreatDream/MinConsole/blob/main/docs/pics/MazeExample.gif" width = "240">
+<img src="https://github.com/OpenGreatDream/MinConsole/blob/main/docs/pics/MazeExample.gif" width = "375">
 
 [ConFPSSample:](https://github.com/OpenGreatDream/MinConsole/blob/main/src/MinConsoleNativeExample/ConsoleFPSSample.cpp)
 
@@ -64,7 +64,6 @@ You can only include it like this:
 
 ``` cpp
 #include "../MinConsoleNative/MinConsoleNative.h"
-using namespace MinConsoleNative;
 ```
 
 [MinConsoleNativeExample](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsoleNativeExample) provides a series of examples.

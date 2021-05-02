@@ -212,7 +212,7 @@ namespace MinConsole
         public struct ConsoleKeyboardInputRecord
         {
             public char KeyChar;
-            public ushort VirualKey;
+            public ushort VirtualKey;
             public bool _RIGHT_ALT_PRESSED;        // the right alt key is pressed.
             public bool _LEFT_ALT_PRESSED;         // the left alt key is pressed.
             public bool _RIGHT_CTRL_PRESSED;       // the right ctrl key is pressed.
