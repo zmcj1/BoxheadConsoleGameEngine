@@ -36,7 +36,7 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 [MinConsoleRenderer](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsoleRenderer) is next-gen console renderer(it's not simulator! it only provides real game-level rendering).
 
-[MinIO](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinIO) is a single header file solution.
+[MinIO](https://github.com/OpenGreatDream/MinConsole/blob/main/src/MinIO/minio.h) is a single C/C++ header file solution.(Inspired by Curses, it only provides the basic functions)
 
 ## Features:
 

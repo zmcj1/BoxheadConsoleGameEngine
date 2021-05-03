@@ -20,9 +20,15 @@
     <ClCompile Include="from_zero.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WinExample.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
