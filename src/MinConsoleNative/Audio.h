@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 
+//Audio support is developed based on Windows MCI
 //SEE:https://docs.microsoft.com/en-us/windows/win32/multimedia/mci
 
 namespace MinConsoleNative

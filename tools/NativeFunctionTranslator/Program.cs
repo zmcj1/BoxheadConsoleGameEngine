@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.7.1
+//Version:2.7.2
 
 namespace NativeFunctionTranslator
 {
@@ -628,6 +628,9 @@ namespace NativeFunctionTranslator
             stringBuilder2.Append("//This file is auto-generated.\n");
             stringBuilder2.Append("#pragma once\n\n");
             headFileInfos.ForEach(fileInfo => { stringBuilder2.Append("#include \"" + fileInfo.Name + "\"\n"); });
+            stringBuilder2.Append("#ifdef _MSC_VER\n");
+            stringBuilder2.Append("#pragma comment(lib, \"MinConsoleNative.lib\");\n");
+            stringBuilder2.Append("#endif\n");
             stringBuilder2.Append("using namespace MinConsoleNative;\n");
 
             string MinConsoleNativeHeadFilePath = Path.Combine(MinConsoleNativeFolder, "MinConsoleNative.h");

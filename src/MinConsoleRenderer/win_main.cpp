@@ -29,6 +29,8 @@ IDWriteTextFormat* pTextFormat_;
 wstring wstr = L"asdkjasld啊是大多数空间, 😄لغة عربية/ʔæl̚luɣɑtʰu ʔælʕɑrɐbiːjatʰu/";
 RECT rc = { 0 };
 
+#define _T(x) L##x
+
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
@@ -180,6 +182,23 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         D2D1_RECT_F layoutRect = D2D1::RectF(rc.left, rc.top, rc.right, rc.bottom);
         pRT_->Clear(D2D1::ColorF(D2D1::ColorF::Black));
         pRT_->DrawText(wstr.c_str(), wstr.size(), pTextFormat_, layoutRect, pBlackBrush_);
+
+        wstring ppic;
+        ppic += _T("⠄⠄⠄⠄⠄⠄⣠⢼⣿⣿⣿⣿⣿⡟⣗⣯⣿⣶⣿⣶⡄             \n");
+        ppic += _T("    ⠄⠄⣀⣤⣴⣾⣿⣷⣭⣭⣭⣭⣭⣾⣿⣿⣿⣿⣿⣿⣿⡀        \n");
+        ppic += _T("    ⠄⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣸⣿⣿⣧        \n");
+        ppic += _T("    ⠄⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢻⣿⣿⡄      \n");
+        ppic += _T("    ⠄⢸⣿⣮⣿⣿⣿⣿⣿⣿⣿⡟⢹⣿⣿⣿⡟⢛⢻⣷⢻⣿⣧      \n");
+        ppic += _T("    ⠄⠄⣿⡏⣿⡟⡛⢻⣿⣿⣿⣿⠸⣿⣿⣿⣷⣬⣼⣿⢸⣿⣿      \n");
+        ppic += _T("    ⠄⠄⣿⣧⢿⣧⣥⣾⣿⣿⣿⡟⣴⣝⠿⣿⣿⣿⠿⣫⣾⣿⣿      \n");
+        ppic += _T("    ⠄⠄⢸⣿⣮⡻⠿⣿⠿⣟⣫⣾⣿⣿⣿⣷⣶⣾⣿⡏⣿⣿⣿      \n");
+        ppic += _T("    ⠄⠄⢸⣿⣿⣿⡇⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⣿⣿⣿      \n");
+        ppic += _T("    ⠄⠄⢸⣿⣿⣿⡇⠄⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿      \n");
+        ppic += _T("    ⠄⠄⣼⣿⣿⣿⢃⣾⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⣿⣿⣿⡇      \n");
+        ppic += _T("    ⠄⠄⣿⣿⡟⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢃⣿⣿⣿       \n");
+
+        pRT_->DrawText(ppic.c_str(), ppic.size(), pTextFormat_, layoutRect, pBlackBrush_);
+
         HRESULT hr = pRT_->EndDraw();
 
         EndPaint(hwnd, &ps);

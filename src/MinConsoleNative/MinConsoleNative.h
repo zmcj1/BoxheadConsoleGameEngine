@@ -40,4 +40,7 @@
 #include "WinCon.h"
 #include "Window.h"
 #include "WinVersion.h"
+#ifdef _MSC_VER
+#pragma comment(lib, "MinConsoleNative.lib");
+#endif
 using namespace MinConsoleNative;

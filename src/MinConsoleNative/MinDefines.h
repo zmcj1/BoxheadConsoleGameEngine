@@ -83,8 +83,10 @@
 #define WINDOWS_CONSOLE 	    0X0002
 #define WINDOWS_TERMINAL  	    0X0004
 
+//make sure you have been include <stdio.h> before use this macro.
 #define MIN_LOG(file, str, ...) fprintf(file, str "\n", ##__VA_ARGS__)
 
+//new line in Windows
 #define NEW_LINE "\r\n"
 #define WNEW_LINE L"\r\n"
 
