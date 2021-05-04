@@ -27,7 +27,7 @@ class MainWindow : public BaseWindow<MainWindow>
     void    Resize();
 
 public:
-    MainWindow() : pFactory(NULL), pRenderTarget(NULL), pBrush(NULL)
+    MainWindow() : pFactory(NULL), pRenderTarget(NULL), pBrush(NULL), ellipse()
     {
     }
 
@@ -43,6 +43,7 @@ void MainWindow::CalculateLayout()
     if (pRenderTarget != NULL)
     {
         D2D1_SIZE_F size = pRenderTarget->GetSize();
+        D2D1_SIZE_U pixelSize = pRenderTarget->GetPixelSize();
         const float x = size.width / 2;
         const float y = size.height / 2;
         const float radius = min(x, y);
@@ -97,6 +98,7 @@ void MainWindow::OnPaint()
 
         pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::SkyBlue));
         pRenderTarget->FillEllipse(ellipse, pBrush);
+        //pRenderTarget->Flush(); //immediately render it to the render target.
 
         hr = pRenderTarget->EndDraw();
         if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
