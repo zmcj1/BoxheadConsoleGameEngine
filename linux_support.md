@@ -1,6 +1,9 @@
 This file is created in Ubuntu Desktop.
 
-NOTICE:It's hard to program in Linux Terminal without using the ncurses.
+PS:It's hard to program in Linux Terminal without using the ncurses.
+
+Ncurses HOWTO:
+https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/index.html
 
 Plan(TODO):
 
