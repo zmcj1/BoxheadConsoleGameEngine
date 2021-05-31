@@ -4,8 +4,6 @@
 
 free, portable and powerful Windows Console/Terminal low-level library. - Written by Min
 
-<p style="color:red">This project is in the early development stage, everything is changing at a high speed!</p>
-
 ## What is this?
 
 This is a low-level Console Lib for Windows10 Console, you can use it to draw in the console, get user input etc.

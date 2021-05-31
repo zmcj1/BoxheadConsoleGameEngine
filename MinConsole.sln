@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinConsole", "src\MinConsol
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NativeFunctionTranslator", "tools\NativeFunctionTranslator\NativeFunctionTranslator.csproj", "{FF5A99A6-F4A0-4369-BF09-D21CAFDBBBB2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinConsoleRenderer", "src\MinConsoleRenderer\MinConsoleRenderer.vcxproj", "{64436B46-B998-4018-ABA5-ACE61845D560}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinConsoleNativeExample", "src\MinConsoleNativeExample\MinConsoleNativeExample.vcxproj", "{2B206C70-CB2A-4196-B0A5-3FE4ABF6E4A2}"
 EndProject
 Global
@@ -57,16 +55,6 @@ Global
 		{FF5A99A6-F4A0-4369-BF09-D21CAFDBBBB2}.Release|x64.Build.0 = Release|Any CPU
 		{FF5A99A6-F4A0-4369-BF09-D21CAFDBBBB2}.Release|x86.ActiveCfg = Release|Any CPU
 		{FF5A99A6-F4A0-4369-BF09-D21CAFDBBBB2}.Release|x86.Build.0 = Release|Any CPU
-		{64436B46-B998-4018-ABA5-ACE61845D560}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{64436B46-B998-4018-ABA5-ACE61845D560}.Debug|x64.ActiveCfg = Debug|x64
-		{64436B46-B998-4018-ABA5-ACE61845D560}.Debug|x64.Build.0 = Debug|x64
-		{64436B46-B998-4018-ABA5-ACE61845D560}.Debug|x86.ActiveCfg = Debug|Win32
-		{64436B46-B998-4018-ABA5-ACE61845D560}.Debug|x86.Build.0 = Debug|Win32
-		{64436B46-B998-4018-ABA5-ACE61845D560}.Release|Any CPU.ActiveCfg = Release|Win32
-		{64436B46-B998-4018-ABA5-ACE61845D560}.Release|x64.ActiveCfg = Release|x64
-		{64436B46-B998-4018-ABA5-ACE61845D560}.Release|x64.Build.0 = Release|x64
-		{64436B46-B998-4018-ABA5-ACE61845D560}.Release|x86.ActiveCfg = Release|Win32
-		{64436B46-B998-4018-ABA5-ACE61845D560}.Release|x86.Build.0 = Release|Win32
 		{2B206C70-CB2A-4196-B0A5-3FE4ABF6E4A2}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{2B206C70-CB2A-4196-B0A5-3FE4ABF6E4A2}.Debug|x64.ActiveCfg = Debug|x64
 		{2B206C70-CB2A-4196-B0A5-3FE4ABF6E4A2}.Debug|x64.Build.0 = Debug|x64
