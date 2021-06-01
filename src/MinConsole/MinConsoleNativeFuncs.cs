@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using static MinConsole.MinConsoleNativeStructs;
 using ConsoleColor = MinConsole.MinConsoleNativeStructs.ConsoleColor;
+using ConsoleKeyInfo = MinConsole.MinConsoleNativeStructs.ConsoleKeyInfo;
 
 namespace MinConsole
 {
@@ -178,6 +179,12 @@ namespace MinConsole
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinReadConsoleOneInput(IntPtr consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinKeyAvailable(IntPtr consoleInput);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static ConsoleKeyInfo MinReadKey(IntPtr consoleInput);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinWriteConsole(IntPtr consoleOutput, string buffer);

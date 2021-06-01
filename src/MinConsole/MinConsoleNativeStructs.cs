@@ -225,6 +225,13 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct ConsoleKeyInfo
+        {
+            public char KeyChar;
+            public ushort VirtualKey;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct MinTimer
         {
             public long start;

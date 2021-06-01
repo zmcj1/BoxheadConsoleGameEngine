@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.7.2
+//Version:2.7.3
 
 namespace NativeFunctionTranslator
 {
@@ -180,6 +180,7 @@ namespace NativeFunctionTranslator
             lines.Add("using System.Runtime.InteropServices;");
             lines.Add("using static MinConsole.MinConsoleNativeStructs;");
             lines.Add("using ConsoleColor = MinConsole.MinConsoleNativeStructs.ConsoleColor;");
+            lines.Add("using ConsoleKeyInfo = MinConsole.MinConsoleNativeStructs.ConsoleKeyInfo;");
             lines.Add("");
             lines.Add("namespace MinConsole");
             lines.Add("{");
