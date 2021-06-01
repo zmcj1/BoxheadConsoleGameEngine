@@ -51,6 +51,9 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinDeleteMenu(HWND windowHandle, bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize);
 
+    //This API don't work in Console.
+    EXPORT_FUNC_EX(bool) MinDisableCursor();
+
     class Window
     {
     public:
@@ -108,6 +111,9 @@ namespace MinConsoleNative
         HINSTANCE GetExeInstance();
 
         bool DeleteMenu(bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize);
+
+        //This API don't work in Console.
+        bool DisableCursor();
     };
 
     extern Window& window;

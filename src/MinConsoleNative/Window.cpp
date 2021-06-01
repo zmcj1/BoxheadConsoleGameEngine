@@ -208,6 +208,12 @@ namespace MinConsoleNative
         return true;
     }
 
+    EXPORT_FUNC_EX(bool) MinDisableCursor()
+    {
+        while (::ShowCursor(false) >= 0);
+        return true;
+    }
+
     Window::Window()
     {
         this->windowHandle = ::GetForegroundWindow();
@@ -343,6 +349,11 @@ namespace MinConsoleNative
     bool Window::DeleteMenu(bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize)
     {
         return MinDeleteMenu(this->windowHandle, allowResizing, allowClose, allowMaximize, allowMinimize);
+    }
+
+    bool Window::DisableCursor()
+    {
+        return MinDisableCursor();
     }
 
     Window& window = Window::Global.GetInstance();

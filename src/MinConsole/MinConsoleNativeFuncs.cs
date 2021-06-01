@@ -427,7 +427,10 @@ namespace MinConsole
         public extern static IntPtr MinGetExeInstance();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinDeleteMenu(IntPtr windowHandle, bool lockSize, bool allowClose, bool allowMaximize, bool allowMinimize);
+        public extern static bool MinDeleteMenu(IntPtr windowHandle, bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static bool MinDisableCursor();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetWinVersion(out uint MajorVer, out uint MinorVer, out uint BuildNumber);
