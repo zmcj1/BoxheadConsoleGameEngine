@@ -401,6 +401,20 @@ namespace MinConsoleNative
         }
     };
 
+    //https://referencesource.microsoft.com/#mscorlib/system/consolekeyinfo.cs
+    EXPORT_STRUCT ConsoleKeyInfo
+    {
+    public:
+        EXPORT_STRUCT_MEMBER wchar KeyChar;
+        EXPORT_STRUCT_MEMBER ushort VirtualKey;
+
+        ConsoleKeyInfo(wchar keyChar, ushort virtualKey)
+        {
+            this->KeyChar = keyChar;
+            this->VirtualKey = virtualKey;
+        }
+    };
+
     EXPORT_DELEGATE typedef void (*OnReadConsoleMouseInputRecord)(ConsoleMouseInputRecord mouseInput);
 
     EXPORT_DELEGATE typedef void (*OnReadConsoleKeyboardInputRecord)(ConsoleKeyboardInputRecord keyboardInput);
@@ -481,6 +495,14 @@ namespace MinConsoleNative
     //Call this function in update.
     //IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode
     EXPORT_FUNC_EX(bool) MinReadConsoleOneInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
+
+    //Check if there is keyboard input.
+    //See:https://github.com/microsoft/referencesource/blob/master/mscorlib/system/console.cs
+    EXPORT_FUNC_EX(bool) MinKeyAvailable(HANDLE consoleInput);
+
+    //This function will block the thread.
+    //See:https://github.com/microsoft/referencesource/blob/master/mscorlib/system/console.cs
+    EXPORT_FUNC_EX(ConsoleKeyInfo) MinReadKey(HANDLE consoleInput);
 
     EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, _IN_ const wchar* buffer);
 
@@ -686,7 +708,7 @@ namespace MinConsoleNative
 
         bool KeyAvailable();
 
-        int ReadKey(bool echo = true);
+        ConsoleKeyInfo ReadKey(bool echo = true);
 
         //The return value does not contain \r\n
         std::wstring ReadLine();

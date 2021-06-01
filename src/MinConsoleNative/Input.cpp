@@ -73,7 +73,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(int) MinGetHitKey()
     {
-        if (console.KeyAvailable()) return console.ReadKey(false);
+        if (console.KeyAvailable()) return console.ReadKey(false).VirtualKey;
         else return 0;
     }
 

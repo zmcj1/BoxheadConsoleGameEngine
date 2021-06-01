@@ -4,7 +4,7 @@
 #include "ConRegistry.h"
 #include "Debug.h"
 #include "PaletteSystem.h"
-#include <conio.h> //Windows only
+#include "String.h"
 
 using namespace std;
 
@@ -633,6 +633,91 @@ namespace MinConsoleNative
         return true;
     }
 
+    static bool IsKeyDownEvent(const INPUT_RECORD& record)
+    {
+        return record.EventType == KEY_EVENT && record.Event.KeyEvent.bKeyDown;
+    }
+
+    static bool IsModKey(const INPUT_RECORD& record)
+    {
+        // We should also skip over Shift, Control, and Alt, as well as caps lock.
+        // Apparently we don't need to check for 0xA0 through 0xA5, which are keys like 
+        // Left Control & Right Control. See the ConsoleKey enum for these values.
+        short keyCode = record.Event.KeyEvent.wVirtualKeyCode;
+        return (keyCode >= 0x10 && keyCode <= 0x12)
+            || keyCode == 0x14 || keyCode == 0x90 || keyCode == 0x91;
+    }
+
+    EXPORT_FUNC_EX(bool) MinKeyAvailable(HANDLE consoleInput)
+    {
+        INPUT_RECORD record;
+        DWORD read = 0;
+
+        while (true)
+        {
+            // This function won't block the thread.
+            bool peekSuccess = ::PeekConsoleInput(consoleInput, &record, 1, &read);
+            if (!peekSuccess) return false;
+            if (read == 0) return false;
+            // Skip non key-down && mod key events.
+            if (IsKeyDownEvent(record) && !IsModKey(record))
+            {
+                return true;
+            }
+            else
+            {
+                bool readSuccess = ::ReadConsoleInput(consoleInput, &record, 1, &read);
+                if (!readSuccess) return false;
+            }
+        }
+    }
+
+    EXPORT_FUNC_EX(ConsoleKeyInfo) MinReadKey(HANDLE consoleInput)
+    {
+        INPUT_RECORD record;
+        DWORD read = 0;
+
+        while (true)
+        {
+            // This function will block the thread.
+            bool readSuccess = ::ReadConsoleInput(consoleInput, &record, 1, &read);
+            if (!readSuccess || read == 0) throw "readkey_error";
+
+            wchar uChar = record.Event.KeyEvent.uChar.UnicodeChar;
+            ushort keyCode = record.Event.KeyEvent.wVirtualKeyCode;
+
+            if (!IsKeyDownEvent(record))
+            {
+                if (keyCode != 0x12)
+                {
+                    continue; //alt VK Code
+                }
+            }
+
+            if (uChar == 0)
+            {
+                if (IsModKey(record))
+                {
+                    continue;
+                }
+            }
+
+            //When Alt is down, it is possible that we are in the middle of a Alt+NumPad unicode sequence.
+            //// Escape any intermediate NumPad keys whether NumLock is on or not (notepad behavior)
+            //            ConsoleKey key = (ConsoleKey)keyCode;
+            //            if (IsAltKeyDown(ir) && ((key >= ConsoleKey.NumPad0 && key <= ConsoleKey.NumPad9)
+            //                || (key == ConsoleKey.Clear) || (key == ConsoleKey.Insert)
+            //                || (key >= ConsoleKey.PageUp && key <= ConsoleKey.DownArrow)))
+            //            {
+            //                continue;
+            //            }
+            break;
+        }
+
+        ConsoleKeyInfo info(record.Event.KeyEvent.uChar.UnicodeChar, record.Event.KeyEvent.wVirtualKeyCode);
+        return info;
+    }
+
     EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, const wchar* buffer)
     {
         int len = wcslen(buffer);
@@ -1243,19 +1328,17 @@ namespace MinConsoleNative
 
     bool Console::KeyAvailable()
     {
-        return ::_kbhit();
+        return MinKeyAvailable(cons.consoleInput);
     }
 
-    int Console::ReadKey(bool echo)
+    ConsoleKeyInfo Console::ReadKey(bool echo)
     {
+        ConsoleKeyInfo keyInfo = MinReadKey(cons.consoleInput);
         if (echo)
         {
-            return ::_getche();
+            console.Write(String::WcharToWstring(keyInfo.KeyChar));
         }
-        else
-        {
-            return ::_getch();
-        }
+        return keyInfo;
     }
 
     std::wstring Console::ReadLine()
