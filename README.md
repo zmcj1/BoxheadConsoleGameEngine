@@ -80,7 +80,7 @@ By chance, I used Windows Console as my 2D renderer in a console game(text-based
 
 In These years I have studied Unity, UE4. I master C# and know well C/C++. I always come back to are C/C++, Windows Console.
 
-I spent a lot of time researching Windows Console, Win32API, C/C++, C#, 3D Math. I have checked a lot of ConsoleGameEngine repos in github.com. I have also tried to write them myself, but after many times, I'm still not satisfied, I always want to do more!
+I spent a lot of time researching Windows Console, Win32API, C/C++, C#, 3D Math. I have checked a lot of ConsoleGameEngine repos in github. I have also tried to write them myself, but after many times, I'm still not satisfied, I always want to do more!
 
 During this research I find the Windows console has great potential beyond your imagination!
 
@@ -94,7 +94,11 @@ No hate, only fast code and bugs.
 
 [WinReg](https://github.com/GiovanniDicanio/WinReg)(MIT License): High-level C++ Wrapper Around the Low-level Windows Registry C-interface API.
 
-## Postscript
+## Links:
+
+[olcConsoleGameEngine](https://github.com/OneLoneCoder/videos/blob/master/olcConsoleGameEngine.h)
+
+## Postscript:
 
 On April 11, 2021, this project is officially open source!
 
