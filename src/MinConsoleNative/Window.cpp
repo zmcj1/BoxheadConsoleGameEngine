@@ -186,6 +186,28 @@ namespace MinConsoleNative
         return ::GetModuleHandle(nullptr);
     }
 
+    EXPORT_FUNC_EX(bool) MinDeleteMenu(HWND windowHandle, bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize)
+    {
+        HMENU menu = ::GetSystemMenu(windowHandle, false);
+        if (!allowResizing)
+        {
+            ::DeleteMenu(menu, SC_SIZE, MF_BYCOMMAND);
+        }
+        if (!allowClose)
+        {
+            ::DeleteMenu(menu, SC_CLOSE, MF_BYCOMMAND);
+        }
+        if (!allowMaximize)
+        {
+            ::DeleteMenu(menu, SC_MAXIMIZE, MF_BYCOMMAND);
+        }
+        if (!allowMinimize)
+        {
+            ::DeleteMenu(menu, SC_MINIMIZE, MF_BYCOMMAND);
+        }
+        return true;
+    }
+
     Window::Window()
     {
         this->windowHandle = ::GetForegroundWindow();
@@ -316,6 +338,11 @@ namespace MinConsoleNative
     HINSTANCE Window::GetExeInstance()
     {
         return MinGetExeInstance();
+    }
+
+    bool Window::DeleteMenu(bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize)
+    {
+        return MinDeleteMenu(this->windowHandle, allowResizing, allowClose, allowMaximize, allowMinimize);
     }
 
     Window& window = Window::Global.GetInstance();

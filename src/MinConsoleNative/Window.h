@@ -49,6 +49,8 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(HINSTANCE) MinGetExeInstance();
 
+    EXPORT_FUNC_EX(bool) MinDeleteMenu(HWND windowHandle, bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize);
+
     class Window
     {
     public:
@@ -104,6 +106,8 @@ namespace MinConsoleNative
         bool IsMinimized();
 
         HINSTANCE GetExeInstance();
+
+        bool DeleteMenu(bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize);
     };
 
     extern Window& window;
