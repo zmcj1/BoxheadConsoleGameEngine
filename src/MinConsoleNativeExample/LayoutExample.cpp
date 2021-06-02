@@ -2,7 +2,6 @@
 
 int main()
 {
-    TextLayout textLayout(console);
     int width = 10;
     std::vector<std::wstring> lines = textLayout.WstringToLines(L"english中文русский", width);
 
