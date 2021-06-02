@@ -37,7 +37,6 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "VTConverter.h"
-#include "WinCon.h"
 #include "Window.h"
 #include "WinVersion.h"
 #ifdef _MSC_VER
