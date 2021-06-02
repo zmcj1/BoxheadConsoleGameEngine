@@ -514,6 +514,36 @@ namespace MinConsoleNative
     //This function is useful for mixed renderer.
     EXPORT_FUNC MinWriteConsoleOutputCharacter(HANDLE consoleOutput, _IN_ const wchar* str, int charCount, COORD pos);
 
+    //Expand output methods:
+    
+    EXPORT_FUNC_EX(bool) MinWrite1(HANDLE consoleOutput, _IN_ const wchar* str);
+
+    EXPORT_FUNC_EX(bool) MinWrite2(HANDLE consoleOutput, _IN_ const wchar* str, ConsoleColor foreColor);
+
+    EXPORT_FUNC_EX(bool) MinWrite3(HANDLE consoleOutput, _IN_ const wchar* str, ConsoleColor foreColor, ConsoleColor backColor);
+
+    EXPORT_FUNC_EX(bool) MinWriteLine(HANDLE consoleOutput);
+
+    EXPORT_FUNC_EX(bool) MinWriteLine1(HANDLE consoleOutput, _IN_ const wchar* str);
+
+    EXPORT_FUNC_EX(bool) MinWriteLine2(HANDLE consoleOutput, _IN_ const wchar* str, ConsoleColor foreColor);
+
+    EXPORT_FUNC_EX(bool) MinWriteLine3(HANDLE consoleOutput, _IN_ const wchar* str, ConsoleColor foreColor, ConsoleColor backColor);
+
+    //ANSI Escape Sequence (Virtual Terminal Sequences)
+
+    EXPORT_FUNC_EX(bool) MinANSIWrite2(_IN_ const wchar* str, Color24 foreColor);
+
+    EXPORT_FUNC_EX(bool) MinANSIWrite3(_IN_ const wchar* str, Color24 foreColor, Color24 backColor);
+
+    EXPORT_FUNC_EX(bool) MinANSIWrite4(_IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score);
+
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine2(_IN_ const wchar* str, Color24 foreColor);
+
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine3(_IN_ const wchar* str, Color24 foreColor, Color24 backColor);
+
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine4(_IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score);
+
     //The created HANDLE can be recycled using the MinCloseConsoleScreenBuffer function
     EXPORT_FUNC MinCreateConsoleScreenBuffer(_OUT_ HANDLE* consoleOutput);
 
@@ -530,6 +560,7 @@ namespace MinConsoleNative
     //IMPORTANT!!!  File I/O function does not support Unicode.
     EXPORT_FUNC MinReadFile(HANDLE handle, _OUT_ char* buffer, DWORD bufferLen);
 
+    //See:https://github.com/microsoft/DbgShell/blob/master/DbgShell/ConsoleControl.cs
     EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, _OUT_ CharWidth* cw);
 
     EXPORT_FUNC MinGetStringWidth(HWND consoleWindow, HANDLE consoleOutput, _IN_ const wchar* str, _OUT_ int* width);

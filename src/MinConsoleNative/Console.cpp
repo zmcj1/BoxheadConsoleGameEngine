@@ -756,6 +756,85 @@ namespace MinConsoleNative
         return ::WriteConsoleOutputCharacter(consoleOutput, str, charCount, pos, &written);
     }
 
+    EXPORT_FUNC_EX(bool) MinWrite1(HANDLE consoleOutput, _IN_ const wchar* str)
+    {
+        return MinWriteConsole(consoleOutput, str);
+    }
+
+    EXPORT_FUNC_EX(bool) MinWrite2(HANDLE consoleOutput, _IN_ const wchar* str, ConsoleColor foreColor)
+    {
+        ConsoleColor fColor;
+        MinGetConsoleForeColor(consoleOutput, &fColor);
+        MinSetConsoleForeColor(consoleOutput, foreColor);
+        bool writeSuc = MinWrite1(consoleOutput, str);
+        MinSetConsoleForeColor(consoleOutput, fColor);
+        return writeSuc;
+    }
+
+    EXPORT_FUNC_EX(bool) MinWrite3(HANDLE consoleOutput, _IN_ const wchar* str, ConsoleColor foreColor, ConsoleColor backColor)
+    {
+        ConsoleColor fColor;
+        ConsoleColor bColor;
+        MinGetConsoleForeColor(consoleOutput, &fColor);
+        MinGetConsoleBackColor(consoleOutput, &bColor);
+        MinSetConsoleForeColor(consoleOutput, foreColor);
+        MinSetConsoleBackColor(consoleOutput, backColor);
+        bool writeSuc = MinWrite1(consoleOutput, str);
+        MinSetConsoleForeColor(consoleOutput, fColor);
+        MinSetConsoleBackColor(consoleOutput, bColor);
+        return writeSuc;
+    }
+
+    EXPORT_FUNC_EX(bool) MinWriteLine(HANDLE consoleOutput)
+    {
+        return MinWrite1(consoleOutput, L"\n");
+    }
+
+    EXPORT_FUNC_EX(bool) MinWriteLine1(HANDLE consoleOutput, _IN_ const wchar* str)
+    {
+        return MinWrite1(consoleOutput, (wstring(str) + L"\n").c_str());
+    }
+
+    EXPORT_FUNC_EX(bool) MinWriteLine2(HANDLE consoleOutput, _IN_ const wchar* str, ConsoleColor foreColor)
+    {
+        return MinWrite2(consoleOutput, (wstring(str) + L"\n").c_str(), foreColor);
+    }
+
+    EXPORT_FUNC_EX(bool) MinWriteLine3(HANDLE consoleOutput, _IN_ const wchar* str, ConsoleColor foreColor, ConsoleColor backColor)
+    {
+        return MinWrite3(consoleOutput, (wstring(str) + L"\n").c_str(), foreColor, backColor);
+    }
+
+    EXPORT_FUNC_EX(bool) MinANSIWrite2(_IN_ const wchar* str, Color24 foreColor)
+    {
+        return console.Write(str, foreColor);
+    }
+
+    EXPORT_FUNC_EX(bool) MinANSIWrite3(_IN_ const wchar* str, Color24 foreColor, Color24 backColor)
+    {
+        return console.Write(str, foreColor, backColor);
+    }
+
+    EXPORT_FUNC_EX(bool) MinANSIWrite4(_IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score)
+    {
+        return console.Write(str, foreColor, backColor, under_score);
+    }
+
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine2(_IN_ const wchar* str, Color24 foreColor)
+    {
+        return console.WriteLine(str, foreColor);
+    }
+
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine3(_IN_ const wchar* str, Color24 foreColor, Color24 backColor)
+    {
+        return console.WriteLine(str, foreColor, backColor);
+    }
+
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine4(_IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score)
+    {
+        return console.WriteLine(str, foreColor, backColor, under_score);
+    }
+
     EXPORT_FUNC MinCreateConsoleScreenBuffer(HANDLE* consoleOutput)
     {
         *consoleOutput = ::CreateConsoleScreenBuffer(GENERIC_WRITE | GENERIC_READ,
