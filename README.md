@@ -98,6 +98,10 @@ No hate, only fast code and bugs.
 
 [olcConsoleGameEngine](https://github.com/OneLoneCoder/videos/blob/master/olcConsoleGameEngine.h)
 
+[gui.cs](https://github.com/migueldeicaza/gui.cs)
+
+[Console Framework](https://github.com/elw00d/consoleframework)
+
 ## Postscript:
 
 On April 11, 2021, this project is officially open source!
