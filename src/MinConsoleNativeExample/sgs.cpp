@@ -8,6 +8,8 @@ int main()
     ConsoleEngine ce;
     ce.ConstructConsole(L"三国杀抽卡", PaletteType::Legacy, 60, 30, FontSize::_10x20);
 
+    lua_test();
+
     wstring configPath = L"../../res/sgs.txt";
     if (!File::Exists(configPath))
     {

@@ -12,6 +12,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ThirdParty\Lua542">
+      <UniqueIdentifier>{30e7341e-7904-4b21-ac8c-06e6560a8d0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MinDefines.h">
@@ -131,6 +134,24 @@
     <ClInclude Include="NativeRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LuaHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\Lua542\include\lauxlib.h">
+      <Filter>ThirdParty\Lua542</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\Lua542\include\lua.h">
+      <Filter>ThirdParty\Lua542</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\Lua542\include\lua.hpp">
+      <Filter>ThirdParty\Lua542</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\Lua542\include\luaconf.h">
+      <Filter>ThirdParty\Lua542</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\Lua542\include\lualib.h">
+      <Filter>ThirdParty\Lua542</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -233,6 +254,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NativeRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
