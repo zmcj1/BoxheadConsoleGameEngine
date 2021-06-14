@@ -102,6 +102,8 @@ No hate, only fast code and bugs.
 
 [Console Framework](https://github.com/elw00d/consoleframework)
 
+[Pastel](https://github.com/silkfire/Pastel)
+
 ## Postscript:
 
 On April 11, 2021, this project is officially open source!
