@@ -28,13 +28,13 @@ If you want to contribute code, welcome submit a [pull request](https://github.c
 
 [MinConsole](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsole) is a C# wrapper, provide cross-platform interface.
 
-[MinConsoleNative](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsoleNative) is a C/C++ kernel, it's the base of this project.
+[MinConsoleNative](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsoleNative) C++ interface of the Console APIs, the kernel of this project.
 
 [MinConsoleNativeExample](https://github.com/OpenGreatDream/MinConsole/tree/main/src/MinConsoleNativeExample) is bunch of examples about how to use MinConsoleNative.
 
 ## Features:
 
-1. CellRenderer/GridRenderer/NativeRenderer!
+1. CellRenderer/GridRenderer/NativeRenderer and GDIRenderer!
 
 1. Navigation and Maze support!
 

@@ -1583,6 +1583,21 @@ namespace MinConsoleNative
         }
     }
 
+    ConsoleColor Color32::ToConsoleColor() const
+    {
+        return Color24(r, g, b).ToConsoleColor();
+    }
+
+    COLORREF Color24::ToColorRef() const
+    {
+        return RGB(r, g, b);
+    }
+
+    COLORREF Color32::ToColorRef() const
+    {
+        return RGB(r, g, b);
+    }
+
     //The short name of the singleton
     Console& console = Console::Global.GetInstance();
 }

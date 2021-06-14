@@ -14,6 +14,7 @@
 #include "Debug.h"
 #include "EventSystem.h"
 #include "File.h"
+#include "GDIRenderer.h"
 #include "GridRenderer.h"
 #include "Input.h"
 #include "LuaHelper.h"

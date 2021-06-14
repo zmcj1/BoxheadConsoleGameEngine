@@ -155,6 +155,61 @@ namespace MinConsoleNative
         }
 
         ConsoleColor ToConsoleColor() const;
+
+        COLORREF ToColorRef() const;
+    };
+
+    EXPORT_STRUCT Color32
+    {
+    public:
+        EXPORT_STRUCT_MEMBER byte r;
+        EXPORT_STRUCT_MEMBER byte g;
+        EXPORT_STRUCT_MEMBER byte b;
+        EXPORT_STRUCT_MEMBER byte a;
+
+        Color32()
+        {
+            this->r = 0;
+            this->g = 0;
+            this->b = 0;
+            this->a = 0;
+        }
+
+        Color32(byte r, byte g, byte b, byte a)
+        {
+            this->r = r;
+            this->g = g;
+            this->b = b;
+            this->a = a;
+        }
+
+        bool operator ==(const Color32& other) const
+        {
+            if (r == other.r && g == other.g && b == other.b && a == other.a)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        bool operator !=(const Color32& other) const
+        {
+            if (r == other.r && g == other.g && b == other.b && a == other.a)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        ConsoleColor ToConsoleColor() const;
+
+        COLORREF ToColorRef() const;
     };
 
     EXPORT_STRUCT ConsoleInputMode
