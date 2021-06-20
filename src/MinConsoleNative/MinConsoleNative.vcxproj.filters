@@ -15,6 +15,9 @@
     <Filter Include="ThirdParty\Lua542">
       <UniqueIdentifier>{30e7341e-7904-4b21-ac8c-06e6560a8d0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{b432c37a-38bd-4c59-8ec8-2cbca1a9b4de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MinDefines.h">
@@ -155,6 +158,9 @@
     <ClInclude Include="GDIRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WinNetwork.h">
+      <Filter>Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -264,6 +270,9 @@
     </ClCompile>
     <ClCompile Include="GDIRenderer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WinNetwork.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -40,6 +40,7 @@
 #include "Vector3.h"
 #include "VTConverter.h"
 #include "Window.h"
+#include "WinNetwork.h"
 #include "WinVersion.h"
 #ifdef _MSC_VER
 #pragma comment(lib, "MinConsoleNative.lib");
