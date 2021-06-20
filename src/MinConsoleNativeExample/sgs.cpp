@@ -5,6 +5,9 @@ using namespace std;
 
 int main()
 {
+    MinInitWinSocket();
+
+
     ConsoleEngine ce;
     ce.ConstructConsole(L"三国杀抽卡", PaletteType::Legacy, 60, 30, FontSize::_10x20);
 
@@ -21,5 +24,7 @@ int main()
     }
 
     console.ReadKey();
+
+    MinReleaseWinSocket();
     return 0;
 }

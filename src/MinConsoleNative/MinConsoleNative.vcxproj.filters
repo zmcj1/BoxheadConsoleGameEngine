@@ -161,6 +161,9 @@
     <ClInclude Include="WinNetwork.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="TcpListener.h">
+      <Filter>Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
@@ -272,6 +275,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WinNetwork.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpListener.cpp">
       <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
