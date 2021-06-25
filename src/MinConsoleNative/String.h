@@ -26,8 +26,16 @@ namespace MinConsoleNative
 
         static std::vector<std::wstring> Split(const std::wstring& wstr, const std::wstring& separator);
 
+        //if strings are eqaul, return true
+        static bool Compare(const std::string& a, const std::string& b);
+
+        //if strings are eqaul, return true
+        static bool Compare(const std::wstring& a, const std::wstring& b);
+
+        //if strings are eqaul, return true
         static bool CompareIgnoreCase(const std::string& a, const std::string& b);
 
+        //if strings are eqaul, return true
         static bool CompareIgnoreCase(const std::wstring& a, const std::wstring& b);
 
         //See:BKDR Hash Function:https://www.byvoid.com/zhs/blog/string-hash-compare
@@ -39,6 +47,10 @@ namespace MinConsoleNative
         static bool ToBool(const std::string& str);
 
         static bool ToBool(const std::wstring& wstr);
+
+        static int ToInt(const std::string& str);
+
+        static int ToInt(const std::wstring& wstr);
 
         //===========XXToString===========
 

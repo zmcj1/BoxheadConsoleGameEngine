@@ -76,6 +76,16 @@ namespace MinConsoleNative
         return strings;
     }
 
+    bool String::Compare(const std::string& a, const std::string& b)
+    {
+        return ::strcmp(a.c_str(), b.c_str()) == 0;
+    }
+
+    bool String::Compare(const std::wstring& a, const std::wstring& b)
+    {
+        return ::wcscmp(a.c_str(), b.c_str()) == 0;
+    }
+
     bool String::CompareIgnoreCase(const std::string& a, const std::string& b)
     {
         return _stricmp(a.c_str(), b.c_str()) == 0;
@@ -122,6 +132,16 @@ namespace MinConsoleNative
             return true;
         else
             return false;
+    }
+
+    int String::ToInt(const std::string& str)
+    {
+        return ::atoi(str.c_str());
+    }
+
+    int String::ToInt(const std::wstring& wstr)
+    {
+        return ::_wtoi(wstr.c_str());
     }
 
     std::string String::BoolToString(bool value)

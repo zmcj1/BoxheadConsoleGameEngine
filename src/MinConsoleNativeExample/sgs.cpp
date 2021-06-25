@@ -61,6 +61,9 @@ RandomWujiangInfo RandomWujiang(const vector<wstring>& wujiangLines)
     }
 
     int randomValue = Random::Range(0, totalWeight - 1);
+    //modify
+    //randomValue = totalWeight - 1 - 17;
+
     int originRandomValue = randomValue;
 
     int randomWujiangIndex = -1;
@@ -104,63 +107,69 @@ int main()
     //ConsoleEngine ce;
     //ce.ConstructConsole(L"三国杀", PaletteType::Legacy, 60, 30, FontSize::_10x20);
 
-    Audio bgmPlayer(bgmPath);
-    bgmPlayer.Play(true, false);
+    //Audio bgmPlayer(bgmPath);
+    //bgmPlayer.Play(true, false);
 
     vector<wstring> wujiangLines = File::ReadAllLines(wujiangWeightPath);
+
+    RandomWujiangInfo rw = RandomWujiang(wujiangLines);
+    int x = 0;
+    while (!String::Compare(rw.wujiang.name, L"赵襄"))
+    {
+        rw = RandomWujiang(wujiangLines);
+        x++;
+    }
 
     console.WriteLine(L"按A连抽50次, 按S连抽10次, 按D单抽");
     while (true)
     {
-        ConsoleKeyInfo key = console.ReadKey();
+        ConsoleKeyInfo key = console.ReadKey(false);
+
         int loopTime = 0;
-        if (key.VirtualKey = L'A')
+        if (key.KeyChar == L'a')
         {
-            loopTime = 50;
+            loopTime = 5000;
         }
-        else if (key.VirtualKey == L'S')
+        else if (key.KeyChar == L's')
         {
             loopTime = 10;
         }
-        else if (key.VirtualKey == L'D')
+        else if (key.KeyChar == L'd')
         {
             loopTime = 1;
-        }
-        else
-        {
-            loopTime = 0;
         }
 
         for (size_t i = 0; i < loopTime; i++)
         {
             RandomWujiangInfo randomWujiangInfo = RandomWujiang(wujiangLines);
+
             //显示史诗
-            if (randomWujiangInfo.wujiang.name == L"赵襄" ||
-                randomWujiangInfo.wujiang.name == L"张星彩" ||
-                randomWujiangInfo.wujiang.name == L"麹义" ||
-                randomWujiangInfo.wujiang.name == L"关索" ||
-                randomWujiangInfo.wujiang.name == L"刘晔" ||
-                randomWujiangInfo.wujiang.name == L"张让" ||
-                randomWujiangInfo.wujiang.name == L"董允" ||
-                randomWujiangInfo.wujiang.name == L"王平" ||
-                randomWujiangInfo.wujiang.name == L"孙皓" ||
-                randomWujiangInfo.wujiang.name == L"士夑" ||
-                randomWujiangInfo.wujiang.name == L"陈琳" ||
-                randomWujiangInfo.wujiang.name == L"戏志才" ||
-                randomWujiangInfo.wujiang.name == L"杨修" ||
-                randomWujiangInfo.wujiang.name == L"左慈" ||
-                randomWujiangInfo.wujiang.name == L"沮授")
+            if (String::Compare(randomWujiangInfo.wujiang.name, L"赵襄") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"张星彩") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"麹义") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"关索") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"刘晔") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"张让") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"董允") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"王平") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"孙皓") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"士夑") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"陈琳") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"戏志才") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"杨修") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"左慈") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"沮授"))
             {
                 console.WriteLine(L"随机号为:" + to_wstring(randomWujiangInfo.randomValue) + L" 恭喜你, 你抽中了史诗武将:" + randomWujiangInfo.wujiang.name + L"!!!", { 235,168,1 });
             }
             //显示高级精品
-            else if (randomWujiangInfo.wujiang.name == L"赵统赵广" ||
-                randomWujiangInfo.wujiang.name == L"界孙权" ||
-                randomWujiangInfo.wujiang.name == L"刘琦" ||
-                randomWujiangInfo.wujiang.name == L"孙资刘放" ||
-                randomWujiangInfo.wujiang.name == L"李通" ||
-                randomWujiangInfo.wujiang.name == L"董白" ||
-                randomWujiangInfo.wujiang.name == L"界颜良文丑")
+            else if (String::Compare(randomWujiangInfo.wujiang.name, L"赵统赵广") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"界孙权") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"刘琦") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"孙资刘放") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"李通") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"董白") ||
+                String::Compare(randomWujiangInfo.wujiang.name, L"界颜良文丑"))
             {
                 console.WriteLine(L"随机号为:" + to_wstring(randomWujiangInfo.randomValue) + L" 恭喜你, 你抽中了精品武将:" + randomWujiangInfo.wujiang.name + L"!", { 208,115,230 });
             }
