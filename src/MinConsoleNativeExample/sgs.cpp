@@ -1,5 +1,6 @@
 ﻿#include "..\MinConsoleNative\MinConsoleNative.h"
 #include <string>
+#include <ctime>
 
 using namespace std;
 
@@ -60,9 +61,12 @@ RandomWujiangInfo RandomWujiang(const vector<wstring>& wujiangLines)
         totalWeight += _wtoi(wujiangLine[2].c_str());
     }
 
-    int randomValue = Random::Range(0, totalWeight - 1);
+    
+    int randomValue = (::rand() % totalWeight) + 1;
+
+    //int randomValue = Random::Range(1, totalWeight);
     //modify
-    //randomValue = totalWeight - 1 - 17;
+    //randomValue = totalWeight;
 
     int originRandomValue = randomValue;
 
@@ -70,7 +74,7 @@ RandomWujiangInfo RandomWujiang(const vector<wstring>& wujiangLines)
     for (size_t i = 0; i < wujiangs.size(); i++)
     {
         int weight = wujiangs[i].weight;
-        if (randomValue > weight - 1)
+        if (randomValue > weight)
         {
             randomValue -= weight;
             continue;
@@ -110,15 +114,17 @@ int main()
     //Audio bgmPlayer(bgmPath);
     //bgmPlayer.Play(true, false);
 
+    ::srand(time(nullptr));
+
     vector<wstring> wujiangLines = File::ReadAllLines(wujiangWeightPath);
 
-    RandomWujiangInfo rw = RandomWujiang(wujiangLines);
-    int x = 0;
-    while (!String::Compare(rw.wujiang.name, L"赵襄"))
-    {
-        rw = RandomWujiang(wujiangLines);
-        x++;
-    }
+    //RandomWujiangInfo rw = RandomWujiang(wujiangLines);
+    //int x = 0;
+    //while (!String::Compare(rw.wujiang.name, L"赵襄"))
+    //{
+    //    rw = RandomWujiang(wujiangLines);
+    //    x++;
+    //}
 
     console.WriteLine(L"按A连抽50次, 按S连抽10次, 按D单抽");
     while (true)
