@@ -1037,8 +1037,7 @@ namespace MinConsoleNative
         }
         else
         {
-            bool legacy = false;
-            MinIsUsingLegacyConsole(&legacy);
+            bool legacy = MinIsUsingLegacyConsole();
             if (legacy)
             {
                 *type = ConsoleType::WindowsLegacyConsole;

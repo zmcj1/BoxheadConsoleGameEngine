@@ -4,7 +4,7 @@
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC MinIsUsingLegacyConsole(bool* yes)
+    EXPORT_FUNC_EX(bool) MinIsUsingLegacyConsole()
     {
         static bool isLegacy10 = false, checked = false;
 
@@ -31,12 +31,10 @@ namespace MinConsoleNative
             checked = true;
         }
 
-        *yes = isLegacy10;
-
-        return true;
+        return isLegacy10;
     }
 
-    EXPORT_FUNC MinUseLegacyConsole(bool yes)
+    EXPORT_FUNC_EX(bool) MinUseLegacyConsole(bool yes)
     {
         HKEY key;
 
@@ -93,6 +91,28 @@ namespace MinConsoleNative
     EXPORT_FUNC_EX(bool) MinDeleteConsoleRegistry()
     {
         return RegDelnode(HKEY_CURRENT_USER, L"Console");
+    }
+
+    EXPORT_FUNC_EX(ConRegConfig) MinGetConRegConfig()
+    {
+        ConRegConfig config = { 0 };
+        config.ForceV2 = !MinIsUsingLegacyConsole();
+
+        DWORD allowAltF4Close = 0, virtualTerminalLevel = 0;
+        MinGetConsoleRegistryDWORD(L"AllowAltF4Close", &allowAltF4Close);
+        MinGetConsoleRegistryDWORD(L"VirtualTerminalLevel", &virtualTerminalLevel);
+
+        config.AllowAltF4Close = allowAltF4Close;
+        config.VirtualTerminalLevel = virtualTerminalLevel;
+        return config;
+    }
+
+    EXPORT_FUNC_EX(bool) MinSetConRegConfig(ConRegConfig config)
+    {
+        MinUseLegacyConsole(!config.ForceV2);
+        MinSetConsoleRegistryDWORD(L"AllowAltF4Close", config.AllowAltF4Close);
+        MinSetConsoleRegistryDWORD(L"VirtualTerminalLevel", config.VirtualTerminalLevel);
+        return true;
     }
 
     //*************************************************************
@@ -218,9 +238,7 @@ namespace MinConsoleNative
 
     bool ConRegistry::IsUsingLegacyConsole()
     {
-        bool yes;
-        MinIsUsingLegacyConsole(&yes);
-        return yes;
+        return MinIsUsingLegacyConsole();
     }
 
     bool ConRegistry::UseLegacyConsole(bool yes)
@@ -231,5 +249,15 @@ namespace MinConsoleNative
     bool ConRegistry::DeleteConsoleRegistry()
     {
         return MinDeleteConsoleRegistry();
+    }
+
+    ConRegConfig ConRegistry::GetConRegConfig()
+    {
+        return MinGetConRegConfig();
+    }
+
+    bool ConRegistry::SetConRegConfig(const ConRegConfig& config)
+    {
+        return MinSetConRegConfig(config);
     }
 }

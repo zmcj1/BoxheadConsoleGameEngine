@@ -62,9 +62,16 @@
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC MinIsUsingLegacyConsole(_OUT_ bool* yes);
+    EXPORT_STRUCT ConRegConfig
+    {
+        bool ForceV2;
+        bool AllowAltF4Close;
+        uint VirtualTerminalLevel;
+    };
 
-    EXPORT_FUNC MinUseLegacyConsole(bool yes);
+    EXPORT_FUNC_EX(bool) MinIsUsingLegacyConsole();
+
+    EXPORT_FUNC_EX(bool) MinUseLegacyConsole(bool yes);
 
     EXPORT_FUNC_EX(bool) MinGetConsoleRegistryDWORD(_IN_ const wchar* valueName, _OUT_ DWORD* data);
 
@@ -73,6 +80,10 @@ namespace MinConsoleNative
     //delete HKEY_CURRENT_USER/Console
     //SEE:https://docs.microsoft.com/en-us/windows/win32/sysinfo/deleting-a-key-with-subkeys
     EXPORT_FUNC_EX(bool) MinDeleteConsoleRegistry();
+
+    EXPORT_FUNC_EX(ConRegConfig) MinGetConRegConfig();
+
+    EXPORT_FUNC_EX(bool) MinSetConRegConfig(ConRegConfig config);
 
     class ConRegistry
     {
@@ -83,5 +94,9 @@ namespace MinConsoleNative
 
         //delete HKEY_CURRENT_USER/Console
         static bool DeleteConsoleRegistry();
+
+        static ConRegConfig GetConRegConfig();
+
+        static bool SetConRegConfig(const ConRegConfig& config);
     };
 }
