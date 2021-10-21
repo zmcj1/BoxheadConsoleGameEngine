@@ -121,7 +121,7 @@ public:
 
     void OnStart() override
     {
-        this->lobbyAudio->SetVolume(MCI_MAX_VOLUME / 5);
+        this->lobbyAudio->SetVolume(MCI_MAX_VOLUME);
         this->lobbyAudio->Play(true, false);
     }
 

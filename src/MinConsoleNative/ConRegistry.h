@@ -70,11 +70,18 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinSetConsoleRegistryDWORD(_IN_ const wchar* valueName, DWORD data);
 
+    //delete HKEY_CURRENT_USER/Console
+    //SEE:https://docs.microsoft.com/en-us/windows/win32/sysinfo/deleting-a-key-with-subkeys
+    EXPORT_FUNC_EX(bool) MinDeleteConsoleRegistry();
+
     class ConRegistry
     {
     public:
         static bool IsUsingLegacyConsole();
 
         static bool UseLegacyConsole(bool yes);
+
+        //delete HKEY_CURRENT_USER/Console
+        static bool DeleteConsoleRegistry();
     };
 }
