@@ -79,8 +79,8 @@ public:
         GenerateEmpty();
 
         //generate player
-        //playerController = new CharacterController({ 1, 1 }, 10);
-        playerController = new CharacterController({ WIDTH - 4, HEIGHT - 4 }, 10);
+        playerController = new CharacterController({ 1, 1 }, 10);
+        //playerController = new CharacterController({ WIDTH - 4, HEIGHT - 4 }, 10);
 
         //test:generate 10 monsters once
         for (size_t i = 0; i < 10; i++)
