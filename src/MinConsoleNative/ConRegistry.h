@@ -66,9 +66,9 @@ namespace MinConsoleNative
 {
     EXPORT_STRUCT ConRegConfig
     {
-        bool ForceV2;
-        bool AllowAltF4Close;
-        uint VirtualTerminalLevel;
+        EXPORT_STRUCT_MEMBER bool ForceV2;
+        EXPORT_STRUCT_MEMBER bool AllowAltF4Close;
+        EXPORT_STRUCT_MEMBER uint VirtualTerminalLevel;
     };
 
     EXPORT_FUNC_EX(bool) MinIsUsingLegacyConsole();

@@ -142,6 +142,14 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct ConRegConfig
+        {
+            public bool ForceV2;
+            public bool AllowAltF4Close;
+            public uint VirtualTerminalLevel;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct Color24
         {
             public byte r;
