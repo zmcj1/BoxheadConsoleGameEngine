@@ -10,12 +10,18 @@ namespace MinConsoleNative
     class Database
     {
     public:
+        std::wstring fileName;
+        std::wstring folderPath;
+
+    private:
         std::wstring savePath;
 
     public:
-        Database();
+        Database(const std::wstring& fileName);
 
-        Database(const std::wstring& savePath);
+        Database(const std::wstring& fileName, const std::wstring& folderPath);
+
+        const std::wstring& GetSavePath();
 
         int GetInt(const std::wstring& key, int defaultVal);
 

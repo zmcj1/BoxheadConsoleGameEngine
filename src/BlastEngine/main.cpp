@@ -93,7 +93,7 @@ int main()
     wstring luaScriptsFolder = File::Combine(dirPath, L"scripts");
 
     //get config
-    Database data;
+    Database data(L"config.txt");
     wstring luaFileName = data.GetString(L"LuaFileName", L"null");
     if (luaFileName == L"null")
     {
@@ -120,7 +120,7 @@ int main()
     lua_register(L, "getkey", getkey);
     lua_register(L, "sleep", sleep);
 
-    //do luaFile: 0-correct, 1-error
+    //do luaFile: 0=correct, 1=error
     bool _exe_suc = !luaL_dofile(L, String::WstringToString(luaFilePath).c_str());
 
     if (_exe_suc)

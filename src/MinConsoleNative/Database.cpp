@@ -7,26 +7,36 @@ namespace MinConsoleNative
 {
     const std::wstring DNULL = L"null";
 
-    Database::Database()
+    void CreatSaveFile(const std::wstring& filePath)
     {
-        this->savePath = File::Combine(File::GetDirectoryPath(), _T("database.txt"));
-        //if not exsists, create it.
-        FileMode status = File::Status(this->savePath);
+        //if file not exsists, create it.
+        FileMode status = File::Status(filePath);
         if (status != FileMode::File)
         {
-            File::Creat(this->savePath, FileMode::File);
+            File::Creat(filePath, FileMode::File);
         }
     }
 
-    Database::Database(const std::wstring& savePath)
+    Database::Database(const std::wstring& fileName)
     {
-        this->savePath = savePath;
-        //if not exsists, create it.
-        FileMode status = File::Status(this->savePath);
-        if (status != FileMode::File)
+        this->savePath = File::Combine(File::GetDirectoryPath(), fileName);
+        CreatSaveFile(this->savePath);
+    }
+
+    Database::Database(const std::wstring& fileName, const std::wstring& folderPath)
+    {
+        this->savePath = File::Combine(folderPath, fileName);
+        //create folder before creating file.
+        if (File::Status(folderPath) != FileMode::Directory)
         {
-            File::Creat(this->savePath, FileMode::File);
+            File::Creat(folderPath, FileMode::Directory);
         }
+        CreatSaveFile(this->savePath);
+    }
+
+    const std::wstring& Database::GetSavePath()
+    {
+        return this->savePath;
     }
 
     int Database::GetInt(const std::wstring& key, int defaultVal)
