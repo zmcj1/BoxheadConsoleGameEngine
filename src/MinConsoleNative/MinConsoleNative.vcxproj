@@ -147,12 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\third_party\Lua542\include\lauxlib.h" />
-    <ClInclude Include="..\..\third_party\Lua542\include\lua.h" />
-    <ClInclude Include="..\..\third_party\Lua542\include\lua.hpp" />
-    <ClInclude Include="..\..\third_party\Lua542\include\luaconf.h" />
-    <ClInclude Include="..\..\third_party\Lua542\include\lualib.h" />
-    <ClInclude Include="..\..\third_party\WinReg.hpp" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="CellRenderer.h" />
     <ClInclude Include="CharacterController.h" />
@@ -169,7 +163,6 @@
     <ClInclude Include="GDIRenderer.h" />
     <ClInclude Include="GridRenderer.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="LuaHelper.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="MessageBox.h" />
@@ -213,7 +206,6 @@
     <ClCompile Include="GDIRenderer.cpp" />
     <ClCompile Include="GridRenderer.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="LuaHelper.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="MessageBox.cpp" />

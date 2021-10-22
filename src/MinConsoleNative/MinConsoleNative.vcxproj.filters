@@ -5,15 +5,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="ThirdParty">
-      <UniqueIdentifier>{9c484f60-90b4-4f74-90cd-d948dcb986e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="ThirdParty\Lua542">
-      <UniqueIdentifier>{30e7341e-7904-4b21-ac8c-06e6560a8d0e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{b432c37a-38bd-4c59-8ec8-2cbca1a9b4de}</UniqueIdentifier>
@@ -104,9 +98,6 @@
     <ClInclude Include="EventSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\third_party\WinReg.hpp">
-      <Filter>ThirdParty</Filter>
-    </ClInclude>
     <ClInclude Include="ConsoleEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -136,24 +127,6 @@
     </ClInclude>
     <ClInclude Include="NativeRenderer.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\third_party\Lua542\include\lauxlib.h">
-      <Filter>ThirdParty\Lua542</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\third_party\Lua542\include\lua.h">
-      <Filter>ThirdParty\Lua542</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\third_party\Lua542\include\lua.hpp">
-      <Filter>ThirdParty\Lua542</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\third_party\Lua542\include\luaconf.h">
-      <Filter>ThirdParty\Lua542</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\third_party\Lua542\include\lualib.h">
-      <Filter>ThirdParty\Lua542</Filter>
     </ClInclude>
     <ClInclude Include="GDIRenderer.h">
       <Filter>Header Files</Filter>
@@ -266,9 +239,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NativeRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GDIRenderer.cpp">

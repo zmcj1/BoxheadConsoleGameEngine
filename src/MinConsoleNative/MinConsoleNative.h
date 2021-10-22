@@ -17,7 +17,6 @@
 #include "GDIRenderer.h"
 #include "GridRenderer.h"
 #include "Input.h"
-#include "LuaHelper.h"
 #include "Math.h"
 #include "Maze.h"
 #include "MessageBox.h"
