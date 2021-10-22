@@ -64,7 +64,7 @@ EXTERN_C int getkey(lua_State* L)
     bool get = Input::GetKey(param1);
 
     //return to lua as return value
-    lua_pushinteger(L, get);
+    lua_pushboolean(L, get);
 
     return 1; // one return value
 }
@@ -121,9 +121,9 @@ int main()
     lua_register(L, "sleep", sleep);
 
     //do luaFile: 0=correct, 1=error
-    bool _exe_suc = !luaL_dofile(L, String::WstringToString(luaFilePath).c_str());
+    int returnCode = luaL_dofile(L, String::WstringToString(luaFilePath).c_str());
 
-    if (_exe_suc)
+    if (returnCode == LUA_OK)
     {
         console.WriteLine(L"执行成功");
     }

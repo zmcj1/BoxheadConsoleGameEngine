@@ -10,7 +10,7 @@ writeline('你好乐基')
 
 while (true)
 do
-    if (getkey(65) == 1) then
+    if (getkey(65)) then
         writeline(1)
     else
         writeline(0)
