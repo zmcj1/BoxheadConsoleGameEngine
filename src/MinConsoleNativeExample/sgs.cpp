@@ -1,6 +1,6 @@
 ﻿#include "..\MinConsoleNative\MinConsoleNative.h"
 #include <string>
-#include <ctime>
+#include "XRandom.h"
 
 using namespace std;
 
@@ -26,58 +26,28 @@ public:
     Wujiang wujiang;
 
 public:
-    RandomWujiangInfo(int randomValue, Wujiang& wujiang) :wujiang(wujiang)
+    RandomWujiangInfo(int randomValue, Wujiang& wujiang) : wujiang(wujiang)
     {
         this->randomValue = randomValue;
     }
 };
 
-RandomWujiangInfo RandomWujiang(const vector<wstring>& wujiangLines)
+RandomWujiangInfo RandomWujiang(vector<Wujiang>& wujiangs, int totalWeight)
 {
-    vector<Wujiang> wujiangs;
-    int totalWeight = 0;
-
-    //Pharse
-    for (int i = 0; i < wujiangLines.size(); i++)
-    {
-        //trim
-        wstring item = String::TrimAll(wujiangLines[i]);
-        //ignore //
-        if (item.find(L"//") != wstring::npos)
-        {
-            continue;
-        }
-        //ignore empty line
-        if (item == L"")
-        {
-            continue;
-        }
-        //split
-        vector<wstring> wujiangLine = String::Split(item, L",");
-        //add
-        wujiangs.push_back(Wujiang(wujiangLine[0],
-            _wtoi(wujiangLine[1].c_str()), _wtoi(wujiangLine[2].c_str())));
-        //+=weight
-        totalWeight += _wtoi(wujiangLine[2].c_str());
-    }
-
-    
-    int randomValue = (::rand() % totalWeight) + 1;
-
-    //int randomValue = Random::Range(1, totalWeight);
-    //modify
-    //randomValue = totalWeight;
+    int randomValue = 0;
+    randomValue = effolkronium::random_static::get(1, totalWeight);
+    //randomValue = Random::Range(1, totalWeight);
+    //randomValue = 46215;
 
     int originRandomValue = randomValue;
-
     int randomWujiangIndex = -1;
+
     for (size_t i = 0; i < wujiangs.size(); i++)
     {
         int weight = wujiangs[i].weight;
         if (randomValue > weight)
         {
             randomValue -= weight;
-            continue;
         }
         else
         {
@@ -108,25 +78,45 @@ int main()
         throw "Can't find sgs_bgm.mp3!";
     }
 
-    //ConsoleEngine ce;
-    //ce.ConstructConsole(L"三国杀", PaletteType::Legacy, 60, 30, FontSize::_10x20);
+    Audio bgmPlayer(bgmPath);
+    bgmPlayer.Play(true, false);
 
-    //Audio bgmPlayer(bgmPath);
-    //bgmPlayer.Play(true, false);
+    console.SetTitle(L"三国杀");
+    console.WriteLine(L"按A连抽50次, 按S连抽10次, 按D单抽");
 
-    ::srand(time(nullptr));
+    //data
+    vector<Wujiang> wujiangs;
+    int totalWeight = 0;
 
+    //read
     vector<wstring> wujiangLines = File::ReadAllLines(wujiangWeightPath);
 
-    //RandomWujiangInfo rw = RandomWujiang(wujiangLines);
-    //int x = 0;
-    //while (!String::Compare(rw.wujiang.name, L"赵襄"))
-    //{
-    //    rw = RandomWujiang(wujiangLines);
-    //    x++;
-    //}
+    //Pharse
+    for (int i = 0; i < wujiangLines.size(); i++)
+    {
+        //trim
+        wstring item = String::TrimAll(wujiangLines[i]);
+        //ignore //
+        if (item.find(L"//") != wstring::npos)
+        {
+            continue;
+        }
+        //ignore empty line
+        if (item == L"")
+        {
+            continue;
+        }
+        //split
+        vector<wstring> wujiangLine = String::Split(item, L",");
+        //add
+        wujiangs.push_back(Wujiang(wujiangLine[0],
+            _wtoi(wujiangLine[1].c_str()), _wtoi(wujiangLine[2].c_str())));
+        //+=weight
+        totalWeight += _wtoi(wujiangLine[2].c_str());
+    }
 
-    console.WriteLine(L"按A连抽50次, 按S连抽10次, 按D单抽");
+    int moneySpent = 0;
+
     while (true)
     {
         ConsoleKeyInfo key = console.ReadKey(false);
@@ -134,7 +124,7 @@ int main()
         int loopTime = 0;
         if (key.KeyChar == L'a')
         {
-            loopTime = 5000;
+            loopTime = 50;
         }
         else if (key.KeyChar == L's')
         {
@@ -147,7 +137,8 @@ int main()
 
         for (size_t i = 0; i < loopTime; i++)
         {
-            RandomWujiangInfo randomWujiangInfo = RandomWujiang(wujiangLines);
+            RandomWujiangInfo randomWujiangInfo = RandomWujiang(wujiangs, totalWeight);
+            moneySpent += 10;
 
             //显示史诗
             if (String::Compare(randomWujiangInfo.wujiang.name, L"赵襄") ||
@@ -166,7 +157,7 @@ int main()
                 String::Compare(randomWujiangInfo.wujiang.name, L"左慈") ||
                 String::Compare(randomWujiangInfo.wujiang.name, L"沮授"))
             {
-                console.WriteLine(L"随机号为:" + to_wstring(randomWujiangInfo.randomValue) + L" 恭喜你, 你抽中了史诗武将:" + randomWujiangInfo.wujiang.name + L"!!!", { 235,168,1 });
+                console.WriteLine(L"随机号为:" + to_wstring(randomWujiangInfo.randomValue) + L" 恭喜你, 你抽中了史诗武将:" + randomWujiangInfo.wujiang.name + L"!!!" + L" 您当前已经花费" + to_wstring(moneySpent) + L"元", { 235,168,1 });
             }
             //显示高级精品
             else if (String::Compare(randomWujiangInfo.wujiang.name, L"赵统赵广") ||
@@ -177,11 +168,11 @@ int main()
                 String::Compare(randomWujiangInfo.wujiang.name, L"董白") ||
                 String::Compare(randomWujiangInfo.wujiang.name, L"界颜良文丑"))
             {
-                console.WriteLine(L"随机号为:" + to_wstring(randomWujiangInfo.randomValue) + L" 恭喜你, 你抽中了精品武将:" + randomWujiangInfo.wujiang.name + L"!", { 208,115,230 });
+                console.WriteLine(L"随机号为:" + to_wstring(randomWujiangInfo.randomValue) + L" 恭喜你, 你抽中了精品武将:" + randomWujiangInfo.wujiang.name + L"!" + L" 您当前已经花费" + to_wstring(moneySpent) + L"元", { 208,115,230 });
             }
             else
             {
-                console.WriteLine(L"随机号为:" + to_wstring(randomWujiangInfo.randomValue) + L" 恭喜你, 你抽中了:" + randomWujiangInfo.wujiang.name);
+                console.WriteLine(L"随机号为:" + to_wstring(randomWujiangInfo.randomValue) + L" 恭喜你, 你抽中了普通武将:" + randomWujiangInfo.wujiang.name + L" 您当前已经花费" + to_wstring(moneySpent) + L"元", { 192,192,192 });
             }
         }
     }

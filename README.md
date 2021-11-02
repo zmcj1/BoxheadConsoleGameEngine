@@ -1,12 +1,12 @@
-# MinConsole
+# Console
 
 [中文](https://github.com/OpenGreatDream/MinConsole/blob/main/docs/README.md)
 
-free, portable and powerful Windows Console/Terminal low-level library. - Written by Min
+free, portable and powerful Windows Console/Terminal low-level library.
 
 ## What is this?
 
-This is a low-level Console Lib for Windows10 Console, you can use it to draw in the console, get user input etc.
+This is a low-level Console Lib for Windows Console, you can use it to draw in the console, get user input etc.
 
 The purpose is to develop upper-level softwares such as text editors, 3D renderer, music player, etc with this library :).
 
