@@ -3,6 +3,7 @@
 //See:https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-160
 
 //Macro:CUI/GUI
+//Macro:STANDALONE
 
 #ifdef _MSC_VER
 
@@ -40,6 +41,10 @@
 #pragma comment(linker, "/SUBSYSTEM:CONSOLE")
 #elif defined(GUI)  //(Graphical User Interface)
 #pragma comment(linker, "/SUBSYSTEM:WINDOWS")
+#endif
+
+#if !defined(STANDALONE) && !defined(X64)
+//TODO
 #endif
 
 #endif
