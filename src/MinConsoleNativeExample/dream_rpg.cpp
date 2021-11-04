@@ -502,12 +502,12 @@ public:
     {
         console.WriteLine(L"欢迎来到造梦联盟\n");
 
-        ItemBase blade;
-        blade.Name = L"饮血剑";
-        blade.AttackDamage = 80;
-        blade.LifeSteal = 20;
-        blade.CriticalStrikeChance = 20;
-        wstring info = blade.GetInfo();
+        ItemBase bloodBlade;
+        bloodBlade.Name = L"饮血剑";
+        bloodBlade.AttackDamage = 80;
+        bloodBlade.LifeSteal = 20;
+        bloodBlade.CriticalStrikeChance = 20;
+        wstring info = bloodBlade.GetInfo();
         console.WriteLine(info);
 
         ItemBase monkeyBang;
@@ -527,6 +527,14 @@ public:
         battleArmor.Describe = L"攻无不克, 战无不胜";
         console.WriteLine(battleArmor.GetInfo());
 
+        ItemBase demonArmor;
+        demonArmor.Name = L"血海魔甲";
+        demonArmor.AttackDamage = 25;
+        demonArmor.Armor = 30;
+        demonArmor.MagicResist = 30;
+        demonArmor.ArmorPenetrationValue = 15;
+        console.WriteLine(demonArmor.GetInfo());
+
         ItemBase evilRing;
         evilRing.Name = L"嗔恨邪戒";
         evilRing.AttackDamage = 40;
@@ -540,12 +548,22 @@ public:
         gourd.Name = L"宣花葫芦";
         gourd.Health = 300;
         gourd.Mana = 300;
+        gourd.AbilityPower = 50;
         gourd.Armor = 25;
         gourd.MagicResist = 25;
         gourd.Passive = L"攻击力+10%";
         gourd.Describe = L"街喧闹, 人过往, 且记曾相识, 不为少年留";
         console.WriteLine(gourd.GetInfo());
 
+        ItemBase ruinedStaff;
+        ruinedStaff.Name = L"灭世灵杖";
+        ruinedStaff.AbilityPower = 100;
+        ruinedStaff.Mana = 600;
+        ruinedStaff.ManaRegen = 10;
+        ruinedStaff.MagicPenetrationRate = 40;
+        console.WriteLine(ruinedStaff.GetInfo());
+
+        //-----------------人物------------------
         console.WriteLine();
 
         CharacterBase monkey(L"悟空");
@@ -559,12 +577,13 @@ public:
         monkey.MagicResist = 25;
         monkey.AttackSpeed = 0.45;
 
-        monkey.AddItem(monkeyBang);
-        monkey.AddItem(monkeyBang);
+        monkey.AddItem(bloodBlade);
         monkey.AddItem(monkeyBang);
         monkey.AddItem(battleArmor);
-        monkey.AddItem(battleArmor);
-        monkey.AddItem(battleArmor);
+        monkey.AddItem(demonArmor);
+        monkey.AddItem(evilRing);
+        monkey.AddItem(gourd);
+        monkey.AddItem(ruinedStaff);
 
         console.WriteLine(monkey.Name + L"当前的装备为:");
         for (const auto& item : monkey.Items)
