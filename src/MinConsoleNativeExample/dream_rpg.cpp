@@ -8,14 +8,14 @@ using namespace std;
 using _Random = effolkronium::random_static;
 
 //precision = 0
-wstring Float2Wstring(float value)
+wstring Float2Wstring(float value, int precision = 1)
 {
     std::wstringstream stream;
-    //如果小数部分超过0.01, 则显示1位小数
+    //如果小数部分超过0.01, 则显示小数位
     float diff = value - (int)value;
     if (diff > 0.01f)
     {
-        stream << std::fixed << std::setprecision(1) << value;
+        stream << std::fixed << std::setprecision(precision) << value;
     }
     else
     {
@@ -87,7 +87,7 @@ public:
         this->AttackSpeed = 0;
         this->AbilityHaste = 0;
         this->CriticalStrikeChance = 0;
-        this->CriticalStrikeDamage = 0;
+        this->CriticalStrikeDamage = 200;
         this->ArmorPenetrationValue = 0;
         this->MagicPenetrationValue = 0;
         this->ArmorPenetrationRate = 0;
@@ -371,12 +371,12 @@ float CharacterBase::GetMagicResist()
 
 float CharacterBase::GetAttackSpeed()
 {
-    float sum = this->AttackSpeed;
+    float attackSpeedAddition = 0.0f;
     for (const auto& item : Items)
     {
-        sum += item->AttackSpeed;
+        attackSpeedAddition += item->AttackSpeed;
     }
-    return sum;
+    return this->AttackSpeed * (1 + attackSpeedAddition / 100);
 }
 
 float CharacterBase::GetAbilityHaste()
@@ -500,11 +500,11 @@ class DreamRPG : public ConsoleEngine
 public:
     void OnStart() override
     {
-        console.WriteLine(L"欢迎来到造梦联盟");
+        console.WriteLine(L"欢迎来到造梦联盟\n");
 
         ItemBase blade;
         blade.Name = L"饮血剑";
-        blade.AttackDamage = 80.5f;
+        blade.AttackDamage = 80;
         blade.LifeSteal = 20;
         blade.CriticalStrikeChance = 20;
         wstring info = blade.GetInfo();
@@ -515,7 +515,7 @@ public:
         monkeyBang.AttackDamage = 125;
         monkeyBang.AttackSpeed = 20;
         monkeyBang.CriticalStrikeChance = 30;
-        monkeyBang.Passive = L"暴击伤害+100%";
+        monkeyBang.CriticalStrikeDamage = 100;
         monkeyBang.Describe = L"如意金箍棒, 重一万三千五百斤, 长叩三下, 鬼神俱至";
         wstring info2 = monkeyBang.GetInfo();
         console.WriteLine(info2);
@@ -549,22 +549,61 @@ public:
         console.WriteLine();
 
         CharacterBase monkey(L"悟空");
-        monkey.Health = 60;
+        monkey.Health = 600;
+        monkey.Mana = 320;
+        monkey.HealthRegen = 6;
+        monkey.ManaRegen = 1;
+        monkey.AttackDamage = 55;
+        monkey.Armor = 31;
+        monkey.AbilityPower = 30;
+        monkey.MagicResist = 25;
+        monkey.AttackSpeed = 0.45;
+
+        monkey.AddItem(monkeyBang);
+        monkey.AddItem(monkeyBang);
         monkey.AddItem(monkeyBang);
         monkey.AddItem(battleArmor);
         monkey.AddItem(battleArmor);
-        console.WriteLine(monkey.Name + L"的生命值为:" + Float2Wstring(monkey.GetHealth()));
-        console.WriteLine(monkey.Name + L"的攻击力为:" + Float2Wstring(monkey.GetAttackDamage()));
+        monkey.AddItem(battleArmor);
+
+        console.WriteLine(monkey.Name + L"当前的装备为:");
+        for (const auto& item : monkey.Items)
+        {
+            console.WriteLine(item->Name);
+        }
+
+        console.WriteLine();
+
+        console.WriteLine(monkey.Name + L"的生命值:" + Float2Wstring(monkey.GetHealth()));
+        console.WriteLine(monkey.Name + L"的魔法值:" + Float2Wstring(monkey.GetMana()));
+        console.WriteLine(monkey.Name + L"的生命回复:" + Float2Wstring(monkey.GetHealthRegen()));
+        console.WriteLine(monkey.Name + L"的魔法回复:" + Float2Wstring(monkey.GetManaRegen()));
+        console.WriteLine(monkey.Name + L"的攻击力:" + Float2Wstring(monkey.GetAttackDamage()));
+        console.WriteLine(monkey.Name + L"的护甲:" + Float2Wstring(monkey.GetArmor()));
+        console.WriteLine(monkey.Name + L"的法强:" + Float2Wstring(monkey.GetAbilityPower()));
+        console.WriteLine(monkey.Name + L"的魔抗:" + Float2Wstring(monkey.GetMagicResist()));
+        console.WriteLine(monkey.Name + L"的攻击速度:" + Float2Wstring(monkey.GetAttackSpeed(), 3));
+        console.WriteLine(monkey.Name + L"的技能急速:" + Float2Wstring(monkey.GetAbilityHaste()));
+        console.WriteLine(monkey.Name + L"的暴击率:" + Float2Wstring(monkey.GetCriticalStrikeChance()) + L"%");
+        console.WriteLine(monkey.Name + L"的暴击伤害:" + Float2Wstring(monkey.GetCriticalStrikeDamage()) + L"%");
+        console.WriteLine(monkey.Name + L"护甲值穿透:" + Float2Wstring(monkey.GetArmorPenetrationValue()));
+        console.WriteLine(monkey.Name + L"法术值穿透:" + Float2Wstring(monkey.GetMagicPenetrationValue()));
+        console.WriteLine(monkey.Name + L"的护甲穿透:" + Float2Wstring(monkey.GetArmorPenetrationRate()) + L"%");
+        console.WriteLine(monkey.Name + L"的法术穿透:" + Float2Wstring(monkey.GetMagicPenetrationRate()) + L"%");
+        console.WriteLine(monkey.Name + L"的生命偷取:" + Float2Wstring(monkey.GetLifeSteal()) + L"%");
+        console.WriteLine(monkey.Name + L"的全能吸血:" + Float2Wstring(monkey.GetOmniVamp()) + L"%");
     }
 
     void OnUpdate(float deltaTime) override
     {
-
+        if (Input::GetKey(VK_ESCAPE))
+        {
+            StopLoop();
+        }
     }
 
     void OnDestroy() override
     {
-
     }
 };
 
