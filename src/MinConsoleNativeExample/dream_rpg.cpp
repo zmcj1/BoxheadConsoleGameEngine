@@ -1,4 +1,5 @@
 ﻿#include "..\MinConsoleNative\MinConsoleNative.h"
+#include <vector>  //vector
 #include <iomanip> //setprecision
 #include <sstream> //stringstream
 using namespace std;
@@ -10,7 +11,6 @@ using _Random = effolkronium::random_static;
 wstring Float2Wstring(float value)
 {
     std::wstringstream stream;
-
     //如果小数部分超过0.01, 则显示1位小数
     float diff = value - (int)value;
     if (diff > 0.01f)
@@ -21,15 +21,33 @@ wstring Float2Wstring(float value)
     {
         stream << std::fixed << std::setprecision(0) << value;
     }
-
     return stream.str();
 }
+
+//伤害类型
+enum class DamageType
+{
+    AD = 1,
+    AP = 2,
+    True = 3,
+};
+
+//攻击类型
+enum class AttackType
+{
+    Attack = 1,     //普通攻击
+    Ability = 2,    //技能
+};
+
+class ItemBase;
 
 class CharacterBase
 {
 public:
     wstring Name;                   //角色名字
+    vector<ItemBase*> Items;        //装备列表
 
+public:
     float Health;                   //生命
     float Mana;                     //魔法
     float HealthRegen;              //生命回复(每秒)
@@ -54,6 +72,7 @@ public:
     float LifeSteal;                //生命偷取(普通攻击吸血)
     float OmniVamp;                 //全能吸血(造成伤害后即可吸血)
 
+public:
     CharacterBase(wstring name)
     {
         this->Name = name;
@@ -76,6 +95,46 @@ public:
         this->LifeSteal = 0;
         this->OmniVamp = 0;
     }
+
+    void AddItem(ItemBase& item);
+
+    float GetHealth();
+
+    float GetMana();
+
+    float GetHealthRegen();
+
+    float GetManaRegen();
+
+    float GetAttackDamage();
+
+    float GetArmor();
+
+    float GetAbilityPower();
+
+    float GetMagicResist();
+
+    float GetAttackSpeed();
+
+    float GetAbilityHaste();
+
+    float GetCriticalStrikeChance();
+
+    float GetCriticalStrikeDamage();
+
+    float GetArmorPenetrationValue();
+
+    float GetMagicPenetrationValue();
+
+    float GetArmorPenetrationRate();
+
+    float GetMagicPenetrationRate();
+
+    float GetLifeSteal();
+
+    float GetOmniVamp();
+
+    void OnHit(const CharacterBase& other, DamageType damageType, AttackType attackType);
 };
 
 class ItemBase
@@ -225,6 +284,217 @@ public:
     }
 };
 
+void CharacterBase::AddItem(ItemBase& item)
+{
+    this->Items.push_back(&item);
+}
+
+float CharacterBase::GetHealth()
+{
+    float sum = this->Health;
+    for (const auto& item : Items)
+    {
+        sum += item->Health;
+    }
+    return sum;
+}
+
+float CharacterBase::GetMana()
+{
+    float sum = this->Mana;
+    for (const auto& item : Items)
+    {
+        sum += item->Mana;
+    }
+    return sum;
+}
+
+float CharacterBase::GetHealthRegen()
+{
+    float sum = this->HealthRegen;
+    for (const auto& item : Items)
+    {
+        sum += item->HealthRegen;
+    }
+    return sum;
+}
+
+float CharacterBase::GetManaRegen()
+{
+    float sum = this->ManaRegen;
+    for (const auto& item : Items)
+    {
+        sum += item->ManaRegen;
+    }
+    return sum;
+}
+
+float CharacterBase::GetAttackDamage()
+{
+    float sum = this->AttackDamage;
+    for (const auto& item : Items)
+    {
+        sum += item->AttackDamage;
+    }
+    return sum;
+}
+
+float CharacterBase::GetArmor()
+{
+    float sum = this->Armor;
+    for (const auto& item : Items)
+    {
+        sum += item->Armor;
+    }
+    return sum;
+}
+
+float CharacterBase::GetAbilityPower()
+{
+    float sum = this->AbilityPower;
+    for (const auto& item : Items)
+    {
+        sum += item->AbilityPower;
+    }
+    return sum;
+}
+
+float CharacterBase::GetMagicResist()
+{
+    float sum = this->MagicResist;
+    for (const auto& item : Items)
+    {
+        sum += item->MagicResist;
+    }
+    return sum;
+}
+
+float CharacterBase::GetAttackSpeed()
+{
+    float sum = this->AttackSpeed;
+    for (const auto& item : Items)
+    {
+        sum += item->AttackSpeed;
+    }
+    return sum;
+}
+
+float CharacterBase::GetAbilityHaste()
+{
+    float sum = this->AbilityHaste;
+    for (const auto& item : Items)
+    {
+        sum += item->AbilityHaste;
+    }
+    return sum;
+}
+
+float CharacterBase::GetCriticalStrikeChance()
+{
+    float sum = this->CriticalStrikeChance;
+    for (const auto& item : Items)
+    {
+        sum += item->CriticalStrikeChance;
+    }
+    return sum;
+}
+
+float CharacterBase::GetCriticalStrikeDamage()
+{
+    float sum = this->CriticalStrikeDamage;
+    for (const auto& item : Items)
+    {
+        sum += item->CriticalStrikeDamage;
+    }
+    return sum;
+}
+
+float CharacterBase::GetArmorPenetrationValue()
+{
+    float sum = this->ArmorPenetrationValue;
+    for (const auto& item : Items)
+    {
+        sum += item->ArmorPenetrationValue;
+    }
+    return sum;
+}
+
+float CharacterBase::GetMagicPenetrationValue()
+{
+    float sum = this->MagicPenetrationValue;
+    for (const auto& item : Items)
+    {
+        sum += item->MagicPenetrationValue;
+    }
+    return sum;
+}
+
+float CharacterBase::GetArmorPenetrationRate()
+{
+    float sum = this->ArmorPenetrationRate;
+    for (const auto& item : Items)
+    {
+        sum += item->ArmorPenetrationRate;
+    }
+    return sum;
+}
+
+float CharacterBase::GetMagicPenetrationRate()
+{
+    float sum = this->MagicPenetrationRate;
+    for (const auto& item : Items)
+    {
+        sum += item->MagicPenetrationRate;
+    }
+    return sum;
+}
+
+float CharacterBase::GetLifeSteal()
+{
+    float sum = this->LifeSteal;
+    for (const auto& item : Items)
+    {
+        sum += item->LifeSteal;
+    }
+    return sum;
+}
+
+float CharacterBase::GetOmniVamp()
+{
+    float sum = this->OmniVamp;
+    for (const auto& item : Items)
+    {
+        sum += item->OmniVamp;
+    }
+    return sum;
+}
+
+void CharacterBase::OnHit(const CharacterBase& other, DamageType damageType, AttackType attackType)
+{
+    switch (attackType)
+    {
+    case AttackType::Attack:
+
+        break;
+    case AttackType::Ability:
+
+        break;
+    }
+
+    switch (damageType)
+    {
+    case DamageType::AD:
+        //bool criticalStrike = _Random::get<bool>();
+        //other.CriticalStrikeChance;
+        break;
+    case DamageType::AP:
+        break;
+    case DamageType::True:
+        break;
+    }
+}
+
+
 class DreamRPG : public ConsoleEngine
 {
 public:
@@ -232,12 +502,12 @@ public:
     {
         console.WriteLine(L"欢迎来到造梦联盟");
 
-        ItemBase item;
-        item.Name = L"饮血剑";
-        item.AttackDamage = 80.5f;
-        item.LifeSteal = 20;
-        item.CriticalStrikeChance = 20;
-        wstring info = item.GetInfo();
+        ItemBase blade;
+        blade.Name = L"饮血剑";
+        blade.AttackDamage = 80.5f;
+        blade.LifeSteal = 20;
+        blade.CriticalStrikeChance = 20;
+        wstring info = blade.GetInfo();
         console.WriteLine(info);
 
         ItemBase monkeyBang;
@@ -250,9 +520,41 @@ public:
         wstring info2 = monkeyBang.GetInfo();
         console.WriteLine(info2);
 
-        console.WriteLine(L"大圣战铠 +1000生命值，+50防御力，+10%闪避（攻无不克，战无不胜。）");
-        console.WriteLine(L"嗔恨邪戒 +160攻击力 效果：无视目标50%防御；自己的暴击无视敌方防御。（殿可毁，人可亡，恨犹在，何时还？）");
-        console.WriteLine(L"宣花葫芦 +300生命值，+300魔法，+25防御 效果：+10%攻击力。（街喧闹，人过往，且记曾相识，不为少年留。）");
+        ItemBase battleArmor;
+        battleArmor.Name = L"大圣战铠";
+        battleArmor.Health = 1000;
+        battleArmor.Armor = 50;
+        battleArmor.Describe = L"攻无不克, 战无不胜";
+        console.WriteLine(battleArmor.GetInfo());
+
+        ItemBase evilRing;
+        evilRing.Name = L"嗔恨邪戒";
+        evilRing.AttackDamage = 40;
+        evilRing.AbilityPower = 60;
+        evilRing.ArmorPenetrationRate = 50;
+        evilRing.MagicPenetrationRate = 50;
+        evilRing.Describe = L"殿可毁, 人可亡, 恨犹在, 何时还?";
+        console.WriteLine(evilRing.GetInfo());
+
+        ItemBase gourd;
+        gourd.Name = L"宣花葫芦";
+        gourd.Health = 300;
+        gourd.Mana = 300;
+        gourd.Armor = 25;
+        gourd.MagicResist = 25;
+        gourd.Passive = L"攻击力+10%";
+        gourd.Describe = L"街喧闹, 人过往, 且记曾相识, 不为少年留";
+        console.WriteLine(gourd.GetInfo());
+
+        console.WriteLine();
+
+        CharacterBase monkey(L"悟空");
+        monkey.Health = 60;
+        monkey.AddItem(monkeyBang);
+        monkey.AddItem(battleArmor);
+        monkey.AddItem(battleArmor);
+        console.WriteLine(monkey.Name + L"的生命值为:" + Float2Wstring(monkey.GetHealth()));
+        console.WriteLine(monkey.Name + L"的攻击力为:" + Float2Wstring(monkey.GetAttackDamage()));
     }
 
     void OnUpdate(float deltaTime) override
