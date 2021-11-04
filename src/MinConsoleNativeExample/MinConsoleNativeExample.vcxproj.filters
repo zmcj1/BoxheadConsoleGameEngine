@@ -62,6 +62,9 @@
     <ClCompile Include="corn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dream_rpg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XRandom.h">

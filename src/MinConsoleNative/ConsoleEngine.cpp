@@ -134,6 +134,8 @@ namespace MinConsoleNative
         //Set window position
         POINT centerPos = window.GetCenterPosOfWindowInDesktop();
         window.SetWindowPos(centerPos);
+        //set terminal title
+        console.SetTitle(title);
     }
 
     void ConsoleEngine::StartLoop(int fps, bool disableConsoleCursor)
