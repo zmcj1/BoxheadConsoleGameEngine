@@ -1,18 +1,6 @@
 ﻿#include "..\MinConsoleNative\MinConsoleNative.h"
 using namespace std;
 
-//made a random method
-#include <ctime>
-#include <cstdlib>
-
-//generate predso random value between min(inclusive) and max(excusive)
-int RANDOM(int min, int max)
-{
-    srand(time(nullptr));
-    int rvalue = rand() % (max - min) + min;
-    return rvalue;
-}
-
 constexpr int WIDTH = 60;
 constexpr int HEIGHT = 30;
 
@@ -168,6 +156,15 @@ public:
 
     void DrawScene()
     {
+        if (Input::GetKey('X'))
+        {
+            //清空屏幕
+            console.Clear();
+            //重新绘制游戏
+            renderer->Clear();
+            renderer->Render();
+        }
+
         renderer->Clear();
 
         for (size_t i = 0; i < maze.size(); i++)
@@ -198,7 +195,7 @@ int main()
 
     console.SetConsoleCursorVisible(false);
 
-    corn.ConstructConsole(L"Mr. Kukin(Corn)", PaletteType::Legacy, WIDTH, HEIGHT);
+    corn.Construct(L"Mr. Kukin(Corn)", WIDTH, HEIGHT);
     corn.StartLoop();
 
     return 0;

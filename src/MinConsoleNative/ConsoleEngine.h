@@ -80,6 +80,11 @@ namespace MinConsoleNative
 
         void ConstructTerminal(const std::wstring& title);
 
+        //一般来说, 推荐使用该API进行初始化以保证对Windows Terminal的最大兼容性
+        //*新问题：在Windows11中设置默认控制台为WT会导致ConsoleType获取出现问题（总是为WindowsConsole而不是WT）
+        //暂时解决方法：使用Win键 + R输出wt，然后cd到目标路径再手动输入(目标名).exe完成启动
+        void Construct(const std::wstring& title, int consoleWidth, int consoleHeight);
+
         //If fps is not a positive number, it means that there is no frame rate limit.
         void StartLoop(int fps = 0, bool disableConsoleCursor = true);
 
