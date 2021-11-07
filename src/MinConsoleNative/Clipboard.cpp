@@ -3,7 +3,7 @@ using namespace std;
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC MinReadFromClipboard(wchar** data)
+    EXPORT_FUNC_EX(bool) MinReadFromClipboard(wchar** data)
     {
         bool open_suc = ::OpenClipboard(0);
         if (!open_suc) return false;
@@ -30,7 +30,7 @@ namespace MinConsoleNative
         return true;
     }
 
-    EXPORT_FUNC MinWriteToClipboard(const wchar* data, int charCount)
+    EXPORT_FUNC_EX(bool) MinWriteToClipboard(const wchar* data, int charCount)
     {
         bool open_suc = ::OpenClipboard(0);
         if (!open_suc) return false;
