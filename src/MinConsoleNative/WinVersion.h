@@ -23,6 +23,8 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinIsWindows10(uint MajorVer, uint MinorVer, uint BuildNumber);
 
+    EXPORT_FUNC_EX(bool) MinIsWindows11(uint MajorVer, uint MinorVer, uint BuildNumber);
+
     EXPORT_FUNC MinIsWindows2000OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
     EXPORT_FUNC MinIsWindowsXPOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
@@ -39,6 +41,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinIsWindows10Version1607OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
+    //VT Support
     //(Version:1703) See:https://devblogs.microsoft.com/commandline/windows-10-creators-update-whats-new-in-bashwsl-windows-console/
     EXPORT_FUNC MinIsWindows10CreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
@@ -59,8 +62,13 @@ namespace MinConsoleNative
 
     EXPORT_FUNC MinIsWindows10Version21H1OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version21H2OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+
+    EXPORT_FUNC_EX(bool) MinIsWindows11OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+
     //See:https://docs.microsoft.com/en-us/windows/win32/sysinfo/operating-system-version
-    //Windows10Ver:https://en.wikipedia.org/wiki/Windows_10_version_history#Version_2004_(May_2020_Update)
+    //Windows 10 Version:https://en.wikipedia.org/wiki/Windows_10_version_history
+    //Windows 11 Version:https://en.wikipedia.org/wiki/Windows_11_version_history
     class WinVersion
     {
     public:
@@ -105,6 +113,8 @@ namespace MinConsoleNative
 
         bool IsWindows10();
 
+        bool IsWindows11();
+
         //==========================================
 
         bool IsWindows2000OrLater();
@@ -124,6 +134,7 @@ namespace MinConsoleNative
 
         bool IsWindows10Version1607OrLater();
 
+        //VT Support
         //(Version:1703) See:https://devblogs.microsoft.com/commandline/windows-10-creators-update-whats-new-in-bashwsl-windows-console/
         bool IsWindows10CreatorsOrLater();
 
@@ -143,6 +154,10 @@ namespace MinConsoleNative
         bool IsWindows10Version20H2OrLater();
 
         bool IsWindows10Version21H1OrLater();
+
+        bool IsWindows10Version21H2OrLater();
+
+        bool IsWindows11OrLater();
 
         WinVersion();
     };

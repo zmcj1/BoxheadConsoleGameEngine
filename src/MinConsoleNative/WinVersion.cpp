@@ -66,6 +66,11 @@ namespace MinConsoleNative
         return MajorVer == 10;
     }
 
+    EXPORT_FUNC_EX(bool) MinIsWindows11(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        return (MajorVer == 10 && MinorVer == 0 && BuildNumber >= 22000);
+    }
+
     EXPORT_FUNC MinIsWindows2000OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MajorVer >= 5;
@@ -229,6 +234,28 @@ namespace MinConsoleNative
         else return false;
     }
 
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version21H2OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        if (MajorVer > 10)
+            return true;
+        else if (MajorVer == 10 && MinorVer > 0)
+            return true;
+        else if (MajorVer == 10 && MinorVer == 0 && BuildNumber >= 19044)
+            return true;
+        else return false;
+    }
+
+    EXPORT_FUNC_EX(bool) MinIsWindows11OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    {
+        if (MajorVer > 10)
+            return true;
+        else if (MajorVer == 10 && MinorVer > 0)
+            return true;
+        else if (MajorVer == 10 && MinorVer == 0 && BuildNumber >= 22000)
+            return true;
+        else return false;
+    }
+
     WinVersion::WinVersion()
     {
         majorVer = 0;
@@ -281,6 +308,11 @@ namespace MinConsoleNative
     bool WinVersion::IsWindows10()
     {
         return MajorVer() == 10;
+    }
+
+    bool WinVersion::IsWindows11()
+    {
+        return MinIsWindows11(MajorVer(), MinorVer(), BuildNumber());
     }
 
     bool WinVersion::IsWindows2000OrLater()
@@ -396,6 +428,16 @@ namespace MinConsoleNative
     bool WinVersion::IsWindows10Version21H1OrLater()
     {
         return MinIsWindows10Version21H1OrLater(MajorVer(), MinorVer(), BuildNumber());
+    }
+
+    bool WinVersion::IsWindows10Version21H2OrLater()
+    {
+        return MinIsWindows10Version21H2OrLater(MajorVer(), MinorVer(), BuildNumber());
+    }
+
+    bool WinVersion::IsWindows11OrLater()
+    {
+        return MinIsWindows11OrLater(MajorVer(), MinorVer(), BuildNumber());
     }
 
     WinVersion& winVersion = WinVersion::Global.GetInstance();

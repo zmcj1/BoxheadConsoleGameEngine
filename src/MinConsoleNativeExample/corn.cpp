@@ -198,5 +198,9 @@ int main()
     corn.Construct(L"Mr. Kukin(Corn)", WIDTH, HEIGHT);
     corn.StartLoop();
 
+    //int type = (int)console.GetConsoleType();
+    //console.WriteLine(to_wstring(type));
+    //console.ReadLine();
+
     return 0;
 }
