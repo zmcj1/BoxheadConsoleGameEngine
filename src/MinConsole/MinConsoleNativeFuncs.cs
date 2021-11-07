@@ -403,7 +403,7 @@ namespace MinConsole
         public extern static bool MinVTPaletteColor(string str, int strLen, int index, byte r, byte g, byte b);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTSupport(out bool yes);
+        public extern static bool MinVTSupport();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static void MinVTEnableMouseInput();

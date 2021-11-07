@@ -228,16 +228,15 @@ namespace MinConsoleNative
         }
     }
 
-    EXPORT_FUNC MinVTSupport(bool* yes)
+    EXPORT_FUNC_EX(bool) MinVTSupport()
     {
         //Set _ENABLE_VIRTUAL_TERMINAL_PROCESSING true
-        ConsoleMode cm = Console::Global.GetInstance().GetConsoleMode();
-        cm.outputMode._ENABLE_VIRTUAL_TERMINAL_PROCESSING = true;
-        Console::Global.GetInstance().SetConsoleMode(cm);
+        // We only know if vt100 is supported if the previous call actually set the new flag, older systems ignore the setting.
+        ConsoleOutputMode com = console.GetConsoleOutputMode();
+        com._ENABLE_VIRTUAL_TERMINAL_PROCESSING = true;
+        console.SetConsoleOutputMode(com);
         //Check if _ENABLE_VIRTUAL_TERMINAL_PROCESSING is true
-        cm = Console::Global.GetInstance().GetConsoleMode();
-        *yes = cm.outputMode._ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-        return true;
+        return console.GetConsoleOutputMode()._ENABLE_VIRTUAL_TERMINAL_PROCESSING;
     }
 
     EXPORT_FUNC_EX(void) MinVTEnableMouseInput()
@@ -404,9 +403,7 @@ namespace MinConsoleNative
 
     bool VTConverter::VTSupport()
     {
-        bool yes = false;
-        MinVTSupport(&yes);
-        return yes;
+        return MinVTSupport();
     }
 
     void VTConverter::VTEnableMouseInput()
