@@ -69,7 +69,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(wchar*) MinVTUnderline(bool underLine);
 
-    EXPORT_FUNC_EX(wchar*) MinVTWindowTitle(const wchar* title);
+    EXPORT_FUNC_EX(wchar*) MinVTWindowTitle(_IN_ const wchar* title);
 
     EXPORT_FUNC_EX(wchar*) MinVTCursorPos(COORD pos);
 

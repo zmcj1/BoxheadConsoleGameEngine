@@ -110,7 +110,7 @@ namespace MinConsoleNative
         return str;
     }
 
-    EXPORT_FUNC_EX(wchar*) MinVTWindowTitle(const wchar* title)
+    EXPORT_FUNC_EX(wchar*) MinVTWindowTitle(_IN_ const wchar* title)
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
