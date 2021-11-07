@@ -28,6 +28,12 @@ namespace MinConsole
             Console.Write(test);
 
             test = MinVTGetDeviceAttributes();
+            Console.WriteLine(test);
+
+            MinSetTitle("nihao");
+            Console.WriteLine(MinGetTitle());
+
+            test = MinVTResetStyle();
             Console.Write(test);
 
             Console.ReadLine();

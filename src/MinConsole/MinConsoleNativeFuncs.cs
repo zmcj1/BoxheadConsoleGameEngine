@@ -247,7 +247,7 @@ namespace MinConsole
         public extern static bool MinANSIWriteLine4(string str, Color24 foreColor, Color24 backColor, bool under_score);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static HANDLE MinCreateConsoleScreenBuffer();
+        public extern static IntPtr MinCreateConsoleScreenBuffer();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetConsoleActiveScreenBuffer(IntPtr consoleOutput);
@@ -256,7 +256,7 @@ namespace MinConsole
         public extern static bool MinCloseConsoleScreenBuffer(IntPtr consoleOutput);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static HANDLE MinCreateFile(ConsoleFile fileMode);
+        public extern static IntPtr MinCreateFile(ConsoleFile fileMode);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinWriteFile(IntPtr handle, ref char str);
@@ -271,7 +271,7 @@ namespace MinConsole
         public extern static int MinGetStringWidth(IntPtr consoleWindow, IntPtr consoleOutput, string str);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetTitle(out string titleBuffer, int sizeOfBuffer);
+        public extern static string MinGetTitle();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetTitle(string titleBuffer);

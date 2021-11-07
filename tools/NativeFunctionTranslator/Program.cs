@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.7.4
+//Version:2.7.5
 
 namespace NativeFunctionTranslator
 {
@@ -274,6 +274,10 @@ namespace NativeFunctionTranslator
                     else if (returnType == "wchar*")
                     {
                         returnType = "string";
+                    }
+                    else if (returnType == "HANDLE")
+                    {
+                        returnType = "IntPtr";
                     }
 
                     declaration += EXPORT_FUNC_RETURN_TYPE_EX;

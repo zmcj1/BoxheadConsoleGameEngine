@@ -620,8 +620,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(int) MinGetStringWidth(HWND consoleWindow, HANDLE consoleOutput, _IN_ const wchar* str);
 
-    //sizeof(title) should be MAX_PATH
-    EXPORT_FUNC MinGetTitle(_OUT_ wchar* titleBuffer, int sizeOfBuffer);
+    EXPORT_FUNC_EX(wchar*) MinGetTitle();
 
     EXPORT_FUNC_EX(bool) MinSetTitle(_IN_ const wchar* titleBuffer);
 

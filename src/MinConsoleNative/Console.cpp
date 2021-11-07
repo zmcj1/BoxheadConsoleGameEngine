@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include "PaletteSystem.h"
 #include "String.h"
+#include <combaseapi.h> //CoTaskMemAlloc
 
 using namespace std;
 
@@ -978,9 +979,16 @@ namespace MinConsoleNative
         return width;
     }
 
-    EXPORT_FUNC MinGetTitle(wchar* titleBuffer, int sizeOfBuffer)
+    EXPORT_FUNC_EX(wchar*) MinGetTitle()
     {
-        return ::GetConsoleTitle(titleBuffer, sizeOfBuffer) == 0;
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(MAX_PATH * sizeof(wchar));
+        if (str == nullptr) return nullptr;
+        int strLen = MAX_PATH;
+
+        ::GetConsoleTitle(str, strLen);
+
+        return str;
     }
 
     EXPORT_FUNC_EX(bool) MinSetTitle(const wchar* titleBuffer)
@@ -1313,13 +1321,14 @@ namespace MinConsoleNative
 
     std::wstring Console::GetTitle()
     {
-        wstring str;
+        wstring wstr;
 
-        wchar titleBuffer[MAX_PATH];
-        MinGetTitle(titleBuffer, LEN(titleBuffer));
+        wchar* buf = MinGetTitle();
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
 
-        str = titleBuffer;
-        return str;
+        return wstr;
     }
 
     bool Console::SetTitle(const std::wstring& title)
