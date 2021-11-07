@@ -301,19 +301,19 @@ namespace MinConsole
         public extern static bool MinPutPixel(IntPtr hwnd, int x, int y, Color24 color);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetKey(int virtualKey, out bool yes);
+        public extern static bool MinGetKey(int virtualKey);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetKeyDown(int virtualKey, out bool yes);
+        public extern static bool MinGetKeyDown(int virtualKey);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetKeyUp(int virtualKey, out bool yes);
+        public extern static bool MinGetKeyUp(int virtualKey);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetKeyPressed(int virtualKey, out bool yes);
+        public extern static bool MinGetKeyPressed(int virtualKey);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetKeyState(int virtualKey, out bool yes);
+        public extern static bool MinGetKeyState(int virtualKey);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static int MinGetHitKey();

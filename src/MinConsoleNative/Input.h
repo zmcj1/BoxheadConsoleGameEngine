@@ -16,25 +16,25 @@ namespace MinConsoleNative
         MOUSE_Y = 2,
     };
 
-    EXPORT_FUNC MinGetKey(int virtualKey, _OUT_ bool* yes);
+    EXPORT_FUNC_EX(bool) MinGetKey(int virtualKey);
 
-    EXPORT_FUNC MinGetKeyDown(int virtualKey, _OUT_ bool* yes);
+    EXPORT_FUNC_EX(bool) MinGetKeyDown(int virtualKey);
 
-    EXPORT_FUNC MinGetKeyUp(int virtualKey, _OUT_ bool* yes);
+    EXPORT_FUNC_EX(bool) MinGetKeyUp(int virtualKey);
 
-    EXPORT_FUNC MinGetKeyPressed(int virtualKey, _OUT_ bool* yes);
+    EXPORT_FUNC_EX(bool) MinGetKeyPressed(int virtualKey);
 
-    EXPORT_FUNC MinGetKeyState(int virtualKey, _OUT_ bool* yes);
+    EXPORT_FUNC_EX(bool) MinGetKeyState(int virtualKey);
 
     //return 0 if no buttons are pressed.
     EXPORT_FUNC_EX(int) MinGetHitKey();
 
     //call this function in Update, and before invoke MinGetMouseAxis
-    EXPORT_FUNC MinCheckMouseAxis();
+    EXPORT_FUNC_EX(bool) MinCheckMouseAxis();
 
-    EXPORT_FUNC MinResetMouseAxis();
+    EXPORT_FUNC_EX(bool) MinResetMouseAxis();
 
-    EXPORT_FUNC MinGetMouseAxis(MouseAxis axis, _OUT_ int* diff);
+    EXPORT_FUNC_EX(int) MinGetMouseAxis(MouseAxis axis);
 
     //call this function in Update, and before invoke MinGetKeyDownEx/MinGetKeyUpEx
     EXPORT_FUNC_EX(void) MinCheckKeyboardEx();
