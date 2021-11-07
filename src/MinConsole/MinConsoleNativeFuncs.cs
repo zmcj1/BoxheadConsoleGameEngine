@@ -325,7 +325,7 @@ namespace MinConsole
         public extern static bool MinResetMouseAxis();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetMouseAxis(MouseAxis axis, out int diff);
+        public extern static int MinGetMouseAxis(MouseAxis axis);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static void MinCheckKeyboardEx();
@@ -424,40 +424,40 @@ namespace MinConsole
         public extern static IntPtr MinGetConsoleWindow();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetWindowPos(IntPtr windowHandle, out POINT pos);
+        public extern static POINT MinGetWindowPos(IntPtr windowHandle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetWindowPos(IntPtr windowHandle, POINT pos);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetWindowSize(IntPtr windowHandle, out POINT size);
+        public extern static POINT MinGetWindowSize(IntPtr windowHandle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetWindowSize(IntPtr windowHandle, POINT size);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetDesktopSize(out POINT size);
+        public extern static POINT MinGetDesktopSize();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetClientSize(IntPtr windowHandle, out POINT size);
+        public extern static POINT MinGetClientSize(IntPtr windowHandle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetMousePos(out POINT pos);
+        public extern static POINT MinGetMousePos();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetMappedMousePos(IntPtr windowHandle, out POINT pos);
+        public extern static POINT MinGetMappedMousePos(IntPtr windowHandle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetMouseInClient(IntPtr windowHandle, out bool yes);
+        public extern static bool MinGetMouseInClient(IntPtr windowHandle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetWindowInFocus(IntPtr windowHandle, out bool yes);
+        public extern static bool MinGetWindowInFocus(IntPtr windowHandle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetCenterPosOfWindowInDesktop(IntPtr windowHandle, out POINT pos);
+        public extern static POINT MinGetCenterPosOfWindowInDesktop(IntPtr windowHandle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetCenterPosOfWindow(IntPtr windowHandle, out POINT pos);
+        public extern static POINT MinGetCenterPosOfWindow(IntPtr windowHandle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetWindowMenuVisibility(IntPtr windowHandle, bool visible);
@@ -466,7 +466,7 @@ namespace MinConsole
         public extern static bool MinMaximizeWindow(IntPtr windowHandle, bool maximize);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetWindowAlpha(IntPtr windowHandle, out byte alpha);
+        public extern static byte MinGetWindowAlpha(IntPtr windowHandle);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetWindowAlpha(IntPtr windowHandle, byte alpha);

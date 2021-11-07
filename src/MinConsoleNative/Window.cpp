@@ -12,124 +12,128 @@ namespace MinConsoleNative
         return ::GetConsoleWindow();
     }
 
-    EXPORT_FUNC MinGetWindowPos(HWND windowHandle, POINT* pos)
+    EXPORT_FUNC_EX(POINT) MinGetWindowPos(HWND windowHandle)
     {
         RECT rect;
         ::GetWindowRect(windowHandle, &rect);
-        pos->x = rect.left;
-        pos->y = rect.top;
-        return true;
+        POINT pos;
+        pos.x = rect.left;
+        pos.y = rect.top;
+        return pos;
     }
 
-    EXPORT_FUNC MinSetWindowPos(HWND windowHandle, POINT pos)
+    EXPORT_FUNC_EX(bool) MinSetWindowPos(HWND windowHandle, POINT pos)
     {
         return ::SetWindowPos(windowHandle, HWND_NOTOPMOST, pos.x, pos.y, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
     }
 
-    EXPORT_FUNC MinGetWindowSize(HWND windowHandle, POINT* size)
+    EXPORT_FUNC_EX(POINT) MinGetWindowSize(HWND windowHandle)
     {
         RECT rect;
         ::GetWindowRect(windowHandle, &rect);
-        size->x = rect.right - rect.left;
-        size->y = rect.bottom - rect.top;
-        return true;
+        POINT size;
+        size.x = rect.right - rect.left;
+        size.y = rect.bottom - rect.top;
+        return size;
     }
 
-    EXPORT_FUNC MinSetWindowSize(HWND windowHandle, POINT size)
+    EXPORT_FUNC_EX(bool) MinSetWindowSize(HWND windowHandle, POINT size)
     {
         return ::SetWindowPos(windowHandle, HWND_NOTOPMOST, 0, 0, size.x, size.y, SWP_NOMOVE | SWP_SHOWWINDOW);
     }
 
-    EXPORT_FUNC MinGetDesktopSize(POINT* size)
+    EXPORT_FUNC_EX(POINT) MinGetDesktopSize()
     {
         HWND hDesktopWindow = ::GetDesktopWindow();
         RECT rect;
         ::GetWindowRect(hDesktopWindow, &rect);
-        size->x = rect.right;
-        size->y = rect.bottom;
-        return true;
+        POINT size;
+        size.x = rect.right;
+        size.y = rect.bottom;
+        return size;
     }
 
-    EXPORT_FUNC MinGetClientSize(HWND windowHandle, POINT* size)
+    EXPORT_FUNC_EX(POINT) MinGetClientSize(HWND windowHandle)
     {
         RECT rect;
         ::GetClientRect(windowHandle, &rect);
-        size->x = rect.right - rect.left;
-        size->y = rect.bottom - rect.top;
-        return true;
+        POINT size;
+        size.x = rect.right - rect.left;
+        size.y = rect.bottom - rect.top;
+        return size;
     }
 
-    EXPORT_FUNC MinGetMousePos(POINT* pos)
+    EXPORT_FUNC_EX(POINT) MinGetMousePos()
     {
-        return ::GetCursorPos(pos);
+        POINT pos;
+        ::GetCursorPos(&pos);
+        return pos;
     }
 
-    EXPORT_FUNC MinGetMappedMousePos(HWND windowHandle, POINT* pos)
+    EXPORT_FUNC_EX(POINT) MinGetMappedMousePos(HWND windowHandle)
     {
-        ::GetCursorPos(pos);
-        return ::ScreenToClient(windowHandle, pos);
+        POINT pos;
+        ::GetCursorPos(&pos);
+        ::ScreenToClient(windowHandle, &pos);
+        return pos;
     }
 
-    EXPORT_FUNC MinGetMouseInClient(HWND windowHandle, bool* yes)
+    EXPORT_FUNC_EX(bool) MinGetMouseInClient(HWND windowHandle)
     {
-        POINT mappedPos;
-        MinGetMappedMousePos(windowHandle, &mappedPos);
-
-        POINT clientSize;
-        MinGetClientSize(windowHandle, &clientSize);
+        POINT mappedPos = MinGetMappedMousePos(windowHandle);
+        POINT clientSize = MinGetClientSize(windowHandle);
 
         if (mappedPos.x >= 0 && mappedPos.x < clientSize.x &&
             mappedPos.y >= 0 && mappedPos.y < clientSize.y)
         {
-            *yes = true;
+            return true;
         }
         else
         {
-            *yes = false;
+            return false;
         }
-        return true;
     }
 
-    EXPORT_FUNC MinGetWindowInFocus(HWND windowHandle, bool* yes)
+    EXPORT_FUNC_EX(bool) MinGetWindowInFocus(HWND windowHandle)
     {
         if (windowHandle == nullptr) return false;
 
         HWND hForeground = ::GetForegroundWindow();
+
         if (hForeground == nullptr) return false;
 
-        *yes = hForeground == windowHandle;
-        return true;
+        return hForeground == windowHandle;
     }
 
-    EXPORT_FUNC MinGetCenterPosOfWindowInDesktop(HWND windowHandle, POINT* pos)
+    EXPORT_FUNC_EX(POINT) MinGetCenterPosOfWindowInDesktop(HWND windowHandle)
     {
         LONG desktopWidth = 0, desktopHeight = 0, windowWidth = 0, windowHeight = 0;
 
-        POINT desktopSize;
-        MinGetDesktopSize(&desktopSize);
-        POINT windowSize;
-        MinGetWindowSize(windowHandle, &windowSize);
+        POINT desktopSize = MinGetDesktopSize();
+        POINT windowSize = MinGetWindowSize(windowHandle);
 
         desktopWidth = desktopSize.x;
         desktopHeight = desktopSize.y;
         windowWidth = windowSize.x;
         windowHeight = windowSize.y;
 
-        pos->x = (desktopWidth / 2) - (windowWidth / 2);
-        pos->y = (desktopHeight / 2) - (windowHeight / 2);
-        return true;
+        POINT pos;
+        pos.x = (desktopWidth / 2) - (windowWidth / 2);
+        pos.y = (desktopHeight / 2) - (windowHeight / 2);
+        return pos;
     }
 
-    EXPORT_FUNC MinGetCenterPosOfWindow(HWND windowHandle, POINT* pos)
+    EXPORT_FUNC_EX(POINT) MinGetCenterPosOfWindow(HWND windowHandle)
     {
         RECT rect;
         ::GetWindowRect(windowHandle, &rect);
-        pos->x = rect.left + (rect.right - rect.left) / 2;
-        pos->y = rect.top + (rect.bottom - rect.top) / 2;
-        return true;
+        POINT pos;
+        pos.x = rect.left + (rect.right - rect.left) / 2;
+        pos.y = rect.top + (rect.bottom - rect.top) / 2;
+        return pos;
     }
 
-    EXPORT_FUNC MinSetWindowMenuVisibility(HWND windowHandle, bool visible)
+    EXPORT_FUNC_EX(bool) MinSetWindowMenuVisibility(HWND windowHandle, bool visible)
     {
         LONG value = 0;
         if (visible)
@@ -148,7 +152,7 @@ namespace MinConsoleNative
         return true;
     }
 
-    EXPORT_FUNC MinMaximizeWindow(HWND windowHandle, bool maximize)
+    EXPORT_FUNC_EX(bool) MinMaximizeWindow(HWND windowHandle, bool maximize)
     {
         int cmd = 0;
         if (maximize)
@@ -162,14 +166,17 @@ namespace MinConsoleNative
         return ::ShowWindow(windowHandle, cmd);
     }
 
-    EXPORT_FUNC MinGetWindowAlpha(HWND windowHandle, byte* alpha)
+    EXPORT_FUNC_EX(byte) MinGetWindowAlpha(HWND windowHandle)
     {
         COLORREF color = 0;
+        byte alpha = 0;
         DWORD flag = 0;
-        return ::GetLayeredWindowAttributes(windowHandle, &color, alpha, &flag);
+
+        bool suc = ::GetLayeredWindowAttributes(windowHandle, &color, &alpha, &flag);
+        return alpha;
     }
 
-    EXPORT_FUNC MinSetWindowAlpha(HWND windowHandle, byte alpha)
+    EXPORT_FUNC_EX(bool) MinSetWindowAlpha(HWND windowHandle, byte alpha)
     {
         LONG_PTR style = ::GetWindowLongPtr(windowHandle, GWL_EXSTYLE);
         ::SetWindowLongPtr(windowHandle, GWL_EXSTYLE, style | WS_EX_LAYERED);
@@ -236,9 +243,7 @@ namespace MinConsoleNative
 
     POINT Window::GetWindowPos()
     {
-        POINT pos;
-        MinGetWindowPos(this->windowHandle, &pos);
-        return pos;
+        return MinGetWindowPos(this->windowHandle);
     }
 
     void Window::SetWindowPos(POINT pos)
@@ -248,9 +253,7 @@ namespace MinConsoleNative
 
     POINT Window::GetWindowSize()
     {
-        POINT size;
-        MinGetWindowSize(this->windowHandle, &size);
-        return size;
+        return MinGetWindowSize(this->windowHandle);
     }
 
     void Window::SetWindowSize(POINT size)
@@ -260,58 +263,42 @@ namespace MinConsoleNative
 
     POINT Window::GetDesktopSize()
     {
-        POINT size;
-        MinGetDesktopSize(&size);
-        return size;
+        return MinGetDesktopSize();
     }
 
     POINT Window::GetClientSize()
     {
-        POINT size;
-        MinGetClientSize(this->windowHandle, &size);
-        return size;
+        return MinGetClientSize(this->windowHandle);
     }
 
     POINT Window::GetMousePos()
     {
-        POINT pos;
-        MinGetMousePos(&pos);
-        return pos;
+        return MinGetMousePos();
     }
 
     POINT Window::GetMappedMousePos()
     {
-        POINT pos;
-        MinGetMappedMousePos(this->windowHandle, &pos);
-        return pos;
+        return MinGetMappedMousePos(this->windowHandle);
     }
 
     bool Window::GetMouseInClient()
     {
-        bool yes;
-        MinGetMouseInClient(this->windowHandle, &yes);
-        return yes;
+        return MinGetMouseInClient(this->windowHandle);
     }
 
     bool Window::GetWindowInFocus()
     {
-        bool yes;
-        MinGetWindowInFocus(this->windowHandle, &yes);
-        return yes;
+        return MinGetWindowInFocus(this->windowHandle);
     }
 
     POINT Window::GetCenterPosOfWindowInDesktop()
     {
-        POINT pos;
-        MinGetCenterPosOfWindowInDesktop(this->windowHandle, &pos);
-        return pos;
+        return MinGetCenterPosOfWindowInDesktop(this->windowHandle);
     }
 
     POINT Window::GetCenterPosOfWindow()
     {
-        POINT pos;
-        MinGetCenterPosOfWindow(this->windowHandle, &pos);
-        return pos;
+        return MinGetCenterPosOfWindow(this->windowHandle);
     }
 
     void Window::SetWindowMenuVisibility(bool visible)
@@ -326,9 +313,7 @@ namespace MinConsoleNative
 
     byte Window::GetWindowAlpha()
     {
-        byte alpha;
-        MinGetWindowAlpha(this->windowHandle, &alpha);
-        return alpha;
+        return MinGetWindowAlpha(this->windowHandle);
     }
 
     void Window::SetWindowAlpha(byte alpha)

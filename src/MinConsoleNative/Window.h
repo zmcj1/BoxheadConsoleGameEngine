@@ -9,40 +9,40 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(HWND) MinGetConsoleWindow();
 
-    EXPORT_FUNC MinGetWindowPos(HWND windowHandle, _OUT_ POINT* pos);
+    EXPORT_FUNC_EX(POINT) MinGetWindowPos(HWND windowHandle);
 
-    EXPORT_FUNC MinSetWindowPos(HWND windowHandle, POINT pos);
+    EXPORT_FUNC_EX(bool) MinSetWindowPos(HWND windowHandle, POINT pos);
 
-    EXPORT_FUNC MinGetWindowSize(HWND windowHandle, _OUT_ POINT* size);
+    EXPORT_FUNC_EX(POINT) MinGetWindowSize(HWND windowHandle);
 
-    EXPORT_FUNC MinSetWindowSize(HWND windowHandle, POINT size);
+    EXPORT_FUNC_EX(bool) MinSetWindowSize(HWND windowHandle, POINT size);
 
-    EXPORT_FUNC MinGetDesktopSize(_OUT_ POINT* size);
+    EXPORT_FUNC_EX(POINT) MinGetDesktopSize();
 
-    EXPORT_FUNC MinGetClientSize(HWND windowHandle, _OUT_ POINT* size);
+    EXPORT_FUNC_EX(POINT) MinGetClientSize(HWND windowHandle);
 
-    EXPORT_FUNC MinGetMousePos(_OUT_ POINT* pos);
+    EXPORT_FUNC_EX(POINT) MinGetMousePos();
 
-    EXPORT_FUNC MinGetMappedMousePos(HWND windowHandle, _OUT_ POINT* pos);
+    EXPORT_FUNC_EX(POINT) MinGetMappedMousePos(HWND windowHandle);
 
-    EXPORT_FUNC MinGetMouseInClient(HWND windowHandle, _OUT_ bool* yes);
+    EXPORT_FUNC_EX(bool) MinGetMouseInClient(HWND windowHandle);
 
-    EXPORT_FUNC MinGetWindowInFocus(HWND windowHandle, _OUT_ bool* yes);
+    EXPORT_FUNC_EX(bool) MinGetWindowInFocus(HWND windowHandle);
 
-    EXPORT_FUNC MinGetCenterPosOfWindowInDesktop(HWND windowHandle, _OUT_ POINT* pos);
+    EXPORT_FUNC_EX(POINT) MinGetCenterPosOfWindowInDesktop(HWND windowHandle);
 
-    EXPORT_FUNC MinGetCenterPosOfWindow(HWND windowHandle, _OUT_ POINT* pos);
+    EXPORT_FUNC_EX(POINT) MinGetCenterPosOfWindow(HWND windowHandle);
 
     //ex:
 
-    EXPORT_FUNC MinSetWindowMenuVisibility(HWND windowHandle, bool visible);
+    EXPORT_FUNC_EX(bool) MinSetWindowMenuVisibility(HWND windowHandle, bool visible);
 
     //If the window has been maximized and parameter maximize is false, the window size will be restored
-    EXPORT_FUNC MinMaximizeWindow(HWND windowHandle, bool maximize);
+    EXPORT_FUNC_EX(bool) MinMaximizeWindow(HWND windowHandle, bool maximize);
 
-    EXPORT_FUNC MinGetWindowAlpha(HWND windowHandle, _OUT_ byte* alpha);
+    EXPORT_FUNC_EX(byte) MinGetWindowAlpha(HWND windowHandle);
 
-    EXPORT_FUNC MinSetWindowAlpha(HWND windowHandle, byte alpha);
+    EXPORT_FUNC_EX(bool) MinSetWindowAlpha(HWND windowHandle, byte alpha);
 
     //Determines whether the specified window is minimized (iconic).
     EXPORT_FUNC_EX(bool) MinIsMinimized(HWND windowHandle);
