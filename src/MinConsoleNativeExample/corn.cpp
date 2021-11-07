@@ -47,8 +47,8 @@ class Corn : public ConsoleEngine
 {
 private:
     GameState state = GameState::Menu;
-    CharacterController* playerController;
-    CellRenderer* renderer;
+    CharacterController* playerController = nullptr;
+    CellRenderer* renderer = nullptr;
     vector<Vector2> maze;
     vector<Vector2> empty;
 

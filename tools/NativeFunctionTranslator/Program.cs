@@ -986,6 +986,7 @@ namespace NativeFunctionTranslator
                     }
                     if (!find)
                     {
+                        DebugPause = true;
                         Console.WriteLine(item.Key + " " + methodName);
                     }
                 }

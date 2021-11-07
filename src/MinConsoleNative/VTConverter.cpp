@@ -8,10 +8,20 @@ using namespace std;
 
 namespace MinConsoleNative
 {
+    bool IsVTInput(const INPUT_RECORD* record)
+    {
+        return
+            record->EventType == KEY_EVENT &&
+            record->Event.KeyEvent.bKeyDown &&
+            record->Event.KeyEvent.wVirtualKeyCode == 0 &&
+            record->Event.KeyEvent.wVirtualScanCode == 0;
+    }
+
     EXPORT_FUNC_EX(wchar*) MinVTResetStyle()
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         //ESC [ <n> m
@@ -30,6 +40,7 @@ namespace MinConsoleNative
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         //ESC [ <n> m
@@ -48,6 +59,7 @@ namespace MinConsoleNative
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         //ESC [ <n> m
@@ -66,6 +78,7 @@ namespace MinConsoleNative
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         //ESC [ <n> m
@@ -86,6 +99,7 @@ namespace MinConsoleNative
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         //ESC [ <n> m
@@ -114,6 +128,7 @@ namespace MinConsoleNative
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         //ESC ] 2 ; <string> BEL
@@ -131,6 +146,7 @@ namespace MinConsoleNative
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         //ESC [ <y> ; <x> H
@@ -148,6 +164,7 @@ namespace MinConsoleNative
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         //ESC [ ? 25 h  Show the cursor
@@ -176,6 +193,7 @@ namespace MinConsoleNative
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         //ESC [ <n> m
@@ -223,6 +241,7 @@ namespace MinConsoleNative
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         //?
@@ -240,6 +259,7 @@ namespace MinConsoleNative
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         //ESC ] 4 ; <i> ; rgb : <r> / <g> / <b> ESC
@@ -320,6 +340,7 @@ namespace MinConsoleNative
     {
         //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
         wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        if (str == nullptr) return nullptr;
         int strLen = VT_STR_LEN;
 
         console.Write(VT_GET_DEVICE_ATTRIBUTES);
@@ -353,15 +374,6 @@ namespace MinConsoleNative
         }
 
         return str;
-    }
-
-    bool IsVTInput(const INPUT_RECORD* record)
-    {
-        return
-            record->EventType == KEY_EVENT &&
-            record->Event.KeyEvent.bKeyDown &&
-            record->Event.KeyEvent.wVirtualKeyCode == 0 &&
-            record->Event.KeyEvent.wVirtualScanCode == 0;
     }
 
     std::wstring VTConverter::VTResetStyle()

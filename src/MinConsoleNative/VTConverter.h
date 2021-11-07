@@ -55,6 +55,9 @@ namespace MinConsoleNative
         White = 15,
     };
 
+    //Determine whether an input is issued by the VT sequence.
+    bool IsVTInput(const INPUT_RECORD* record);
+
     //注意:从C++返回wchar*到C#:https://stackoverflow.com/questions/393509/usage-of-cotaskmemalloc
     //实例:https://social.msdn.microsoft.com/Forums/vstudio/en-US/ccdc1c5c-8324-4ac8-9273-564205181a66/return-char-arrays-from-c-to-c?forum=clr
     //CoTaskMemAlloc函数:https://docs.microsoft.com/en-us/windows/win32/api/combaseapi/nf-combaseapi-cotaskmemalloc
@@ -103,9 +106,6 @@ namespace MinConsoleNative
 
     //有关此API返回值详见:https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#query-state
     EXPORT_FUNC_EX(wchar*) MinVTGetDeviceAttributes();
-
-    //Determine whether an input is issued by the VT sequence.
-    bool IsVTInput(const INPUT_RECORD* record);
 
     class VTConverter
     {
