@@ -55,34 +55,38 @@ namespace MinConsoleNative
         White = 15,
     };
 
-    EXPORT_FUNC MinVTResetStyle(wchar* str, int strLen);
+    //注意:从C++返回wchar*到C#:https://stackoverflow.com/questions/393509/usage-of-cotaskmemalloc
+    //实例:https://social.msdn.microsoft.com/Forums/vstudio/en-US/ccdc1c5c-8324-4ac8-9273-564205181a66/return-char-arrays-from-c-to-c?forum=clr
+    //CoTaskMemAlloc函数:https://docs.microsoft.com/en-us/windows/win32/api/combaseapi/nf-combaseapi-cotaskmemalloc
 
-    EXPORT_FUNC MinVTForeColor(wchar* str, int strLen, Color24 foreColor);
+    EXPORT_FUNC_EX(wchar*) MinVTResetStyle();
 
-    EXPORT_FUNC MinVTBackColor(wchar* str, int strLen, Color24 backColor);
+    EXPORT_FUNC_EX(wchar*) MinVTForeColor(Color24 foreColor);
 
-    EXPORT_FUNC MinVTColor(wchar* str, int strLen, Color24 foreColor, Color24 backColor);
+    EXPORT_FUNC_EX(wchar*) MinVTBackColor(Color24 backColor);
 
-    EXPORT_FUNC MinVTUnderline(wchar* str, int strLen, bool underLine);
+    EXPORT_FUNC_EX(wchar*) MinVTColor(Color24 foreColor, Color24 backColor);
 
-    EXPORT_FUNC MinVTWindowTitle(wchar* str, int strLen, const wchar* title);
+    EXPORT_FUNC_EX(wchar*) MinVTUnderline(bool underLine);
 
-    EXPORT_FUNC MinVTCursorPos(wchar* str, int strLen, COORD pos);
+    EXPORT_FUNC_EX(wchar*) MinVTWindowTitle(const wchar* title);
 
-    EXPORT_FUNC MinVTCursorVisible(wchar* str, int strLen, bool visible);
+    EXPORT_FUNC_EX(wchar*) MinVTCursorPos(COORD pos);
 
-    EXPORT_FUNC MinVTTerminalColor(wchar* str, int strLen, int color);
+    EXPORT_FUNC_EX(wchar*) MinVTCursorVisible(bool visible);
 
-    EXPORT_FUNC MinVTTerminalForeColor(wchar* str, int strLen, TerminalColor tcolor);
+    EXPORT_FUNC_EX(wchar*) MinVTTerminalColor(int color);
 
-    EXPORT_FUNC MinVTTerminalBackColor(wchar* str, int strLen, TerminalColor tcolor);
+    EXPORT_FUNC_EX(wchar*) MinVTTerminalForeColor(TerminalColor tcolor);
+
+    EXPORT_FUNC_EX(wchar*) MinVTTerminalBackColor(TerminalColor tcolor);
 
     //WARNING:This function is invalid for Windows Terminal, but works in Windows Console.
-    EXPORT_FUNC MinVTTerminalSize(wchar* str, int strLen, COORD size);
+    EXPORT_FUNC_EX(wchar*) MinVTTerminalSize(COORD size);
 
     //WARNING:Not recommended use this function, it's unstable.
     //FROM:https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#screen-colors
-    EXPORT_FUNC MinVTPaletteColor(wchar* str, int strLen, int index, byte r, byte g, byte b);
+    EXPORT_FUNC_EX(wchar*) MinVTPaletteColor(int index, byte r, byte g, byte b);
 
     //Check if the current console supports VT sequence.
     //灵感来源:https://github.com/microsoft/DbgShell/blob/master/DbgShell/ConsoleControl.cs
@@ -97,7 +101,8 @@ namespace MinConsoleNative
     //This API internally shows how to use the VT sequence.
     EXPORT_FUNC_EX(COORD) MinVTGetCursorPos();
 
-    EXPORT_FUNC_EX(void) MinVTGetDeviceAttributes(wchar* str, int strLen);
+    //有关此API返回值详见:https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#query-state
+    EXPORT_FUNC_EX(wchar*) MinVTGetDeviceAttributes();
 
     //Determine whether an input is issued by the VT sequence.
     bool IsVTInput(const INPUT_RECORD* record);

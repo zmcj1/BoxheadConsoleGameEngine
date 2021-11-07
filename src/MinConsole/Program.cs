@@ -22,11 +22,15 @@ namespace MinConsole
 
         static void Main(string[] args)
         {
-            IntPtr intPtr = MinGetConsoleWindow();
-            MinReadFromClipboard(out string data);
-            MinInitConsoleSession(out ConsoleSession session);
-            Console.WriteLine(data);
-            Console.ReadKey();
+            string test = null;
+
+            test = MinVTForeColor(new Color24() { r = 255, g = 33, b = 22 });
+            Console.Write(test);
+
+            test = MinVTGetDeviceAttributes();
+            Console.Write(test);
+
+            Console.ReadLine();
         }
     }
 }

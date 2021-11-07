@@ -2,166 +2,194 @@
 #include "String.h"
 #include <sstream>
 #include <cstdio>
+#include <combaseapi.h> //CoTaskMemAlloc
 
 using namespace std;
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC MinVTResetStyle(wchar* str, int strLen)
+    EXPORT_FUNC_EX(wchar*) MinVTResetStyle()
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
         //ESC [ <n> m
         //<n> : 0
-        int r = swprintf_s(str, strLen, L"%ls[0m", _T(ESC));
+        int r = ::swprintf_s(str, strLen, L"%ls[0m", _T(ESC));
         if (r == -1)
         {
-            return false;
+            ::CoTaskMemFree(str);
+            return nullptr;
         }
-        else
-        {
-            return true;
-        }
+
+        return str;
     }
 
-    EXPORT_FUNC MinVTForeColor(wchar* str, int strLen, Color24 foreColor)
+    EXPORT_FUNC_EX(wchar*) MinVTForeColor(Color24 foreColor)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
         //ESC [ <n> m
         //<n> : 38 ; 2 ; <r> ; <g> ; <b>
-        int r = swprintf_s(str, strLen, L"%ls[38;2;%d;%d;%dm", _T(ESC), foreColor.r, foreColor.g, foreColor.b);
+        int r = ::swprintf_s(str, strLen, L"%ls[38;2;%d;%d;%dm", _T(ESC), foreColor.r, foreColor.g, foreColor.b);
         if (r == -1)
         {
-            return false;
+            ::CoTaskMemFree(str);
+            return nullptr;
         }
-        else
-        {
-            return true;
-        }
+
+        return str;
     }
 
-    EXPORT_FUNC MinVTBackColor(wchar* str, int strLen, Color24 backColor)
+    EXPORT_FUNC_EX(wchar*) MinVTBackColor(Color24 backColor)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
         //ESC [ <n> m
         //<n> : 48 ; 2 ; <r> ; <g> ; <b>
-        int r = swprintf_s(str, strLen, L"%ls[48;2;%d;%d;%dm", _T(ESC), backColor.r, backColor.g, backColor.b);
+        int r = ::swprintf_s(str, strLen, L"%ls[48;2;%d;%d;%dm", _T(ESC), backColor.r, backColor.g, backColor.b);
         if (r == -1)
         {
-            return false;
+            ::CoTaskMemFree(str);
+            return nullptr;
         }
-        else
-        {
-            return true;
-        }
+
+        return str;
     }
 
-    EXPORT_FUNC MinVTColor(wchar* str, int strLen, Color24 foreColor, Color24 backColor)
+    EXPORT_FUNC_EX(wchar*) MinVTColor(Color24 foreColor, Color24 backColor)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
         //ESC [ <n> m
         //<n> : 38 ; 2 ; <r> ; <g> ; <b>
         //ESC [ <n> m
         //<n> : 48 ; 2 ; <r> ; <g> ; <b>
-        int r = swprintf_s(str, strLen, L"%ls[38;2;%d;%d;%dm%ls[48;2;%d;%d;%dm", _T(ESC), foreColor.r, foreColor.g, foreColor.b, _T(ESC), backColor.r, backColor.g, backColor.b);
+        int r = ::swprintf_s(str, strLen, L"%ls[38;2;%d;%d;%dm%ls[48;2;%d;%d;%dm", _T(ESC), foreColor.r, foreColor.g, foreColor.b, _T(ESC), backColor.r, backColor.g, backColor.b);
         if (r == -1)
         {
-            return false;
+            ::CoTaskMemFree(str);
+            return nullptr;
         }
-        else
-        {
-            return true;
-        }
+
+        return str;
     }
 
-    EXPORT_FUNC MinVTUnderline(wchar* str, int strLen, bool underLine)
+    EXPORT_FUNC_EX(wchar*) MinVTUnderline(bool underLine)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
         //ESC [ <n> m
         //<n> : 4	    Underline
         //<n> : 24      No underline
         int r = 0;
         if (underLine)
         {
-            r = swprintf_s(str, strLen, L"%ls[4m", _T(ESC));
+            r = ::swprintf_s(str, strLen, L"%ls[4m", _T(ESC));
         }
         else
         {
-            r = swprintf_s(str, strLen, L"%ls[24m", _T(ESC));
+            r = ::swprintf_s(str, strLen, L"%ls[24m", _T(ESC));
         }
 
         if (r == -1)
         {
-            return false;
+            ::CoTaskMemFree(str);
+            return nullptr;
         }
-        else
-        {
-            return true;
-        }
+
+        return str;
     }
 
-    EXPORT_FUNC MinVTWindowTitle(wchar* str, int strLen, const wchar* title)
+    EXPORT_FUNC_EX(wchar*) MinVTWindowTitle(const wchar* title)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
         //ESC ] 2 ; <string> BEL
-        int r = swprintf_s(str, strLen, L"%ls]2;%ls%ls", _T(ESC), title, _T(BELL));
+        int r = ::swprintf_s(str, strLen, L"%ls]2;%ls%ls", _T(ESC), title, _T(BELL));
         if (r == -1)
         {
-            return false;
+            ::CoTaskMemFree(str);
+            return nullptr;
         }
-        else
-        {
-            return true;
-        }
+
+        return str;
     }
 
-    EXPORT_FUNC MinVTCursorPos(wchar* str, int strLen, COORD pos)
+    EXPORT_FUNC_EX(wchar*) MinVTCursorPos(COORD pos)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
         //ESC [ <y> ; <x> H
-        int r = swprintf_s(str, strLen, L"%ls[%d;%dH", _T(ESC), pos.Y + 1, pos.X + 1);
+        int r = ::swprintf_s(str, strLen, L"%ls[%d;%dH", _T(ESC), pos.Y + 1, pos.X + 1);
         if (r == -1)
         {
-            return false;
+            ::CoTaskMemFree(str);
+            return nullptr;
         }
-        else
-        {
-            return true;
-        }
+
+        return str;
     }
 
-    EXPORT_FUNC MinVTCursorVisible(wchar* str, int strLen, bool visible)
+    EXPORT_FUNC_EX(wchar*) MinVTCursorVisible(bool visible)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
         //ESC [ ? 25 h  Show the cursor
         //ESC [ ? 25 l  Hide the cursor
         int r = 0;
         if (visible)
         {
-            r = swprintf_s(str, strLen, L"%ls[?25h", _T(ESC));
+            r = ::swprintf_s(str, strLen, L"%ls[?25h", _T(ESC));
         }
         else
         {
-            r = swprintf_s(str, strLen, L"%ls[?25l", _T(ESC));
+            r = ::swprintf_s(str, strLen, L"%ls[?25l", _T(ESC));
         }
 
         if (r == -1)
         {
-            return false;
+            ::CoTaskMemFree(str);
+            return nullptr;
         }
-        else
-        {
-            return true;
-        }
+
+        return str;
     }
 
     //foreColor(30 - 37 90 - 97) backColor(40 - 47 100 - 107)
-    EXPORT_FUNC MinVTTerminalColor(wchar* str, int strLen, int color)
+    EXPORT_FUNC_EX(wchar*) MinVTTerminalColor(int color)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
         //ESC [ <n> m
-        int r = swprintf_s(str, strLen, L"%ls[%dm", _T(ESC), color);
+        int r = ::swprintf_s(str, strLen, L"%ls[%dm", _T(ESC), color);
         if (r == -1)
         {
-            return false;
+            ::CoTaskMemFree(str);
+            return nullptr;
         }
-        else
-        {
-            return true;
-        }
+
+        return str;
     }
 
-    EXPORT_FUNC MinVTTerminalForeColor(wchar* str, int strLen, TerminalColor tcolor)
+    EXPORT_FUNC_EX(wchar*) MinVTTerminalForeColor(TerminalColor tcolor)
     {
         //Console color => VT100 color
         int fcolor = (int)tcolor;
@@ -173,10 +201,10 @@ namespace MinConsoleNative
         {
             fcolor += 82;
         }
-        return MinVTTerminalColor(str, strLen, fcolor);
+        return MinVTTerminalColor(fcolor);
     }
 
-    EXPORT_FUNC MinVTTerminalBackColor(wchar* str, int strLen, TerminalColor tcolor)
+    EXPORT_FUNC_EX(wchar*) MinVTTerminalBackColor(TerminalColor tcolor)
     {
         //Console color => VT100 color
         int bcolor = (int)tcolor;
@@ -188,25 +216,32 @@ namespace MinConsoleNative
         {
             bcolor += 92;
         }
-        return MinVTTerminalColor(str, strLen, bcolor);
+        return MinVTTerminalColor(bcolor);
     }
 
-    EXPORT_FUNC MinVTTerminalSize(wchar* str, int strLen, COORD size)
+    EXPORT_FUNC_EX(wchar*) MinVTTerminalSize(COORD size)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
         //?
-        int r = swprintf_s(str, strLen, L"%ls[8;%d;%dt", _T(ESC), size.Y, size.X);
+        int r = ::swprintf_s(str, strLen, L"%ls[8;%d;%dt", _T(ESC), size.Y, size.X);
         if (r == -1)
         {
-            return false;
+            ::CoTaskMemFree(str);
+            return nullptr;
         }
-        else
-        {
-            return true;
-        }
+
+        return str;
     }
 
-    EXPORT_FUNC MinVTPaletteColor(wchar* str, int strLen, int index, byte r, byte g, byte b)
+    EXPORT_FUNC_EX(wchar*) MinVTPaletteColor(int index, byte r, byte g, byte b)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
         //ESC ] 4 ; <i> ; rgb : <r> / <g> / <b> ESC
         //NOTICE : <r> / <g> / <b> here are hexes, so we need to convert them from int to hex str.
         wstringstream rr;
@@ -216,16 +251,15 @@ namespace MinConsoleNative
         wstringstream bb;
         bb << std::hex << b;
 
-        int result = swprintf_s(str, strLen, L"%ls]4;%d;rgb:%ls/%ls/%ls%ls", _T(ESC), index,
+        int result = ::swprintf_s(str, strLen, L"%ls]4;%d;rgb:%ls/%ls/%ls%ls", _T(ESC), index,
             rr.str().c_str(), gg.str().c_str(), bb.str().c_str(), _T(ESC));
         if (result == -1)
         {
-            return false;
+            ::CoTaskMemFree(str);
+            return nullptr;
         }
-        else
-        {
-            return true;
-        }
+
+        return str;
     }
 
     EXPORT_FUNC_EX(bool) MinVTSupport()
@@ -282,13 +316,17 @@ namespace MinConsoleNative
         return pos;
     }
 
-    EXPORT_FUNC_EX(void) MinVTGetDeviceAttributes(wchar* str, int strLen)
+    EXPORT_FUNC_EX(wchar*) MinVTGetDeviceAttributes()
     {
-        Console::Global.GetInstance().Write(VT_GET_DEVICE_ATTRIBUTES);
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(VT_STR_LEN * sizeof(wchar));
+        int strLen = VT_STR_LEN;
+
+        console.Write(VT_GET_DEVICE_ATTRIBUTES);
 
         INPUT_RECORD buffer[32];
         DWORD readCount;
-        ReadConsoleInput(Console::Global.GetInstance().cons.consoleInput, buffer, LEN(buffer), &readCount);
+        ::ReadConsoleInput(console.cons.consoleInput, buffer, LEN(buffer), &readCount);
 
         wstring wstr;
         for (size_t i = 0; i < readCount; i++)
@@ -298,7 +336,23 @@ namespace MinConsoleNative
                 wstr += buffer[i].Event.KeyEvent.uChar.UnicodeChar;
             }
         }
-        wcscpy_s(str, strLen, wstr.c_str());
+
+        //理解这里的处理详见:https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#query-state
+        if (String::Compare(wstr, L"\x1b[?1;0c"))
+        {
+            wstr = L"VT101 with No Options";
+        }
+
+        //复制字符串
+        auto r = ::wcscpy_s(str, strLen, wstr.c_str());
+        //fail:
+        if (r != 0)
+        {
+            ::CoTaskMemFree(str);
+            return nullptr;
+        }
+
+        return str;
     }
 
     bool IsVTInput(const INPUT_RECORD* record)
@@ -312,93 +366,158 @@ namespace MinConsoleNative
 
     std::wstring VTConverter::VTResetStyle()
     {
-        wchar buf[VT_STR_LEN];
-        MinVTResetStyle(buf, VT_STR_LEN);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTResetStyle();
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTForeColor(Color24 foreColor)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTForeColor(buf, VT_STR_LEN, foreColor);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTForeColor(foreColor);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTBackColor(Color24 backColor)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTBackColor(buf, VT_STR_LEN, backColor);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTBackColor(backColor);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTColor(Color24 foreColor, Color24 backColor)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTColor(buf, VT_STR_LEN, foreColor, backColor);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTColor(foreColor, backColor);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTUnderline(bool underLine)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTUnderline(buf, VT_STR_LEN, underLine);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTUnderline(underLine);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTWindowTitle(std::wstring title)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTWindowTitle(buf, VT_STR_LEN, title.c_str());
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTWindowTitle(title.c_str());
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTCursorPos(COORD pos)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTCursorPos(buf, VT_STR_LEN, pos);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTCursorPos(pos);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTCursorVisible(bool visible)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTCursorVisible(buf, VT_STR_LEN, visible);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTCursorVisible(visible);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTTerminalColor(int color)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTTerminalColor(buf, VT_STR_LEN, color);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTTerminalColor(color);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTTerminalForeColor(MinConsoleNative::TerminalColor tcolor)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTTerminalForeColor(buf, VT_STR_LEN, tcolor);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTTerminalForeColor(tcolor);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTTerminalBackColor(MinConsoleNative::TerminalColor tcolor)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTTerminalBackColor(buf, VT_STR_LEN, tcolor);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTTerminalBackColor(tcolor);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTTerminalSize(COORD size)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTTerminalSize(buf, VT_STR_LEN, size);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTTerminalSize(size);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     std::wstring VTConverter::VTPaletteColor(int index, byte r, byte g, byte b)
     {
-        wchar buf[VT_STR_LEN];
-        MinVTPaletteColor(buf, VT_STR_LEN, index, r, g, b);
-        return std::wstring(buf);
+        wstring wstr;
+
+        wchar* buf = MinVTPaletteColor(index, r, g, b);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 
     bool VTConverter::VTSupport()
@@ -423,8 +542,13 @@ namespace MinConsoleNative
 
     std::wstring VTConverter::VTGetDeviceAttributes()
     {
-        wchar str[32];
-        MinVTGetDeviceAttributes(str, LEN(str));
-        return wstring(str);
+        wstring wstr;
+
+        wchar* buf = MinVTGetDeviceAttributes();
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
+
+        return wstr;
     }
 }

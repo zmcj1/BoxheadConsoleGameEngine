@@ -364,43 +364,43 @@ namespace MinConsole
         public extern static int MinMinuteToMilli(float minute);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTResetStyle(string str, int strLen);
+        public extern static string MinVTResetStyle();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTForeColor(string str, int strLen, Color24 foreColor);
+        public extern static string MinVTForeColor(Color24 foreColor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTBackColor(string str, int strLen, Color24 backColor);
+        public extern static string MinVTBackColor(Color24 backColor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTColor(string str, int strLen, Color24 foreColor, Color24 backColor);
+        public extern static string MinVTColor(Color24 foreColor, Color24 backColor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTUnderline(string str, int strLen, bool underLine);
+        public extern static string MinVTUnderline(bool underLine);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTWindowTitle(string str, int strLen, string title);
+        public extern static string MinVTWindowTitle(string title);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTCursorPos(string str, int strLen, COORD pos);
+        public extern static string MinVTCursorPos(COORD pos);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTCursorVisible(string str, int strLen, bool visible);
+        public extern static string MinVTCursorVisible(bool visible);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTTerminalColor(string str, int strLen, int color);
+        public extern static string MinVTTerminalColor(int color);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTTerminalForeColor(string str, int strLen, TerminalColor tcolor);
+        public extern static string MinVTTerminalForeColor(TerminalColor tcolor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTTerminalBackColor(string str, int strLen, TerminalColor tcolor);
+        public extern static string MinVTTerminalBackColor(TerminalColor tcolor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTTerminalSize(string str, int strLen, COORD size);
+        public extern static string MinVTTerminalSize(COORD size);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinVTPaletteColor(string str, int strLen, int index, byte r, byte g, byte b);
+        public extern static string MinVTPaletteColor(int index, byte r, byte g, byte b);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinVTSupport();
@@ -415,7 +415,7 @@ namespace MinConsole
         public extern static COORD MinVTGetCursorPos();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static void MinVTGetDeviceAttributes(string str, int strLen);
+        public extern static string MinVTGetDeviceAttributes();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static IntPtr MinGetForegroundWindow();

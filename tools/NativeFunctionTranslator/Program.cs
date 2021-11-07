@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.7.3.1
+//Version:2.7.4
 
 namespace NativeFunctionTranslator
 {
@@ -271,6 +271,10 @@ namespace NativeFunctionTranslator
                     {
                         returnType = "IntPtr";
                     }
+                    else if (returnType == "wchar*")
+                    {
+                        returnType = "string";
+                    }
 
                     declaration += EXPORT_FUNC_RETURN_TYPE_EX;
                     declaration += returnType;
@@ -283,7 +287,7 @@ namespace NativeFunctionTranslator
                     {
 #if ENABLE_DEBUG
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write("C# doesn't allow return pointer!!!");
+                        Console.Write("C# doesn't allow return this pointer!!!");
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine(" You have to change this function: " + methodName);
                         Console.ForegroundColor = ConsoleColor.Gray;
