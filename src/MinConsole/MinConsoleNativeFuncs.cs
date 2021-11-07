@@ -100,19 +100,19 @@ namespace MinConsole
         public extern static bool MinSetConRegConfig(ConRegConfig config);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinAllocConsole(out ConsoleSession cons);
+        public extern static ConsoleSession MinAllocConsole();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinFreeConsole();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinInitConsoleSession(out ConsoleSession cons);
+        public extern static ConsoleSession MinInitConsoleSession();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinEnableConsoleVT(IntPtr consoleInput, IntPtr consoleOutput);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetConsolePalette(IntPtr consoleOutput, uint index, out Color24 color);
+        public extern static Color24 MinGetConsolePalette(IntPtr consoleOutput, uint index);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetConsolePalette(IntPtr consoleOutput, uint index, Color24 color);

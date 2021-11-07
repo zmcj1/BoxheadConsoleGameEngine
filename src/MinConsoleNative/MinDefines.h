@@ -104,7 +104,7 @@
 #define NEW_LINE "\r\n"
 #define WNEW_LINE L"\r\n"
 
-//Macros for EXPORT_FUNC and EXPORT_FUNC_EX
+//Macros for EXPORT_FUNC_EX
 #define _IN_
 #define _OUT_
 #define _REF_

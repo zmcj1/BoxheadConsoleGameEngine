@@ -12,15 +12,14 @@ namespace MinConsoleNative
 {
     const int MAX_INPUT_CHAR_COUNT = 2048;
 
-    EXPORT_FUNC_EX(bool) MinAllocConsole(_OUT_ ConsoleSession* cons)
+    EXPORT_FUNC_EX(ConsoleSession) MinAllocConsole()
     {
         bool allocSuc = ::AllocConsole();
         if (allocSuc)
         {
-            bool initSuc = MinInitConsoleSession(cons);
-            return initSuc;
+            return MinInitConsoleSession();
         }
-        return false;
+        return ConsoleSession();
     }
 
     EXPORT_FUNC_EX(bool) MinFreeConsole()
@@ -28,34 +27,39 @@ namespace MinConsoleNative
         return ::FreeConsole();
     }
 
-    EXPORT_FUNC MinInitConsoleSession(ConsoleSession* cons)
+    EXPORT_FUNC_EX(ConsoleSession) MinInitConsoleSession()
     {
-        cons->consoleInput = ::GetStdHandle(STD_INPUT_HANDLE);
-        if (cons->consoleInput == INVALID_HANDLE_VALUE)
+        ConsoleSession cons;
+
+        cons.consoleInput = ::GetStdHandle(STD_INPUT_HANDLE);
+        if (cons.consoleInput == INVALID_HANDLE_VALUE)
         {
-            return false;
+            return ConsoleSession();
         }
-        cons->consoleOutput = ::GetStdHandle(STD_OUTPUT_HANDLE);
-        if (cons->consoleOutput == INVALID_HANDLE_VALUE)
+        cons.consoleOutput = ::GetStdHandle(STD_OUTPUT_HANDLE);
+        if (cons.consoleOutput == INVALID_HANDLE_VALUE)
         {
-            return false;
+            return ConsoleSession();
         }
-        cons->consoleWindow = ::GetConsoleWindow();
-        if (cons->consoleWindow == nullptr)
+        cons.consoleWindow = ::GetConsoleWindow();
+        if (cons.consoleWindow == nullptr)
         {
-            return false;
+            return ConsoleSession();
         }
+
         //Set CodePage to UTF-8, this will always be right.
         ::SetConsoleCP(CP_UTF8);
         ::SetConsoleOutputCP(CP_UTF8);
+
         //Ensure that the Chinese input method works normally.
         COORD pos;
-        MinGetConsoleCursorPos(cons->consoleOutput, &pos);
-        MinSetConsoleCursorPos(cons->consoleOutput, pos);
-        return true;
+        MinGetConsoleCursorPos(cons.consoleOutput, &pos);
+        MinSetConsoleCursorPos(cons.consoleOutput, pos);
+
+        return cons;
     }
 
-    EXPORT_FUNC MinEnableConsoleVT(HANDLE consoleInput, HANDLE consoleOutput)
+    EXPORT_FUNC_EX(bool) MinEnableConsoleVT(HANDLE consoleInput, HANDLE consoleOutput)
     {
         bool supportVT = WinVersion::Global.GetInstance().IsWindows10CreatorsOrLater();
         if (supportVT)
@@ -67,20 +71,23 @@ namespace MinConsoleNative
         return false;
     }
 
-    EXPORT_FUNC MinGetConsolePalette(HANDLE consoleOutput, DWORD index, Color24* color)
+    EXPORT_FUNC_EX(Color24) MinGetConsolePalette(HANDLE consoleOutput, DWORD index)
     {
+        Color24 color;
+
         CONSOLE_SCREEN_BUFFER_INFOEX csbi;
         csbi.cbSize = sizeof(CONSOLE_SCREEN_BUFFER_INFOEX);
         ::GetConsoleScreenBufferInfoEx(consoleOutput, &csbi);
 
         COLORREF colorRef = csbi.ColorTable[index];
-        color->r = colorRef & 0x0000FF;
-        color->g = (colorRef & 0x00FF00) >> 8;
-        color->b = (colorRef & 0xFF0000) >> 16;
-        return true;
+        color.r = colorRef & 0x0000FF;
+        color.g = (colorRef & 0x00FF00) >> 8;
+        color.b = (colorRef & 0xFF0000) >> 16;
+
+        return color;
     }
 
-    EXPORT_FUNC MinSetConsolePalette(HANDLE consoleOutput, DWORD index, Color24 color)
+    EXPORT_FUNC_EX(bool) MinSetConsolePalette(HANDLE consoleOutput, DWORD index, Color24 color)
     {
         CONSOLE_SCREEN_BUFFER_INFOEX csbi;
         //get
@@ -1095,9 +1102,7 @@ namespace MinConsoleNative
 
     Color24 Console::GetConsolePalette(DWORD index)
     {
-        Color24 color;
-        MinGetConsolePalette(cons.consoleOutput, index, &color);
-        return color;
+        return MinGetConsolePalette(cons.consoleOutput, index);
     }
 
     bool Console::SetConsolePalette(DWORD index, const Color24& color)
@@ -1277,9 +1282,7 @@ namespace MinConsoleNative
 
     ConsoleSession Console::InitConsoleSession()
     {
-        ConsoleSession cons;
-        MinInitConsoleSession(&cons);
-        return cons;
+        return MinInitConsoleSession();
     }
 
     HANDLE Console::CreateConsoleScreenBuffer()

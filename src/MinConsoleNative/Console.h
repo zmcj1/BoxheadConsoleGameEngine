@@ -480,20 +480,20 @@ namespace MinConsoleNative
 
     //The API is mainly to serve GUI programs.
     //Important fact: A process can only be associated with one console, and a console can be associated with multiple processes.
-    EXPORT_FUNC_EX(bool) MinAllocConsole(_OUT_ ConsoleSession* cons);
+    EXPORT_FUNC_EX(ConsoleSession) MinAllocConsole();
 
     EXPORT_FUNC_EX(bool) MinFreeConsole();
 
     //Initialize the console inside, don't worry.
-    EXPORT_FUNC MinInitConsoleSession(_OUT_ ConsoleSession* cons);
+    EXPORT_FUNC_EX(ConsoleSession) MinInitConsoleSession();
 
     //return true means successful enable VT!
-    EXPORT_FUNC MinEnableConsoleVT(HANDLE consoleInput, HANDLE consoleOutput);
+    EXPORT_FUNC_EX(bool) MinEnableConsoleVT(HANDLE consoleInput, HANDLE consoleOutput);
 
-    EXPORT_FUNC MinGetConsolePalette(HANDLE consoleOutput, DWORD index, _OUT_ Color24* color);
+    EXPORT_FUNC_EX(Color24) MinGetConsolePalette(HANDLE consoleOutput, DWORD index);
 
     //Notice:After calling this API, the screen buffer will change!
-    EXPORT_FUNC MinSetConsolePalette(HANDLE consoleOutput, DWORD index, Color24 color);
+    EXPORT_FUNC_EX(bool) MinSetConsolePalette(HANDLE consoleOutput, DWORD index, Color24 color);
 
     EXPORT_FUNC_EX(ConsoleInputMode) MinGetConsoleInputMode(HANDLE consoleInput);
 
@@ -684,9 +684,7 @@ namespace MinConsoleNative
             ::FreeConsole();
             ::AllocConsole();
 
-            ConsoleSession cons;
-            MinInitConsoleSession(&cons);
-
+            ConsoleSession cons = MinInitConsoleSession();
             Console::Global.GetInstance() = Console(cons);
         }
 
