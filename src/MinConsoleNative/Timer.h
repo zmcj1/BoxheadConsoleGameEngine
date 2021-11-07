@@ -23,14 +23,14 @@ namespace MinConsoleNative
 
     extern const double TimerMultiplier;
 
-    EXPORT_FUNC MinInitTimer(_OUT_ MinTimer* timer);
+    EXPORT_FUNC_EX(MinTimer) MinInitTimer();
 
-    EXPORT_FUNC MinStartTimer(_REF_ MinTimer* timer);
+    EXPORT_FUNC_EX(bool) MinStartTimer(_REF_ MinTimer* timer);
 
-    EXPORT_FUNC MinStopTimer(_REF_ MinTimer* timer);
+    EXPORT_FUNC_EX(bool) MinStopTimer(_REF_ MinTimer* timer);
 
     //To return the value in milliseconds, please set iterations to 1000
-    EXPORT_FUNC MinTimeTimer(_IN_ const MinTimer* timer, _OUT_ double* deltaTime, int iterations);
+    EXPORT_FUNC_EX(double) MinTimeTimer(_IN_ const MinTimer* timer, int iterations);
 
     EXPORT_FUNC_EX(float) MinMilliToMinute(int milliSecond);
 

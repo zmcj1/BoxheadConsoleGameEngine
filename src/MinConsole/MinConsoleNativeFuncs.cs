@@ -346,7 +346,7 @@ namespace MinConsole
         public extern static uint MinGetRandomValue(uint minimum, uint maximum);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinInitTimer(out MinTimer timer);
+        public extern static MinTimer MinInitTimer();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinStartTimer(ref MinTimer timer);
@@ -355,7 +355,7 @@ namespace MinConsole
         public extern static bool MinStopTimer(ref MinTimer timer);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinTimeTimer(ref MinTimer timer, out double deltaTime, int iterations);
+        public extern static double MinTimeTimer(ref MinTimer timer, int iterations);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static float MinMilliToMinute(int milliSecond);
