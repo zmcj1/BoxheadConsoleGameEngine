@@ -5,7 +5,7 @@ using namespace std;
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC MinGetWinVersion(uint* MajorVer, uint* MinorVer, uint* BuildNumber)
+    EXPORT_FUNC_EX(bool) MinGetWinVersion(uint* MajorVer, uint* MinorVer, uint* BuildNumber)
     {
         FARPROC func;
         bool suc = UnusualMethods::GetFuncFromDll(L"ntdll.dll", "RtlGetNtVersionNumbers", &func);
@@ -25,43 +25,43 @@ namespace MinConsoleNative
         return true;
     }
 
-    EXPORT_FUNC MinIsWindows2000(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows2000(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MajorVer == 5 && MinorVer == 0;
     }
 
-    EXPORT_FUNC MinIsWindowsXP(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindowsXP(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MajorVer == 5 && MinorVer == 1;
     }
 
-    EXPORT_FUNC MinIsWindowsVista(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindowsVista(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MajorVer == 6 && MinorVer == 0;
     }
 
-    EXPORT_FUNC MinIsWindows7(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows7(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MajorVer == 6 && MinorVer == 1;
     }
 
-    EXPORT_FUNC MinIsWindows8(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows8(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MajorVer == 6 && MinorVer == 2;
     }
 
-    EXPORT_FUNC MinIsWindows8point1(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows8point1(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MajorVer == 6 && MinorVer == 3;
     }
 
-    EXPORT_FUNC MinIsWindows8Or8point1(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows8Or8point1(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MinIsWindows8(MajorVer, MinorVer, BuildNumber) ||
             MinIsWindows8point1(MajorVer, MinorVer, BuildNumber);
     }
 
-    EXPORT_FUNC MinIsWindows10(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MajorVer == 10;
     }
@@ -71,12 +71,12 @@ namespace MinConsoleNative
         return (MajorVer == 10 && MinorVer == 0 && BuildNumber >= 22000);
     }
 
-    EXPORT_FUNC MinIsWindows2000OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows2000OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MajorVer >= 5;
     }
 
-    EXPORT_FUNC MinIsWindowsXPOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindowsXPOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 5)
             return true;
@@ -85,12 +85,12 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindowsVistaOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindowsVistaOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MajorVer >= 6;
     }
 
-    EXPORT_FUNC MinIsWindows7OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows7OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 6)
             return true;
@@ -99,7 +99,7 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows8Or8point1OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows8Or8point1OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 6)
             return true;
@@ -108,12 +108,12 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows10OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         return MajorVer >= 10;
     }
 
-    EXPORT_FUNC MinIsWindows10Version1511OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1511OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 10)
             return true;
@@ -124,7 +124,7 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows10Version1607OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1607OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 10)
             return true;
@@ -135,7 +135,7 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows10CreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10CreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 10)
             return true;
@@ -146,7 +146,7 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows10FallCreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10FallCreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 10)
             return true;
@@ -157,7 +157,7 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows10Version1803OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1803OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 10)
             return true;
@@ -168,7 +168,7 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows10Version1809OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1809OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 10)
             return true;
@@ -179,7 +179,7 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows10Version1903OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1903OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 10)
             return true;
@@ -190,7 +190,7 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows10Version1909OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1909OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 10)
             return true;
@@ -201,7 +201,7 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows10Version2004OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version2004OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 10)
             return true;
@@ -212,7 +212,7 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows10Version20H2OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version20H2OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 10)
             return true;
@@ -223,7 +223,7 @@ namespace MinConsoleNative
         else return false;
     }
 
-    EXPORT_FUNC MinIsWindows10Version21H1OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version21H1OrLater(uint MajorVer, uint MinorVer, uint BuildNumber)
     {
         if (MajorVer > 10)
             return true;

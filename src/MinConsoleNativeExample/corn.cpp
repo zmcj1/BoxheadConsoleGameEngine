@@ -198,6 +198,10 @@ int main()
     corn.Construct(L"Mr. Kukin(Corn)", WIDTH, HEIGHT);
     corn.StartLoop();
 
+    //bool win11 = winVersion.IsWindows11();
+    //console.WriteLine(to_wstring(win11));
+    //console.ReadLine();
+
     //int type = (int)console.GetConsoleType();
     //console.WriteLine(to_wstring(type));
     //console.ReadLine();

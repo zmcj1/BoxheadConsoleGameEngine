@@ -5,62 +5,62 @@
 namespace MinConsoleNative
 {
     //FROM:https://github.com/zhongyang219/ConsoleMusicPlayer/blob/master/MusicPlayer/WinVersionHelper.h
-    EXPORT_FUNC MinGetWinVersion(_OUT_ uint* MajorVer, _OUT_ uint* MinorVer, _OUT_ uint* BuildNumber);
+    EXPORT_FUNC_EX(bool) MinGetWinVersion(_OUT_ uint* MajorVer, _OUT_ uint* MinorVer, _OUT_ uint* BuildNumber);
 
-    EXPORT_FUNC MinIsWindows2000(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows2000(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindowsXP(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindowsXP(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindowsVista(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindowsVista(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows7(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows7(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows8(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows8(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows8point1(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows8point1(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows8Or8point1(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows8Or8point1(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows10(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10(uint MajorVer, uint MinorVer, uint BuildNumber);
 
     EXPORT_FUNC_EX(bool) MinIsWindows11(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows2000OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows2000OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindowsXPOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindowsXPOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindowsVistaOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindowsVistaOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows7OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows7OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows8Or8point1OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows8Or8point1OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows10OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows10Version1511OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1511OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows10Version1607OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1607OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
     //VT Support
     //(Version:1703) See:https://devblogs.microsoft.com/commandline/windows-10-creators-update-whats-new-in-bashwsl-windows-console/
-    EXPORT_FUNC MinIsWindows10CreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10CreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
     //(Version:1709)
-    EXPORT_FUNC MinIsWindows10FallCreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10FallCreatorsOrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows10Version1803OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1803OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows10Version1809OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1809OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows10Version1903OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1903OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows10Version1909OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version1909OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows10Version2004OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version2004OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows10Version20H2OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version20H2OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
-    EXPORT_FUNC MinIsWindows10Version21H1OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
+    EXPORT_FUNC_EX(bool) MinIsWindows10Version21H1OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
     EXPORT_FUNC_EX(bool) MinIsWindows10Version21H2OrLater(uint MajorVer, uint MinorVer, uint BuildNumber);
 
