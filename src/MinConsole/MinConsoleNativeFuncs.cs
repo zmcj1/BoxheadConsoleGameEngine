@@ -130,25 +130,25 @@ namespace MinConsole
         public extern static bool MinSetConsoleOutputMode(IntPtr consoleOutput, ConsoleOutputMode mode);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetConsoleMode(IntPtr consoleInput, IntPtr consoleOutput, out ConsoleMode consoleMode);
+        public extern static ConsoleMode MinGetConsoleMode(IntPtr consoleInput, IntPtr consoleOutput);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetConsoleMode(IntPtr consoleInput, IntPtr consoleOutput, ConsoleMode consoleMode);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetConsoleFont(IntPtr consoleOutput, out ConsoleFont consoleFont);
+        public extern static ConsoleFont MinGetConsoleFont(IntPtr consoleOutput);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetConsoleFont(IntPtr consoleOutput, ConsoleFont consoleFont);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetConsoleWindowSize(IntPtr consoleOutput, out POINT size);
+        public extern static POINT MinGetConsoleWindowSize(IntPtr consoleOutput);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetConsoleWindowSize(IntPtr consoleOutput, POINT size);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinGetConsoleBufferSize(IntPtr consoleOutput, out POINT size);
+        public extern static POINT MinGetConsoleBufferSize(IntPtr consoleOutput);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinSetConsoleBufferSize(IntPtr consoleOutput, POINT size);

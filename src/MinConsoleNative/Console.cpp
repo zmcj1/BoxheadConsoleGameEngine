@@ -200,8 +200,10 @@ namespace MinConsoleNative
         return ::SetConsoleMode(consoleOutput, outputMode);
     }
 
-    EXPORT_FUNC MinGetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode* consoleMode)
+    EXPORT_FUNC_EX(ConsoleMode) MinGetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput)
     {
+        ConsoleMode consoleMode;
+
         ConsoleInputMode cim;
         ConsoleOutputMode com;
 
@@ -244,13 +246,13 @@ namespace MinConsoleNative
         com_ptr->_ENABLE_LVB_GRID_WORLDWIDE =
             (outputMode & ENABLE_LVB_GRID_WORLDWIDE) == ENABLE_LVB_GRID_WORLDWIDE;
 
-        consoleMode->inputMode = cim;
-        consoleMode->outputMode = com;
+        consoleMode.inputMode = cim;
+        consoleMode.outputMode = com;
 
-        return true;
+        return consoleMode;
     }
 
-    EXPORT_FUNC MinSetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode consoleMode)
+    EXPORT_FUNC_EX(bool) MinSetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode consoleMode)
     {
         DWORD inputMode = 0, outputMode = 0;
 
@@ -294,23 +296,26 @@ namespace MinConsoleNative
         return is && os;
     }
 
-    EXPORT_FUNC MinGetConsoleFont(HANDLE consoleOutput, ConsoleFont* consoleFont)
+    EXPORT_FUNC_EX(ConsoleFont) MinGetConsoleFont(HANDLE consoleOutput)
     {
+        ConsoleFont consoleFont;
+
         //get
         CONSOLE_FONT_INFOEX cfi;
         cfi.cbSize = sizeof(CONSOLE_FONT_INFOEX);
         ::GetCurrentConsoleFontEx(consoleOutput, false, &cfi);
         //set
-        consoleFont->FontIndex = cfi.nFont;
-        consoleFont->FontSize = cfi.dwFontSize;
-        consoleFont->FontFamily = cfi.FontFamily;
-        consoleFont->FontWeight = cfi.FontWeight;
+        consoleFont.FontIndex = cfi.nFont;
+        consoleFont.FontSize = cfi.dwFontSize;
+        consoleFont.FontFamily = cfi.FontFamily;
+        consoleFont.FontWeight = cfi.FontWeight;
         size_t fontNameLength = wcslen(cfi.FaceName);
-        ::wcscpy_s(consoleFont->FaceName, fontNameLength + 1, cfi.FaceName);
-        return true;
+        ::wcscpy_s(consoleFont.FaceName, fontNameLength + 1, cfi.FaceName);
+
+        return consoleFont;
     }
 
-    EXPORT_FUNC MinSetConsoleFont(HANDLE consoleOutput, ConsoleFont consoleFont)
+    EXPORT_FUNC_EX(bool) MinSetConsoleFont(HANDLE consoleOutput, ConsoleFont consoleFont)
     {
         //get
         CONSOLE_FONT_INFOEX cfi;
@@ -324,16 +329,19 @@ namespace MinConsoleNative
         return ::SetCurrentConsoleFontEx(consoleOutput, false, &cfi);
     }
 
-    EXPORT_FUNC MinGetConsoleWindowSize(HANDLE consoleOutput, POINT* size)
+    EXPORT_FUNC_EX(POINT) MinGetConsoleWindowSize(HANDLE consoleOutput)
     {
+        POINT size;
+
         CONSOLE_SCREEN_BUFFER_INFO csbi;
         ::GetConsoleScreenBufferInfo(consoleOutput, &csbi);
-        size->x = (csbi.srWindow.Right - csbi.srWindow.Left) + 1;
-        size->y = (csbi.srWindow.Bottom - csbi.srWindow.Top) + 1;
-        return true;
+        size.x = (csbi.srWindow.Right - csbi.srWindow.Left) + 1;
+        size.y = (csbi.srWindow.Bottom - csbi.srWindow.Top) + 1;
+
+        return size;
     }
 
-    EXPORT_FUNC MinSetConsoleWindowSize(HANDLE consoleOutput, POINT size)
+    EXPORT_FUNC_EX(bool) MinSetConsoleWindowSize(HANDLE consoleOutput, POINT size)
     {
         SMALL_RECT sm;
         sm.Left = 0;
@@ -343,16 +351,19 @@ namespace MinConsoleNative
         return ::SetConsoleWindowInfo(consoleOutput, true, &sm);
     }
 
-    EXPORT_FUNC MinGetConsoleBufferSize(HANDLE consoleOutput, POINT* size)
+    EXPORT_FUNC_EX(POINT) MinGetConsoleBufferSize(HANDLE consoleOutput)
     {
+        POINT size;
+
         CONSOLE_SCREEN_BUFFER_INFO csbi;
         ::GetConsoleScreenBufferInfo(consoleOutput, &csbi);
-        size->x = csbi.dwSize.X;
-        size->y = csbi.dwSize.Y;
-        return true;
+        size.x = csbi.dwSize.X;
+        size.y = csbi.dwSize.Y;
+
+        return size;
     }
 
-    EXPORT_FUNC MinSetConsoleBufferSize(HANDLE consoleOutput, POINT size)
+    EXPORT_FUNC_EX(bool) MinSetConsoleBufferSize(HANDLE consoleOutput, POINT size)
     {
         COORD coord;
         coord.X = size.x;
@@ -1008,8 +1019,7 @@ namespace MinConsoleNative
         }
         else
         {
-            POINT bufSize;
-            MinGetConsoleBufferSize(consoleOutput, &bufSize);
+            POINT bufSize = MinGetConsoleBufferSize(consoleOutput);
 
             int length = bufSize.x * bufSize.y;
             COORD coord = { 0, 0 };
@@ -1060,8 +1070,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinRefreshScreen(HANDLE consoleOutput, wchar c, ushort att)
     {
-        POINT bufSize;
-        MinGetConsoleBufferSize(consoleOutput, &bufSize);
+        POINT bufSize = MinGetConsoleBufferSize(consoleOutput);
 
         int length = bufSize.x * bufSize.y;
         COORD coord = { 0, 0 };
@@ -1132,9 +1141,7 @@ namespace MinConsoleNative
 
     ConsoleMode Console::GetConsoleMode()
     {
-        ConsoleMode cm;
-        MinGetConsoleMode(cons.consoleInput, cons.consoleOutput, &cm);
-        return cm;
+        return MinGetConsoleMode(cons.consoleInput, cons.consoleOutput);
     }
 
     bool Console::SetConsoleMode(const ConsoleMode& consoleMode)
@@ -1144,9 +1151,7 @@ namespace MinConsoleNative
 
     ConsoleFont Console::GetConsoleFont()
     {
-        ConsoleFont consoleFont;
-        MinGetConsoleFont(cons.consoleOutput, &consoleFont);
-        return consoleFont;
+        return MinGetConsoleFont(cons.consoleOutput);
     }
 
     bool Console::SetConsoleFont(const ConsoleFont& consoleFont)
@@ -1156,9 +1161,7 @@ namespace MinConsoleNative
 
     POINT Console::GetConsoleWindowSize()
     {
-        POINT point;
-        MinGetConsoleWindowSize(cons.consoleOutput, &point);
-        return point;
+        return MinGetConsoleWindowSize(cons.consoleOutput);
     }
 
     bool Console::SetConsoleWindowSize(POINT size)
@@ -1168,9 +1171,7 @@ namespace MinConsoleNative
 
     POINT Console::GetConsoleBufferSize()
     {
-        POINT size;
-        MinGetConsoleBufferSize(cons.consoleOutput, &size);
-        return size;
+        return MinGetConsoleBufferSize(cons.consoleOutput);
     }
 
     bool Console::SetConsoleBufferSize(POINT size)

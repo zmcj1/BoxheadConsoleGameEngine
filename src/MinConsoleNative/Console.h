@@ -503,21 +503,21 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinSetConsoleOutputMode(HANDLE consoleOutput, ConsoleOutputMode mode);
 
-    EXPORT_FUNC MinGetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, _OUT_ ConsoleMode* consoleMode);
+    EXPORT_FUNC_EX(ConsoleMode) MinGetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput);
 
-    EXPORT_FUNC MinSetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode consoleMode);
+    EXPORT_FUNC_EX(bool) MinSetConsoleMode(HANDLE consoleInput, HANDLE consoleOutput, ConsoleMode consoleMode);
 
-    EXPORT_FUNC MinGetConsoleFont(HANDLE consoleOutput, _OUT_ ConsoleFont* consoleFont);
+    EXPORT_FUNC_EX(ConsoleFont) MinGetConsoleFont(HANDLE consoleOutput);
 
-    EXPORT_FUNC MinSetConsoleFont(HANDLE consoleOutput, ConsoleFont consoleFont);
+    EXPORT_FUNC_EX(bool) MinSetConsoleFont(HANDLE consoleOutput, ConsoleFont consoleFont);
 
-    EXPORT_FUNC MinGetConsoleWindowSize(HANDLE consoleOutput, _OUT_ POINT* size);
+    EXPORT_FUNC_EX(POINT) MinGetConsoleWindowSize(HANDLE consoleOutput);
 
-    EXPORT_FUNC MinSetConsoleWindowSize(HANDLE consoleOutput, POINT size);
+    EXPORT_FUNC_EX(bool) MinSetConsoleWindowSize(HANDLE consoleOutput, POINT size);
 
-    EXPORT_FUNC MinGetConsoleBufferSize(HANDLE consoleOutput, _OUT_ POINT* size);
+    EXPORT_FUNC_EX(POINT) MinGetConsoleBufferSize(HANDLE consoleOutput);
 
-    EXPORT_FUNC MinSetConsoleBufferSize(HANDLE consoleOutput, POINT size);
+    EXPORT_FUNC_EX(bool) MinSetConsoleBufferSize(HANDLE consoleOutput, POINT size);
 
     //if this function returns false, you should use Debug::GetLastMinErrorMsg to get more information.
     EXPORT_FUNC_EX(bool) MinCheckSize(HANDLE consoleOutput, POINT size);
