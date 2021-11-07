@@ -1,20 +1,23 @@
 ﻿#include "ConRegistry.h"
 #include "WinVersion.h"
+#include "VTConverter.h"
 #include <strsafe.h>
 
 namespace MinConsoleNative
 {
     EXPORT_FUNC_EX(bool) MinIsUsingLegacyConsole()
     {
-        static bool isLegacy10 = false, checked = false;
+        static bool isLegacyConsole = false, checked = false;
 
         if (!checked)
         {
-            if (WinVersion::Global.GetInstance().IsWindows10OrLater())
+            //首先Windows10以上才可能是新版控制台
+            //其次在Console注册表里面寻找ForceV2, 如果找不到该项就判断是否支持VT, 如果支持则必定是新版控制台
+            if (winVersion.IsWindows10OrLater())
             {
                 HKEY key;
-                bool forceV2 = false;
                 DWORD value = 0, type = 0, size = sizeof(value);
+                bool forceV2 = false;
 
                 if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Console", 0, KEY_READ, &key) == 0)
                 {
@@ -25,13 +28,22 @@ namespace MinConsoleNative
                     RegCloseKey(key);
                 }
 
-                isLegacy10 = !forceV2;
+                if (forceV2)
+                {
+                    isLegacyConsole = false;
+                }
+                //找不到ForceV2时判断是否支持VT, 如果支持VT则必定是新版控制台
+                else
+                {
+                    bool VTSupport = VTConverter::VTSupport();
+                    isLegacyConsole = !VTSupport;
+                }
             }
 
             checked = true;
         }
 
-        return isLegacy10;
+        return isLegacyConsole;
     }
 
     EXPORT_FUNC_EX(bool) MinUseLegacyConsole(bool yes)

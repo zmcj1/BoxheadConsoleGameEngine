@@ -1035,6 +1035,7 @@ namespace MinConsoleNative
         {
             *type = ConsoleType::WindowsTerminal;
         }
+        //Windows Console
         else
         {
             bool legacy = MinIsUsingLegacyConsole();
