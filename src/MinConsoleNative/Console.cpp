@@ -52,8 +52,7 @@ namespace MinConsoleNative
         ::SetConsoleOutputCP(CP_UTF8);
 
         //Ensure that the Chinese input method works normally.
-        COORD pos;
-        MinGetConsoleCursorPos(cons.consoleOutput, &pos);
+        COORD pos = MinGetConsoleCursorPos(cons.consoleOutput);
         MinSetConsoleCursorPos(cons.consoleOutput, pos);
 
         return cons;
@@ -398,34 +397,30 @@ namespace MinConsoleNative
         MinSetConsoleWindowSize(consoleOutput, size);
     }
 
-    EXPORT_FUNC MinGetConsoleForeColor(HANDLE consoleOutput, ConsoleColor* foreColor)
+    EXPORT_FUNC_EX(ConsoleColor) MinGetConsoleForeColor(HANDLE consoleOutput)
     {
         CONSOLE_SCREEN_BUFFER_INFO csbi;
         ::GetConsoleScreenBufferInfo(consoleOutput, &csbi);
-        *foreColor = (ConsoleColor)(csbi.wAttributes & 0x000F);
-        return true;
+        return (ConsoleColor)(csbi.wAttributes & 0x000F);
     }
 
-    EXPORT_FUNC MinGetConsoleBackColor(HANDLE consoleOutput, ConsoleColor* backColor)
+    EXPORT_FUNC_EX(ConsoleColor) MinGetConsoleBackColor(HANDLE consoleOutput)
     {
         CONSOLE_SCREEN_BUFFER_INFO csbi;
         ::GetConsoleScreenBufferInfo(consoleOutput, &csbi);
-        *backColor = (ConsoleColor)((csbi.wAttributes & 0x00F0) / 16);
-        return true;
+        return (ConsoleColor)((csbi.wAttributes & 0x00F0) / 16);
     }
 
-    EXPORT_FUNC MinSetConsoleForeColor(HANDLE consoleOutput, ConsoleColor foreColor)
+    EXPORT_FUNC_EX(bool) MinSetConsoleForeColor(HANDLE consoleOutput, ConsoleColor foreColor)
     {
-        ConsoleColor backColor = ConsoleColor::BLACK;
-        MinGetConsoleBackColor(consoleOutput, &backColor);
+        ConsoleColor backColor = MinGetConsoleBackColor(consoleOutput);
         ushort att = (ushort)((ushort)foreColor | ((ushort)backColor << 4));
         return ::SetConsoleTextAttribute(consoleOutput, att);
     }
 
-    EXPORT_FUNC MinSetConsoleBackColor(HANDLE consoleOutput, ConsoleColor backColor)
+    EXPORT_FUNC_EX(bool) MinSetConsoleBackColor(HANDLE consoleOutput, ConsoleColor backColor)
     {
-        ConsoleColor foreColor = ConsoleColor::GRAY;
-        MinGetConsoleForeColor(consoleOutput, &foreColor);
+        ConsoleColor foreColor = MinGetConsoleForeColor(consoleOutput);
         ushort att = (ushort)((ushort)foreColor | ((ushort)backColor << 4));
         return ::SetConsoleTextAttribute(consoleOutput, att);
     }
@@ -437,15 +432,14 @@ namespace MinConsoleNative
         return set_foreColor_suc && set_backColor_suc;
     }
 
-    EXPORT_FUNC MinGetConsoleCursorPos(HANDLE consoleOutput, COORD* pos)
+    EXPORT_FUNC_EX(COORD) MinGetConsoleCursorPos(HANDLE consoleOutput)
     {
         CONSOLE_SCREEN_BUFFER_INFO csbi;
         ::GetConsoleScreenBufferInfo(consoleOutput, &csbi);
-        *pos = csbi.dwCursorPosition;
-        return true;
+        return csbi.dwCursorPosition;
     }
 
-    EXPORT_FUNC MinSetConsoleCursorPos(HANDLE consoleOutput, COORD pos)
+    EXPORT_FUNC_EX(bool) MinSetConsoleCursorPos(HANDLE consoleOutput, COORD pos)
     {
         return ::SetConsoleCursorPosition(consoleOutput, pos);
     }
@@ -736,14 +730,14 @@ namespace MinConsoleNative
         return info;
     }
 
-    EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, const wchar* buffer)
+    EXPORT_FUNC_EX(bool) MinWriteConsole(HANDLE consoleOutput, const wchar* buffer)
     {
         int len = wcslen(buffer);
         DWORD wr = 0;
         return ::WriteConsole(consoleOutput, buffer, len, &wr, nullptr);
     }
 
-    EXPORT_FUNC MinWriteConsoleOutput(HANDLE consoleOutput, const CHAR_INFO* charInfos, short x, short y, short width, short height)
+    EXPORT_FUNC_EX(bool) MinWriteConsoleOutput(HANDLE consoleOutput, const CHAR_INFO* charInfos, short x, short y, short width, short height)
     {
         COORD size;
         size.X = width;
@@ -762,13 +756,13 @@ namespace MinConsoleNative
         return ::WriteConsoleOutput(consoleOutput, charInfos, size, coord, &smallRect);
     }
 
-    EXPORT_FUNC MinWriteConsoleOutputAttribute(HANDLE consoleOutput, const ushort* att, int attCount, COORD pos)
+    EXPORT_FUNC_EX(bool) MinWriteConsoleOutputAttribute(HANDLE consoleOutput, const ushort* att, int attCount, COORD pos)
     {
         DWORD written = 0;
         return ::WriteConsoleOutputAttribute(consoleOutput, att, attCount, pos, &written);
     }
 
-    EXPORT_FUNC MinWriteConsoleOutputCharacter(HANDLE consoleOutput, const wchar* str, int charCount, COORD pos)
+    EXPORT_FUNC_EX(bool) MinWriteConsoleOutputCharacter(HANDLE consoleOutput, const wchar* str, int charCount, COORD pos)
     {
         DWORD written = 0;
         return ::WriteConsoleOutputCharacter(consoleOutput, str, charCount, pos, &written);
@@ -781,8 +775,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinWrite2(HANDLE consoleOutput, _IN_ const wchar* str, ConsoleColor foreColor)
     {
-        ConsoleColor fColor;
-        MinGetConsoleForeColor(consoleOutput, &fColor);
+        ConsoleColor fColor = MinGetConsoleForeColor(consoleOutput);
         MinSetConsoleForeColor(consoleOutput, foreColor);
         bool writeSuc = MinWrite1(consoleOutput, str);
         MinSetConsoleForeColor(consoleOutput, fColor);
@@ -791,10 +784,9 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinWrite3(HANDLE consoleOutput, _IN_ const wchar* str, ConsoleColor foreColor, ConsoleColor backColor)
     {
-        ConsoleColor fColor;
-        ConsoleColor bColor;
-        MinGetConsoleForeColor(consoleOutput, &fColor);
-        MinGetConsoleBackColor(consoleOutput, &bColor);
+        ConsoleColor fColor = MinGetConsoleForeColor(consoleOutput);
+        ConsoleColor bColor = MinGetConsoleBackColor(consoleOutput);
+
         MinSetConsoleForeColor(consoleOutput, foreColor);
         MinSetConsoleBackColor(consoleOutput, backColor);
         bool writeSuc = MinWrite1(consoleOutput, str);
@@ -853,26 +845,28 @@ namespace MinConsoleNative
         return console.WriteLine(str, foreColor, backColor, under_score);
     }
 
-    EXPORT_FUNC MinCreateConsoleScreenBuffer(HANDLE* consoleOutput)
+    EXPORT_FUNC_EX(HANDLE) MinCreateConsoleScreenBuffer()
     {
-        *consoleOutput = ::CreateConsoleScreenBuffer(GENERIC_WRITE | GENERIC_READ,
+        HANDLE consoleOutput = ::CreateConsoleScreenBuffer(GENERIC_WRITE | GENERIC_READ,
             FILE_SHARE_WRITE | FILE_SHARE_READ, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-        return consoleOutput != INVALID_HANDLE_VALUE;
+
+        return consoleOutput;
     }
 
-    EXPORT_FUNC MinSetConsoleActiveScreenBuffer(HANDLE consoleOutput)
+    EXPORT_FUNC_EX(bool) MinSetConsoleActiveScreenBuffer(HANDLE consoleOutput)
     {
         return ::SetConsoleActiveScreenBuffer(consoleOutput);
     }
 
-    EXPORT_FUNC MinCloseConsoleScreenBuffer(HANDLE consoleOutput)
+    EXPORT_FUNC_EX(bool) MinCloseConsoleScreenBuffer(HANDLE consoleOutput)
     {
         return ::CloseHandle(consoleOutput);
     }
 
-    EXPORT_FUNC MinCreateFile(ConsoleFile fileMode, HANDLE* handle)
+    EXPORT_FUNC_EX(HANDLE) MinCreateFile(ConsoleFile fileMode)
     {
         const wchar* modeString = nullptr;
+
         switch (fileMode)
         {
         case ConsoleFile::Read:
@@ -883,17 +877,16 @@ namespace MinConsoleNative
             break;
         }
 
-        if (modeString == nullptr) return false;
+        if (modeString == nullptr)
+            return nullptr;
 
-        *handle = ::CreateFile(modeString,
+        return ::CreateFile(modeString,
             GENERIC_READ | GENERIC_WRITE,
             FILE_SHARE_READ | FILE_SHARE_WRITE,
             nullptr, OPEN_EXISTING, 0, nullptr);
-
-        return *handle != INVALID_HANDLE_VALUE;
     }
 
-    EXPORT_FUNC MinWriteFile(HANDLE handle, const char* str)
+    EXPORT_FUNC_EX(bool) MinWriteFile(HANDLE handle, const char* str)
     {
         DWORD written = 0;
         return ::WriteFile(handle, str, strlen(str), &written, nullptr);
@@ -905,8 +898,10 @@ namespace MinConsoleNative
         return ::ReadFile(handle, buffer, bufferLen, &readCount, nullptr);
     }
 
-    EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, CharWidth* cw)
+    EXPORT_FUNC_EX(CharWidth) MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c)
     {
+        CharWidth cw;
+
         HDC hdc = GetDC(consoleWindow);
 
         CONSOLE_FONT_INFOEX cfi;
@@ -956,29 +951,31 @@ namespace MinConsoleNative
 
         if (width >= textm.tmMaxCharWidth)
         {
-            *cw = CharWidth::Full;
+            cw = CharWidth::Full;
         }
         else
         {
-            *cw = CharWidth::Half;
+            cw = CharWidth::Half;
         }
 
         ReleaseDC(consoleWindow, hdc);
 
-        return true;
+        return cw;
     }
 
-    EXPORT_FUNC MinGetStringWidth(HWND consoleWindow, HANDLE consoleOutput, const wchar* str, int* width)
+    EXPORT_FUNC_EX(int) MinGetStringWidth(HWND consoleWindow, HANDLE consoleOutput, const wchar* str)
     {
+        int width = 0;
+
         size_t len = wcslen(str);
 
         for (size_t i = 0; i < len; i++)
         {
-            CharWidth cw;
-            MinGetCharWidth(consoleWindow, consoleOutput, str[i], &cw);
-            *width += (int)cw;
+            CharWidth cw = MinGetCharWidth(consoleWindow, consoleOutput, str[i]);
+            width += (int)cw;
         }
-        return true;
+
+        return width;
     }
 
     EXPORT_FUNC MinGetTitle(wchar* titleBuffer, int sizeOfBuffer)
@@ -986,20 +983,19 @@ namespace MinConsoleNative
         return ::GetConsoleTitle(titleBuffer, sizeOfBuffer) == 0;
     }
 
-    EXPORT_FUNC MinSetTitle(const wchar* titleBuffer)
+    EXPORT_FUNC_EX(bool) MinSetTitle(const wchar* titleBuffer)
     {
         return ::SetConsoleTitle(titleBuffer);
     }
 
-    EXPORT_FUNC MinGetConsoleCursorVisible(HANDLE consoleOutput, bool* visible)
+    EXPORT_FUNC_EX(bool) MinGetConsoleCursorVisible(HANDLE consoleOutput)
     {
         CONSOLE_CURSOR_INFO cci;
         ::GetConsoleCursorInfo(consoleOutput, &cci);
-        *visible = cci.bVisible;
-        return true;
+        return cci.bVisible;
     }
 
-    EXPORT_FUNC MinSetConsoleCursorVisible(HANDLE consoleOutput, bool visible)
+    EXPORT_FUNC_EX(bool) MinSetConsoleCursorVisible(HANDLE consoleOutput, bool visible)
     {
         CONSOLE_CURSOR_INFO cci;
         ::GetConsoleCursorInfo(consoleOutput, &cci);
@@ -1007,10 +1003,10 @@ namespace MinConsoleNative
         return ::SetConsoleCursorInfo(consoleOutput, &cci);
     }
 
-    EXPORT_FUNC MinClear(HANDLE consoleOutput)
+    EXPORT_FUNC_EX(bool) MinClear(HANDLE consoleOutput)
     {
-        ConsoleType consoleType = ConsoleType::WindowsConsole;
-        MinGetConsoleType(&consoleType);
+        ConsoleType consoleType = MinGetConsoleType();
+
         if (consoleType == ConsoleType::WindowsTerminal)
         {
             //Especially effective in Windows Terminal.
@@ -1037,20 +1033,22 @@ namespace MinConsoleNative
         }
     }
 
-    EXPORT_FUNC MinSetConsoleCtrlHandler(PHANDLER_ROUTINE handler, bool add)
+    EXPORT_FUNC_EX(bool) MinSetConsoleCtrlHandler(PHANDLER_ROUTINE handler, bool add)
     {
         return ::SetConsoleCtrlHandler(handler, add);
     }
 
-    EXPORT_FUNC MinGetConsoleType(ConsoleType* type)
+    EXPORT_FUNC_EX(ConsoleType) MinGetConsoleType()
     {
+        ConsoleType type;
+
         wchar buffer[MAX_PATH] = { 0 };
-        GetEnvironmentVariable(L"WT_SESSION", buffer, MAX_PATH);
+        ::GetEnvironmentVariable(L"WT_SESSION", buffer, MAX_PATH);
 
         //Now support Windows Terminal!
         if (wcscmp(buffer, L"") != 0)
         {
-            *type = ConsoleType::WindowsTerminal;
+            type = ConsoleType::WindowsTerminal;
         }
         //Windows Console
         else
@@ -1058,14 +1056,15 @@ namespace MinConsoleNative
             bool legacy = MinIsUsingLegacyConsole();
             if (legacy)
             {
-                *type = ConsoleType::WindowsLegacyConsole;
+                type = ConsoleType::WindowsLegacyConsole;
             }
             else
             {
-                *type = ConsoleType::WindowsConsole;
+                type = ConsoleType::WindowsConsole;
             }
         }
-        return true;
+
+        return type;
     }
 
     EXPORT_FUNC_EX(bool) MinRefreshScreen(HANDLE consoleOutput, wchar c, ushort att)
@@ -1191,16 +1190,12 @@ namespace MinConsoleNative
 
     ConsoleColor Console::GetConsoleForeColor()
     {
-        ConsoleColor foreColor;
-        MinGetConsoleForeColor(cons.consoleOutput, &foreColor);
-        return foreColor;
+        return MinGetConsoleForeColor(cons.consoleOutput);
     }
 
     ConsoleColor Console::GetConsoleBackColor()
     {
-        ConsoleColor backColor;
-        MinGetConsoleBackColor(cons.consoleOutput, &backColor);
-        return backColor;
+        return MinGetConsoleBackColor(cons.consoleOutput);
     }
 
     bool Console::SetConsoleForeColor(ConsoleColor foreColor)
@@ -1220,9 +1215,7 @@ namespace MinConsoleNative
 
     COORD Console::GetConsoleCursorPos()
     {
-        COORD pos;
-        MinGetConsoleCursorPos(cons.consoleOutput, &pos);
-        return pos;
+        return MinGetConsoleCursorPos(cons.consoleOutput);
     }
 
     bool Console::SetConsoleCursorPos(COORD pos)
@@ -1288,9 +1281,7 @@ namespace MinConsoleNative
 
     HANDLE Console::CreateConsoleScreenBuffer()
     {
-        HANDLE consoleOutput;
-        MinCreateConsoleScreenBuffer(&consoleOutput);
-        return consoleOutput;
+        return MinCreateConsoleScreenBuffer();
     }
 
     bool Console::SetConsoleActiveScreenBuffer(HANDLE consoleOutput)
@@ -1305,9 +1296,7 @@ namespace MinConsoleNative
 
     HANDLE Console::CreateFileW(ConsoleFile filemode)
     {
-        HANDLE handle = nullptr;
-        MinCreateFile(filemode, &handle);
-        return handle;
+        return MinCreateFile(filemode);
     }
 
     bool Console::WriteFile(std::string str)
@@ -1340,16 +1329,12 @@ namespace MinConsoleNative
 
     ConsoleType Console::GetConsoleType()
     {
-        ConsoleType type;
-        MinGetConsoleType(&type);
-        return type;
+        return MinGetConsoleType();
     }
 
     bool Console::GetConsoleCursorVisible()
     {
-        bool visible = false;
-        MinGetConsoleCursorVisible(cons.consoleOutput, &visible);
-        return visible;
+        return MinGetConsoleCursorVisible(cons.consoleOutput);
     }
 
     bool Console::SetConsoleCursorVisible(bool visible)
@@ -1364,16 +1349,12 @@ namespace MinConsoleNative
 
     CharWidth Console::GetWcharWidth(wchar c)
     {
-        CharWidth charWidth;
-        MinGetCharWidth(cons.consoleWindow, cons.consoleOutput, c, &charWidth);
-        return charWidth;
+        return MinGetCharWidth(cons.consoleWindow, cons.consoleOutput, c);
     }
 
     int Console::GetWstringWidth(const std::wstring& str)
     {
-        int width = 0;
-        MinGetStringWidth(cons.consoleWindow, cons.consoleOutput, str.c_str(), &width);
-        return width;
+        return MinGetStringWidth(cons.consoleWindow, cons.consoleOutput, str.c_str());
     }
 
     bool Console::GetTreatControlCAsInput()

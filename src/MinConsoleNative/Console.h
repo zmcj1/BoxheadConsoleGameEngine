@@ -524,19 +524,19 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(void) MinSetConsoleWindowAndBufferSize(HANDLE consoleOutput, POINT size);
 
-    EXPORT_FUNC MinGetConsoleForeColor(HANDLE consoleOutput, _OUT_ ConsoleColor* foreColor);
+    EXPORT_FUNC_EX(ConsoleColor) MinGetConsoleForeColor(HANDLE consoleOutput);
 
-    EXPORT_FUNC MinGetConsoleBackColor(HANDLE consoleOutput, _OUT_ ConsoleColor* backColor);
+    EXPORT_FUNC_EX(ConsoleColor) MinGetConsoleBackColor(HANDLE consoleOutput);
 
-    EXPORT_FUNC MinSetConsoleForeColor(HANDLE consoleOutput, ConsoleColor foreColor);
+    EXPORT_FUNC_EX(bool) MinSetConsoleForeColor(HANDLE consoleOutput, ConsoleColor foreColor);
 
-    EXPORT_FUNC MinSetConsoleBackColor(HANDLE consoleOutput, ConsoleColor backColor);
+    EXPORT_FUNC_EX(bool) MinSetConsoleBackColor(HANDLE consoleOutput, ConsoleColor backColor);
 
     EXPORT_FUNC_EX(bool) MinResetConsoleColor(HANDLE consoleOutput);
 
-    EXPORT_FUNC MinGetConsoleCursorPos(HANDLE consoleOutput, _OUT_ COORD* pos);
+    EXPORT_FUNC_EX(COORD) MinGetConsoleCursorPos(HANDLE consoleOutput);
 
-    EXPORT_FUNC MinSetConsoleCursorPos(HANDLE consoleOutput, COORD pos);
+    EXPORT_FUNC_EX(bool) MinSetConsoleCursorPos(HANDLE consoleOutput, COORD pos);
 
     //size of buffer should be : charCount * sizeof(wchar)
     EXPORT_FUNC MinReadConsole(HANDLE consoleInput, _OUT_ wchar* buffer, int charCount);
@@ -559,15 +559,15 @@ namespace MinConsoleNative
     //See:https://github.com/microsoft/referencesource/blob/master/mscorlib/system/console.cs
     EXPORT_FUNC_EX(ConsoleKeyInfo) MinReadKey(HANDLE consoleInput);
 
-    EXPORT_FUNC MinWriteConsole(HANDLE consoleOutput, _IN_ const wchar* buffer);
+    EXPORT_FUNC_EX(bool) MinWriteConsole(HANDLE consoleOutput, _IN_ const wchar* buffer);
 
     //You can use something like this:arr[i].Attributes |= COMMON_LVB_UNDERSCORE
-    EXPORT_FUNC MinWriteConsoleOutput(HANDLE consoleOutput, _IN_ const CHAR_INFO* charInfos, short x, short y, short width, short height);
+    EXPORT_FUNC_EX(bool) MinWriteConsoleOutput(HANDLE consoleOutput, _IN_ const CHAR_INFO* charInfos, short x, short y, short width, short height);
 
-    EXPORT_FUNC MinWriteConsoleOutputAttribute(HANDLE consoleOutput, _IN_ const ushort* att, int attCount, COORD pos);
+    EXPORT_FUNC_EX(bool) MinWriteConsoleOutputAttribute(HANDLE consoleOutput, _IN_ const ushort* att, int attCount, COORD pos);
 
     //This function is useful for mixed renderer.
-    EXPORT_FUNC MinWriteConsoleOutputCharacter(HANDLE consoleOutput, _IN_ const wchar* str, int charCount, COORD pos);
+    EXPORT_FUNC_EX(bool) MinWriteConsoleOutputCharacter(HANDLE consoleOutput, _IN_ const wchar* str, int charCount, COORD pos);
 
     //Expand output methods:
     
@@ -600,44 +600,44 @@ namespace MinConsoleNative
     EXPORT_FUNC_EX(bool) MinANSIWriteLine4(_IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score);
 
     //The created HANDLE can be recycled using the MinCloseConsoleScreenBuffer function
-    EXPORT_FUNC MinCreateConsoleScreenBuffer(_OUT_ HANDLE* consoleOutput);
+    EXPORT_FUNC_EX(HANDLE) MinCreateConsoleScreenBuffer();
 
-    EXPORT_FUNC MinSetConsoleActiveScreenBuffer(HANDLE consoleOutput);
+    EXPORT_FUNC_EX(bool) MinSetConsoleActiveScreenBuffer(HANDLE consoleOutput);
 
-    EXPORT_FUNC MinCloseConsoleScreenBuffer(HANDLE consoleOutput);
+    EXPORT_FUNC_EX(bool) MinCloseConsoleScreenBuffer(HANDLE consoleOutput);
 
     //SEE:https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew#consoles
-    EXPORT_FUNC MinCreateFile(ConsoleFile fileMode, _OUT_ HANDLE* handle);
+    EXPORT_FUNC_EX(HANDLE) MinCreateFile(ConsoleFile fileMode);
 
     //IMPORTANT!!!  File I/O function does not support Unicode.
-    EXPORT_FUNC MinWriteFile(HANDLE handle, _IN_ const char* str);
+    EXPORT_FUNC_EX(bool) MinWriteFile(HANDLE handle, _IN_ const char* str);
 
     //IMPORTANT!!!  File I/O function does not support Unicode.
     EXPORT_FUNC MinReadFile(HANDLE handle, _OUT_ char* buffer, DWORD bufferLen);
 
     //See:https://github.com/microsoft/DbgShell/blob/master/DbgShell/ConsoleControl.cs
-    EXPORT_FUNC MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c, _OUT_ CharWidth* cw);
+    EXPORT_FUNC_EX(CharWidth) MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c);
 
-    EXPORT_FUNC MinGetStringWidth(HWND consoleWindow, HANDLE consoleOutput, _IN_ const wchar* str, _OUT_ int* width);
+    EXPORT_FUNC_EX(int) MinGetStringWidth(HWND consoleWindow, HANDLE consoleOutput, _IN_ const wchar* str);
 
     //sizeof(title) should be MAX_PATH
     EXPORT_FUNC MinGetTitle(_OUT_ wchar* titleBuffer, int sizeOfBuffer);
 
-    EXPORT_FUNC MinSetTitle(_IN_ const wchar* titleBuffer);
+    EXPORT_FUNC_EX(bool) MinSetTitle(_IN_ const wchar* titleBuffer);
 
-    EXPORT_FUNC MinGetConsoleCursorVisible(HANDLE consoleOutput, _OUT_ bool* visible);
+    EXPORT_FUNC_EX(bool) MinGetConsoleCursorVisible(HANDLE consoleOutput);
 
-    EXPORT_FUNC MinSetConsoleCursorVisible(HANDLE consoleOutput, bool visible);
+    EXPORT_FUNC_EX(bool) MinSetConsoleCursorVisible(HANDLE consoleOutput, bool visible);
 
     //This API will cause the mouse coordinates to return to zero.
     //See:https://docs.microsoft.com/en-us/windows/console/clearing-the-screen
-    EXPORT_FUNC MinClear(HANDLE consoleOutput);
+    EXPORT_FUNC_EX(bool) MinClear(HANDLE consoleOutput);
 
     //nullptr, true to disable ctrl + c signal
-    EXPORT_FUNC MinSetConsoleCtrlHandler(PHANDLER_ROUTINE handler, bool add);
+    EXPORT_FUNC_EX(bool) MinSetConsoleCtrlHandler(PHANDLER_ROUTINE handler, bool add);
 
     //Get type of Console Emulator on Windows.
-    EXPORT_FUNC MinGetConsoleType(_OUT_ ConsoleType* type);
+    EXPORT_FUNC_EX(ConsoleType) MinGetConsoleType();
 
     EXPORT_FUNC_EX(bool) MinRefreshScreen(HANDLE consoleOutput, wchar c, ushort att);
 
