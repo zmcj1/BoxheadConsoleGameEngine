@@ -141,24 +141,17 @@ namespace MinConsoleNative
     void ConsoleEngine::Construct(const std::wstring& title, int consoleWidth, int consoleHeight)
     {
         //兼容3种版本的控制台
-        //此方法在Windows 11默认控制台下有bug, 所以暂时全部使用ConstructTerminal
         if (this->consoleType == ConsoleType::WindowsTerminal)
         {
             ConstructTerminal(title);
         }
         else if (this->consoleType == ConsoleType::WindowsConsole)
         {
-            ConstructTerminal(title);
-            //ConstructConsole(title, PaletteType::Legacy, consoleWidth, consoleHeight);
+            ConstructConsole(title, PaletteType::Legacy, consoleWidth, consoleHeight);
         }
         else if (this->consoleType == ConsoleType::WindowsLegacyConsole)
         {
-            ConstructTerminal(title);
-            //ConstructConsole(title, PaletteType::Legacy, consoleWidth, consoleHeight);
-        }
-        else
-        {
-            //unknown
+            ConstructConsole(title, PaletteType::Legacy, consoleWidth, consoleHeight);
         }
     }
 
