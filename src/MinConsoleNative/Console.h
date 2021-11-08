@@ -539,7 +539,7 @@ namespace MinConsoleNative
     EXPORT_FUNC_EX(bool) MinSetConsoleCursorPos(HANDLE consoleOutput, COORD pos);
 
     //size of buffer should be : charCount * sizeof(wchar)
-    EXPORT_FUNC MinReadConsole(HANDLE consoleInput, _OUT_ wchar* buffer, int charCount);
+    EXPORT_FUNC_EX(wchar*) MinReadConsole(HANDLE consoleInput);
 
     //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
     //Call this function in update.

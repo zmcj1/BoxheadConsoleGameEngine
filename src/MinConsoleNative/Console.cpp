@@ -445,10 +445,24 @@ namespace MinConsoleNative
         return ::SetConsoleCursorPosition(consoleOutput, pos);
     }
 
-    EXPORT_FUNC MinReadConsole(HANDLE consoleInput, wchar* buffer, int charCount)
+    EXPORT_FUNC_EX(wchar*) MinReadConsole(HANDLE consoleInput)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        wchar* str = (wchar*)::CoTaskMemAlloc(MAX_INPUT_CHAR_COUNT * sizeof(wchar));
+        if (str == nullptr) return nullptr;
+        int strLen = MAX_INPUT_CHAR_COUNT;
+
+        //注意:ReadConsole函数不会在字符串结尾加上'\0', 所以我们应该使用ZeroMemory函数
+        ZeroMemory(str, strLen);
+
         DWORD read = 0;
-        return ::ReadConsole(consoleInput, buffer, charCount, &read, nullptr);
+        bool suc = ::ReadConsole(consoleInput, str, strLen, &read, nullptr);
+
+        //去除ReadConsole自动加上的\r\n
+        str[read - 1] = L'\0';
+        str[read - 2] = L'\0';
+
+        return str;
     }
 
     EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3)
@@ -1247,13 +1261,14 @@ namespace MinConsoleNative
 
     std::wstring Console::ReadConsoleW()
     {
-        wstring str;
+        wstring wstr;
 
-        wchar buffer[sizeof(wchar) * MAX_INPUT_CHAR_COUNT] = { 0 };
-        MinReadConsole(cons.consoleInput, buffer, MAX_INPUT_CHAR_COUNT);
-        str = buffer;
+        wchar* buf = MinReadConsole(cons.consoleInput);
+        //复制字符串内容(copy string content):
+        wstr = buf;
+        ::CoTaskMemFree(buf);
 
-        return str;
+        return wstr;
     }
 
     bool Console::ReadConsoleInputW(OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3)

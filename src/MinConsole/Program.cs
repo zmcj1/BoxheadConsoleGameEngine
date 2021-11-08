@@ -37,7 +37,9 @@ namespace MinConsole
             Console.Write(test);
 
             ConsoleSession session = MinInitConsoleSession();
-            string content = MinReadFile(session.consoleInput);
+            //string content = MinReadFile(session.consoleInput);
+            //Console.WriteLine(content);
+            string content = MinReadConsole(session.consoleInput);
             Console.WriteLine(content);
 
             Console.ReadLine();

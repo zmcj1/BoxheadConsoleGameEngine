@@ -181,7 +181,7 @@ namespace MinConsole
         public extern static bool MinSetConsoleCursorPos(IntPtr consoleOutput, COORD pos);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinReadConsole(IntPtr consoleInput, out string buffer, int charCount);
+        public extern static string MinReadConsole(IntPtr consoleInput);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinReadConsoleInput(IntPtr consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
