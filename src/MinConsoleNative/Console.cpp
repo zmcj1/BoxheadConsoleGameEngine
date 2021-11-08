@@ -465,7 +465,7 @@ namespace MinConsoleNative
         return str;
     }
 
-    EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3)
+    EXPORT_FUNC_EX(bool) MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3)
     {
         ConsoleInputMode inputMode = MinGetConsoleInputMode(consoleInput);
         if (!inputMode._ENABLE_WINDOW_INPUT || inputMode._ENABLE_QUICK_EDIT_MODE)

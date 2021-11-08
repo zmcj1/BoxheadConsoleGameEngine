@@ -31,10 +31,8 @@
 
 //In order to prevent naming conflicts, all export methods in this project are prefixed with Min
 #ifdef __cplusplus
-#define EXPORT_FUNC extern "C" __declspec(dllexport) bool __stdcall
 #define EXPORT_FUNC_EX(return_type) extern "C" __declspec(dllexport) return_type __stdcall
 #else
-#define EXPORT_FUNC extern __declspec(dllexport) bool __stdcall
 #define EXPORT_FUNC_EX(return_type) extern __declspec(dllexport) return_type __stdcall
 #endif
 

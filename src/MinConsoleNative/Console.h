@@ -544,7 +544,7 @@ namespace MinConsoleNative
     //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
     //Call this function in update.
     //IMPORTANT:Please turn on EnableWindowInput and turn off EnableQuickEditMode
-    EXPORT_FUNC MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
+    EXPORT_FUNC_EX(bool) MinReadConsoleInput(HANDLE consoleInput, OnReadConsoleMouseInputRecord callback1, OnReadConsoleKeyboardInputRecord callback2, OnConsoleOutputBufferChanged callback3);
 
     //See:https://docs.microsoft.com/en-us/windows/console/readconsoleinput
     //Call this function in update.
