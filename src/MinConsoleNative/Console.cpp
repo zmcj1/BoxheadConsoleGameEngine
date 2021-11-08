@@ -893,10 +893,24 @@ namespace MinConsoleNative
         return ::WriteFile(handle, str, strlen(str), &written, nullptr);
     }
 
-    EXPORT_FUNC MinReadFile(HANDLE handle, char* buffer, DWORD bufferLen)
+    EXPORT_FUNC_EX(char*) MinReadFile(HANDLE handle)
     {
+        //使用CoTaskMemAlloc后需要使用CoTaskMemFree进行回收(.Net会自动调用该函数进行回收)
+        char* str = (char*)::CoTaskMemAlloc(MAX_INPUT_CHAR_COUNT * sizeof(char));
+        if (str == nullptr) return nullptr;
+        int strLen = MAX_INPUT_CHAR_COUNT;
+
+        //注意:ReadFile函数不会在字符串结尾加上'\0', 所以我们应该使用ZeroMemory函数
+        ZeroMemory(str, strLen);
+
         DWORD readCount = 0;
-        return ::ReadFile(handle, buffer, bufferLen, &readCount, nullptr);
+        bool suc = ::ReadFile(handle, str, strLen, &readCount, nullptr);
+
+        //去除ReadFile自动加上的\r\n
+        str[readCount - 1] = '\0';
+        str[readCount - 2] = '\0';
+
+        return str;
     }
 
     EXPORT_FUNC_EX(CharWidth) MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c)
@@ -1314,9 +1328,14 @@ namespace MinConsoleNative
 
     std::string Console::ReadFile()
     {
-        char str[MAX_INPUT_CHAR_COUNT] = { 0 };
-        MinReadFile(cons.consoleInput, str, MAX_INPUT_CHAR_COUNT);
-        return string(str);
+        string str;
+
+        char* buf = MinReadFile(cons.consoleInput);
+        //复制字符串内容(copy string content):
+        str = buf;
+        ::CoTaskMemFree(buf);
+
+        return str;
     }
 
     std::wstring Console::GetTitle()

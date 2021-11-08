@@ -613,7 +613,7 @@ namespace MinConsoleNative
     EXPORT_FUNC_EX(bool) MinWriteFile(HANDLE handle, _IN_ const char* str);
 
     //IMPORTANT!!!  File I/O function does not support Unicode.
-    EXPORT_FUNC MinReadFile(HANDLE handle, _OUT_ char* buffer, DWORD bufferLen);
+    EXPORT_FUNC_EX(char*) MinReadFile(HANDLE handle);
 
     //See:https://github.com/microsoft/DbgShell/blob/master/DbgShell/ConsoleControl.cs
     EXPORT_FUNC_EX(CharWidth) MinGetCharWidth(HWND consoleWindow, HANDLE consoleOutput, wchar c);

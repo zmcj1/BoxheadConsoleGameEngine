@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.7.5
+//Version:2.7.6
 
 namespace NativeFunctionTranslator
 {
@@ -78,7 +78,8 @@ namespace NativeFunctionTranslator
     {
         public const string EXPORT_FUNC = "EXPORT_FUNC";
         public const string EXPORT_FUNC_EX = "EXPORT_FUNC_EX";
-        public const string EXPORT_FUNC_DLLIMPORT = "[DllImport(\"MinConsoleNative.dll\", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]";
+        public const string EXPORT_FUNC_DLLIMPORTW = "[DllImport(\"MinConsoleNative.dll\", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]";
+        public const string EXPORT_FUNC_DLLIMPORTA = "[DllImport(\"MinConsoleNative.dll\", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Ansi)]";
         public const string EXPORT_FUNC_RETURN_TYPE = "public extern static bool";
         public const string EXPORT_FUNC_RETURN_TYPE_EX = "public extern static ";
         public const int EXPORT_FUNC_INDENT = 8;
@@ -250,6 +251,8 @@ namespace NativeFunctionTranslator
 
             foreach (MethodInfo methodInfo in nativeMethodsDeclaration)
             {
+                string exportFuncDllImport = EXPORT_FUNC_DLLIMPORTW;
+
                 string item = methodInfo.MethodName;
 
                 string declaration = null;
@@ -278,6 +281,11 @@ namespace NativeFunctionTranslator
                     else if (returnType == "HANDLE")
                     {
                         returnType = "IntPtr";
+                    }
+                    else if (returnType == "char*")
+                    {
+                        returnType = "string";
+                        exportFuncDllImport = EXPORT_FUNC_DLLIMPORTA;
                     }
 
                     declaration += EXPORT_FUNC_RETURN_TYPE_EX;
@@ -592,7 +600,7 @@ namespace NativeFunctionTranslator
                 }
 
                 //add DllImport
-                nativeMethodNewDeclaration.Add(GetIndentString() + EXPORT_FUNC_DLLIMPORT);
+                nativeMethodNewDeclaration.Add(GetIndentString() + exportFuncDllImport);
                 //new Declaration
                 string newDeclaration = declaration.Substring(0, leftBracketIndex + 1) + newParameters.ToString() + ");";
                 nativeMethodNewDeclaration.Add(GetIndentString() + newDeclaration);
