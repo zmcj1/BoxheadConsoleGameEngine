@@ -70,6 +70,9 @@ namespace MinConsoleNative
     //delete HKEY_CURRENT_USER/Console
     EXPORT_FUNC_EX(bool) MinDeleteConsoleRegistry();
 
+    //在Windows11中可以设置默认控制台是Windows Terminal, 该函数可以进行检测
+    EXPORT_FUNC_EX(bool) MinWTIsDefaultConsole();
+
     class ConRegistry
     {
     public:
@@ -80,5 +83,7 @@ namespace MinConsoleNative
 
         //delete HKEY_CURRENT_USER/Console
         static bool DeleteConsoleRegistry();
+
+        static bool WTIsDefaultConsole();
     };
 }

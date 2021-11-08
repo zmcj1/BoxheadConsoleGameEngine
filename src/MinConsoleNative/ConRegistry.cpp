@@ -163,6 +163,18 @@ namespace MinConsoleNative
         return RegDelnode(HKEY_CURRENT_USER, L"Console");
     }
 
+    EXPORT_FUNC_EX(bool) MinWTIsDefaultConsole()
+    {
+        RegKey key{ HKEY_CURRENT_USER, L"Console\\%%Startup" };
+        auto v1 = key.TryGetStringValue(L"DelegationConsole");
+        auto v2 = key.TryGetStringValue(L"DelegationTerminal");
+        if (v1.has_value() && v2.has_value())
+        {
+            return true;
+        }
+        return false;
+    }
+
     bool ConRegistry::IsLegacyConsole()
     {
         return MinIsLegacyConsole();
@@ -176,5 +188,10 @@ namespace MinConsoleNative
     bool ConRegistry::DeleteConsoleRegistry()
     {
         return MinDeleteConsoleRegistry();
+    }
+
+    bool ConRegistry::WTIsDefaultConsole()
+    {
+        return MinWTIsDefaultConsole();
     }
 }

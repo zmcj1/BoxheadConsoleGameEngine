@@ -1104,27 +1104,37 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(ConsoleType) MinGetConsoleType()
     {
-        ConsoleType type;
+        ConsoleType type = ConsoleType::Unknown;
 
-        wchar buffer[MAX_PATH] = { 0 };
-        ::GetEnvironmentVariable(L"WT_SESSION", buffer, MAX_PATH);
-
-        //Now support Windows Terminal!
-        if (wcscmp(buffer, L"") != 0)
+        bool wt = ConRegistry::WTIsDefaultConsole();
+        //Windows11中, 如果已设置默认控制台是WT, 双击.exe打开WT后会导致WT_SESSION检测不到(这应该是bug), 除非先打开wt然后打开.exe. 因此现在可以判断WT是否是默认控制台, 如果是默认控制台那么直接返回结果
+        if (wt)
         {
             type = ConsoleType::WindowsTerminal;
         }
-        //Windows Console
+        //假如没有设置WT为默认控制台则照抄检查WT_SESSION
         else
         {
-            bool legacy = ConRegistry::IsLegacyConsole();
-            if (legacy)
+            wchar buffer[MAX_PATH] = { 0 };
+            ::GetEnvironmentVariable(L"WT_SESSION", buffer, MAX_PATH);
+
+            //Now support Windows Terminal!
+            if (wcscmp(buffer, L"") != 0)
             {
-                type = ConsoleType::WindowsLegacyConsole;
+                type = ConsoleType::WindowsTerminal;
             }
+            //Windows Console
             else
             {
-                type = ConsoleType::WindowsConsole;
+                bool legacy = ConRegistry::IsLegacyConsole();
+                if (legacy)
+                {
+                    type = ConsoleType::WindowsLegacyConsole;
+                }
+                else
+                {
+                    type = ConsoleType::WindowsConsole;
+                }
             }
         }
 
