@@ -19,6 +19,12 @@ namespace MinConsoleNative
         WindowsTerminal = 4,
     };
 
+    EXPORT_ENUM_CLASS StdHandleType
+    {
+        Input = 1,
+        Output = 2,
+    };
+
     EXPORT_ENUM_CLASS ConsoleFile
     {
         Read = 1,
@@ -484,6 +490,10 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinFreeConsole();
 
+    EXPORT_FUNC_EX(HWND) MinGetConsoleWindow();
+
+    EXPORT_FUNC_EX(HANDLE) MinGetStdHandle(StdHandleType type);
+
     //Initialize the console inside, don't worry.
     EXPORT_FUNC_EX(ConsoleSession) MinInitConsoleSession();
 
@@ -570,7 +580,7 @@ namespace MinConsoleNative
     EXPORT_FUNC_EX(bool) MinWriteConsoleOutputCharacter(HANDLE consoleOutput, _IN_ const wchar* str, int charCount, COORD pos);
 
     //Expand output methods:
-    
+
     EXPORT_FUNC_EX(bool) MinWrite1(HANDLE consoleOutput, _IN_ const wchar* str);
 
     EXPORT_FUNC_EX(bool) MinWrite2(HANDLE consoleOutput, _IN_ const wchar* str, ConsoleColor foreColor);

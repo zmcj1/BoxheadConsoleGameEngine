@@ -28,6 +28,28 @@ namespace MinConsoleNative
         return ::FreeConsole();
     }
 
+    EXPORT_FUNC_EX(HWND) MinGetConsoleWindow()
+    {
+        return ::GetConsoleWindow();
+    }
+
+    EXPORT_FUNC_EX(HANDLE) MinGetStdHandle(StdHandleType type)
+    {
+        HANDLE handle = nullptr;
+
+        switch (type)
+        {
+        case StdHandleType::Input:
+            handle = ::GetStdHandle(STD_INPUT_HANDLE);
+            break;
+        case StdHandleType::Output:
+            handle = ::GetStdHandle(STD_OUTPUT_HANDLE);
+            break;
+        }
+
+        return handle;
+    }
+
     EXPORT_FUNC_EX(ConsoleSession) MinInitConsoleSession()
     {
         ConsoleSession cons;

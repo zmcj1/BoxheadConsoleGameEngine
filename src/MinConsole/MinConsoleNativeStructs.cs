@@ -33,6 +33,12 @@ namespace MinConsole
             WindowsTerminal = 4,
         }
 
+        public enum StdHandleType
+        {
+            Input = 1,
+            Output = 2,
+        }
+
         public enum ConsoleFile
         {
             Read = 1,

@@ -7,11 +7,6 @@ namespace MinConsoleNative
         return ::GetForegroundWindow();
     }
 
-    EXPORT_FUNC_EX(HWND) MinGetConsoleWindow()
-    {
-        return ::GetConsoleWindow();
-    }
-
     EXPORT_FUNC_EX(POINT) MinGetWindowPos(HWND windowHandle)
     {
         RECT rect;
@@ -234,11 +229,6 @@ namespace MinConsoleNative
     HWND Window::GetForegroundWindow()
     {
         return MinGetForegroundWindow();
-    }
-
-    HWND Window::GetConsoleWindow()
-    {
-        return MinGetConsoleWindow();
     }
 
     POINT Window::GetWindowPos()

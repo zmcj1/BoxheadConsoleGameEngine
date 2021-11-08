@@ -7,8 +7,6 @@ namespace MinConsoleNative
 {
     EXPORT_FUNC_EX(HWND) MinGetForegroundWindow();
 
-    EXPORT_FUNC_EX(HWND) MinGetConsoleWindow();
-
     EXPORT_FUNC_EX(POINT) MinGetWindowPos(HWND windowHandle);
 
     EXPORT_FUNC_EX(bool) MinSetWindowPos(HWND windowHandle, POINT pos);
@@ -51,7 +49,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinDeleteMenu(HWND windowHandle, bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize);
 
-    //This API don't work in Console.
+    //This API don't work in Windows Console.
     EXPORT_FUNC_EX(bool) MinDisableCursor();
 
     class Window
@@ -67,8 +65,6 @@ namespace MinConsoleNative
         Window(HWND windowHandle);
 
         HWND GetForegroundWindow();
-
-        HWND GetConsoleWindow();
 
         POINT GetWindowPos();
 

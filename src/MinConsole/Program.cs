@@ -36,10 +36,9 @@ namespace MinConsole
             test = MinVTResetStyle();
             Console.Write(test);
 
-            ConsoleSession session = MinInitConsoleSession();
-            //string content = MinReadFile(session.consoleInput);
-            //Console.WriteLine(content);
-            string content = MinReadConsole(session.consoleInput);
+            IntPtr inputHandle = MinGetStdHandle(StdHandleType.Input);
+
+            string content = MinReadConsole(inputHandle);
             Console.WriteLine(content);
 
             Console.ReadLine();
