@@ -67,5 +67,10 @@ namespace MinConsoleNative
         static std::wstring WcharToWstring(wchar wc);
 
         static std::wstring StringToWstring(const std::string& str, Encoding encoding = Encoding::Default);
+
+        //===========functions===========
+
+        //来源:https://blog.csdn.net/thedarkfairytale/article/details/73457200
+        static bool IsUTF8String(const char* str);
     };
 }

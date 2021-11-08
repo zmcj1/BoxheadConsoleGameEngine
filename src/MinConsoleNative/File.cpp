@@ -1,5 +1,5 @@
 ﻿#include "File.h"
-#include "Utils.h"
+#include "String.h"
 using namespace std;
 
 namespace MinConsoleNative
@@ -195,7 +195,7 @@ namespace MinConsoleNative
             return text;
         }
 
-        bool utf8String = is_str_utf8(arr);
+        bool utf8String = String::IsUTF8String(arr);
         if (utf8String)
         {
             text = String::StringToWstring(string(arr), Encoding::UTF8);

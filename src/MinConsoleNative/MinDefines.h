@@ -90,17 +90,14 @@
 
 #define SYS_ANAL 0
 
-//Windows Console Versions:
-#define WINDOWS_LEGACY_CONSOLE  0X0001
-#define WINDOWS_CONSOLE 	    0X0002
-#define WINDOWS_TERMINAL  	    0X0004
-
-//make sure you have been include <stdio.h> before use this macro.
-#define MIN_LOG(file, str, ...) fprintf(file, str "\n", ##__VA_ARGS__)
-
 //new line in Windows
 #define NEW_LINE "\r\n"
 #define WNEW_LINE L"\r\n"
+
+//Unused
+#define UNUSED(v)
+//Obsoleted
+#define OBSOLETED(msg)
 
 //Macros for EXPORT_FUNC_EX
 #define _IN_
@@ -114,11 +111,6 @@
 #define EXPORT_STRUCT_MEMBER
 #define EXPORT_DELEGATE
 #define EXPORT_CONSTEXPR constexpr
-
-//Unused
-#define UNUSED(v)
-//Obsoleted
-#define OBSOLETED(msg)
 
 //add namespace, ensure wont causes a naming conflict with the standard library(std)
 namespace MinConsoleNative
