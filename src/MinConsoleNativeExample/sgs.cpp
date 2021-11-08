@@ -1,6 +1,5 @@
 ﻿#include "..\MinConsoleNative\MinConsoleNative.h"
 #include <string>
-#include "XRandom.h"
 
 using namespace std;
 
@@ -35,8 +34,7 @@ public:
 RandomWujiangInfo RandomWujiang(vector<Wujiang>& wujiangs, int totalWeight)
 {
     int randomValue = 0;
-    randomValue = effolkronium::random_static::get(1, totalWeight);
-    //randomValue = Random::Range(1, totalWeight);
+    randomValue = Random::Range(1, totalWeight);
     //randomValue = 46215;
 
     int originRandomValue = randomValue;

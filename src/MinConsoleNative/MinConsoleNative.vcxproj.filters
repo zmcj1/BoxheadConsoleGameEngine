@@ -12,6 +12,9 @@
     <Filter Include="Network">
       <UniqueIdentifier>{b432c37a-38bd-4c59-8ec8-2cbca1a9b4de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{088ce99d-cb44-434f-bc2d-d31ef25d2477}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MinDefines.h">
@@ -130,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="TcpListener.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="random.hpp">
+      <Filter>ThirdParty</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
