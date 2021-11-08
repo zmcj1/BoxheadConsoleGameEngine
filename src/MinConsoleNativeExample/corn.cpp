@@ -202,6 +202,7 @@ int main()
     //console.WriteLine(to_wstring(win11));
     //console.ReadLine();
 
+    //ConRegistry::DeleteConsoleRegistry();
     int type = (int)console.GetConsoleType();
     console.WriteLine(to_wstring(type));
     console.ReadLine();

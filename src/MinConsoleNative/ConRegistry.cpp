@@ -139,17 +139,15 @@ namespace MinConsoleNative
 
         RegKey key{ HKEY_CURRENT_USER, L"Console" };
         auto result = key.TryGetDwordValue(L"ForceV2");
-
-        //如果找不到ForceV2则判断是否支持VT, 如果支持VT一定不是旧版控制台
-        if (!result.has_value())
+        //找到了ForceV2则返回相反结果
+        if (result.has_value())
         {
-            bool VTSupport = VTConverter::VTSupport();
-            return !VTSupport;
+            return !result.value();
         }
-        //找到了ForceV2则不是旧版控制台
+        //如果找不到ForceV2则判断是否支持VT, 如果支持VT一定不是旧版控制台
         else
         {
-            return false;
+            return !VTConverter::VTSupport();
         }
     }
 
