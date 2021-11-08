@@ -110,12 +110,10 @@ namespace MinConsoleNative
         ConRegConfig config = { 0 };
         config.ForceV2 = !MinIsUsingLegacyConsole();
 
-        DWORD allowAltF4Close = 0, virtualTerminalLevel = 0;
+        DWORD allowAltF4Close = 0;
         MinGetConsoleRegistryDWORD(L"AllowAltF4Close", &allowAltF4Close);
-        MinGetConsoleRegistryDWORD(L"VirtualTerminalLevel", &virtualTerminalLevel);
 
         config.AllowAltF4Close = allowAltF4Close;
-        config.VirtualTerminalLevel = virtualTerminalLevel;
         return config;
     }
 
@@ -123,7 +121,6 @@ namespace MinConsoleNative
     {
         MinUseLegacyConsole(!config.ForceV2);
         MinSetConsoleRegistryDWORD(L"AllowAltF4Close", config.AllowAltF4Close);
-        MinSetConsoleRegistryDWORD(L"VirtualTerminalLevel", config.VirtualTerminalLevel);
         return true;
     }
 

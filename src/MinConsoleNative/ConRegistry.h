@@ -8,8 +8,6 @@
 // Registry strings:FROM:winconp.h(https://github.com/microsoft/terminal/blob/main/dep/Console/winconp.h)
 //
 
-// WinReg:https://github.com/GiovanniDicanio/WinReg
-
 #define CONSOLE_REGISTRY_STRING                         L"Console"
 #define CONSOLE_REGISTRY_FONTSIZE                       L"FontSize"
 #define CONSOLE_REGISTRY_FONTFAMILY                     L"FontFamily"
@@ -68,7 +66,6 @@ namespace MinConsoleNative
     {
         EXPORT_STRUCT_MEMBER bool ForceV2;
         EXPORT_STRUCT_MEMBER bool AllowAltF4Close;
-        EXPORT_STRUCT_MEMBER uint VirtualTerminalLevel;
     };
 
     EXPORT_FUNC_EX(bool) MinIsUsingLegacyConsole();
