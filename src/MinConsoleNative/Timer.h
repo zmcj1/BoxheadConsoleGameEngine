@@ -2,7 +2,9 @@
 
 #include "MinDefines.h"
 
-//From:https://stackoverflow.com/questions/9789474/how-to-get-ticks-from-queryperformancecounter-in-c
+//来源:https://stackoverflow.com/questions/9789474/how-to-get-ticks-from-queryperformancecounter-in-c
+
+//类似的计时器:https://github.com/GiovanniDicanio/StopwatchWin32/blob/master/Stopwatch/Stopwatch.h
 
 namespace MinConsoleNative
 {
