@@ -166,17 +166,24 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinWTIsDefaultConsole()
     {
-        RegKey key{ HKEY_CURRENT_USER, L"Console\\%%Startup" };
-        auto v1 = key.TryGetStringValue(L"DelegationConsole");
-        auto v2 = key.TryGetStringValue(L"DelegationTerminal");
-        if (v1.has_value() && v2.has_value())
+        RegKey key;
+
+        RegResult r = key.TryOpen(HKEY_CURRENT_USER, L"Console\\%%Startup");
+
+        if (!r.Failed())
         {
-            //即使有值也必须检查值, 不能为{00000000-0000-0000-0000-000000000000}
-            if (!String::Compare(v1.value(), L"{00000000-0000-0000-0000-000000000000}") && !String::Compare(v2.value(), L"{00000000-0000-0000-0000-000000000000}"))
+            auto v1 = key.TryGetStringValue(L"DelegationConsole");
+            auto v2 = key.TryGetStringValue(L"DelegationTerminal");
+            if (v1.has_value() && v2.has_value())
             {
-                return true;
+                //即使有值也必须检查值, 不能为{00000000-0000-0000-0000-000000000000}
+                if (!String::Compare(v1.value(), L"{00000000-0000-0000-0000-000000000000}") && !String::Compare(v2.value(), L"{00000000-0000-0000-0000-000000000000}"))
+                {
+                    return true;
+                }
             }
         }
+
         return false;
     }
 
