@@ -186,6 +186,7 @@
     <ClInclude Include="VTConverter.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WinNetwork.h" />
+    <ClInclude Include="WinReg.hpp" />
     <ClInclude Include="WinVersion.h" />
   </ItemGroup>
   <ItemGroup>

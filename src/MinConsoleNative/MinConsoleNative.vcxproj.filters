@@ -137,6 +137,9 @@
     <ClInclude Include="random.hpp">
       <Filter>ThirdParty</Filter>
     </ClInclude>
+    <ClInclude Include="WinReg.hpp">
+      <Filter>ThirdParty</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">
