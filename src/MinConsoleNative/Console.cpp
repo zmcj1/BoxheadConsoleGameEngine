@@ -481,8 +481,11 @@ namespace MinConsoleNative
         bool suc = ::ReadConsole(consoleInput, str, strLen, &read, nullptr);
 
         //去除ReadConsole自动加上的\r\n
-        str[read - 1] = L'\0';
-        str[read - 2] = L'\0';
+        if (read > 0)
+        {
+            str[read - 1] = L'\0';
+            str[read - 2] = L'\0';
+        }
 
         return str;
     }
@@ -939,12 +942,15 @@ namespace MinConsoleNative
         //注意:ReadFile函数不会在字符串结尾加上'\0', 所以我们应该使用ZeroMemory函数
         ZeroMemory(str, strLen);
 
-        DWORD readCount = 0;
-        bool suc = ::ReadFile(handle, str, strLen, &readCount, nullptr);
+        DWORD read = 0;
+        bool suc = ::ReadFile(handle, str, strLen, &read, nullptr);
 
         //去除ReadFile自动加上的\r\n
-        str[readCount - 1] = '\0';
-        str[readCount - 2] = '\0';
+        if (read > 0)
+        {
+            str[read - 1] = '\0';
+            str[read - 2] = '\0';
+        }
 
         return str;
     }
@@ -1111,7 +1117,7 @@ namespace MinConsoleNative
         //Windows Console
         else
         {
-            bool legacy = MinIsUsingLegacyConsole();
+            bool legacy = ConRegistry::IsLegacyConsole();
             if (legacy)
             {
                 type = ConsoleType::WindowsLegacyConsole;
@@ -1448,10 +1454,7 @@ namespace MinConsoleNative
     int Console::Read()
     {
         wstring str = Console::ReadConsoleW();
-        size_t index = str.find_last_of(WNEW_LINE);
-        wstring strWithOutNewLine = str.substr(0, index - 1);
-
-        if (!strWithOutNewLine.empty()) return strWithOutNewLine[0];
+        if (!str.empty()) return str[0];
         else return 0;
     }
 
@@ -1473,19 +1476,6 @@ namespace MinConsoleNative
     std::wstring Console::ReadLine()
     {
         wstring str = Console::ReadConsoleW();
-
-        if (str.find(WNEW_LINE) == str.size() - 2)
-        {
-            str = str.substr(0, str.size() - 2);
-        }
-        else
-        {
-            wchar lastChar = str[str.size() - 1];
-            if (lastChar == L'\r' || lastChar == L'\n')
-            {
-                str = str.substr(0, str.size() - 1);
-            }
-        }
         return str;
     }
 

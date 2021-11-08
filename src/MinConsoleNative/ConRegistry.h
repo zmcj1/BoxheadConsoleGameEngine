@@ -35,6 +35,7 @@
 #define CONSOLE_REGISTRY_LOAD_CONIME                    L"LoadConIme"
 #define CONSOLE_REGISTRY_ENABLE_COLOR_SELECTION         L"EnableColorSelection"
 #define CONSOLE_REGISTRY_SCROLLSCALE                    L"ScrollScale"
+#define CONSOLE_REGISTRY_CODEPAGE                       L"CodePage"
 
 // V2 console settings
 #define CONSOLE_REGISTRY_FORCEV2                        L"ForceV2"
@@ -44,58 +45,40 @@
 #define CONSOLE_REGISTRY_CTRLKEYSHORTCUTS_DISABLED      L"CtrlKeyShortcutsDisabled"
 #define CONSOLE_REGISTRY_ALLOW_ALTF4_CLOSE              L"AllowAltF4Close"
 #define CONSOLE_REGISTRY_VIRTTERM_LEVEL                 L"VirtualTerminalLevel"
-
 #define CONSOLE_REGISTRY_CURSORTYPE                     L"CursorType"
 #define CONSOLE_REGISTRY_CURSORCOLOR                    L"CursorColor"
-
 #define CONSOLE_REGISTRY_INTERCEPTCOPYPASTE             L"InterceptCopyPaste"
-
 #define CONSOLE_REGISTRY_COPYCOLOR                      L"CopyColor"
 #define CONSOLE_REGISTRY_USEDX                          L"UseDx"
-
 #define CONSOLE_REGISTRY_DEFAULTFOREGROUND              L"DefaultForeground"
 #define CONSOLE_REGISTRY_DEFAULTBACKGROUND              L"DefaultBackground"
 #define CONSOLE_REGISTRY_TERMINALSCROLLING              L"TerminalScrolling"
 // end V2 console settings
 
-#define CONSOLE_REGISTRY_CODEPAGE                       L"CodePage"
-
 namespace MinConsoleNative
 {
-    EXPORT_STRUCT ConRegConfig
-    {
-        EXPORT_STRUCT_MEMBER bool ForceV2;
-        EXPORT_STRUCT_MEMBER bool AllowAltF4Close;
-    };
+    //来源:https://docs.microsoft.com/en-us/windows/win32/sysinfo/deleting-a-key-with-subkeys
+    bool RegDelnodeRecurse(HKEY hKeyRoot, LPTSTR lpSubKey);
 
-    EXPORT_FUNC_EX(bool) MinIsUsingLegacyConsole();
+    bool RegDelnode(HKEY hKeyRoot, LPCTSTR lpSubKey);
 
-    EXPORT_FUNC_EX(bool) MinUseLegacyConsole(bool yes);
+    EXPORT_FUNC_EX(bool) MinIsLegacyConsole();
 
-    EXPORT_FUNC_EX(bool) MinGetConsoleRegistryDWORD(_IN_ const wchar* valueName, _OUT_ DWORD* data);
-
-    EXPORT_FUNC_EX(bool) MinSetConsoleRegistryDWORD(_IN_ const wchar* valueName, DWORD data);
+    //注意:设置后需要重启控制台生效
+    EXPORT_FUNC_EX(bool) MinEnableLegacyConsole(bool enable);
 
     //delete HKEY_CURRENT_USER/Console
-    //SEE:https://docs.microsoft.com/en-us/windows/win32/sysinfo/deleting-a-key-with-subkeys
     EXPORT_FUNC_EX(bool) MinDeleteConsoleRegistry();
-
-    EXPORT_FUNC_EX(ConRegConfig) MinGetConRegConfig();
-
-    EXPORT_FUNC_EX(bool) MinSetConRegConfig(ConRegConfig config);
 
     class ConRegistry
     {
     public:
-        static bool IsUsingLegacyConsole();
+        static bool IsLegacyConsole();
 
-        static bool UseLegacyConsole(bool yes);
+        //注意:设置后需要重启控制台生效
+        static bool EnableLegacyConsole(bool enable);
 
         //delete HKEY_CURRENT_USER/Console
         static bool DeleteConsoleRegistry();
-
-        static ConRegConfig GetConRegConfig();
-
-        static bool SetConRegConfig(const ConRegConfig& config);
     };
 }

@@ -1,129 +1,13 @@
 ﻿#include "ConRegistry.h"
 #include "WinVersion.h"
 #include "VTConverter.h"
+#include "WinReg.hpp"
 #include <strsafe.h>
+
+using namespace winreg;
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC_EX(bool) MinIsUsingLegacyConsole()
-    {
-        static bool isLegacyConsole = false, checked = false;
-
-        if (!checked)
-        {
-            //首先Windows10以上才可能是新版控制台
-            //其次在Console注册表里面寻找ForceV2, 如果找不到该项就判断是否支持VT, 如果支持则必定是新版控制台
-            if (winVersion.IsWindows10OrLater())
-            {
-                HKEY key;
-                DWORD value = 0, type = 0, size = sizeof(value);
-                bool forceV2 = false;
-
-                if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Console", 0, KEY_READ, &key) == 0)
-                {
-                    if (RegQueryValueEx(key, L"ForceV2", NULL, &type, (LPBYTE)&value, &size) == 0)
-                    {
-                        forceV2 = ((type == REG_DWORD) && size && (value != 0));
-                    }
-                    RegCloseKey(key);
-                }
-
-                if (forceV2)
-                {
-                    isLegacyConsole = false;
-                }
-                //找不到ForceV2时判断是否支持VT, 如果支持VT则必定是新版控制台
-                else
-                {
-                    bool VTSupport = VTConverter::VTSupport();
-                    isLegacyConsole = !VTSupport;
-                }
-            }
-
-            checked = true;
-        }
-
-        return isLegacyConsole;
-    }
-
-    EXPORT_FUNC_EX(bool) MinUseLegacyConsole(bool yes)
-    {
-        HKEY key;
-
-        if (::RegOpenKeyEx(HKEY_CURRENT_USER, L"Console", 0, KEY_READ | KEY_WRITE, &key) == ERROR_SUCCESS)
-        {
-            DWORD value = !yes;
-
-            LSTATUS result = ::RegSetValueEx(key, L"ForceV2", 0, REG_DWORD, (BYTE*)&value, sizeof(value));
-
-            ::RegCloseKey(key);
-
-            if (result == ERROR_SUCCESS)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    EXPORT_FUNC_EX(bool) MinGetConsoleRegistryDWORD(const wchar* valueName, DWORD* data)
-    {
-        HKEY key;
-        bool success = false;
-        if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Console", 0, KEY_READ, &key) == ERROR_SUCCESS)
-        {
-            DWORD type;
-            DWORD dataSize = sizeof(DWORD);
-            LSTATUS result = RegQueryValueEx(key, valueName, nullptr, &type, (BYTE*)data, &dataSize);
-            if (result == ERROR_SUCCESS && type == REG_DWORD)
-            {
-                success = true;
-            }
-            RegCloseKey(key);
-        }
-        return success;
-    }
-
-    EXPORT_FUNC_EX(bool) MinSetConsoleRegistryDWORD(const wchar* valueName, DWORD data)
-    {
-        HKEY key;
-        bool success = false;
-        if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Console", 0, KEY_READ | KEY_WRITE, &key) == ERROR_SUCCESS)
-        {
-            LSTATUS result = RegSetValueEx(key, valueName, 0, REG_DWORD, (const byte*)&data, sizeof(DWORD));
-            success = result == ERROR_SUCCESS;
-            RegCloseKey(key);
-        }
-        return success;
-    }
-
-    BOOL RegDelnode(HKEY hKeyRoot, LPCTSTR lpSubKey);
-
-    EXPORT_FUNC_EX(bool) MinDeleteConsoleRegistry()
-    {
-        return RegDelnode(HKEY_CURRENT_USER, L"Console");
-    }
-
-    EXPORT_FUNC_EX(ConRegConfig) MinGetConRegConfig()
-    {
-        ConRegConfig config = { 0 };
-        config.ForceV2 = !MinIsUsingLegacyConsole();
-
-        DWORD allowAltF4Close = 0;
-        MinGetConsoleRegistryDWORD(L"AllowAltF4Close", &allowAltF4Close);
-
-        config.AllowAltF4Close = allowAltF4Close;
-        return config;
-    }
-
-    EXPORT_FUNC_EX(bool) MinSetConRegConfig(ConRegConfig config)
-    {
-        MinUseLegacyConsole(!config.ForceV2);
-        MinSetConsoleRegistryDWORD(L"AllowAltF4Close", config.AllowAltF4Close);
-        return true;
-    }
-
     //*************************************************************
     //
     //  RegDelnodeRecurse()
@@ -137,7 +21,7 @@ namespace MinConsoleNative
     //              FALSE if an error occurs.
     //
     //*************************************************************
-    BOOL RegDelnodeRecurse(HKEY hKeyRoot, LPTSTR lpSubKey)
+    bool RegDelnodeRecurse(HKEY hKeyRoot, LPTSTR lpSubKey)
     {
         LPTSTR lpEnd;
         LONG lResult;
@@ -237,7 +121,7 @@ namespace MinConsoleNative
     //              FALSE if an error occurs.
     //
     //*************************************************************
-    BOOL RegDelnode(HKEY hKeyRoot, LPCTSTR lpSubKey)
+    bool RegDelnode(HKEY hKeyRoot, LPCTSTR lpSubKey)
     {
         TCHAR szDelKey[MAX_PATH * 2];
         StringCchCopy(szDelKey, MAX_PATH * 2, lpSubKey);
@@ -245,28 +129,54 @@ namespace MinConsoleNative
         return RegDelnodeRecurse(hKeyRoot, szDelKey);
     }
 
-    bool ConRegistry::IsUsingLegacyConsole()
+    EXPORT_FUNC_EX(bool) MinIsLegacyConsole()
     {
-        return MinIsUsingLegacyConsole();
+        //Windows10以下都是旧版控制台
+        if (!winVersion.IsWindows10OrLater())
+        {
+            return true;
+        }
+
+        RegKey key{ HKEY_CURRENT_USER, L"Console" };
+        auto result = key.TryGetDwordValue(L"ForceV2");
+
+        //如果找不到ForceV2则判断是否支持VT, 如果支持VT一定不是旧版控制台
+        if (!result.has_value())
+        {
+            bool VTSupport = VTConverter::VTSupport();
+            return !VTSupport;
+        }
+        //找到了ForceV2则不是旧版控制台
+        else
+        {
+            return false;
+        }
     }
 
-    bool ConRegistry::UseLegacyConsole(bool yes)
+    EXPORT_FUNC_EX(bool) MinEnableLegacyConsole(bool enable)
     {
-        return MinUseLegacyConsole(yes);
+        RegKey key{ HKEY_CURRENT_USER, L"Console" };
+        key.SetDwordValue(L"ForceV2", !enable);
+        return true;
+    }
+
+    EXPORT_FUNC_EX(bool) MinDeleteConsoleRegistry()
+    {
+        return RegDelnode(HKEY_CURRENT_USER, L"Console");
+    }
+
+    bool ConRegistry::IsLegacyConsole()
+    {
+        return MinIsLegacyConsole();
+    }
+
+    bool ConRegistry::EnableLegacyConsole(bool enable)
+    {
+        return MinEnableLegacyConsole(enable);
     }
 
     bool ConRegistry::DeleteConsoleRegistry()
     {
         return MinDeleteConsoleRegistry();
-    }
-
-    ConRegConfig ConRegistry::GetConRegConfig()
-    {
-        return MinGetConRegConfig();
-    }
-
-    bool ConRegistry::SetConRegConfig(const ConRegConfig& config)
-    {
-        return MinSetConRegConfig(config);
     }
 }
