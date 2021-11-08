@@ -1,6 +1,7 @@
 ﻿#include "ConRegistry.h"
 #include "WinVersion.h"
 #include "VTConverter.h"
+#include "String.h"
 #include "WinReg.hpp"
 #include <strsafe.h>
 
@@ -170,7 +171,11 @@ namespace MinConsoleNative
         auto v2 = key.TryGetStringValue(L"DelegationTerminal");
         if (v1.has_value() && v2.has_value())
         {
-            return true;
+            //即使有值也必须检查值, 不能为{00000000-0000-0000-0000-000000000000}
+            if (!String::Compare(v1.value(), L"{00000000-0000-0000-0000-000000000000}") && !String::Compare(v2.value(), L"{00000000-0000-0000-0000-000000000000}"))
+            {
+                return true;
+            }
         }
         return false;
     }
