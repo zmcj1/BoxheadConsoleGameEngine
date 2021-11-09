@@ -85,11 +85,13 @@ namespace MinConsoleNative
         return mciAudio;
     }
 
-    EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio)
+    EXPORT_FUNC_EX(void) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio)
     {
-        bool closeSuccess = Audio::MCISendString(L"close " + wstring(mciAudio->Alias));
-        ExternFree(mciAudio);
-        return closeSuccess;
+        if (mciAudio != nullptr)
+        {
+            bool closeSuccess = Audio::MCISendString(L"close " + wstring(mciAudio->Alias));
+            ExternFree(mciAudio);
+        }
     }
 
     EXPORT_FUNC_EX(bool) MinPlayMCIAudio(_IN_ MCIAudio* mciAudio, bool repeat, bool wait)

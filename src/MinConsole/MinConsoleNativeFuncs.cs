@@ -25,7 +25,7 @@ namespace MinConsole
         public extern static unsafe MCIAudio* MinInitMCIAudio(string path);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinDeinitMCIAudio(ref MCIAudio mciAudio);
+        public extern static void MinDeinitMCIAudio(ref MCIAudio mciAudio);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinPlayMCIAudio(ref MCIAudio mciAudio, bool repeat, bool wait);

@@ -54,7 +54,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(MCIAudio*) MinInitMCIAudio(_IN_ const wchar* path);
 
-    EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio);
+    EXPORT_FUNC_EX(void) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio);
 
     //play audio(.mp3, .wav etc) this function wont block the main thread.
     //NOTICE:if play .wav music, repeat is useless.
