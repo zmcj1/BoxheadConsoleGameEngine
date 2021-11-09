@@ -123,6 +123,7 @@ public:
     {
         this->lobbyAudio->SetVolume(MCI_MAX_VOLUME);
         this->lobbyAudio->Play(true, false);
+        //auto mode = this->lobbyAudio->GetMode();
     }
 
     void OnUpdate(float deltaTime) override

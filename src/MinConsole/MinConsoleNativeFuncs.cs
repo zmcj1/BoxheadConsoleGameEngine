@@ -13,7 +13,7 @@ namespace MinConsole
         public extern static bool MinMCISendString(string str);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinMCISendStringEx(string str, out string returnStr, int returnStrLen);
+        public extern static bool MinMCISendStringEx(string str, out string returnStr);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static string MinMCIGetErrorString();
@@ -22,7 +22,7 @@ namespace MinConsole
         public extern static bool MinPlaySound(string path, bool repeatPlay);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinInitMCIAudio(out MCIAudio mciAudio, string path);
+        public extern static unsafe MCIAudio* MinInitMCIAudio(string path);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinDeinitMCIAudio(ref MCIAudio mciAudio);

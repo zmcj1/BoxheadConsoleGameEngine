@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.7.6
+//Version:2.8.0
 
 namespace NativeFunctionTranslator
 {
@@ -82,6 +82,7 @@ namespace NativeFunctionTranslator
         public const string EXPORT_FUNC_DLLIMPORTA = "[DllImport(\"MinConsoleNative.dll\", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Ansi)]";
         public const string EXPORT_FUNC_RETURN_TYPE = "public extern static bool";
         public const string EXPORT_FUNC_RETURN_TYPE_EX = "public extern static ";
+        public const string EXPORT_FUNC_RETURN_UNSAFE_TYPE_EX = "public extern static unsafe ";
         public const int EXPORT_FUNC_INDENT = 8;
         public static string IndentString = null;
 
@@ -288,24 +289,35 @@ namespace NativeFunctionTranslator
                         exportFuncDllImport = EXPORT_FUNC_DLLIMPORTA;
                     }
 
-                    declaration += EXPORT_FUNC_RETURN_TYPE_EX;
-                    declaration += returnType;
-                    declaration += item.Substring(_rightBracketIndex + 1, item.Length - _rightBracketIndex - 1);
-
-                    methodName = declaration.Substring((EXPORT_FUNC_RETURN_TYPE_EX + returnType + 1).Length,
-                        declaration.IndexOf('(') - (EXPORT_FUNC_RETURN_TYPE_EX + returnType).Length - 1);
+                    //如果返回值包含指针, 加上unsafe关键字
+                    string exportFuncReturnType = null;
 
                     if (returnType.Contains('*'))
                     {
-#if ENABLE_DEBUG
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write("C# doesn't allow return this pointer!!!");
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine(" You have to change this function: " + methodName);
-                        Console.ForegroundColor = ConsoleColor.Gray;
-#endif
-                        continue; // can't generate this function.
+                        exportFuncReturnType = EXPORT_FUNC_RETURN_UNSAFE_TYPE_EX;
                     }
+                    else
+                    {
+                        exportFuncReturnType = EXPORT_FUNC_RETURN_TYPE_EX;
+                    }
+
+                    declaration += exportFuncReturnType;
+                    declaration += returnType;
+                    declaration += item.Substring(_rightBracketIndex + 1, item.Length - _rightBracketIndex - 1);
+
+                    methodName = declaration.Substring((exportFuncReturnType + returnType + 1).Length,
+                        declaration.IndexOf('(') - (exportFuncReturnType + returnType).Length - 1);
+
+                    //如果返回值包含指针
+                    //if (returnType.Contains('*'))
+                    //{
+                    //    Console.ForegroundColor = ConsoleColor.Yellow;
+                    //    Console.Write("C# doesn't allow return this pointer!!!");
+                    //    Console.ForegroundColor = ConsoleColor.Red;
+                    //    Console.WriteLine(" You have to change this function: " + methodName);
+                    //    Console.ForegroundColor = ConsoleColor.Gray;
+                    //    continue; // can't generate this function.
+                    //}
                 }
                 else
                 {

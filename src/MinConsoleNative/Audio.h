@@ -42,7 +42,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinMCISendString(_IN_ const wchar* str);
 
-    EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen);
+    EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar** returnStr);
 
     //if no error, return L""
     EXPORT_FUNC_EX(wchar*) MinMCIGetErrorString();
@@ -52,7 +52,7 @@ namespace MinConsoleNative
 
     //---------------------------------MCIAudio functions---------------------------------
 
-    EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path);
+    EXPORT_FUNC_EX(MCIAudio*) MinInitMCIAudio(_IN_ const wchar* path);
 
     EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio);
 

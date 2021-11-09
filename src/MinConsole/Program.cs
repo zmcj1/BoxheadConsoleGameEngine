@@ -42,6 +42,7 @@ namespace MinConsole
             //Console.WriteLine(content);
 
             string rrr = MinMCIGetErrorString();
+            //MCIAudio* audio = MinInitMCIAudio("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
 
             Console.ReadLine();
         }

@@ -19,9 +19,10 @@ namespace MinConsoleNative
         return mci_result == 0;
     }
 
-    EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen)
+    EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar** returnStr)
     {
-        MCIERROR mci_result = ::mciSendString(str, returnStr, returnStrLen, nullptr);
+        *returnStr = ExternAlloc<wchar>(MAX_PATH);
+        MCIERROR mci_result = ::mciSendString(str, *returnStr, MAX_PATH, nullptr);
         LastMCIResult = mci_result;
         return mci_result == 0;
     }
@@ -54,23 +55,25 @@ namespace MinConsoleNative
         }
     }
 
-    EXPORT_FUNC_EX(bool) MinInitMCIAudio(_OUT_ MCIAudio* mciAudio, _IN_ const wchar* path)
+    EXPORT_FUNC_EX(MCIAudio*) MinInitMCIAudio(_IN_ const wchar* path)
     {
-        ::wcscpy_s(mciAudio->Path, ::wcslen(path) + 1, path);
+        MCIAudio* mciAudio = ExternAlloc<MCIAudio>(1);
 
-        wstring extension = File::GetFileExtension(path);
-        ::wcscpy_s(mciAudio->Extension, ::wcslen(extension.c_str()) + 1, extension.c_str());
-
-        wstring alias = MCIAlias + to_wstring(MCIAliasIncrement++);
-        ::wcscpy_s(mciAudio->Alias, ::wcslen(alias.c_str()) + 1, alias.c_str());
+        wstring shortPathName = File::ToShortPathName(path);
+        wstring alias = MCIAlias + ::to_wstring(MCIAliasIncrement++);
 
         //open the audio with alias.(should close audio when you dont use it.)
-        wstring shortPathName = File::ToShortPathName(path);
         bool openSuccess = Audio::MCISendString(_T("open ") + shortPathName + L" alias " + alias);
         if (!openSuccess)
         {
-            return false;
+            ExternFree(mciAudio);
+            return nullptr;
         }
+
+        wstring extension = File::GetFileExtension(path);
+        ::wcscpy_s(mciAudio->Path, ::wcslen(path) + 1, path);
+        ::wcscpy_s(mciAudio->Extension, ::wcslen(extension.c_str()) + 1, extension.c_str());
+        ::wcscpy_s(mciAudio->Alias, ::wcslen(alias.c_str()) + 1, alias.c_str());
 
         //get the length of the audio(you can directly use this cmd without open operation)
         wstring length = Audio::MCISendStringEx(_T("status ") + alias + _T(" length"));
@@ -79,13 +82,13 @@ namespace MinConsoleNative
         mciAudio->Second = mciAudio->TotalMilliSecond / 1000 - mciAudio->Minute * 60;
         mciAudio->MilliSecond = mciAudio->TotalMilliSecond % 1000;
 
-        return true;
+        return mciAudio;
     }
 
     EXPORT_FUNC_EX(bool) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio)
     {
         bool closeSuccess = Audio::MCISendString(L"close " + wstring(mciAudio->Alias));
-        delete mciAudio;
+        ExternFree(mciAudio);
         return closeSuccess;
     }
 
@@ -229,10 +232,11 @@ namespace MinConsoleNative
 
     wstring Audio::MCISendStringEx(const wstring& cmd)
     {
-        wchar res[MAX_PATH] = { 0 };
-        MinMCISendStringEx(cmd.c_str(), res, MAX_PATH);
-        wstring result(res);
-        return result;
+        wchar* buf = nullptr;
+        bool suc = MinMCISendStringEx(cmd.c_str(), &buf);
+        wstring wstr = buf;
+        ExternFree(buf);
+        return wstr;
     }
 
     std::wstring Audio::MCIGetErrorString()
@@ -250,12 +254,7 @@ namespace MinConsoleNative
 
     Audio::Audio(const wstring& path)
     {
-        this->mciAudio = new MCIAudio;
-        bool init_suc = MinInitMCIAudio(this->mciAudio, path.c_str());
-        if (!init_suc)
-        {
-            delete this->mciAudio;
-        }
+        this->mciAudio = MinInitMCIAudio(path.c_str());
     }
 
     Audio::~Audio()
