@@ -9,10 +9,6 @@
 
 namespace MinConsoleNative
 {
-    static int LastMCIResult = 0;
-    static const std::wstring MCIAlias = L"MIN_MCI_ALIAS_";
-    static int MCIAliasIncrement = 1;
-
     EXPORT_CONSTEXPR int MCI_MIN_VOLUME = 0;
     EXPORT_CONSTEXPR int MCI_MAX_VOLUME = 1000;
 
@@ -48,7 +44,8 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinMCISendStringEx(_IN_ const wchar* str, _OUT_ wchar* returnStr, int returnStrLen);
 
-    EXPORT_FUNC_EX(bool) MinMCIGetErrorString(_OUT_ wchar* errStr, int errStrLen);
+    //if no error, return L""
+    EXPORT_FUNC_EX(wchar*) MinMCIGetErrorString();
 
     //This method is very simple and only supports playing .wav files
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay);
@@ -109,6 +106,7 @@ namespace MinConsoleNative
 
         static std::wstring MCISendStringEx(const std::wstring& cmd);
 
+        //if no error, return L""
         static std::wstring MCIGetErrorString();
 
         static bool PlaySoundW(const std::wstring& path, bool repeatPlay);

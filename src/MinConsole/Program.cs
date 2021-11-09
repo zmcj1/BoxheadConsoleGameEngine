@@ -38,8 +38,10 @@ namespace MinConsole
 
             IntPtr inputHandle = MinGetStdHandle(StdHandleType.Input);
 
-            string content = MinReadConsole(inputHandle);
-            Console.WriteLine(content);
+            //string content = MinReadConsole(inputHandle);
+            //Console.WriteLine(content);
+
+            string rrr = MinMCIGetErrorString();
 
             Console.ReadLine();
         }

@@ -79,6 +79,8 @@
 //reduces the size of the Win32 header files by excluding some of the less frequently used APIs
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+//for COM(.Net)
+#include <combaseapi.h> //CoTaskMemAlloc CoTaskMemFree
 
 #ifndef LEN
 #define LEN(arr) (sizeof(arr) / sizeof(arr[0]))
@@ -124,4 +126,17 @@ namespace MinConsoleNative
     typedef unsigned int uint;
 
     typedef unsigned long long ulong;
+
+    //if fail throw "Extern Alloc Exception"
+    template<typename T> inline T* ExternAlloc(int count)
+    {
+        T* ptr = (T*)::CoTaskMemAlloc(count * sizeof(T));
+        if (ptr == nullptr) throw "Extern Alloc Exception";
+        return ptr;
+    }
+
+    inline void ExternFree(void* ptr)
+    {
+        ::CoTaskMemFree(ptr);
+    }
 }

@@ -8,6 +8,10 @@ using namespace std;
 
 namespace MinConsoleNative
 {
+    static int LastMCIResult = 0;
+    static const std::wstring MCIAlias = L"MIN_MCI_ALIAS_";
+    static int MCIAliasIncrement = 1;
+
     EXPORT_FUNC_EX(bool) MinMCISendString(_IN_ const wchar* str)
     {
         MCIERROR mci_result = ::mciSendString(str, nullptr, 0, nullptr);
@@ -22,9 +26,20 @@ namespace MinConsoleNative
         return mci_result == 0;
     }
 
-    EXPORT_FUNC_EX(bool) MinMCIGetErrorString(_OUT_ wchar* errStr, int errStrLen)
+    EXPORT_FUNC_EX(wchar*) MinMCIGetErrorString()
     {
-        return ::mciGetErrorString(LastMCIResult, errStr, errStrLen);
+        wchar* wstr = ExternAlloc<wchar>(MAX_PATH);
+
+        if (LastMCIResult == 0) //no error, all is ok.
+        {
+            ::ZeroMemory(wstr, MAX_PATH);
+        }
+        else
+        {
+            bool suc = ::mciGetErrorString(LastMCIResult, wstr, MAX_PATH);
+        }
+
+        return wstr;
     }
 
     EXPORT_FUNC_EX(bool) MinPlaySound(_IN_ const wchar* path, bool repeatPlay)
@@ -222,9 +237,10 @@ namespace MinConsoleNative
 
     std::wstring Audio::MCIGetErrorString()
     {
-        wchar errString[MAX_PATH];
-        MinMCIGetErrorString(errString, LEN(errString));
-        return wstring(errString);
+        wchar* buf = MinMCIGetErrorString();
+        wstring wstr = buf;
+        ExternFree(buf);
+        return wstr;
     }
 
     bool Audio::PlaySoundW(const std::wstring& path, bool repeatPlay)
