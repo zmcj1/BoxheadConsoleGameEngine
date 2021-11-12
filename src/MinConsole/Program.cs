@@ -49,6 +49,9 @@ namespace MinConsole
             MCIAudio s2 = Marshal.PtrToStructure<MCIAudio>(s2_pointer);
             MCIAudio s3 = MinStructTest3();
 
+            MinWriteToClipboard("你好世界");
+            MinReadFromClipboard(out string data);
+
             //audio test:
             Audio audio = new Audio("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
             audio.Play(true, false);

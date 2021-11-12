@@ -85,7 +85,7 @@ namespace MinConsole
         public extern static bool MinReadFromClipboard(out string data);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinWriteToClipboard(string data, int charCount);
+        public extern static bool MinWriteToClipboard(string data);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinIsLegacyConsole();

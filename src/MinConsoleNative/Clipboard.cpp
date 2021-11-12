@@ -5,60 +5,91 @@ namespace MinConsoleNative
 {
     EXPORT_FUNC_EX(bool) MinReadFromClipboard(wchar** data)
     {
-        bool open_suc = ::OpenClipboard(0);
-        if (!open_suc) return false;
+        if (!::OpenClipboard(nullptr))
+        {
+            return false;
+        }
 
-        bool data_available = ::IsClipboardFormatAvailable(CF_UNICODETEXT);
-        if (!data_available)
+        if (!::IsClipboardFormatAvailable(CF_UNICODETEXT))
         {
             ::CloseClipboard();
             return false;
         }
 
-        //The clipboard controls the handle that the GetClipboardData function returns, not the application. The application should copy the data immediately. The application must not free the handle nor leave it locked.
-        //So we should not free this rawData, we can copy it.
-        wchar* rawData = (wchar*)::GetClipboardData(CF_UNICODETEXT);
-        if (rawData == nullptr)
+        HANDLE handle = ::GetClipboardData(CF_UNICODETEXT);
+        if (handle == nullptr)
         {
             ::CloseClipboard();
             return false;
         }
 
-        *data = rawData;
+        // Lock the handle to get the actual text pointer
+        wchar* text = static_cast<wchar*>(::GlobalLock(handle));
+        if (text == nullptr)
+        {
+            ::CloseClipboard();
+            return false;
+        }
 
+        //注意:这里只能进行指针复制而不是字符串复制, 否则会报错
+        //::wcscpy_s(*data, wcslen(text), text);
+        *data = text;
+
+        // Release the lock
+        ::GlobalUnlock(handle);
+
+        //close
         ::CloseClipboard();
+
         return true;
     }
 
-    EXPORT_FUNC_EX(bool) MinWriteToClipboard(const wchar* data, int charCount)
+    EXPORT_FUNC_EX(bool) MinWriteToClipboard(const wchar* data)
     {
-        bool open_suc = ::OpenClipboard(0);
-        if (!open_suc) return false;
+        if (!::OpenClipboard(nullptr))
+        {
+            return false;
+        }
 
-        ::EmptyClipboard();
-
-        int length = (charCount + 1) * sizeof(wchar);
-        wchar* rawData = (wchar*)::GlobalAlloc(GMEM_FIXED, length);
-
-        if (rawData == nullptr)
+        if (!::EmptyClipboard())
         {
             ::CloseClipboard();
             return false;
         }
 
-        ::ZeroMemory(rawData, length);
-        ::wcscpy_s(rawData, length, data);
-
-        HANDLE set_data_suc = ::SetClipboardData(CF_UNICODETEXT, rawData);
-        ::GlobalUnlock(rawData);
-        //GlobalFree(rawData); //Use this will cause a breakpoint!
-
-        if (!set_data_suc)
+        //计算缓冲区长度: wcslen(data) + 1是因为要算上结尾的L'\0'
+        int length = (::wcslen(data) + 1) * sizeof(wchar);
+        //GMEM_FIXED
+        HGLOBAL handle = ::GlobalAlloc(GMEM_MOVEABLE, length);
+        if (handle == nullptr)
         {
             ::CloseClipboard();
             return false;
         }
 
+        wchar* text = static_cast<wchar*>(::GlobalLock(handle));
+        if (text == nullptr)
+        {
+            ::CloseClipboard();
+            return false;
+        }
+
+        //赋值操作
+        ::ZeroMemory(text, length);
+        ::wcscpy_s(text, length, data);
+
+        // Release the lock
+        ::GlobalUnlock(handle);
+
+        if (::SetClipboardData(CF_UNICODETEXT, handle) == nullptr)
+        {
+            ::CloseClipboard();
+            return false;
+        }
+
+        ::GlobalFree(handle);
+
+        //close
         ::CloseClipboard();
         return true;
     }
@@ -77,6 +108,6 @@ namespace MinConsoleNative
 
     bool Clipboard::Write(const std::wstring& data)
     {
-        return MinWriteToClipboard(data.c_str(), (int)data.size());
+        return MinWriteToClipboard(data.c_str());
     }
 }
