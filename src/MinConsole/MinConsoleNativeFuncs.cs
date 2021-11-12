@@ -31,6 +31,9 @@ namespace MinConsole
         public extern static bool MinPlaySound(string path, bool repeatPlay);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static IntPtr MinInitMCIAudio(string path);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static void MinDeinitMCIAudio(ref MCIAudio mciAudio);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]

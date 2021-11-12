@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.9.0
+//Version:2.9.1
 
 namespace NativeFunctionTranslator
 {
@@ -289,12 +289,13 @@ namespace NativeFunctionTranslator
                         exportFuncDllImport = EXPORT_FUNC_DLLIMPORTA;
                     }
 
-                    //如果返回值包含指针, 加上unsafe关键字
                     string exportFuncReturnType = null;
-
+                    //如果返回值是指针类型, 统一视为IntPtr, 在C#里面可以使用Marshal.PtrToStructure<T>(pointer)获取对象
                     if (returnType.Contains('*'))
                     {
-                        exportFuncReturnType = EXPORT_FUNC_RETURN_UNSAFE_TYPE_EX;
+                        returnType = "IntPtr";
+                        exportFuncReturnType = EXPORT_FUNC_RETURN_TYPE_EX;
+                        //exportFuncReturnType = EXPORT_FUNC_RETURN_UNSAFE_TYPE_EX;
                     }
                     else
                     {
@@ -307,17 +308,6 @@ namespace NativeFunctionTranslator
 
                     methodName = declaration.Substring((exportFuncReturnType + returnType + 1).Length,
                         declaration.IndexOf('(') - (exportFuncReturnType + returnType).Length - 1);
-
-                    //如果返回值包含指针则停止生成该方法
-                    if (returnType.Contains('*'))
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("generate C++ function " + methodName + " fail! ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("fail reason: C# doesn't allow return pointer type");
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        continue; // can't generate this function.
-                    }
                 }
                 else
                 {

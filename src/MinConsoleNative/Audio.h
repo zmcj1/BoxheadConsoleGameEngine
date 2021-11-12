@@ -38,7 +38,7 @@ namespace MinConsoleNative
         EXPORT_STRUCT_MEMBER int MilliSecond;       //milliSecond part of this audio
     };
 
-    //for test
+    //---------------------------------for test---------------------------------
     EXPORT_FUNC_EX(void) MinStructTest(_OUT_ MCIAudio* s);
 
     EXPORT_FUNC_EX(HANDLE) MinStructTest2();
@@ -59,6 +59,7 @@ namespace MinConsoleNative
 
     //---------------------------------MCIAudio functions---------------------------------
 
+    //注意:如果在C#中调用该语句请确保Main方法设置了[STAThread]
     EXPORT_FUNC_EX(MCIAudio*) MinInitMCIAudio(_IN_ const wchar* path);
 
     EXPORT_FUNC_EX(void) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio);

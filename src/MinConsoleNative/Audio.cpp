@@ -86,11 +86,11 @@ namespace MinConsoleNative
     {
         MCIAudio* mciAudio = ExternAlloc<MCIAudio>(1);
 
+        //open the audio with alias.(should close audio when you dont use it.)
         wstring shortPathName = File::ToShortPathName(path);
         wstring alias = MCIAlias + ::to_wstring(MCIAliasIncrement++);
-
-        //open the audio with alias.(should close audio when you dont use it.)
         bool openSuccess = Audio::MCISendString(_T("open ") + shortPathName + L" alias " + alias);
+        //如果打开文件失败直接释放指针并且返回空指针
         if (!openSuccess)
         {
             ExternFree(mciAudio);

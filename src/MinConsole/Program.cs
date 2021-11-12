@@ -21,6 +21,8 @@ namespace MinConsole
 
         }
 
+        //必须添加该特性保证能够正常使用MCI接口
+        [STAThread]
         static void Main(string[] args)
         {
             string test = null;
@@ -49,6 +51,10 @@ namespace MinConsole
             IntPtr s2_pointer = MinStructTest2();
             MCIAudio s2 = Marshal.PtrToStructure<MCIAudio>(s2_pointer);
             MCIAudio s3 = MinStructTest3();
+
+            //final test:
+            IntPtr pointer = MinInitMCIAudio("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
+            MCIAudio audio = Marshal.PtrToStructure<MCIAudio>(pointer);
 
             Console.ReadLine();
         }
