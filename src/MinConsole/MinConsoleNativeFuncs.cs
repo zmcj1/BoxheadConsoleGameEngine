@@ -280,7 +280,7 @@ namespace MinConsole
         public extern static string MinGetTitle();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinSetTitle(string titleBuffer);
+        public extern static bool MinSetTitle(string title);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinGetConsoleCursorVisible(IntPtr consoleOutput);

@@ -632,7 +632,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(wchar*) MinGetTitle();
 
-    EXPORT_FUNC_EX(bool) MinSetTitle(_IN_ const wchar* titleBuffer);
+    EXPORT_FUNC_EX(bool) MinSetTitle(_IN_ const wchar* title);
 
     EXPORT_FUNC_EX(bool) MinGetConsoleCursorVisible(HANDLE consoleOutput);
 

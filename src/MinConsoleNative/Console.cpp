@@ -1047,9 +1047,9 @@ namespace MinConsoleNative
         return str;
     }
 
-    EXPORT_FUNC_EX(bool) MinSetTitle(const wchar* titleBuffer)
+    EXPORT_FUNC_EX(bool) MinSetTitle(const wchar* title)
     {
-        return ::SetConsoleTitle(titleBuffer);
+        return ::SetConsoleTitle(title);
     }
 
     EXPORT_FUNC_EX(bool) MinGetConsoleCursorVisible(HANDLE consoleOutput)

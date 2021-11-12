@@ -53,6 +53,7 @@ namespace MinConsole
             MinReadFromClipboard(out string data);
 
             MinEnableConsoleVT(outputHandle);
+            ConsoleFont font = MinGetConsoleFont(outputHandle);
 
             //audio test:
             Audio audio = new Audio("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
