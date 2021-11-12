@@ -5,7 +5,6 @@ using System.Threading;
 
 using static MinConsole.MinConsoleNativeFuncs;
 using static MinConsole.MinConsoleNativeStructs;
-using static MinConsole.MinConsoleNativeWrapper;
 
 namespace MinConsole
 {
