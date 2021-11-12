@@ -498,7 +498,7 @@ namespace MinConsoleNative
     EXPORT_FUNC_EX(ConsoleSession) MinInitConsoleSession();
 
     //return true means successful enable VT!
-    EXPORT_FUNC_EX(bool) MinEnableConsoleVT(HANDLE consoleInput, HANDLE consoleOutput);
+    EXPORT_FUNC_EX(bool) MinEnableConsoleVT(HANDLE consoleOutput);
 
     EXPORT_FUNC_EX(Color24) MinGetConsolePalette(HANDLE consoleOutput, DWORD index);
 

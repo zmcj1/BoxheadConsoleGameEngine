@@ -52,6 +52,8 @@ namespace MinConsole
             MinWriteToClipboard("你好世界");
             MinReadFromClipboard(out string data);
 
+            MinEnableConsoleVT(outputHandle);
+
             //audio test:
             Audio audio = new Audio("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
             audio.Play(true, false);

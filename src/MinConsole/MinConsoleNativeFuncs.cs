@@ -115,7 +115,7 @@ namespace MinConsole
         public extern static ConsoleSession MinInitConsoleSession();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinEnableConsoleVT(IntPtr consoleInput, IntPtr consoleOutput);
+        public extern static bool MinEnableConsoleVT(IntPtr consoleOutput);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static Color24 MinGetConsolePalette(IntPtr consoleOutput, uint index);
