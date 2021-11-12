@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.8.0
+//Version:2.9.0
 
 namespace NativeFunctionTranslator
 {
@@ -308,16 +308,16 @@ namespace NativeFunctionTranslator
                     methodName = declaration.Substring((exportFuncReturnType + returnType + 1).Length,
                         declaration.IndexOf('(') - (exportFuncReturnType + returnType).Length - 1);
 
-                    //如果返回值包含指针
-                    //if (returnType.Contains('*'))
-                    //{
-                    //    Console.ForegroundColor = ConsoleColor.Yellow;
-                    //    Console.Write("C# doesn't allow return this pointer!!!");
-                    //    Console.ForegroundColor = ConsoleColor.Red;
-                    //    Console.WriteLine(" You have to change this function: " + methodName);
-                    //    Console.ForegroundColor = ConsoleColor.Gray;
-                    //    continue; // can't generate this function.
-                    //}
+                    //如果返回值包含指针则停止生成该方法
+                    if (returnType.Contains('*'))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("generate C++ function " + methodName + " fail! ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("fail reason: C# doesn't allow return pointer type");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        continue; // can't generate this function.
+                    }
                 }
                 else
                 {
@@ -858,11 +858,41 @@ namespace NativeFunctionTranslator
                             int wcharIndex = _body.IndexOf(wchar);
                             if (wcharIndex != -1)
                             {
-                                int _index = _body.IndexOf("[");
-                                if (_index != -1)
+                                int arrayStartIndex = _body.IndexOf("[");
+                                //如果是wchar array
+                                if (arrayStartIndex != -1)
                                 {
-                                    string memberName = _body.Substring(wcharIndex + wchar.Length, _index - (wcharIndex + wchar.Length));
-                                    newBody = "public string" + memberName + ";";
+                                    //获取数组大小:
+                                    int arrayEndIndex = _body.IndexOf("]");
+                                    string arraySizeString = _body.Substring(arrayStartIndex + 1, arrayEndIndex - arrayStartIndex - 1);
+                                    bool psuc = int.TryParse(arraySizeString, out int arraySize);
+                                    //可能需要替换宏
+                                    if (!psuc)
+                                    {
+                                        if (arraySizeString == "MAX_PATH")
+                                        {
+                                            arraySize = 260;
+                                        }
+                                        else if (arraySizeString == "LF_FACESIZE")
+                                        {
+                                            arraySize = 32;
+                                        }
+                                        else
+                                        {
+                                            //unknown size
+                                            arraySize = 0;
+                                            Console.ForegroundColor = ConsoleColor.Red;
+                                            Console.WriteLine("unknown array size in export struct:" + arraySizeString);
+                                            Console.ForegroundColor = ConsoleColor.Gray;
+                                        }
+                                    }
+
+                                    //特性的添加非常重要, C#只能通过特性获取string的size从而能够获取sizeof(struct):
+                                    string attribute = $"[MarshalAs(UnmanagedType.ByValTStr, SizeConst = {arraySize})] ";
+                                    //获取成员名字:
+                                    string memberName = _body.Substring(wcharIndex + wchar.Length, arrayStartIndex - (wcharIndex + wchar.Length));
+
+                                    newBody = attribute + "public string" + memberName + ";";
                                 }
                                 else
                                 {

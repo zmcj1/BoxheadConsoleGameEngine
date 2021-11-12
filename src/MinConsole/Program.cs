@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 using static MinConsole.MinConsoleNativeFuncs;
@@ -43,6 +44,11 @@ namespace MinConsole
 
             string rrr = MinMCIGetErrorString();
             //MCIAudio* audio = MinInitMCIAudio("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
+
+            MinStructTest(out MCIAudio s1);
+            IntPtr s2_pointer = MinStructTest2();
+            MCIAudio s2 = Marshal.PtrToStructure<MCIAudio>(s2_pointer);
+            MCIAudio s3 = MinStructTest3();
 
             Console.ReadLine();
         }

@@ -38,6 +38,13 @@ namespace MinConsoleNative
         EXPORT_STRUCT_MEMBER int MilliSecond;       //milliSecond part of this audio
     };
 
+    //for test
+    EXPORT_FUNC_EX(void) MinStructTest(_OUT_ MCIAudio* s);
+
+    EXPORT_FUNC_EX(HANDLE) MinStructTest2();
+
+    EXPORT_FUNC_EX(MCIAudio) MinStructTest3();
+
     //---------------------------------static functions---------------------------------
 
     EXPORT_FUNC_EX(bool) MinMCISendString(_IN_ const wchar* str);

@@ -10,6 +10,15 @@ namespace MinConsole
     public static class MinConsoleNativeFuncs
     {
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static void MinStructTest(out MCIAudio s);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static IntPtr MinStructTest2();
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static MCIAudio MinStructTest3();
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinMCISendString(string str);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
@@ -20,9 +29,6 @@ namespace MinConsole
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinPlaySound(string path, bool repeatPlay);
-
-        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static unsafe MCIAudio* MinInitMCIAudio(string path);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static void MinDeinitMCIAudio(ref MCIAudio mciAudio);

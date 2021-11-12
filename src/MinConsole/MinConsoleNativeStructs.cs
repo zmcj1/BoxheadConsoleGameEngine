@@ -138,9 +138,9 @@ namespace MinConsole
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct MCIAudio
         {
-            public string Path;
-            public string Extension;
-            public string Alias;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)] public string Path;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string Extension;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string Alias;
             public int TotalMilliSecond;  //total milliSecond of this audio
             public int Minute;            //minute part of this audio
             public int Second;            //second part of this audio
@@ -211,7 +211,7 @@ namespace MinConsole
             public COORD FontSize;
             public uint FontFamily;
             public uint FontWeight; //Over 400 is bold
-            public string FaceName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string FaceName;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

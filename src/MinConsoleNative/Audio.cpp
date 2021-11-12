@@ -12,6 +12,33 @@ namespace MinConsoleNative
     static const std::wstring MCIAlias = L"MIN_MCI_ALIAS_";
     static int MCIAliasIncrement = 1;
 
+    EXPORT_FUNC_EX(void) MinStructTest(_OUT_ MCIAudio* s)
+    {
+        wstring path = L"nihao";
+        ::wcscpy_s(s->Path, path.size() + 1, path.c_str());
+    }
+
+    EXPORT_FUNC_EX(HANDLE) MinStructTest2()
+    {
+        MCIAudio* s = ExternAlloc<MCIAudio>(1); //.net style alloc
+        ::ZeroMemory(s, sizeof(MCIAudio));      //need to zero memory.
+
+        wstring path = L"nihao";
+        ::wcscpy_s(s->Path, path.size() + 1, path.c_str());
+
+        return s;
+    }
+
+    EXPORT_FUNC_EX(MCIAudio) MinStructTest3()
+    {
+        MCIAudio s = { 0 };
+
+        wstring path = L"nihao";
+        ::wcscpy_s(s.Path, path.size() + 1, path.c_str());
+
+        return s;
+    }
+
     EXPORT_FUNC_EX(bool) MinMCISendString(_IN_ const wchar* str)
     {
         MCIERROR mci_result = ::mciSendString(str, nullptr, 0, nullptr);
