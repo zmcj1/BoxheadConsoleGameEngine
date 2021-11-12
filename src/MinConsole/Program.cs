@@ -39,12 +39,10 @@ namespace MinConsole
             Console.Write(test);
 
             IntPtr inputHandle = MinGetStdHandle(StdHandleType.Input);
+            IntPtr outputHandle = MinGetStdHandle(StdHandleType.Output);
 
             //string content = MinReadConsole(inputHandle);
             //Console.WriteLine(content);
-
-            string rrr = MinMCIGetErrorString();
-            //MCIAudio* audio = MinInitMCIAudio("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
 
             MinStructTest(out MCIAudio s1);
             IntPtr s2_pointer = MinStructTest2();
@@ -54,6 +52,18 @@ namespace MinConsole
             //audio test:
             Audio audio = new Audio("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
             audio.Play(true, false);
+
+            Win32.QueryPerformanceFrequency(out long f);
+            Win32.QueryPerformanceCounter(out long c);
+            while (true)
+            {
+                if ((Win32.GetAsyncKeyState('A') & 0x8000) != 0)
+                {
+                    //Console.WriteLine("1"); //现在此API会自动改变屏幕缓冲区左上角
+                    MinWriteLine1(outputHandle, "1");
+                }
+                Thread.Sleep(100);
+            }
 
             Console.ReadLine();
         }
