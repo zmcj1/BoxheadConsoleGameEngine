@@ -52,11 +52,7 @@ namespace MinConsole
             MCIAudio s2 = Marshal.PtrToStructure<MCIAudio>(s2_pointer);
             MCIAudio s3 = MinStructTest3();
 
-            //final test:
-            IntPtr pointer = MinInitMCIAudio("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
-            MCIAudio mciAudio = Marshal.PtrToStructure<MCIAudio>(pointer);
-
-            //new test:
+            //audio test:
             Audio audio = new Audio("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
             audio.Play(true, false);
 

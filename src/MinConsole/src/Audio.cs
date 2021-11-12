@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 using static MinConsole.MinConsoleNativeFuncs;
@@ -37,6 +38,14 @@ namespace MinConsole
 
         public Audio(string path)
         {
+            //对于C#程序而言, 使用MCI需要设置Main方法为[STAThread]
+            Assembly assembly = Assembly.GetEntryAssembly();
+            STAThreadAttribute STA = assembly.EntryPoint.GetCustomAttribute<STAThreadAttribute>();
+            if (STA == null)
+            {
+                throw new Exception("[STAThread] not found!");
+            }
+
             mciAudioPtr = MinInitMCIAudio(path);
             //如果没有初始化失败才进行转换
             if (mciAudioPtr != IntPtr.Zero)
