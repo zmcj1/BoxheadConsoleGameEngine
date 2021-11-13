@@ -2,6 +2,7 @@
 
 #include "MinDefines.h"
 #include "Console.h"
+#include "Singleton.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -20,6 +21,11 @@ namespace MinConsoleNative
         std::map<wchar, CharWidth> charWidthUserDefineDict; //Highest priority.
         bool useASCIICache = true;
         bool useCJKCache = true;
+        Console _console;
+
+        TextLayout();
+
+        TextLayout(Console _console);
 
         CharWidth GetWcharWidth(wchar c);
 
@@ -27,7 +33,7 @@ namespace MinConsoleNative
 
         std::vector<std::wstring> WstringToGrids(const std::wstring wstr);
 
-        //width:the width of line(cell)
+        //width:the width of line(in cell)
         //NOTICE:if width is 1, returns single char as line. Width can't < 1!
         std::vector<std::wstring> WstringToLines(const std::wstring wstr, int width, bool fillAll = true);
     };

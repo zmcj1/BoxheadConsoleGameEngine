@@ -6,6 +6,24 @@ using namespace std;
 
 namespace MinConsoleNative
 {
+    wstring TextLayout::CombineWchar(wchar a1, wchar a2)
+    {
+        wchar arr[3] = { 0 };
+        arr[0] = a1;
+        arr[1] = a2;
+        return wstring(arr);
+    }
+
+    TextLayout::TextLayout()
+    {
+        this->_console = console;
+    }
+
+    TextLayout::TextLayout(Console _console)
+    {
+        this->_console = _console;
+    }
+
     CharWidth TextLayout::GetWcharWidth(wchar c)
     {
         CharWidth charWidth;
@@ -30,7 +48,7 @@ namespace MinConsoleNative
             //save as cache
             if (charWidthCacheDict.count(c) == 0)
             {
-                charWidth = console.GetWcharWidth(c);
+                charWidth = this->_console.GetWcharWidth(c);
                 charWidthCacheDict[c] = charWidth;
             }
             //use cache
@@ -51,14 +69,6 @@ namespace MinConsoleNative
             width += (int)cw;
         }
         return width;
-    }
-
-    wstring TextLayout::CombineWchar(wchar a1, wchar a2)
-    {
-        wchar arr[3] = { 0 };
-        arr[0] = a1;
-        arr[1] = a2;
-        return wstring(arr);
     }
 
     std::vector<std::wstring> TextLayout::WstringToGrids(const std::wstring wstr)
