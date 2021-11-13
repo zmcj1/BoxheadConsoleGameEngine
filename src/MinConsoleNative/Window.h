@@ -57,14 +57,23 @@ namespace MinConsoleNative
     public:
         static Singleton<Window> Global;
 
+        static HWND GetForegroundWindow();
+
+        static POINT GetDesktopSize();
+
+        static POINT GetMousePos();
+
+        static HINSTANCE GetExeInstance();
+
+        //This API don't work in Console.
+        static bool DisableCursor();
+
     public:
         HWND windowHandle;
 
         Window();
 
         Window(HWND windowHandle);
-
-        HWND GetForegroundWindow();
 
         POINT GetWindowPos();
 
@@ -74,11 +83,7 @@ namespace MinConsoleNative
 
         void SetWindowSize(POINT size);
 
-        POINT GetDesktopSize();
-
         POINT GetClientSize();
-
-        POINT GetMousePos();
 
         POINT GetMappedMousePos();
 
@@ -104,12 +109,7 @@ namespace MinConsoleNative
         //Determines whether the specified window is minimized (iconic).
         bool IsMinimized();
 
-        HINSTANCE GetExeInstance();
-
         bool DeleteMenu(bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize);
-
-        //This API don't work in Console.
-        bool DisableCursor();
     };
 
     extern Window& window;

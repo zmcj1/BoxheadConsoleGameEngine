@@ -216,6 +216,31 @@ namespace MinConsoleNative
         return true;
     }
 
+    HWND Window::GetForegroundWindow()
+    {
+        return MinGetForegroundWindow();
+    }
+
+    POINT Window::GetDesktopSize()
+    {
+        return MinGetDesktopSize();
+    }
+
+    POINT Window::GetMousePos()
+    {
+        return MinGetMousePos();
+    }
+
+    HINSTANCE Window::GetExeInstance()
+    {
+        return MinGetExeInstance();
+    }
+
+    bool Window::DisableCursor()
+    {
+        return MinDisableCursor();
+    }
+
     Window::Window()
     {
         this->windowHandle = ::GetForegroundWindow();
@@ -224,11 +249,6 @@ namespace MinConsoleNative
     Window::Window(HWND windowHandle)
     {
         this->windowHandle = windowHandle;
-    }
-
-    HWND Window::GetForegroundWindow()
-    {
-        return MinGetForegroundWindow();
     }
 
     POINT Window::GetWindowPos()
@@ -251,19 +271,9 @@ namespace MinConsoleNative
         MinSetWindowSize(this->windowHandle, size);
     }
 
-    POINT Window::GetDesktopSize()
-    {
-        return MinGetDesktopSize();
-    }
-
     POINT Window::GetClientSize()
     {
         return MinGetClientSize(this->windowHandle);
-    }
-
-    POINT Window::GetMousePos()
-    {
-        return MinGetMousePos();
     }
 
     POINT Window::GetMappedMousePos()
@@ -316,19 +326,9 @@ namespace MinConsoleNative
         return MinIsMinimized(this->windowHandle);
     }
 
-    HINSTANCE Window::GetExeInstance()
-    {
-        return MinGetExeInstance();
-    }
-
     bool Window::DeleteMenu(bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize)
     {
         return MinDeleteMenu(this->windowHandle, allowResizing, allowClose, allowMaximize, allowMinimize);
-    }
-
-    bool Window::DisableCursor()
-    {
-        return MinDisableCursor();
     }
 
     Window& window = Window::Global.GetInstance();
