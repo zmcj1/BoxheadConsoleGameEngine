@@ -59,6 +59,19 @@ namespace MinConsole
             Audio audio = new Audio("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
             audio.Play(true, false);
 
+            //MinReadConsoleInput test:
+            ConsoleInputMode cim = new ConsoleInputMode();
+            cim._ENABLE_QUICK_EDIT_MODE = false;
+            cim._ENABLE_WINDOW_INPUT = true;
+            MinSetConsoleInputMode(inputHandle, cim);
+            while (true)
+            {
+                MinReadConsoleInput(inputHandle,
+                    OnReadConsoleMouseInputRecordCallback,
+                    OnReadConsoleKeyboardInputRecordCallback, null);
+                Thread.Sleep(100);
+            }
+
             Win32.QueryPerformanceFrequency(out long f);
             Win32.QueryPerformanceCounter(out long c);
             while (true)

@@ -136,7 +136,7 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct MCIAudio
+        public partial struct MCIAudio
         {
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)] public string Path;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string Extension;
@@ -148,7 +148,7 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct Color24
+        public partial struct Color24
         {
             public byte r;
             public byte g;
@@ -156,7 +156,7 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct Color32
+        public partial struct Color32
         {
             public byte r;
             public byte g;
@@ -165,7 +165,7 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct ConsoleInputMode
+        public partial struct ConsoleInputMode
         {
             public bool _ENABLE_PROCESSED_INPUT;               //default is TRUE(recommend to FALSE to avoid pressing CTRL+C to close the console program)
             public bool _ENABLE_LINE_INPUT;                    //default is TRUE
@@ -180,7 +180,7 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct ConsoleOutputMode
+        public partial struct ConsoleOutputMode
         {
             public bool _ENABLE_PROCESSED_OUTPUT;              //default is TRUE
             public bool _ENABLE_WRAP_AT_EOL_OUTPUT;            //default is TRUE
@@ -190,14 +190,14 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct ConsoleMode
+        public partial struct ConsoleMode
         {
             public ConsoleInputMode inputMode;
             public ConsoleOutputMode outputMode;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct ConsoleSession
+        public partial struct ConsoleSession
         {
             public IntPtr consoleWindow;
             public IntPtr consoleInput;
@@ -205,7 +205,7 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct ConsoleFont
+        public partial struct ConsoleFont
         {
             public uint FontIndex;
             public COORD FontSize;
@@ -215,7 +215,7 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct ConsoleMouseInputRecord
+        public partial struct ConsoleMouseInputRecord
         {
             public bool moved;                         //Whether the mouse is moving
             public bool doubleClick;                   //Double click
@@ -224,7 +224,7 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct ConsoleKeyboardInputRecord
+        public partial struct ConsoleKeyboardInputRecord
         {
             public char KeyChar;
             public ushort VirtualKey;
@@ -240,14 +240,14 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct ConsoleKeyInfo
+        public partial struct ConsoleKeyInfo
         {
             public char KeyChar;
             public ushort VirtualKey;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct MinTimer
+        public partial struct MinTimer
         {
             public long start;
             public long stop;

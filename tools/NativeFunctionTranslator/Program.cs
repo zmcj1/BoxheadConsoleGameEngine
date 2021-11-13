@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.9.1
+//Version:2.9.1.1
 
 namespace NativeFunctionTranslator
 {
@@ -830,7 +830,7 @@ namespace NativeFunctionTranslator
                             !str.Contains(EXPORT_STRUCT_MEMBER));
 
                         structs.Add(GetIndentString() + EXPORT_STRUCT_DLLIMPORT);
-                        structs.Add(GetIndentString() + "public struct " + structName);
+                        structs.Add(GetIndentString() + "public partial struct " + structName);
                         structs.Add(GetIndentString() + "{");
                         foreach (string _body in structBody)
                         {
