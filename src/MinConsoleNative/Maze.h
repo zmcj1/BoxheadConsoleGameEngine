@@ -9,6 +9,10 @@ namespace MinConsoleNative
     class MazeGenerator
     {
     private:
+        MazeGenerator()
+        {
+        }
+
         static void LinkTo(Vector2& point, std::vector<Vector2>& keyPoints, std::vector<Vector2>& arrivedPoints, std::vector<Vector2>& emptyPoints);
 
     public:

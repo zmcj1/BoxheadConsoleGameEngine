@@ -9,6 +9,11 @@ namespace MinConsoleNative
 
     class Random
     {
+    private:
+        Random()
+        {
+        }
+
     public:
         //random range[minimum(inclusive), maximum(inclusive)]
         static uint Range(uint minimum, uint maximum);

@@ -8,6 +8,11 @@ namespace MinConsoleNative
     template<typename T>
     class Singleton
     {
+    private:
+        Singleton()
+        {
+        }
+
     public:
         template<typename...Args>
         static T& GetInstance(Args&&...args)

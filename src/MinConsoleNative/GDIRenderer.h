@@ -9,6 +9,11 @@ namespace MinConsoleNative
 
     class GDIRenderer
     {
+    private:
+        GDIRenderer()
+        {
+        }
+
     public:
         static bool PutPixel(int x, int y, Color24 color);
     };

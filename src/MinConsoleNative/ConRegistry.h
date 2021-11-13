@@ -75,6 +75,11 @@ namespace MinConsoleNative
 
     class ConRegistry
     {
+    private:
+        ConRegistry()
+        {
+        }
+
     public:
         static bool IsLegacyConsole();
 

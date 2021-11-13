@@ -15,6 +15,11 @@ namespace MinConsoleNative
 
     class String
     {
+    private:
+        String()
+        {
+        }
+
     public:
         static std::wstring Trim(const std::wstring& wstr);
 

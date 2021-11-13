@@ -14,6 +14,11 @@ namespace MinConsoleNative
 
     class Debug
     {
+    private:
+        Debug()
+        {
+        }
+
     public:
         //Output to IDE
         static void Output(const std::wstring& msg);
@@ -31,6 +36,7 @@ namespace MinConsoleNative
 
     public:
         static int LastMinError;
+
         static std::wstring LastMinErrorMsg;
 
         static int GetLastMinError();

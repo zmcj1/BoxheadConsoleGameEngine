@@ -8,6 +8,11 @@ namespace MinConsoleNative
     template<typename T>
     class Vector
     {
+    private:
+        Vector()
+        {
+        }
+
     public:
         static bool Contains(const std::vector<T>& container, const T& element)
         {

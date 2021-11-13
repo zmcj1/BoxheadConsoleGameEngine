@@ -22,6 +22,11 @@ namespace MinConsoleNative
 
     class File
     {
+    private:
+        File()
+        {
+        }
+
     public:
         //Convert absolute path to short path
         static std::wstring ToShortPathName(const std::wstring& path);

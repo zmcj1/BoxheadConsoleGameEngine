@@ -47,6 +47,11 @@ namespace MinConsoleNative
 
     class Input
     {
+    private:
+        Input()
+        {
+        }
+
     public:
         static bool GetKey(int virtualKey);
 

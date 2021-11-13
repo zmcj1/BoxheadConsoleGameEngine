@@ -8,6 +8,11 @@ namespace MinConsoleNative
 {
     class UnusualMethods
     {
+    private:
+        UnusualMethods()
+        {
+        }
+
     public:
         static constexpr const wchar* Kernel32DLL = L"kernel32.dll";
 

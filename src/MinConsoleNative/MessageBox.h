@@ -41,6 +41,11 @@ namespace MinConsoleNative
 
     class WMessageBox
     {
+    private:
+        WMessageBox()
+        {
+        }
+
     public:
         static MessageBoxResult Show(const std::wstring& text, const std::wstring& title, MessageBoxButtons buttons, MessageBoxDefaultButton defButton, MessageBoxIcon iconType);
     };

@@ -44,6 +44,10 @@ namespace MinConsoleNative
     class Navigation
     {
     private:
+        Navigation()
+        {
+        }
+
         struct SearchNode
         {
         public:
