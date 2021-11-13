@@ -59,8 +59,9 @@ namespace MinConsoleNative
 
         //计算缓冲区长度: wcslen(data) + 1是因为要算上结尾的L'\0'
         int length = (::wcslen(data) + 1) * sizeof(wchar);
-        //GMEM_FIXED
-        HGLOBAL handle = ::GlobalAlloc(GMEM_MOVEABLE, length);
+
+        //alloc
+        HGLOBAL handle = ::GlobalAlloc(/*GMEM_FIXED*/ GMEM_MOVEABLE, length);
         if (handle == nullptr)
         {
             ::CloseClipboard();
@@ -87,6 +88,7 @@ namespace MinConsoleNative
             return false;
         }
 
+        //release
         ::GlobalFree(handle);
 
         //close

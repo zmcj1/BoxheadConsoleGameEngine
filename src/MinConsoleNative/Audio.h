@@ -18,7 +18,7 @@ namespace MinConsoleNative
 
     EXPORT_ENUM_CLASS MCIAudioMode
     {
-        Unknown = 0,
+        Unknown = 0,    //unknown
         NotReady = 1,   //even I dont know when will return this value
         Paused = 2,     //paused
         Playing = 3,    //is playing
