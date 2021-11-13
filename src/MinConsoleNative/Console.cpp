@@ -1413,6 +1413,25 @@ namespace MinConsoleNative
         return MinGetConsoleType();
     }
 
+    void Console::SetConsoleHistory(uint historyBufferSize, bool noDuplicate)
+    {
+        CONSOLE_HISTORY_INFO chi;
+        chi.cbSize = sizeof(CONSOLE_HISTORY_INFO);
+        chi.HistoryBufferSize = historyBufferSize;
+        chi.NumberOfHistoryBuffers = 1; //default to 1
+        chi.dwFlags = noDuplicate;
+        ::SetConsoleHistoryInfo(&chi);
+    }
+
+    void Console::RestartConsole()
+    {
+        ::FreeConsole();
+        ::AllocConsole();
+
+        ConsoleSession cons = MinInitConsoleSession();
+        Console::Global.GetInstance() = Console(cons);
+    }
+
     bool Console::GetConsoleCursorVisible()
     {
         return MinGetConsoleCursorVisible(cons.consoleOutput);

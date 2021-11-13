@@ -677,25 +677,10 @@ namespace MinConsoleNative
 
         //Console class only functions:
 
-        inline static void SetConsoleHistory(uint historyBufferSize, bool noDuplicate)
-        {
-            CONSOLE_HISTORY_INFO chi;
-            chi.cbSize = sizeof(CONSOLE_HISTORY_INFO);
-            chi.HistoryBufferSize = historyBufferSize;
-            chi.NumberOfHistoryBuffers = 1; //default to 1
-            chi.dwFlags = noDuplicate;
-            SetConsoleHistoryInfo(&chi);
-        }
+        static void SetConsoleHistory(uint historyBufferSize, bool noDuplicate);
 
         //This function will reinitialize Global
-        inline static void RestartConsole()
-        {
-            ::FreeConsole();
-            ::AllocConsole();
-
-            ConsoleSession cons = MinInitConsoleSession();
-            Console::Global.GetInstance() = Console(cons);
-        }
+        static void RestartConsole();
 
     public:
         ConsoleSession cons;

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.9.4
+//Version:2.9.4.1
 
 namespace NativeFunctionTranslator
 {
@@ -1033,6 +1033,34 @@ namespace NativeFunctionTranslator
             foreach (var item in MethodInfoDict)
             {
                 string[] lines = File.ReadAllLines(item.Key, Encoding.UTF8);
+
+                //寻找class name
+                int dashIndex = item.Key.LastIndexOf("\\");
+                string fileName = item.Key.Substring(dashIndex + 1, item.Key.Length - dashIndex - 1);
+                int dotIndex = fileName.IndexOf('.');
+                string className = fileName.Substring(0, dotIndex);
+
+                //寻找class所在行
+                //for (int i = 0; i < lines.Length; i++)
+                //{
+                //    string line = lines[i];
+                //    string newLine = line.Trim();
+                //    if (newLine == "class " + className)
+                //    {
+                //    }
+                //}
+
+                //寻找inline关键字, 确保inline函数中不要调用类似AllocConsole(这样会影响NFT Debug)
+                foreach (string line in lines)
+                {
+                    if (line.IndexOf("inline") != -1)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"{line.Trim()} in {className}");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                    }
+                }
+
                 foreach (string methodName in item.Value)
                 {
                     string methodNameWithOutMin = methodName.Substring(3, methodName.Length - 3);
