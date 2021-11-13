@@ -70,6 +70,8 @@ namespace MinConsole
                 MinReadConsoleInput(inputHandle,
                     OnReadConsoleMouseInputRecordCallback,
                     OnReadConsoleKeyboardInputRecordCallback, null);
+                //COORD pos = MinGetConsoleCursorPos(outputHandle);
+                //Console.WriteLine($"{pos.X } {pos.Y}");
                 Thread.Sleep(100);
             }
 

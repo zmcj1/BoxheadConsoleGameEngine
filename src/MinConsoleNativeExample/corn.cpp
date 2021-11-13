@@ -50,7 +50,7 @@ private:
     CharacterController* playerController = nullptr;
     CellRenderer* renderer = nullptr;
     vector<Vector2> maze;
-    vector<Vector2> empty;
+    vector<Vector2> ground;
 
     vector<MonsterBase> monsters;
 
@@ -63,8 +63,7 @@ public:
         maze = MazeGenerator::GenerateMaze(WIDTH - 1, HEIGHT - 1);
         state = GameState::Game;
 
-        //generate empty
-        GenerateEmpty();
+        ground = MazeGenerator::GenerateGround(maze, WIDTH - 1, HEIGHT - 1);
 
         //generate player
         playerController = new CharacterController({ 1, 1 }, 10);
@@ -74,32 +73,6 @@ public:
         for (size_t i = 0; i < 10; i++)
         {
             GenerateMonster(Vector2(), MonsterType::Zombie);
-        }
-    }
-
-    void GenerateEmpty()
-    {
-        for (size_t i = 0; i < HEIGHT; i++)
-        {
-            for (size_t j = 0; j < WIDTH; j++)
-            {
-                bool add = true;
-                Vector2 pos(j, i);
-
-                for (const Vector2& item : maze)
-                {
-                    if (item == pos)
-                    {
-                        add = false;
-                        break;
-                    }
-                }
-
-                if (add)
-                {
-                    empty.push_back(pos);
-                }
-            }
         }
     }
 
@@ -172,9 +145,9 @@ public:
             renderer->Draw(maze[i], Cell(L'X', { 0,0,0 }, { 0,255,33 }));
         }
 
-        for (size_t i = 0; i < empty.size(); i++)
+        for (size_t i = 0; i < ground.size(); i++)
         {
-            renderer->Draw(empty[i], Cell(L'L', { 0,0,0 }, { 255,0,33 }));
+            renderer->Draw(ground[i], Cell(L'L', { 0,0,0 }, { 255,0,33 }));
         }
 
         renderer->Draw(playerController->position, Cell(L'K', { 255,33,33 }, { 0,0,0 }));

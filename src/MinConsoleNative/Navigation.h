@@ -69,6 +69,7 @@ namespace MinConsoleNative
         }
 
     public:
+        //BFS搜索模式, 输入:搜索深度(距离原点的距离) 输出:搜索节点的数量
         //calculate when SearchDirection == SearchDirection::Four
         //input:depth(Number of searches) output:Number of nodes searched
         static int BFS4_Depth(int depth)
@@ -78,6 +79,7 @@ namespace MinConsoleNative
             return (4 + 4 * depth) * depth / 2 + 1;
         }
 
+        //BFS搜索模式, 输入:搜索深度(距离原点的距离) 输出:搜索节点的数量
         //calculate when SearchDirection == SearchDirection::Eight
         //input:depth(Number of searches) output:Number of nodes searched
         static int BFS8_Depth(int depth)
@@ -95,6 +97,7 @@ namespace MinConsoleNative
             return false;
         }
 
+        //如果depthLimit == NAV_UNLIMITED_DEPTH则该函数不会因为搜索深度的增加而停止
         //if depthLimit == NAV_UNLIMITED_DEPTH means the program won't get stop because of depth.
         static SearchResult Navigate(Vector2 startPos, Vector2 endPos, SearchDirection searchDir, int depthLimit, const std::vector<Vector2>& obstacles, SearchMethod searchMethod);
     };

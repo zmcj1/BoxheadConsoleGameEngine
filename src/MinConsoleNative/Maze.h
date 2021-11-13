@@ -17,5 +17,8 @@ namespace MinConsoleNative
         //return:the positions of obstacles as a std::vector<Vector2>
         //NOTICE:The generation algorithm requires the length and width of the maze to be an odd number!(3, 5, 7, 9, 11, 13, 15...)
         static std::vector<Vector2> GenerateMaze(int width, int height);
+
+        //根据迷宫获取空地
+        static std::vector<Vector2> GenerateGround(const std::vector<Vector2>& maze, int width, int height);
     };
 }

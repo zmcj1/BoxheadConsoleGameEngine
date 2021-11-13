@@ -161,4 +161,22 @@ namespace MinConsoleNative
 
         return obstaclesPoints;
     }
+
+    std::vector<Vector2> MazeGenerator::GenerateGround(const std::vector<Vector2>& maze, int width, int height)
+    {
+        std::vector<Vector2> ground;
+
+        for (size_t i = 0; i < height; i++)
+        {
+            for (size_t j = 0; j < width; j++)
+            {
+                if (!Vector<Vector2>::Contains(maze, Vector2(j, i)))
+                {
+                    ground.push_back(Vector2(j, i));
+                }
+            }
+        }
+
+        return ground;
+    }
 }
