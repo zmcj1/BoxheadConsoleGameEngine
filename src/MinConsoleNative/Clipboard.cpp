@@ -3,24 +3,24 @@ using namespace std;
 
 namespace MinConsoleNative
 {
-    EXPORT_FUNC_EX(bool) MinReadFromClipboard(wchar** data)
+    EXPORT_FUNC_EX(wchar*) MinReadFromClipboard()
     {
         if (!::OpenClipboard(nullptr))
         {
-            return false;
+            return nullptr;
         }
 
         if (!::IsClipboardFormatAvailable(CF_UNICODETEXT))
         {
             ::CloseClipboard();
-            return false;
+            return nullptr;
         }
 
         HANDLE handle = ::GetClipboardData(CF_UNICODETEXT);
         if (handle == nullptr)
         {
             ::CloseClipboard();
-            return false;
+            return nullptr;
         }
 
         // Lock the handle to get the actual text pointer
@@ -28,12 +28,21 @@ namespace MinConsoleNative
         if (text == nullptr)
         {
             ::CloseClipboard();
-            return false;
+            return nullptr;
         }
 
-        //注意:这里只能进行指针复制而不是字符串复制, 否则会报错
-        //::wcscpy_s(*data, wcslen(text), text);
-        *data = text;
+        int dataLength = ::wcslen(text) + 1; //include '\0'
+
+        //extern alloc
+        wchar* data = ExternAlloc<wchar>(dataLength);
+        if (data == nullptr)
+        {
+            ::CloseClipboard();
+            return nullptr;
+        }
+
+        ZeroMemory(data, dataLength);
+        ::wcscpy_s(data, dataLength, text);
 
         // Release the lock
         ::GlobalUnlock(handle);
@@ -41,7 +50,7 @@ namespace MinConsoleNative
         //close
         ::CloseClipboard();
 
-        return true;
+        return data;
     }
 
     EXPORT_FUNC_EX(bool) MinWriteToClipboard(const wchar* data)
@@ -99,12 +108,16 @@ namespace MinConsoleNative
     std::wstring Clipboard::Read()
     {
         wstring wstr;
-        wchar* data = nullptr;
+        wchar* data = MinReadFromClipboard();
 
-        bool suc = MinReadFromClipboard(&data);
-        if (!suc) return wstr;
+        if (data == nullptr)
+        {
+            return wstr;
+        }
 
         wstr = data;
+        ExternFree(data);
+
         return wstr;
     }
 

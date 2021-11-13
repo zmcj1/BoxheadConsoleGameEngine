@@ -82,7 +82,7 @@ namespace MinConsole
         public extern static bool MinGetMCIAudioIsOverEx(ref MCIAudio mciAudio, int length);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinReadFromClipboard(out string data);
+        public extern static string MinReadFromClipboard();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinWriteToClipboard(string data);

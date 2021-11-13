@@ -50,7 +50,7 @@ namespace MinConsole
             MCIAudio s3 = MinStructTest3();
 
             MinWriteToClipboard("你好世界");
-            MinReadFromClipboard(out string data);
+            string data = MinReadFromClipboard();
 
             MinEnableConsoleVT(outputHandle);
             ConsoleFont font = MinGetConsoleFont(outputHandle);
