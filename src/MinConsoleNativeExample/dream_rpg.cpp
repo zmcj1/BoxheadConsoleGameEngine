@@ -4,9 +4,6 @@
 #include <sstream> //stringstream
 using namespace std;
 
-#include "XRandom.h" //random support
-using _Random = effolkronium::random_static;
-
 //precision = 0
 wstring Float2Wstring(float value, int precision = 1)
 {
@@ -500,7 +497,7 @@ class DreamRPG : public ConsoleEngine
 public:
     void OnStart() override
     {
-        console.WriteLine(L"欢迎来到造梦联盟\n");
+        console.WriteLine(L"欢迎来到造梦联盟\n", { 125,225,45 });
 
         ItemBase bloodBlade;
         bloodBlade.Name = L"饮血剑";
