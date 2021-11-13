@@ -138,9 +138,9 @@ namespace MinConsole
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public partial struct MCIAudio
         {
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)] public string Path;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string Extension;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string Alias;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)] public string Path;  //Absolute path
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string Extension;   //File extension
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string Alias;       //Similar to a unique ID
             public int TotalMilliSecond;  //total milliSecond of this audio
             public int Minute;            //minute part of this audio
             public int Second;            //second part of this audio
@@ -242,8 +242,8 @@ namespace MinConsole
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public partial struct ConsoleKeyInfo
         {
-            public char KeyChar;
-            public ushort VirtualKey;
+            public char KeyChar;         //character
+            public ushort VirtualKey;     //virtual key code
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

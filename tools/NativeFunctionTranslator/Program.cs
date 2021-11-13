@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.9.1.1
+//Version:2.9.2
 
 namespace NativeFunctionTranslator
 {
@@ -883,6 +883,11 @@ namespace NativeFunctionTranslator
                                     string memberName = _body.Substring(wcharIndex + wchar.Length, arrayStartIndex - (wcharIndex + wchar.Length));
 
                                     newBody = attribute + "public string" + memberName + ";";
+
+                                    //加上可能存在的注释:
+                                    int memberEndPos = _body.IndexOf(';');
+                                    string comment = _body.Substring(memberEndPos + 1, _body.Length - memberEndPos - 1);
+                                    newBody += comment;
                                 }
                                 else
                                 {

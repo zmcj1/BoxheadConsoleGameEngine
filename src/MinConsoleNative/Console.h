@@ -466,8 +466,8 @@ namespace MinConsoleNative
     EXPORT_STRUCT ConsoleKeyInfo
     {
     public:
-        EXPORT_STRUCT_MEMBER wchar KeyChar;
-        EXPORT_STRUCT_MEMBER ushort VirtualKey;
+        EXPORT_STRUCT_MEMBER wchar KeyChar;         //character
+        EXPORT_STRUCT_MEMBER ushort VirtualKey;     //virtual key code
 
         ConsoleKeyInfo(wchar keyChar, ushort virtualKey)
         {
