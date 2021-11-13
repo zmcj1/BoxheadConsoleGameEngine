@@ -52,7 +52,7 @@ namespace MinConsole
             MinWriteToClipboard("你好世界");
             string data = MinReadFromClipboard();
 
-            MinEnableConsoleVT(outputHandle);
+            bool enableVTSuccess = MinEnableConsoleVT(outputHandle);
             ConsoleFont font = MinGetConsoleFont(outputHandle);
 
             //audio test:
@@ -60,7 +60,7 @@ namespace MinConsole
             audio.Play(true, false);
 
             //MinReadConsoleInput test:
-            ConsoleInputMode cim = new ConsoleInputMode();
+            ConsoleInputMode cim = MinGetConsoleInputMode(inputHandle);
             cim._ENABLE_QUICK_EDIT_MODE = false;
             cim._ENABLE_WINDOW_INPUT = true;
             MinSetConsoleInputMode(inputHandle, cim);
