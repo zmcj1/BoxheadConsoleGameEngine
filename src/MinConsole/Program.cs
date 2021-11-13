@@ -60,6 +60,7 @@ namespace MinConsole
             audio.Play(true, false);
 
             //MinReadConsoleInput test:
+            int size = Marshal.SizeOf<ConsoleInputMode>();
             ConsoleInputMode cim = MinGetConsoleInputMode(inputHandle);
             cim._ENABLE_QUICK_EDIT_MODE = false;
             cim._ENABLE_WINDOW_INPUT = true;

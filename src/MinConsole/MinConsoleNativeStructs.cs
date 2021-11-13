@@ -167,26 +167,26 @@ namespace MinConsole
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public partial struct ConsoleInputMode
         {
-            public bool _ENABLE_PROCESSED_INPUT;               //default is TRUE(recommend to FALSE to avoid pressing CTRL+C to close the console program)
-            public bool _ENABLE_LINE_INPUT;                    //default is TRUE
-            public bool _ENABLE_ECHO_INPUT;                    //default is TRUE
-            public bool _ENABLE_WINDOW_INPUT;                  //default is FALSE(recommend to TRUE)
-            public bool _ENABLE_MOUSE_INPUT;                   //default is TRUE
-            public bool _ENABLE_INSERT_MODE;                   //default is TRUE
-            public bool _ENABLE_QUICK_EDIT_MODE;               //default is TRUE(recommend to FALSE)
-            public bool _ENABLE_EXTENDED_FLAGS;                //default is TRUE
-            public bool _ENABLE_AUTO_POSITION;                 //default is TRUE
-            public bool _ENABLE_VIRTUAL_TERMINAL_INPUT;        //default is FALSE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_PROCESSED_INPUT;               //default is TRUE(recommend to FALSE to avoid pressing CTRL+C to close the console program)
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_LINE_INPUT;                    //default is TRUE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_ECHO_INPUT;                    //default is TRUE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_WINDOW_INPUT;                  //default is FALSE(recommend to TRUE)
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_MOUSE_INPUT;                   //default is TRUE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_INSERT_MODE;                   //default is TRUE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_QUICK_EDIT_MODE;               //default is TRUE(recommend to FALSE)
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_EXTENDED_FLAGS;                //default is TRUE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_AUTO_POSITION;                 //default is TRUE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_VIRTUAL_TERMINAL_INPUT;        //default is FALSE
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public partial struct ConsoleOutputMode
         {
-            public bool _ENABLE_PROCESSED_OUTPUT;              //default is TRUE
-            public bool _ENABLE_WRAP_AT_EOL_OUTPUT;            //default is TRUE
-            public bool _ENABLE_VIRTUAL_TERMINAL_PROCESSING;   //default is FALSE(recommend to TRUE, If want to use the VT100 sequence)
-            public bool _DISABLE_NEWLINE_AUTO_RETURN;          //default is FALSE
-            public bool _ENABLE_LVB_GRID_WORLDWIDE;            //default is FALSE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_PROCESSED_OUTPUT;              //default is TRUE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_WRAP_AT_EOL_OUTPUT;            //default is TRUE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_VIRTUAL_TERMINAL_PROCESSING;   //default is FALSE(recommend to TRUE, If want to use the VT100 sequence)
+            [MarshalAs(UnmanagedType.I1)] public bool _DISABLE_NEWLINE_AUTO_RETURN;          //default is FALSE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_LVB_GRID_WORLDWIDE;            //default is FALSE
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -217,8 +217,8 @@ namespace MinConsole
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public partial struct ConsoleMouseInputRecord
         {
-            public bool moved;                         //Whether the mouse is moving
-            public bool doubleClick;                   //Double click
+            [MarshalAs(UnmanagedType.I1)] public bool moved;                         //Whether the mouse is moving
+            [MarshalAs(UnmanagedType.I1)] public bool doubleClick;                   //Double click
             public COORD position;                     //The unit is cell
             public MouseWheelDirection mouseWheelDir;  //Mouse wheel direction
         }
@@ -228,15 +228,15 @@ namespace MinConsole
         {
             public char KeyChar;
             public ushort VirtualKey;
-            public bool _RIGHT_ALT_PRESSED;        // the right alt key is pressed.
-            public bool _LEFT_ALT_PRESSED;         // the left alt key is pressed.
-            public bool _RIGHT_CTRL_PRESSED;       // the right ctrl key is pressed.
-            public bool _LEFT_CTRL_PRESSED;        // the left ctrl key is pressed.
-            public bool _SHIFT_PRESSED;            // the shift key is pressed.
-            public bool _NUMLOCK_ON;               // the numlock light is on.
-            public bool _SCROLLLOCK_ON;            // the scrolllock light is on.
-            public bool _CAPSLOCK_ON;              // the capslock light is on.
-            public bool _ENHANCED_KEY;             // the key is enhanced.
+            [MarshalAs(UnmanagedType.I1)] public bool _RIGHT_ALT_PRESSED;        // the right alt key is pressed.
+            [MarshalAs(UnmanagedType.I1)] public bool _LEFT_ALT_PRESSED;         // the left alt key is pressed.
+            [MarshalAs(UnmanagedType.I1)] public bool _RIGHT_CTRL_PRESSED;       // the right ctrl key is pressed.
+            [MarshalAs(UnmanagedType.I1)] public bool _LEFT_CTRL_PRESSED;        // the left ctrl key is pressed.
+            [MarshalAs(UnmanagedType.I1)] public bool _SHIFT_PRESSED;            // the shift key is pressed.
+            [MarshalAs(UnmanagedType.I1)] public bool _NUMLOCK_ON;               // the numlock light is on.
+            [MarshalAs(UnmanagedType.I1)] public bool _SCROLLLOCK_ON;            // the scrolllock light is on.
+            [MarshalAs(UnmanagedType.I1)] public bool _CAPSLOCK_ON;              // the capslock light is on.
+            [MarshalAs(UnmanagedType.I1)] public bool _ENHANCED_KEY;             // the key is enhanced.
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

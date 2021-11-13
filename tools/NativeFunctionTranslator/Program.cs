@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.9.3
+//Version:2.9.4
 
 namespace NativeFunctionTranslator
 {
@@ -846,15 +846,14 @@ namespace NativeFunctionTranslator
                             newBody = newBody.Replace("DWORD", "uint");
 
                             //注意!!!
-                            //C++的bool占用一个字节, C#的bool占用四个字节
-                            //C++的bool与C#的bool不匹配
-                            //因此在互操作时, C++的结构体中不应该包含bool, 而是应该使用C样式的BOOL
-                            //所以在检查发现存在bool时发出警告
-                            if (newBody.IndexOf("bool") != -1)
+                            //C++的bool占用一个字节, C#的bool在结构体内分配(Marshal)时占用四个字节
+                            //所以在检查发现存在bool时应该加上[MarshalAs(UnmanagedType.I1)]
+                            const string _bool = "bool";
+                            int boolIndex = newBody.IndexOf(_bool);
+                            if (boolIndex != -1)
                             {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine($"{structName} in {fileName}: use BOOL instead of bool!");
-                                Console.ForegroundColor = ConsoleColor.Gray;
+                                string attribute = "[MarshalAs(UnmanagedType.I1)] ";
+                                newBody = attribute + newBody;
                             }
 
                             //handle char/wchar_t array
