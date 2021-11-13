@@ -3,10 +3,9 @@
 //See:https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-160
 
 //Macro:CUI/GUI
-//Macro:STANDALONE
 //Macro:MT_ONLY
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 
 #if !defined(WIN32) && !defined(_WIN32)
 #error Windows Only.
@@ -23,14 +22,14 @@
 #endif
 
 //X86/X64
-#ifdef _M_X64
+#if defined(_M_X64)
 #define X64
 #else
 #define X86
 #endif
 
 //In order to prevent naming conflicts, all export methods in this project are prefixed with Min
-#ifdef __cplusplus
+#if defined(__cplusplus)
 #define EXPORT_FUNC_EX(return_type) extern "C" __declspec(dllexport) return_type __stdcall
 #else
 #define EXPORT_FUNC_EX(return_type) extern __declspec(dllexport) return_type __stdcall
@@ -42,12 +41,6 @@
 #pragma comment(linker, "/SUBSYSTEM:WINDOWS")
 #endif
 
-//.net 5.0架构下, C++ DLL必须为x64, C#才能正常加载, 否则会出现异常:HRESULT:0x8007000B
-//.net framework 4.8兼容X86的C++ DLL
-#if !defined(STANDALONE) && !defined(X64)
-#error You should set C++ dll target platform to X64.
-#endif
-
 //推荐使用MT/MTD编译, 方便跨机器运行(在有运行库的情况下, MD/MDD同样可以跨机器运行)
 //See:https://www.cnblogs.com/SZxiaochun/p/7684371.html
 #if defined(MT_ONLY) && !defined(MT) && !defined(MT_DEBUG)
@@ -57,7 +50,7 @@
 #endif
 
 #if !defined(UNICODE) && !defined(_UNICODE)
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #error Please enable UNICODE for your MS compiler! For VisualStudio: Project Properties -> General -> Character Set -> Use Unicode.
 #else
 // For now, I'll try enabling it for you
@@ -82,11 +75,11 @@
 //for COM(.Net)
 #include <combaseapi.h> //CoTaskMemAlloc CoTaskMemFree
 
-#ifndef LEN
+#if !defined(LEN)
 #define LEN(arr) (sizeof(arr) / sizeof(arr[0]))
 #endif
 
-#ifndef _T
+#if !defined(_T)
 #define _T(x) TEXT(x)
 #endif
 
