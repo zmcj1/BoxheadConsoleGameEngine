@@ -264,8 +264,8 @@ namespace MinConsole
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static IntPtr MinCreateFile(ConsoleFile fileMode);
 
-        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinWriteFile(IntPtr handle, ref char str);
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Ansi)]
+        public extern static bool MinWriteFile(IntPtr handle, string str);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Ansi)]
         public extern static string MinReadFile(IntPtr handle);

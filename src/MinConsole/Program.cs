@@ -41,6 +41,9 @@ namespace MinConsole
             IntPtr inputHandle = MinGetStdHandle(StdHandleType.Input);
             IntPtr outputHandle = MinGetStdHandle(StdHandleType.Output);
 
+            MinWriteFile(outputHandle, "nihaoma123");
+            string str = MinReadFile(inputHandle);
+
             //string content = MinReadConsole(inputHandle);
             //Console.WriteLine(content);
 

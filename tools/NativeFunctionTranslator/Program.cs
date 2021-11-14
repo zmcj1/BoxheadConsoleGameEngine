@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.9.4.1
+//Version:2.9.5
 
 namespace NativeFunctionTranslator
 {
@@ -454,7 +454,12 @@ namespace NativeFunctionTranslator
                                 {
                                     case ParamType.None:
                                     case ParamType.In:
-                                        if (_symbol == "wchar*")
+                                        if (_symbol == "char")
+                                        {
+                                            varType = "string";
+                                            exportFuncDllImport = EXPORT_FUNC_DLLIMPORTA;
+                                        }
+                                        else if (_symbol == "wchar*")
                                         {
                                             varType = "ref string";
                                         }
