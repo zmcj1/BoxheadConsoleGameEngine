@@ -114,20 +114,23 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(void) MinDeinitMCIAudio(_IN_ MCIAudio* mciAudio)
     {
-        if (mciAudio != nullptr)
-        {
-            bool closeSuccess = Audio::MCISendString(L"close " + wstring(mciAudio->Alias));
-            ExternFree(mciAudio);
-        }
+        if (mciAudio == nullptr) return;
+
+        bool closeSuccess = Audio::MCISendString(L"close " + wstring(mciAudio->Alias));
+        ExternFree(mciAudio);
     }
 
     EXPORT_FUNC_EX(bool) MinPlayMCIAudio(_IN_ MCIAudio* mciAudio, bool repeat, bool wait)
     {
+        if (mciAudio == nullptr) return false;
+
         return MinPlayMCIAudioEx(mciAudio, repeat, wait, 0, mciAudio->TotalMilliSecond);
     }
 
     EXPORT_FUNC_EX(bool) MinPlayMCIAudioEx(_IN_ MCIAudio* mciAudio, bool repeat, bool wait, int from, int to)
     {
+        if (mciAudio == nullptr) return false;
+
         //Use alias instead of path as param to implement API:PlayOneShot!
         wstring cmd = _T("play ") + wstring(mciAudio->Alias);
 
@@ -151,23 +154,31 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinStopMCIAudio(_IN_ MCIAudio* mciAudio)
     {
+        if (mciAudio == nullptr) return false;
+
         return Audio::MCISendString(L"stop " + wstring(mciAudio->Alias));
     }
 
     EXPORT_FUNC_EX(bool) MinPauseMCIAudio(_IN_ MCIAudio* mciAudio)
     {
+        if (mciAudio == nullptr) return false;
+
         bool pause_suc = Audio::MCISendString(L"pause " + wstring(mciAudio->Alias));
         return pause_suc;
     }
 
     EXPORT_FUNC_EX(bool) MinResumeMCIAudio(_IN_ MCIAudio* mciAudio)
     {
+        if (mciAudio == nullptr) return false;
+
         bool resume_suc = Audio::MCISendString(L"resume " + wstring(mciAudio->Alias));
         return resume_suc;
     }
 
     EXPORT_FUNC_EX(int) MinGetMCIAudioVolume(_IN_ MCIAudio* mciAudio)
     {
+        if (mciAudio == nullptr) return 0;
+
         //get the volume of this audio(you should open audio before call this)
         wstring volume = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->Alias) + _T(" volume"));
         return ::_wtoi(volume.c_str());
@@ -175,12 +186,16 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinSetMCIAudioVolume(_IN_ MCIAudio* mciAudio, int volume)
     {
+        if (mciAudio == nullptr) return false;
+
         bool set_volume_suc = Audio::MCISendString(_T("setaudio ") + wstring(mciAudio->Alias) + _T(" volume to ") + to_wstring(volume));
         return set_volume_suc;
     }
 
     EXPORT_FUNC_EX(int) MinGetMCIAudioPosition(_IN_ MCIAudio* mciAudio)
     {
+        if (mciAudio == nullptr) return 0;
+
         wstring position = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->Alias) + _T(" position"));
         int pos = ::_wtoi(position.c_str());
         return pos;
@@ -188,24 +203,32 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinSetMCIAudioPosition(_IN_ MCIAudio* mciAudio, int position)
     {
+        if (mciAudio == nullptr) return false;
+
         bool seek_suc = Audio::MCISendString(_T("seek ") + wstring(mciAudio->Alias) + _T(" to ") + to_wstring(position));
         return seek_suc;
     }
 
     EXPORT_FUNC_EX(int) MinGetMCIAudioSpeed(_IN_ MCIAudio* mciAudio)
     {
+        if (mciAudio == nullptr) return 0;
+
         wstring speed = Audio::MCISendStringEx(L"status " + wstring(mciAudio->Alias) + L" speed");
         return ::_wtoi(speed.c_str());
     }
 
     EXPORT_FUNC_EX(bool) MinSetMCIAudioSpeed(_IN_ MCIAudio* mciAudio, int speed)
     {
+        if (mciAudio == nullptr) return false;
+
         bool set_speed_suc = Audio::MCISendString(L"set " + wstring(mciAudio->Alias) + L" speed " + to_wstring(speed));
         return set_speed_suc;
     }
 
     EXPORT_FUNC_EX(MCIAudioMode) MinGetMCIAudioMode(_IN_ MCIAudio* mciAudio)
     {
+        if (mciAudio == nullptr) return MCIAudioMode::Unknown;
+
         wstring mode = Audio::MCISendStringEx(_T("status ") + wstring(mciAudio->Alias) + _T(" mode"));
         if (String::CompareIgnoreCase(mode, L"not ready"))
         {
@@ -231,17 +254,23 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinGetMCIAudioIsPlaying(_IN_ MCIAudio* mciAudio)
     {
+        if (mciAudio == nullptr) return false;
+
         MCIAudioMode audioMode = MinGetMCIAudioMode(mciAudio);
         return audioMode == MCIAudioMode::Playing;
     }
 
     EXPORT_FUNC_EX(bool) MinGetMCIAudioIsOver(_IN_ MCIAudio* mciAudio)
     {
+        if (mciAudio == nullptr) return false;
+
         return MinGetMCIAudioIsOverEx(mciAudio, mciAudio->TotalMilliSecond);
     }
 
     EXPORT_FUNC_EX(bool) MinGetMCIAudioIsOverEx(_IN_ MCIAudio* mciAudio, int length)
     {
+        if (mciAudio == nullptr) return false;
+
         MCIAudioMode mode = MinGetMCIAudioMode(mciAudio);
         if (mode == MCIAudioMode::Stopped)
         {

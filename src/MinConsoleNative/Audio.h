@@ -132,42 +132,56 @@ namespace MinConsoleNative
         //Absolute path
         inline std::wstring Path()
         {
+            if (mciAudio == nullptr) return std::wstring();
+
             return std::wstring(mciAudio->Path);
         }
 
         //File extension
         inline std::wstring Extension()
         {
+            if (mciAudio == nullptr) return std::wstring();
+
             return std::wstring(mciAudio->Extension);
         }
 
         //Similar to a unique ID
         inline std::wstring Alias()
         {
+            if (mciAudio == nullptr) return std::wstring();
+
             return std::wstring(mciAudio->Alias);
         }
 
         //total milliSecond of this audio
         inline int TotalMilliSecond()
         {
+            if (mciAudio == nullptr) return 0;
+
             return mciAudio->TotalMilliSecond;
         }
 
         //minute part of this audio
         inline int Minute()
         {
+            if (mciAudio == nullptr) return 0;
+
             return mciAudio->Minute;
         }
 
         //second part of this audio
         inline int Second()
         {
+            if (mciAudio == nullptr) return 0;
+
             return mciAudio->Second;
         }
 
         //milliSecond part of this audio
         inline int MilliSecond()
         {
+            if (mciAudio == nullptr) return 0;
+
             return mciAudio->Second;
         }
 
