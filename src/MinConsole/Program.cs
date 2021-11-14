@@ -41,6 +41,19 @@ namespace MinConsole
             IntPtr inputHandle = MinGetStdHandle(StdHandleType.Input);
             IntPtr outputHandle = MinGetStdHandle(StdHandleType.Output);
 
+            CHAR_INFO[] infos = new CHAR_INFO[20];
+            for (int i = 0; i < 20; i++)
+            {
+                infos[i] = new CHAR_INFO('1', 0x70);
+            }
+            MinWriteConsoleOutput(outputHandle, infos, 0,0, 10, 2);
+            ushort[] colors = new ushort[20];
+            for (int i = 0; i < 20; i++)
+            {
+                colors[i] = 0x07;
+            }
+            MinWriteConsoleOutputAttribute(outputHandle, colors, 20, new COORD(0, 0));
+
             MinWriteFile(outputHandle, "nihaoma123");
             string str = MinReadFile(inputHandle);
 

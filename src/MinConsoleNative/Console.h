@@ -572,9 +572,9 @@ namespace MinConsoleNative
     EXPORT_FUNC_EX(bool) MinWriteConsole(HANDLE consoleOutput, _IN_ const wchar* buffer);
 
     //You can use something like this:arr[i].Attributes |= COMMON_LVB_UNDERSCORE
-    EXPORT_FUNC_EX(bool) MinWriteConsoleOutput(HANDLE consoleOutput, _IN_ const CHAR_INFO* charInfos, short x, short y, short width, short height);
+    EXPORT_FUNC_EX(bool) MinWriteConsoleOutput(HANDLE consoleOutput, _ARRAY_ const CHAR_INFO* charInfos, short x, short y, short width, short height);
 
-    EXPORT_FUNC_EX(bool) MinWriteConsoleOutputAttribute(HANDLE consoleOutput, _IN_ const ushort* att, int attCount, COORD pos);
+    EXPORT_FUNC_EX(bool) MinWriteConsoleOutputAttribute(HANDLE consoleOutput, _ARRAY_ const ushort* att, int attCount, COORD pos);
 
     //This function is useful for mixed renderer.
     EXPORT_FUNC_EX(bool) MinWriteConsoleOutputCharacter(HANDLE consoleOutput, _IN_ const wchar* str, int charCount, COORD pos);
