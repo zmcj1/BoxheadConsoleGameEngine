@@ -8,13 +8,13 @@ int main()
         if (i % 2 == 0)
         {
             cells[i].Char.UnicodeChar = L'大';
-            cells[i].Attributes = ConsoleColorToUshort(ConsoleColor::RED, ConsoleColor::GREEN) |
+            cells[i].Attributes = MinConsoleColorToUshort(ConsoleColor::RED, ConsoleColor::GREEN) |
                 COMMON_LVB_LEADING_BYTE;
         }
         else
         {
             cells[i].Char.UnicodeChar = L'\0';
-            cells[i].Attributes = ConsoleColorToUshort(ConsoleColor::RED, ConsoleColor::GREEN) |
+            cells[i].Attributes = MinConsoleColorToUshort(ConsoleColor::RED, ConsoleColor::GREEN) |
                 COMMON_LVB_TRAILING_BYTE;
         }
         cells[i].Attributes |= COMMON_LVB_UNDERSCORE;

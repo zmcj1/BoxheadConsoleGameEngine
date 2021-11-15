@@ -87,7 +87,7 @@ namespace MinConsoleNative
             //assignment
             for (int i = 0; i < logicalWidth * logicalHeight; i++)
             {
-                ushort att = ConsoleColorToUshort(this->gridArray[i].foreColor.ToConsoleColor(), this->gridArray[i].backColor.ToConsoleColor());
+                ushort att = MinConsoleColorToUshort(this->gridArray[i].foreColor.ToConsoleColor(), this->gridArray[i].backColor.ToConsoleColor());
                 ushort* arr = colors[i / logicalWidth];
                 arr[i % logicalWidth * 2] = att;
                 arr[i % logicalWidth * 2 + 1] = att;
@@ -114,7 +114,7 @@ namespace MinConsoleNative
                 const Grid& grid = this->gridArray[i];
 
                 ushort att = 0;
-                att |= ConsoleColorToUshort(grid.foreColor.ToConsoleColor(), grid.backColor.ToConsoleColor());
+                att |= MinConsoleColorToUshort(grid.foreColor.ToConsoleColor(), grid.backColor.ToConsoleColor());
                 if (grid.underScore) att |= COMMON_LVB_UNDERSCORE;
 
                 if (grid.wstr.size() == 1)

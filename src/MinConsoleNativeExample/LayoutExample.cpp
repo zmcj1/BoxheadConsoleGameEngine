@@ -25,7 +25,7 @@ int main()
         ushort* att = new ushort[width];
         for (size_t i = 0; i < width; i++)
         {
-            att[i] = ConsoleColorToUshort(ConsoleColor::RED, ConsoleColor::BLUE);
+            att[i] = MinConsoleColorToUshort(ConsoleColor::RED, ConsoleColor::BLUE);
         }
         console.WriteConsoleOutputAttribute(att, width, { (short)0 , (short)i });
         delete[] att;

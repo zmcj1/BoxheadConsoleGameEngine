@@ -11,6 +11,8 @@
 
 namespace MinConsoleNative
 {
+    extern const int MAX_INPUT_CHAR_COUNT;
+
     EXPORT_ENUM_CLASS ConsoleType
     {
         Unknown = 0,
@@ -65,24 +67,11 @@ namespace MinConsoleNative
         Down = 2,   //The mouse wheel turns towards the player
     };
 
-    inline ushort ConsoleColorToUshort(ConsoleColor foreColor, ConsoleColor backColor)
-    {
-        return (ushort)((ushort)foreColor | ((ushort)backColor << 4));
-    }
-
-    inline std::pair<ConsoleColor, ConsoleColor> UshortToConsoleColor(ushort u)
-    {
-        std::pair<ConsoleColor, ConsoleColor> result;
-        result.first = (ConsoleColor)(u & 0x000F);
-        result.second = (ConsoleColor)((u & 0x00F0) / 16);
-        return result;
-    }
-
-    struct ConsoleColorPair
+    EXPORT_STRUCT ConsoleColorPair
     {
     public:
-        ConsoleColor foreColor;
-        ConsoleColor backColor;
+        EXPORT_STRUCT_MEMBER ConsoleColor foreColor;
+        EXPORT_STRUCT_MEMBER ConsoleColor backColor;
 
         ConsoleColorPair()
         {
@@ -104,14 +93,13 @@ namespace MinConsoleNative
 
         ConsoleColorPair(ushort u)
         {
-            std::pair<ConsoleColor, ConsoleColor> cp = UshortToConsoleColor(u);
-            this->foreColor = cp.first;
-            this->backColor = cp.second;
+            this->foreColor = (ConsoleColor)(u & 0x000F);
+            this->backColor = (ConsoleColor)((u & 0x00F0) / 16);
         }
 
         ushort ToUshort()
         {
-            return ConsoleColorToUshort(foreColor, backColor);
+            return (ushort)((ushort)foreColor | ((ushort)backColor << 4));
         }
     };
 
@@ -482,7 +470,9 @@ namespace MinConsoleNative
 
     EXPORT_DELEGATE typedef void (*OnConsoleOutputBufferChanged)(COORD newSize);
 
-    extern const int MAX_INPUT_CHAR_COUNT;
+    EXPORT_FUNC_EX(ushort) MinConsoleColorToUshort(ConsoleColor foreColor, ConsoleColor backColor);
+
+    EXPORT_FUNC_EX(ConsoleColorPair) MinUshortToConsoleColor(ushort u);
 
     //The API is mainly to serve GUI programs.
     //Important fact: A process can only be associated with one console, and a console can be associated with multiple processes.

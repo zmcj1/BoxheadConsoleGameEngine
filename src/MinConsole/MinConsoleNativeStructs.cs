@@ -148,6 +148,13 @@ namespace MinConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public partial struct ConsoleColorPair
+        {
+            public ConsoleColor foreColor;
+            public ConsoleColor backColor;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public partial struct Color24
         {
             public byte r;

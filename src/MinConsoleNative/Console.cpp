@@ -13,6 +13,17 @@ namespace MinConsoleNative
 {
     const int MAX_INPUT_CHAR_COUNT = 2048;
 
+    EXPORT_FUNC_EX(ushort) MinConsoleColorToUshort(ConsoleColor foreColor, ConsoleColor backColor)
+    {
+        return ConsoleColorPair(foreColor, backColor).ToUshort();
+        //return (ushort)((ushort)foreColor | ((ushort)backColor << 4));
+    }
+
+    EXPORT_FUNC_EX(ConsoleColorPair) MinUshortToConsoleColor(ushort u)
+    {
+        return ConsoleColorPair(u);
+    }
+
     EXPORT_FUNC_EX(ConsoleSession) MinAllocConsole()
     {
         bool allocSuc = ::AllocConsole();

@@ -44,7 +44,7 @@ namespace MinConsoleNative
 
     void NativeRenderer::DrawString(const Vector2& pos, const std::wstring& wstr, ConsoleColor foreColor, ConsoleColor backColor, bool underScore)
     {
-        ushort att = ConsoleColorToUshort(foreColor, backColor);
+        ushort att = MinConsoleColorToUshort(foreColor, backColor);
         if (underScore) att |= COMMON_LVB_UNDERSCORE;
         for (int i = 0; i < wstr.size(); i++)
         {
@@ -54,7 +54,7 @@ namespace MinConsoleNative
 
     int NativeRenderer::DrawString2(const Vector2& pos, const std::wstring& wstr, ConsoleColor foreColor, ConsoleColor backColor, bool underScore)
     {
-        ushort att = ConsoleColorToUshort(foreColor, backColor);
+        ushort att = MinConsoleColorToUshort(foreColor, backColor);
         if (underScore) att |= COMMON_LVB_UNDERSCORE;
 
         vector<wstring> grids = textLayout.WstringToGrids(wstr);
@@ -79,7 +79,7 @@ namespace MinConsoleNative
 
     void NativeRenderer::DrawStringWrap(const Vector2& pos, const std::wstring& wstr, ConsoleColor foreColor, ConsoleColor backColor, bool underScore)
     {
-        ushort att = ConsoleColorToUshort(foreColor, backColor);
+        ushort att = MinConsoleColorToUshort(foreColor, backColor);
         if (underScore) att |= COMMON_LVB_UNDERSCORE;
         for (int i = 0; i < wstr.size(); i++)
         {
@@ -96,7 +96,7 @@ namespace MinConsoleNative
 
     int NativeRenderer::DrawString2Wrap(const Vector2& pos, const std::wstring& wstr, ConsoleColor foreColor, ConsoleColor backColor, bool underScore)
     {
-        ushort att = ConsoleColorToUshort(foreColor, backColor);
+        ushort att = MinConsoleColorToUshort(foreColor, backColor);
         if (underScore) att |= COMMON_LVB_UNDERSCORE;
 
         vector<wstring> grids = textLayout.WstringToGrids(wstr);

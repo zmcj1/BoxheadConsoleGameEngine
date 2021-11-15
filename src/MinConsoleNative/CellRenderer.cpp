@@ -174,7 +174,7 @@ namespace MinConsoleNative
         {
             const Cell& cell = this->cellArray[i];
             ushort att = 0;
-            att |= ConsoleColorToUshort(cell.foreColor.ToConsoleColor(), cell.backColor.ToConsoleColor());
+            att |= MinConsoleColorToUshort(cell.foreColor.ToConsoleColor(), cell.backColor.ToConsoleColor());
             if (cell.underScore) att |= COMMON_LVB_UNDERSCORE;
             if (cell.isLeadingByte)
             {

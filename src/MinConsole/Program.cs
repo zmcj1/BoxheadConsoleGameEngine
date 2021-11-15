@@ -3,6 +3,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 
+using ConsoleColor = MinConsole.MinConsoleNativeStructs.ConsoleColor;
+using ConsoleKeyInfo = MinConsole.MinConsoleNativeStructs.ConsoleKeyInfo;
+
 using static MinConsole.MinConsoleNativeFuncs;
 using static MinConsole.MinConsoleNativeStructs;
 
@@ -44,13 +47,13 @@ namespace MinConsole
             CHAR_INFO[] infos = new CHAR_INFO[20];
             for (int i = 0; i < 20; i++)
             {
-                infos[i] = new CHAR_INFO('1', 0x70);
+                infos[i] = new CHAR_INFO('1', MinConsoleColorToUshort(ConsoleColor.BLACK, ConsoleColor.GRAY));
             }
             MinWriteConsoleOutput(outputHandle, infos, 0,0, 10, 2);
             ushort[] colors = new ushort[20];
             for (int i = 0; i < 20; i++)
             {
-                colors[i] = 0x07;
+                colors[i] = MinConsoleColorToUshort(ConsoleColor.GRAY, ConsoleColor.BLACK);
             }
             MinWriteConsoleOutputAttribute(outputHandle, colors, 20, new COORD(0, 0));
 
