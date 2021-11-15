@@ -1364,6 +1364,36 @@ namespace MinConsoleNative
         return MinFlushConsoleInputBuffer(cons.consoleInput);
     }
 
+    ushort Console::ConsoleColorToUshort(ConsoleColor foreColor, ConsoleColor backColor)
+    {
+        return MinConsoleColorToUshort(foreColor, backColor);
+    }
+
+    ConsoleColorPair Console::UshortToConsoleColor(ushort u)
+    {
+        return MinUshortToConsoleColor(u);
+    }
+
+    ConsoleSession Console::AllocConsole()
+    {
+        return MinAllocConsole();
+    }
+
+    bool Console::FreeConsole()
+    {
+        return MinFreeConsole();
+    }
+
+    HWND Console::GetConsoleWindow()
+    {
+        return MinGetConsoleWindow();
+    }
+
+    HANDLE Console::GetStdHandle(StdHandleType type)
+    {
+        return MinGetStdHandle(type);
+    }
+
     ConsoleSession Console::InitConsoleSession()
     {
         return MinInitConsoleSession();
@@ -1421,6 +1451,11 @@ namespace MinConsoleNative
     bool Console::SetTitle(const std::wstring& title)
     {
         return MinSetTitle(title.c_str());
+    }
+
+    bool Console::SetConsoleCtrlHandler(PHANDLER_ROUTINE handler)
+    {
+        return MinSetConsoleCtrlHandler(handler, true);
     }
 
     ConsoleType Console::GetConsoleType()
@@ -1483,11 +1518,6 @@ namespace MinConsoleNative
         ConsoleMode consoleMode = GetConsoleMode();
         consoleMode.inputMode._ENABLE_PROCESSED_INPUT = !yes;
         SetConsoleMode(consoleMode);
-    }
-
-    bool Console::SetConsoleCtrlHandler(PHANDLER_ROUTINE handler)
-    {
-        return MinSetConsoleCtrlHandler(handler, true);
     }
 
     bool Console::EnableConsoleVT()

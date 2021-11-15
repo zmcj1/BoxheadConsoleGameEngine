@@ -657,6 +657,18 @@ namespace MinConsoleNative
         static Singleton<Console> Global;
 
     public:
+        static ushort ConsoleColorToUshort(ConsoleColor foreColor, ConsoleColor backColor);
+
+        static ConsoleColorPair UshortToConsoleColor(ushort u);
+
+        static ConsoleSession AllocConsole();
+
+        static bool FreeConsole();
+
+        static HWND GetConsoleWindow();
+
+        static HANDLE GetStdHandle(StdHandleType type);
+
         static ConsoleSession InitConsoleSession();
 
         static HANDLE CreateConsoleScreenBuffer();
@@ -670,6 +682,8 @@ namespace MinConsoleNative
         static std::wstring GetTitle();
 
         static bool SetTitle(const std::wstring& title);
+
+        static bool SetConsoleCtrlHandler(PHANDLER_ROUTINE handler);
 
         static ConsoleType GetConsoleType();
 
@@ -813,8 +827,6 @@ namespace MinConsoleNative
         bool GetTreatControlCAsInput();
 
         void SetTreatControlCAsInput(bool yes);
-
-        bool SetConsoleCtrlHandler(PHANDLER_ROUTINE handler);
 
         bool EnableConsoleVT();
 
