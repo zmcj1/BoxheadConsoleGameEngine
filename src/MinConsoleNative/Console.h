@@ -737,6 +737,8 @@ namespace MinConsoleNative
 
         CheckSizeResult CheckSize(POINT size);
 
+        COORD GetLargestConsoleWindowSize();
+
         void SetConsoleWindowAndBufferSize(POINT size);
 
         ConsoleColor GetConsoleForeColor();

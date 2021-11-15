@@ -1272,6 +1272,11 @@ namespace MinConsoleNative
         return MinCheckSize(cons.consoleOutput, size);
     }
 
+    COORD Console::GetLargestConsoleWindowSize()
+    {
+        return MinGetLargestConsoleWindowSize(cons.consoleOutput);
+    }
+
     void Console::SetConsoleWindowAndBufferSize(POINT size)
     {
         MinSetConsoleWindowAndBufferSize(cons.consoleOutput, size);
