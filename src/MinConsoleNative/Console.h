@@ -595,17 +595,17 @@ namespace MinConsoleNative
 
     //ANSI Escape Sequence (Virtual Terminal Sequences)
 
-    EXPORT_FUNC_EX(bool) MinANSIWrite2(_IN_ const wchar* str, Color24 foreColor);
+    EXPORT_FUNC_EX(bool) MinANSIWrite2(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor);
 
-    EXPORT_FUNC_EX(bool) MinANSIWrite3(_IN_ const wchar* str, Color24 foreColor, Color24 backColor);
+    EXPORT_FUNC_EX(bool) MinANSIWrite3(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor);
 
-    EXPORT_FUNC_EX(bool) MinANSIWrite4(_IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score);
+    EXPORT_FUNC_EX(bool) MinANSIWrite4(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score);
 
-    EXPORT_FUNC_EX(bool) MinANSIWriteLine2(_IN_ const wchar* str, Color24 foreColor);
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine2(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor);
 
-    EXPORT_FUNC_EX(bool) MinANSIWriteLine3(_IN_ const wchar* str, Color24 foreColor, Color24 backColor);
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine3(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor);
 
-    EXPORT_FUNC_EX(bool) MinANSIWriteLine4(_IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score);
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine4(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score);
 
     //The created HANDLE can be recycled using the MinCloseConsoleScreenBuffer function
     EXPORT_FUNC_EX(HANDLE) MinCreateConsoleScreenBuffer();

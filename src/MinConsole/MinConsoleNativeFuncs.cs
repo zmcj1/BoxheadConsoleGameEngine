@@ -244,22 +244,22 @@ namespace MinConsole
         public extern static bool MinWriteLine3(IntPtr consoleOutput, string str, ConsoleColor foreColor, ConsoleColor backColor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinANSIWrite2(string str, Color24 foreColor);
+        public extern static bool MinANSIWrite2(IntPtr consoleOutput, string str, Color24 foreColor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinANSIWrite3(string str, Color24 foreColor, Color24 backColor);
+        public extern static bool MinANSIWrite3(IntPtr consoleOutput, string str, Color24 foreColor, Color24 backColor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinANSIWrite4(string str, Color24 foreColor, Color24 backColor, bool under_score);
+        public extern static bool MinANSIWrite4(IntPtr consoleOutput, string str, Color24 foreColor, Color24 backColor, bool under_score);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinANSIWriteLine2(string str, Color24 foreColor);
+        public extern static bool MinANSIWriteLine2(IntPtr consoleOutput, string str, Color24 foreColor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinANSIWriteLine3(string str, Color24 foreColor, Color24 backColor);
+        public extern static bool MinANSIWriteLine3(IntPtr consoleOutput, string str, Color24 foreColor, Color24 backColor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        public extern static bool MinANSIWriteLine4(string str, Color24 foreColor, Color24 backColor, bool under_score);
+        public extern static bool MinANSIWriteLine4(IntPtr consoleOutput, string str, Color24 foreColor, Color24 backColor, bool under_score);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static IntPtr MinCreateConsoleScreenBuffer();

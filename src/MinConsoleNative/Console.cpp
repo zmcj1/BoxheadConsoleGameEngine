@@ -870,32 +870,32 @@ namespace MinConsoleNative
         return MinWrite3(consoleOutput, (wstring(str) + L"\n").c_str(), foreColor, backColor);
     }
 
-    EXPORT_FUNC_EX(bool) MinANSIWrite2(_IN_ const wchar* str, Color24 foreColor)
+    EXPORT_FUNC_EX(bool) MinANSIWrite2(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor)
     {
         return console.Write(str, foreColor);
     }
 
-    EXPORT_FUNC_EX(bool) MinANSIWrite3(_IN_ const wchar* str, Color24 foreColor, Color24 backColor)
+    EXPORT_FUNC_EX(bool) MinANSIWrite3(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor)
     {
         return console.Write(str, foreColor, backColor);
     }
 
-    EXPORT_FUNC_EX(bool) MinANSIWrite4(_IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score)
+    EXPORT_FUNC_EX(bool) MinANSIWrite4(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score)
     {
         return console.Write(str, foreColor, backColor, under_score);
     }
 
-    EXPORT_FUNC_EX(bool) MinANSIWriteLine2(_IN_ const wchar* str, Color24 foreColor)
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine2(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor)
     {
         return console.WriteLine(str, foreColor);
     }
 
-    EXPORT_FUNC_EX(bool) MinANSIWriteLine3(_IN_ const wchar* str, Color24 foreColor, Color24 backColor)
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine3(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor)
     {
         return console.WriteLine(str, foreColor, backColor);
     }
 
-    EXPORT_FUNC_EX(bool) MinANSIWriteLine4(_IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score)
+    EXPORT_FUNC_EX(bool) MinANSIWriteLine4(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score)
     {
         return console.WriteLine(str, foreColor, backColor, under_score);
     }
