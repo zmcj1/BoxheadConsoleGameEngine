@@ -94,7 +94,7 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinEnableConsoleVT(HANDLE consoleOutput)
     {
-        bool supportVT = WinVersion::Global.GetInstance().IsWindows10CreatorsOrLater();
+        bool supportVT = winVersion.IsWindows10CreatorsOrLater();
         if (supportVT)
         {
             ConsoleOutputMode com;
@@ -1212,24 +1212,22 @@ namespace MinConsoleNative
         return ::FlushConsoleInputBuffer(consoleInput);
     }
 
-    bool Console::forceVT = false;
-
     Console::Console()
     {
         this->cons = Console::InitConsoleSession();
-        this->supportVT = MinEnableConsoleVT(cons.consoleOutput);
+        this->supportVT = EnableConsoleVT();
     }
 
     Console::Console(ConsoleSession cons)
     {
         this->cons = cons;
-        this->supportVT = MinEnableConsoleVT(cons.consoleOutput);
+        this->supportVT = EnableConsoleVT();
     }
 
     Console::Console(HWND consoleWindow, HANDLE consoleInput, HANDLE consoleOutput)
     {
         this->cons = ConsoleSession(consoleWindow, consoleInput, consoleOutput);
-        this->supportVT = MinEnableConsoleVT(cons.consoleOutput);
+        this->supportVT = EnableConsoleVT();
     }
 
     Color24 Console::GetConsolePalette(DWORD index)

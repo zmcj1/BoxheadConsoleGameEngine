@@ -653,7 +653,6 @@ namespace MinConsoleNative
     class Console
     {
     public:
-        static bool forceVT;
         static Singleton<Console> Global;
 
     public:
