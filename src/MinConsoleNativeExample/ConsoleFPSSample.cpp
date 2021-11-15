@@ -46,7 +46,7 @@ public:
         }
         else
         {
-            this->lobbyAudio = new Audio(File::Combine(File::GetDirectoryPath(), L"..\\..\\res\\[CSO] Lobby Theme.mp3"));
+            this->lobbyAudio = new Audio(File::Combine(File::GetDirectoryPath(), L"..\\res\\[CSO] Lobby Theme.mp3"));
         }
 
         this->crenderer = new CellRenderer(consoleWidth, consoleHeight, CellRendererMode::Fast);
