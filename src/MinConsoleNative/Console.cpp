@@ -872,32 +872,67 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinANSIWrite2(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor)
     {
-        return console.Write(str, foreColor);
+        if (!VTConverter::VTSupport())
+        {
+            ConsoleColor fc = foreColor.ToConsoleColor();
+            return MinWrite2(consoleOutput, str, fc);
+        }
+
+        wstring fore_str = VTConverter::VTForeColor(foreColor);
+        wstring reset_str = VTConverter::VTResetStyle();
+        return MinWrite1(consoleOutput, (fore_str + wstring(str) + reset_str).c_str());
     }
 
     EXPORT_FUNC_EX(bool) MinANSIWrite3(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor)
     {
-        return console.Write(str, foreColor, backColor);
+        if (!VTConverter::VTSupport())
+        {
+            ConsoleColor fc = foreColor.ToConsoleColor();
+            ConsoleColor bc = backColor.ToConsoleColor();
+            return MinWrite3(consoleOutput, str, fc, bc);
+        }
+
+        wstring fore_str = VTConverter::VTForeColor(foreColor);
+        wstring back_str = VTConverter::VTBackColor(backColor);
+        wstring reset_str = VTConverter::VTResetStyle();
+        return MinWrite1(consoleOutput, (fore_str + back_str + wstring(str) + reset_str).c_str());
     }
 
     EXPORT_FUNC_EX(bool) MinANSIWrite4(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score)
     {
-        return console.Write(str, foreColor, backColor, under_score);
+        if (!VTConverter::VTSupport())
+        {
+            ConsoleColor fc = foreColor.ToConsoleColor();
+            ConsoleColor bc = backColor.ToConsoleColor();
+            return MinWrite3(consoleOutput, str, fc, bc);
+        }
+
+        wstring fore_str = VTConverter::VTForeColor(foreColor);
+        wstring back_str = VTConverter::VTBackColor(backColor);
+        wstring us_str = VTConverter::VTUnderline(under_score);
+        wstring reset_str = VTConverter::VTResetStyle();
+        return MinWrite1(consoleOutput, (fore_str + back_str + us_str + wstring(str) + reset_str).c_str());
     }
 
     EXPORT_FUNC_EX(bool) MinANSIWriteLine2(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor)
     {
-        return console.WriteLine(str, foreColor);
+        wstring strLine(str);
+        strLine += L"\n";
+        return MinANSIWrite2(consoleOutput, strLine.c_str(), foreColor);
     }
 
     EXPORT_FUNC_EX(bool) MinANSIWriteLine3(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor)
     {
-        return console.WriteLine(str, foreColor, backColor);
+        wstring strLine(str);
+        strLine += L"\n";
+        return MinANSIWrite3(consoleOutput, strLine.c_str(), foreColor, backColor);
     }
 
     EXPORT_FUNC_EX(bool) MinANSIWriteLine4(HANDLE consoleOutput, _IN_ const wchar* str, Color24 foreColor, Color24 backColor, bool under_score)
     {
-        return console.WriteLine(str, foreColor, backColor, under_score);
+        wstring strLine(str);
+        strLine += L"\n";
+        return MinANSIWrite4(consoleOutput, strLine.c_str(), foreColor, backColor, under_score);
     }
 
     EXPORT_FUNC_EX(HANDLE) MinCreateConsoleScreenBuffer()
@@ -1565,23 +1600,12 @@ namespace MinConsoleNative
 
     bool Console::Write(const std::wstring& msg, ConsoleColor foreColor)
     {
-        ConsoleColor fColor = Console::GetConsoleForeColor();
-        Console::SetConsoleForeColor(foreColor);
-        bool suc = Console::Write(msg);
-        Console::SetConsoleForeColor(fColor);
-        return suc;
+        return MinWrite2(cons.consoleOutput, msg.c_str(), foreColor);
     }
 
     bool Console::Write(const std::wstring& msg, ConsoleColor foreColor, ConsoleColor backColor)
     {
-        ConsoleColor fColor = Console::GetConsoleForeColor();
-        ConsoleColor bColor = Console::GetConsoleBackColor();
-        Console::SetConsoleForeColor(foreColor);
-        Console::SetConsoleBackColor(backColor);
-        bool suc = Console::Write(msg);
-        Console::SetConsoleForeColor(fColor);
-        Console::SetConsoleBackColor(bColor);
-        return suc;
+        return MinWrite3(cons.consoleOutput, msg.c_str(), foreColor, backColor);
     }
 
     bool Console::WriteLine()
@@ -1606,81 +1630,32 @@ namespace MinConsoleNative
 
     bool Console::Write(const std::wstring& msg, Color24 foreColor)
     {
-        if (!supportVT && !forceVT)
-        {
-            ConsoleColor fc = foreColor.ToConsoleColor();
-            return Console::Write(msg, fc);
-        }
-
-        wstring fore_str = VTConverter::VTForeColor(foreColor);
-        wstring reset_str = VTConverter::VTResetStyle();
-        return Console::Write(fore_str + msg + reset_str);
+        return MinANSIWrite2(cons.consoleOutput, msg.c_str(), foreColor);
     }
 
     bool Console::Write(const std::wstring& msg, Color24 foreColor, Color24 backColor)
     {
-        if (!supportVT && !forceVT)
-        {
-            ConsoleColor fc = foreColor.ToConsoleColor();
-            ConsoleColor bc = backColor.ToConsoleColor();
-            return Console::Write(msg, fc, bc);
-        }
-
-        wstring fore_str = VTConverter::VTForeColor(foreColor);
-        wstring back_str = VTConverter::VTBackColor(backColor);
-        wstring reset_str = VTConverter::VTResetStyle();
-        return Console::Write(fore_str + back_str + msg + reset_str);
+        return MinANSIWrite3(cons.consoleOutput, msg.c_str(), foreColor, backColor);
     }
 
     bool Console::Write(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score)
     {
-        if (!supportVT && !forceVT)
-        {
-            ConsoleColor fc = foreColor.ToConsoleColor();
-            ConsoleColor bc = backColor.ToConsoleColor();
-            return Console::Write(msg, fc, bc);
-        }
-
-        wstring fore_str = VTConverter::VTForeColor(foreColor);
-        wstring back_str = VTConverter::VTBackColor(backColor);
-        wstring us_str = VTConverter::VTUnderline(under_score);
-        wstring reset_str = VTConverter::VTResetStyle();
-        return Console::Write(fore_str + back_str + us_str + msg + reset_str);
+        return MinANSIWrite4(cons.consoleOutput, msg.c_str(), foreColor, backColor, under_score);
     }
 
     bool Console::WriteLine(const std::wstring& msg, Color24 foreColor)
     {
-        if (!supportVT && !forceVT)
-        {
-            ConsoleColor fc = foreColor.ToConsoleColor();
-            return Console::WriteLine(msg, fc);
-        }
-
-        return Console::Write(msg + wstring(L"\n"), foreColor);
+        return MinANSIWriteLine2(cons.consoleOutput, msg.c_str(), foreColor);
     }
 
     bool Console::WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor)
     {
-        if (!supportVT && !forceVT)
-        {
-            ConsoleColor fc = foreColor.ToConsoleColor();
-            ConsoleColor bc = backColor.ToConsoleColor();
-            return Console::WriteLine(msg, fc, bc);
-        }
-
-        return Console::Write(msg + wstring(L"\n"), foreColor, backColor);
+        return MinANSIWriteLine3(cons.consoleOutput, msg.c_str(), foreColor, backColor);
     }
 
     bool Console::WriteLine(const std::wstring& msg, Color24 foreColor, Color24 backColor, bool under_score)
     {
-        if (!supportVT && !forceVT)
-        {
-            ConsoleColor fc = foreColor.ToConsoleColor();
-            ConsoleColor bc = backColor.ToConsoleColor();
-            return Console::WriteLine(msg, fc, bc);
-        }
-
-        return Console::Write(msg + wstring(L"\n"), foreColor, backColor, under_score);
+        return MinANSIWriteLine4(cons.consoleOutput, msg.c_str(), foreColor, backColor, under_score);
     }
 
     ConsoleColor Color24::ToConsoleColor() const
