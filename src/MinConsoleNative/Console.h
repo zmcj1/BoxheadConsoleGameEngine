@@ -67,6 +67,13 @@ namespace MinConsoleNative
         Down = 2,   //The mouse wheel turns towards the player
     };
 
+    EXPORT_ENUM_CLASS CheckSizeResult
+    {
+        OK = 1,
+        X = 2,
+        Y = 3,
+    };
+
     EXPORT_STRUCT ConsoleColorPair
     {
     public:
@@ -519,8 +526,9 @@ namespace MinConsoleNative
 
     EXPORT_FUNC_EX(bool) MinSetConsoleBufferSize(HANDLE consoleOutput, POINT size);
 
-    //if this function returns false, you should use Debug::GetLastMinErrorMsg to get more information.
-    EXPORT_FUNC_EX(bool) MinCheckSize(HANDLE consoleOutput, POINT size);
+    EXPORT_FUNC_EX(CheckSizeResult) MinCheckSize(HANDLE consoleOutput, POINT size);
+
+    EXPORT_FUNC_EX(COORD) MinGetLargestConsoleWindowSize(HANDLE consoleOutput);
 
     EXPORT_FUNC_EX(void) MinSetConsoleWindowAndBufferSize(HANDLE consoleOutput, POINT size);
 
@@ -713,8 +721,7 @@ namespace MinConsoleNative
 
         bool SetConsoleBufferSize(POINT size);
 
-        //if this function returns false, you should use Debug::GetLastMinErrorMsg to get more information.
-        bool CheckSize(POINT size);
+        CheckSizeResult CheckSize(POINT size);
 
         void SetConsoleWindowAndBufferSize(POINT size);
 

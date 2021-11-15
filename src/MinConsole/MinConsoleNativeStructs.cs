@@ -79,6 +79,13 @@ namespace MinConsole
             Down = 2,   //The mouse wheel turns towards the player
         }
 
+        public enum CheckSizeResult
+        {
+            OK = 1,
+            X = 2,
+            Y = 3,
+        }
+
         public enum MouseAxis
         {
             MOUSE_X = 1,

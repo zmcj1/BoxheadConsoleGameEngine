@@ -404,20 +404,24 @@ namespace MinConsoleNative
         return ::SetConsoleScreenBufferSize(consoleOutput, coord);
     }
 
-    EXPORT_FUNC_EX(bool) MinCheckSize(HANDLE consoleOutput, POINT size)
+    EXPORT_FUNC_EX(CheckSizeResult) MinCheckSize(HANDLE consoleOutput, POINT size)
     {
+        CheckSizeResult result = CheckSizeResult::OK;
         COORD maxSize = ::GetLargestConsoleWindowSize(consoleOutput);
         if (size.x > maxSize.X)
         {
-            Debug::SetLastMinErrorMsg(_T("The specified consoleWidth is too large"));
-            return false;
+            result = CheckSizeResult::X;
         }
         if (size.y > maxSize.Y)
         {
-            Debug::SetLastMinErrorMsg(_T("The specified consoleHeight is too large"));
-            return false;
+            result = CheckSizeResult::Y;
         }
-        return true;
+        return result;
+    }
+
+    EXPORT_FUNC_EX(COORD) MinGetLargestConsoleWindowSize(HANDLE consoleOutput)
+    {
+        return ::GetLargestConsoleWindowSize(consoleOutput);
     }
 
     EXPORT_FUNC_EX(void) MinSetConsoleWindowAndBufferSize(HANDLE consoleOutput, POINT size)
@@ -1263,7 +1267,7 @@ namespace MinConsoleNative
         return MinSetConsoleBufferSize(cons.consoleOutput, size);
     }
 
-    bool Console::CheckSize(POINT size)
+    CheckSizeResult Console::CheckSize(POINT size)
     {
         return MinCheckSize(cons.consoleOutput, size);
     }

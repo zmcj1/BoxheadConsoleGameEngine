@@ -72,12 +72,20 @@ namespace MinConsoleNative
 
         //check the size, this is important!
         POINT size = { consoleWidth, consoleHeight };
-        bool suc = Console::Global.GetInstance().CheckSize(size);
-        if (!suc)
+        CheckSizeResult csResult = console.CheckSize(size);
+        if (csResult != CheckSizeResult::OK)
         {
-            std::wstring errMsg = Debug::GetLastMinErrorMsg();
-            Console::Global.GetInstance().WriteLine(errMsg, ConsoleColor::RED);
-            Console::Global.GetInstance().ReadLine();
+            std::wstring errMsg = L"errMsg";
+            if (csResult == CheckSizeResult::X)
+            {
+                errMsg = L"The specified consoleWidth is too large";
+            }
+            else if (csResult == CheckSizeResult::Y)
+            {
+                errMsg = L"The specified consoleHeight is too large";
+            }
+            console.WriteLine(errMsg, ConsoleColor::RED);
+            console.ReadLine();
             ::ExitProcess(0);
         }
 
