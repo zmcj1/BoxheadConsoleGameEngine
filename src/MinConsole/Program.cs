@@ -27,6 +27,10 @@ namespace MinConsole
         [STAThread]
         static void Main(string[] args)
         {
+            string shortPathName = MinToShortPathName("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");
+            bool ok1 = MinMCISendString($"open {shortPathName}");
+            bool ok2 = MinMCISendStringEx($"status {shortPathName} length", out string rs);
+
             string test = null;
 
             test = MinVTForeColor(new Color24() { r = 255, g = 33, b = 22 });

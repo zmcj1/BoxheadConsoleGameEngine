@@ -20,6 +20,9 @@ namespace MinConsoleNative
         Append = 2,
     };
 
+    //使用ExternFree释放该函数的返回值
+    EXPORT_FUNC_EX(wchar*) MinToShortPathName(_IN_ const wchar* path);
+
     class File
     {
     private:

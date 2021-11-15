@@ -41,7 +41,7 @@ namespace MinConsoleNative
             return nullptr;
         }
 
-        ZeroMemory(data, dataLength);
+        ::ZeroMemory(data, dataLength * sizeof(wchar));
         ::wcscpy_s(data, dataLength, text);
 
         // Release the lock
@@ -85,7 +85,7 @@ namespace MinConsoleNative
         }
 
         //赋值操作
-        ::ZeroMemory(text, length);
+        ::ZeroMemory(text, length * sizeof(wchar));
         ::wcscpy_s(text, length, data);
 
         // Release the lock

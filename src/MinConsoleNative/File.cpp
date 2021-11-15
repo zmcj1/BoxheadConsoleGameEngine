@@ -4,6 +4,18 @@ using namespace std;
 
 namespace MinConsoleNative
 {
+    EXPORT_FUNC_EX(wchar*) MinToShortPathName(_IN_ const wchar* path)
+    {
+        int count = ::wcslen(path) + 1;
+        wchar* wstr = ExternAlloc<wchar>(count);
+        ::ZeroMemory(wstr, count * sizeof(wchar));
+
+        wstring shortPathName = File::ToShortPathName(path);
+        wcscpy_s(wstr, count, shortPathName.c_str());
+
+        return wstr;
+    }
+
     std::wstring File::ToShortPathName(const std::wstring& path)
     {
         wchar short_path_name[MAX_PATH];
@@ -185,7 +197,7 @@ namespace MinConsoleNative
         size = GetFileSize(fileHandle, nullptr) + 1;
 
         char* arr = new char[size];
-        ZeroMemory(arr, size);
+        ::ZeroMemory(arr, size * sizeof(char));
         DWORD written = 0;
         bool readSuccess = ReadFile(fileHandle, arr, size, &written, nullptr);
 

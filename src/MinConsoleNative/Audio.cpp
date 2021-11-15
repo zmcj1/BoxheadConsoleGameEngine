@@ -60,7 +60,7 @@ namespace MinConsoleNative
 
         if (LastMCIResult == 0) //no error, all is ok.
         {
-            ::ZeroMemory(wstr, MAX_PATH);
+            ::ZeroMemory(wstr, MAX_PATH * sizeof(wchar));
         }
         else
         {

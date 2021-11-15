@@ -490,7 +490,7 @@ namespace MinConsoleNative
         int strLen = MAX_INPUT_CHAR_COUNT;
 
         //注意:ReadConsole函数不会在字符串结尾加上'\0', 所以我们应该使用ZeroMemory函数
-        ZeroMemory(str, strLen);
+        ::ZeroMemory(str, strLen * sizeof(wchar));
 
         DWORD read = 0;
         bool suc = ::ReadConsole(consoleInput, str, strLen, &read, nullptr);
@@ -955,7 +955,7 @@ namespace MinConsoleNative
         int strLen = MAX_INPUT_CHAR_COUNT;
 
         //注意:ReadFile函数不会在字符串结尾加上'\0', 所以我们应该使用ZeroMemory函数
-        ZeroMemory(str, strLen);
+        ::ZeroMemory(str, strLen * sizeof(char));
 
         DWORD read = 0;
         bool suc = ::ReadFile(handle, str, strLen, &read, nullptr);

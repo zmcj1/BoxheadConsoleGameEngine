@@ -313,6 +313,9 @@ namespace MinConsole
         public extern static bool MinFlushConsoleInputBuffer(IntPtr consoleInput);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static string MinToShortPathName(string path);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static bool MinPutPixel(IntPtr hwnd, int x, int y, Color24 color);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
