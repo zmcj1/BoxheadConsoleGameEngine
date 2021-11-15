@@ -155,6 +155,7 @@ namespace MinConsoleNative
             }
         }
 
+        //对旧版控制台(Legacy Console)与WriteConsoleOutput函数提供兼容
         ConsoleColor ToConsoleColor() const;
 
         COLORREF ToColorRef() const;
