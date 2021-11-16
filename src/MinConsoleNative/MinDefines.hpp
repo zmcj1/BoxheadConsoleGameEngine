@@ -65,15 +65,11 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 //no min/max
 #define NOMINMAX
-
-// Including SDKDDKVer.h defines the highest available Windows platform.
-#include <SDKDDKVer.h>
-
 //reduces the size of the Win32 header files by excluding some of the less frequently used APIs
 #define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-//for COM(.Net)
-#include <combaseapi.h> //CoTaskMemAlloc CoTaskMemFree
+
+#include <Windows.h>    //Windows API
+#include <combaseapi.h> //for COM(.Net)CoTaskMemAlloc CoTaskMemFree
 
 #if !defined(LEN)
 #define LEN(arr) (sizeof(arr) / sizeof(arr[0]))
