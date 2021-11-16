@@ -1,5 +1,5 @@
 ﻿#include "Random.h"
-#include "random.hpp"
+#include "_random.hpp"
 using __Random = effolkronium::random_static;
 
 namespace MinConsoleNative

@@ -134,7 +134,7 @@
     <ClInclude Include="TcpListener.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="random.hpp">
+    <ClInclude Include="_random.hpp">
       <Filter>ThirdParty</Filter>
     </ClInclude>
     <ClInclude Include="WinReg.hpp">

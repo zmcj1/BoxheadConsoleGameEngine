@@ -40,6 +40,4 @@
 #include "Window.h"
 #include "WinNetwork.h"
 #include "WinVersion.h"
-#include "random.hpp"
-#include "WinReg.hpp"
 using namespace MinConsoleNative;

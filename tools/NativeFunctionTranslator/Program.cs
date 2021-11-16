@@ -1098,6 +1098,10 @@ namespace NativeFunctionTranslator
 
             List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.h");
             headFiles.AddRange(GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.hpp"));
+            //remove ThirdParty headfiles:
+            headFiles.Remove(Path.Combine(MinConsoleNativeFolder, "WinReg.hpp"));
+            headFiles.Remove(Path.Combine(MinConsoleNativeFolder, "_random.hpp"));
+
             List<string> sourceFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.cpp");
 
             //-----------for debugging-----------
