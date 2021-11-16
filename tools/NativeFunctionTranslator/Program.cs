@@ -1092,9 +1092,12 @@ namespace NativeFunctionTranslator
         {
             //Common
             DirectoryInfo currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
-            string MinConsoleFolder = currentDirectory.Parent.Parent.Parent.Parent.Parent.ToString();
+
+            string MinConsoleFolder = currentDirectory.Parent.Parent.ToString();
             string MinConsoleNativeFolder = Path.Combine(MinConsoleFolder, "src\\MinConsoleNative");
+
             List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.h");
+            headFiles.AddRange(GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.hpp"));
             List<string> sourceFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.cpp");
 
             //-----------for debugging-----------
