@@ -1,6 +1,0 @@
-*.exe
-*.exp
-*.lib
-*.pdb
-
-!lua54.lib

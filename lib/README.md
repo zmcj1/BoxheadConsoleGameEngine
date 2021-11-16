@@ -1,0 +1,1 @@
+[lua-5.4.2_Win64_vc16_lib](https://sourceforge.net/projects/luabinaries/files/5.4.2/Windows%20Libraries/Static/)
