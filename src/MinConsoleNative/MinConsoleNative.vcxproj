@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Audio.hpp" />
+    <ClInclude Include="AudioPool.hpp" />
     <ClInclude Include="CellRenderer.hpp" />
     <ClInclude Include="CharacterController.hpp" />
     <ClInclude Include="Chess.hpp" />
@@ -192,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="AudioPool.cpp" />
     <ClCompile Include="CellRenderer.cpp" />
     <ClCompile Include="CharacterController.cpp" />
     <ClCompile Include="Chess.cpp" />

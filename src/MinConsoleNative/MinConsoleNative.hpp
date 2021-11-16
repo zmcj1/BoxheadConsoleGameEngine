@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Audio.hpp"
+#include "AudioPool.hpp"
 #include "CellRenderer.hpp"
 #include "CharacterController.hpp"
 #include "Chess.hpp"
@@ -28,6 +29,7 @@
 #include "PaletteSystem.hpp"
 #include "Process.hpp"
 #include "Random.hpp"
+#include "Renderer.hpp"
 #include "Singleton.hpp"
 #include "String.hpp"
 #include "TcpListener.hpp"
