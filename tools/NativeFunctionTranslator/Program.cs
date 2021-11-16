@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.9.5
+//Version:2.9.6
 
 namespace NativeFunctionTranslator
 {
@@ -1095,10 +1095,18 @@ namespace NativeFunctionTranslator
             string MinConsoleFolder = currentDirectory.Parent.Parent.ToString();
             string MinConsoleNativeFolder = Path.Combine(MinConsoleFolder, "src\\MinConsoleNative");
 
-            List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.h");
-            headFiles.AddRange(GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.hpp"));
+            //debug 00:
+            List<string> hFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.h");
+            if (hFiles.Count > 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"there is .h file in {MinConsoleNativeFolder}");
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
+
+            List<string> headFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.hpp");
             //remove ThirdParty headfiles:
-            headFiles.Remove(Path.Combine(MinConsoleNativeFolder, "WinReg.hpp"));
+            headFiles.Remove(Path.Combine(MinConsoleNativeFolder, "_winreg.hpp"));
             headFiles.Remove(Path.Combine(MinConsoleNativeFolder, "_random.hpp"));
 
             List<string> sourceFiles = GetFileListWithExtend(new DirectoryInfo(MinConsoleNativeFolder), "*.cpp");
