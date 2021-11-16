@@ -137,7 +137,7 @@
     <ClInclude Include="_random.hpp">
       <Filter>ThirdParty</Filter>
     </ClInclude>
-    <ClInclude Include="WinReg.hpp">
+    <ClInclude Include="_winreg.hpp">
       <Filter>ThirdParty</Filter>
     </ClInclude>
   </ItemGroup>

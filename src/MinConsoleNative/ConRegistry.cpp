@@ -2,7 +2,7 @@
 #include "WinVersion.hpp"
 #include "VTConverter.hpp"
 #include "String.hpp"
-#include "WinReg.hpp"
+#include "_winreg.hpp"
 #include <strsafe.h>
 
 using namespace winreg;
