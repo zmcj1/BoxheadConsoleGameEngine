@@ -1,10 +1,10 @@
-﻿#include "Console.h"
-#include "WinVersion.h"
-#include "VTConverter.h"
-#include "ConRegistry.h"
-#include "Debug.h"
-#include "PaletteSystem.h"
-#include "String.h"
+﻿#include "Console.hpp"
+#include "WinVersion.hpp"
+#include "VTConverter.hpp"
+#include "ConRegistry.hpp"
+#include "Debug.hpp"
+#include "PaletteSystem.hpp"
+#include "String.hpp"
 #include <combaseapi.h> //CoTaskMemAlloc
 
 using namespace std;

@@ -1,4 +1,4 @@
-﻿#include "PaletteSystem.h"
+﻿#include "PaletteSystem.hpp"
 
 namespace MinConsoleNative
 {

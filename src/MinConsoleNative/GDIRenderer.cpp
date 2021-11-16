@@ -1,4 +1,4 @@
-﻿#include "GDIRenderer.h"
+﻿#include "GDIRenderer.hpp"
 
 namespace MinConsoleNative
 {

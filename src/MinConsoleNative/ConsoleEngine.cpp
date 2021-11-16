@@ -1,7 +1,7 @@
-﻿#include "ConsoleEngine.h"
-#include "Debug.h"
-#include "Timer.h"
-#include "Window.h"
+﻿#include "ConsoleEngine.hpp"
+#include "Debug.hpp"
+#include "Timer.hpp"
+#include "Window.hpp"
 
 namespace MinConsoleNative
 {

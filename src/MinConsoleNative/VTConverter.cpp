@@ -1,5 +1,5 @@
-﻿#include "VTConverter.h"
-#include "String.h"
+﻿#include "VTConverter.hpp"
+#include "String.hpp"
 #include <sstream>
 #include <cstdio>
 #include <combaseapi.h> //CoTaskMemAlloc

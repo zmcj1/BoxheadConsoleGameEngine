@@ -1,5 +1,5 @@
-﻿#include "WinVersion.h"
-#include "UnusualMethods.h"
+﻿#include "WinVersion.hpp"
+#include "UnusualMethods.hpp"
 
 using namespace std;
 

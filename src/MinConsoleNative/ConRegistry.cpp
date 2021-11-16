@@ -1,7 +1,7 @@
-﻿#include "ConRegistry.h"
-#include "WinVersion.h"
-#include "VTConverter.h"
-#include "String.h"
+﻿#include "ConRegistry.hpp"
+#include "WinVersion.hpp"
+#include "VTConverter.hpp"
+#include "String.hpp"
 #include "WinReg.hpp"
 #include <strsafe.h>
 

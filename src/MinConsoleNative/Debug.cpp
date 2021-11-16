@@ -1,7 +1,7 @@
-﻿#include "Debug.h"
-#include "File.h"
-#include "String.h"
-#include "Console.h"
+﻿#include "Debug.hpp"
+#include "File.hpp"
+#include "String.hpp"
+#include "Console.hpp"
 #include <ctime>
 using namespace std;
 

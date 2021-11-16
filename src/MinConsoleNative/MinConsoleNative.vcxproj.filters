@@ -17,121 +17,121 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MinDefines.h">
+    <ClInclude Include="MinDefines.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UnusualMethods.h">
+    <ClInclude Include="UnusualMethods.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Clipboard.h">
+    <ClInclude Include="Clipboard.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WinVersion.h">
+    <ClInclude Include="WinVersion.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConRegistry.h">
+    <ClInclude Include="ConRegistry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
+    <ClInclude Include="Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MinConsoleNative.h">
+    <ClInclude Include="MinConsoleNative.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Singleton.h">
+    <ClInclude Include="Singleton.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
+    <ClInclude Include="Timer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Random.h">
+    <ClInclude Include="Random.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
+    <ClInclude Include="Input.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Console.h">
+    <ClInclude Include="Console.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Debug.h">
+    <ClInclude Include="Debug.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectPool.h">
+    <ClInclude Include="ObjectPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="String.h">
+    <ClInclude Include="String.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="File.h">
+    <ClInclude Include="File.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Math.h">
+    <ClInclude Include="Math.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Database.h">
+    <ClInclude Include="Database.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VTConverter.h">
+    <ClInclude Include="VTConverter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Process.h">
+    <ClInclude Include="Process.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2.h">
+    <ClInclude Include="Vector2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Audio.h">
+    <ClInclude Include="Audio.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextLayout.h">
+    <ClInclude Include="TextLayout.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MessageBox.h">
+    <ClInclude Include="MessageBox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PaletteSystem.h">
+    <ClInclude Include="PaletteSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EventSystem.h">
+    <ClInclude Include="EventSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleEngine.h">
+    <ClInclude Include="ConsoleEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Navigation.h">
+    <ClInclude Include="Navigation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Maze.h">
+    <ClInclude Include="Maze.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vector.h">
+    <ClInclude Include="Vector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterController.h">
+    <ClInclude Include="CharacterController.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GridRenderer.h">
+    <ClInclude Include="GridRenderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CellRenderer.h">
+    <ClInclude Include="CellRenderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleGameEngine.h">
+    <ClInclude Include="ConsoleGameEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Chess.h">
+    <ClInclude Include="Chess.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NativeRenderer.h">
+    <ClInclude Include="NativeRenderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GDIRenderer.h">
+    <ClInclude Include="GDIRenderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WinNetwork.h">
+    <ClInclude Include="WinNetwork.hpp">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="TcpListener.h">
+    <ClInclude Include="TcpListener.hpp">
       <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="_random.hpp">

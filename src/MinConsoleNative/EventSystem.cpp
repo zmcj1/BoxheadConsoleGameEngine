@@ -1,8 +1,8 @@
-﻿#include "EventSystem.h"
-#include "VTConverter.h"
-#include "String.h"
+﻿#include "EventSystem.hpp"
+#include "VTConverter.hpp"
+#include "String.hpp"
+#include "Window.hpp"
 #include <string>
-#include "Window.h"
 
 using namespace std;
 

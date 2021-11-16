@@ -1,5 +1,5 @@
-﻿#include "Audio.h"
-#include "File.h"
+﻿#include "Audio.hpp"
+#include "File.hpp"
 //Provide MCI interface, mmsystem header file depends on Windows.h
 #include <mmsystem.h>
 #pragma comment(lib, "winmm.lib")

@@ -643,7 +643,7 @@ namespace NativeFunctionTranslator
             File.WriteAllText(MinConsoleNativeFuncsFile, stringBuilder.ToString(), Encoding.UTF8);
         }
 
-        public static void GenMinConsoleNative(string MinConsoleNativeFolder, List<string> headFiles)
+        public static void GenMinConsoleNative(string MinConsoleNativeHeadFilePath, List<string> headFiles)
         {
             List<FileInfo> headFileInfos = new List<FileInfo>();
             headFiles.ForEach(str => { headFileInfos.Add(new FileInfo(str)); });
@@ -654,7 +654,6 @@ namespace NativeFunctionTranslator
             headFileInfos.ForEach(fileInfo => { stringBuilder2.Append("#include \"" + fileInfo.Name + "\"\n"); });
             stringBuilder2.Append("using namespace MinConsoleNative;\n");
 
-            string MinConsoleNativeHeadFilePath = Path.Combine(MinConsoleNativeFolder, "MinConsoleNative.h");
             File.WriteAllText(MinConsoleNativeHeadFilePath, stringBuilder2.ToString(), Encoding.UTF8);
         }
 
@@ -1114,7 +1113,7 @@ namespace NativeFunctionTranslator
             GenMinConsoleNativeStructs(MinConsoleFolder, headFiles);
 
             //-----------generate MinConsoleNative.h-----------
-            GenMinConsoleNative(MinConsoleNativeFolder, headFiles);
+            GenMinConsoleNative(Path.Combine(MinConsoleNativeFolder, "MinConsoleNative.hpp"), headFiles);
 
             //-----------for debugging-----------
             Debug2(MethodInfoDict);

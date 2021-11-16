@@ -1,4 +1,4 @@
-﻿#include "WinNetwork.h"
+﻿#include "WinNetwork.hpp"
 #pragma comment(lib, "ws2_32.lib")
 
 namespace MinConsoleNative

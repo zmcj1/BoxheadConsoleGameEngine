@@ -1,5 +1,5 @@
-﻿#include "CharacterController.h"
-#include "Input.h"
+﻿#include "CharacterController.hpp"
+#include "Input.hpp"
 
 namespace MinConsoleNative
 {

@@ -1,5 +1,5 @@
-﻿#include "Chess.h"
-#include "TextLayout.h"
+﻿#include "Chess.hpp"
+#include "TextLayout.hpp"
 
 namespace MinConsoleNative
 {

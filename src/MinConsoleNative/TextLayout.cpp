@@ -1,6 +1,6 @@
-﻿#include "TextLayout.h"
-#include "String.h"
-#include "Debug.h"
+﻿#include "TextLayout.hpp"
+#include "String.hpp"
+#include "Debug.hpp"
 
 using namespace std;
 

@@ -1,5 +1,5 @@
-﻿#include "NativeRenderer.h"
-#include "TextLayout.h"
+﻿#include "NativeRenderer.hpp"
+#include "TextLayout.hpp"
 #include <vector>
 
 using namespace std;

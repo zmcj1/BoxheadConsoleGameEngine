@@ -1,5 +1,5 @@
-﻿#include "GridRenderer.h"
-#include "TextLayout.h"
+﻿#include "GridRenderer.hpp"
+#include "TextLayout.hpp"
 using namespace std;
 
 namespace MinConsoleNative

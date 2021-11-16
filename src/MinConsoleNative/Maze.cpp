@@ -1,6 +1,6 @@
-﻿#include "Maze.h"
-#include "Vector.h"
-#include "Random.h"
+﻿#include "Maze.hpp"
+#include "Vector.hpp"
+#include "Random.hpp"
 
 namespace MinConsoleNative
 {

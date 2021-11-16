@@ -1,5 +1,5 @@
-﻿#include "Input.h"
-#include "Console.h"
+﻿#include "Input.hpp"
+#include "Console.hpp"
 #include <stdint.h>
 
 namespace MinConsoleNative

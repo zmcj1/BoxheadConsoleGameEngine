@@ -1,6 +1,6 @@
-﻿#include "Database.h"
-#include "File.h"
-#include "String.h"
+﻿#include "Database.hpp"
+#include "File.hpp"
+#include "String.hpp"
 using namespace std;
 
 namespace MinConsoleNative

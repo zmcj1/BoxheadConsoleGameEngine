@@ -1,5 +1,5 @@
-﻿#include "File.h"
-#include "String.h"
+﻿#include "File.hpp"
+#include "String.hpp"
 using namespace std;
 
 namespace MinConsoleNative
