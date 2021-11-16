@@ -1,5 +1,7 @@
 ﻿#include "MinConsoleNative.hpp"
 
+//参考:https://github.com/OneLoneCoder/CommandLineFPS/blob/master/CommandLineFPS.cpp
+
 using namespace std;
 
 #define light_shade     0x2591
