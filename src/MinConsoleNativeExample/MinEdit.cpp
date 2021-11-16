@@ -1,4 +1,4 @@
-﻿#include "..\\MinConsoleNative\MinConsoleNative.h"
+﻿#include "MinConsoleNative.hpp"
 
 class MyEventHandler : public EventHandler
 {

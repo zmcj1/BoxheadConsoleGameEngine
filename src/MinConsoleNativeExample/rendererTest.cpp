@@ -1,4 +1,4 @@
-﻿#include "..\MinConsoleNative\MinConsoleNative.hpp"
+﻿#include "MinConsoleNative.hpp"
 
 int main()
 {

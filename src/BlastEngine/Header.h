@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 //MinConsole support
-#include "../MinConsoleNative/MinConsoleNative.hpp"
+#include "MinConsoleNative.hpp"
 
 //Lua support
 #include "lua.hpp"

@@ -1,4 +1,4 @@
-﻿#include "..\MinConsoleNative\MinConsoleNative.h"
+﻿#include "MinConsoleNative.hpp"
 #include <string>
 
 using namespace std;

@@ -93,7 +93,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>../../blast/lua-5.4.2_Win64_dll16_lib/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../MinConsoleNative/;../../blast/lua-5.4.2_Win64_dll16_lib/include/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,7 +111,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>../../blast/lua-5.4.2_Win64_dll16_lib/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../MinConsoleNative/;../../blast/lua-5.4.2_Win64_dll16_lib/include/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,7 +129,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>../../blast/lua-5.4.2_Win64_dll16_lib/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../MinConsoleNative/;../../blast/lua-5.4.2_Win64_dll16_lib/include/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,7 +147,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>../../blast/lua-5.4.2_Win64_dll16_lib/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../MinConsoleNative/;../../blast/lua-5.4.2_Win64_dll16_lib/include/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

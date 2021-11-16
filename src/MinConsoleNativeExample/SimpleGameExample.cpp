@@ -1,4 +1,4 @@
-﻿#include "../MinConsoleNative/MinConsoleNative.h"
+﻿#include "MinConsoleNative.hpp"
 
 class SimpleGame : public ConsoleEngine
 {

@@ -1,5 +1,6 @@
-﻿#include "../MinConsoleNative/MinConsoleNative.h"
+﻿#include "MinConsoleNative.hpp"
 #include <vector>
+
 #define MAZE_WIDTH   59
 #define MAZE_HEIGHT  59
 #define CONW (MAZE_WIDTH * 2) + 1 //+1 for compatibility with legacy console

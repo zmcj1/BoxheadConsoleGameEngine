@@ -1,4 +1,4 @@
-﻿#include "..\MinConsoleNative\MinConsoleNative.h"
+﻿#include "MinConsoleNative.hpp"
 #include <vector>  //vector
 #include <iomanip> //setprecision
 #include <sstream> //stringstream

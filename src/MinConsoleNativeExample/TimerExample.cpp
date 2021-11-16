@@ -1,4 +1,4 @@
-﻿#include "..\MinConsoleNative\MinConsoleNative.h"
+﻿#include "MinConsoleNative.hpp"
 #include "Stopwatch.h"
 
 #define SW32

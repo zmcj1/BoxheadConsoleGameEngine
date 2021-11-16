@@ -1,4 +1,4 @@
-﻿#include "..\MinConsoleNative\MinConsoleNative.h"
+﻿#include "MinConsoleNative.hpp"
 using namespace std;
 
 constexpr int WIDTH = 60;
