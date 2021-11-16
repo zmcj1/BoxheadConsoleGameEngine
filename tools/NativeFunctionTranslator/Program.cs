@@ -1002,7 +1002,7 @@ namespace NativeFunctionTranslator
                 if (!ok)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(headFileName + ".h does not have source file!");
+                    Console.WriteLine(item.Name + " does not have source file!");
                     Console.ForegroundColor = ConsoleColor.Gray;
                 }
             }
@@ -1060,7 +1060,7 @@ namespace NativeFunctionTranslator
                     if (line.IndexOf("inline") != -1)
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"{line.Trim()} in {className}");
+                        Console.WriteLine($"{line.Trim()} in {fileName}");
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
                 }
