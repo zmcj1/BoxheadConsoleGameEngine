@@ -19,18 +19,25 @@ namespace MinConsoleNative
 
     Database::Database(const std::wstring& fileName)
     {
-        this->savePath = File::Combine(File::GetDirectoryPath(), fileName);
+        this->fileName = fileName;
+        this->folderPath = File::GetDirectoryPath();
+        this->savePath = File::Combine(this->folderPath, this->fileName);
+
         CreatSaveFile(this->savePath);
     }
 
     Database::Database(const std::wstring& fileName, const std::wstring& folderPath)
     {
-        this->savePath = File::Combine(folderPath, fileName);
+        this->fileName = fileName;
+        this->folderPath = folderPath;
+        this->savePath = File::Combine(this->folderPath, this->fileName);
+
         //create folder before creating file.
         if (File::Status(folderPath) != FileMode::Directory)
         {
             File::Creat(folderPath, FileMode::Directory);
         }
+
         CreatSaveFile(this->savePath);
     }
 
