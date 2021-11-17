@@ -1,19 +1,6 @@
 ﻿#pragma once
 
-//See:https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-160
-
-#if !defined(WIN32) && !defined(_WIN32)
-#error Windows Only.
-#endif
-
-#if !defined(UNICODE) && !defined(_UNICODE)
-#if defined(_MSC_VER)
-#error Please enable UNICODE for your MS compiler! For VisualStudio: Project Properties -> General -> Character Set -> Use Unicode.
-#else
-#define UNICODE
-#define _UNICODE
-#endif
-#endif
+//https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-160
 
 #if defined(_MT) && !defined(_DLL) && !defined(_DEBUG)
 #define MT
@@ -25,6 +12,13 @@
 #define MD_DEBUG
 #endif
 
+//DEBUG/RELEASE
+#if defined(_DEBUG)
+#define DEBUG
+#else
+#define RELEASE
+#endif
+
 //X86/X64
 #if defined(_M_X64)
 #define X64
@@ -32,6 +26,8 @@
 #define X86
 #endif
 
+//Enable Unicode
+#define UNICODE
 //Disable warning
 #define _CRT_SECURE_NO_WARNINGS
 //Disable network library warning
@@ -44,21 +40,10 @@
 #include <Windows.h>    //Windows API
 #include <combaseapi.h> //CoTaskMemAlloc CoTaskMemFree
 
-#if !defined(LEN)
 #define LEN(arr) (sizeof(arr) / sizeof(arr[0]))
-#endif
-
-#if !defined(_T)
 #define _T(x) TEXT(x)
-#endif
-
-#if !defined(NEW_LINE)
 #define NEW_LINE "\r\n"
-#endif
-
-#if !defined(NEW_LINEW)
 #define NEW_LINEW L"\r\n"
-#endif
 
 //Macros for export functions
 #if defined(__cplusplus)
