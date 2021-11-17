@@ -151,7 +151,7 @@ namespace MinConsoleNative
                         _CAPSLOCK_ON = keyEvent.dwControlKeyState & CAPSLOCK_ON;
                         _ENHANCED_KEY = keyEvent.dwControlKeyState & ENHANCED_KEY;
                         //repeat count
-                        UNUSED(keyEvent.wRepeatCount);
+                        //UNUSED(keyEvent.wRepeatCount);
                         //send to
                         for (auto item : handlers)
                         {
@@ -339,7 +339,7 @@ namespace MinConsoleNative
                         _CAPSLOCK_ON = keyEvent.dwControlKeyState & CAPSLOCK_ON;
                         _ENHANCED_KEY = keyEvent.dwControlKeyState & ENHANCED_KEY;
                         //UN USED
-                        UNUSED(keyEvent.wRepeatCount);
+                        //UNUSED(keyEvent.wRepeatCount);
                         //send to
                         for (auto item : handlers)
                         {

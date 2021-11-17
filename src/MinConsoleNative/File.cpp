@@ -169,7 +169,7 @@ namespace MinConsoleNative
         }
 
         wstring text = ReadAllText(path);
-        lines = String::Split(text, WNEW_LINE);
+        lines = String::Split(text, NEW_LINEW);
 
         return lines;
     }

@@ -5,10 +5,18 @@
 //Macro:CUI/GUI
 //Macro:MT_ONLY
 
-#if defined(_MSC_VER)
-
 #if !defined(WIN32) && !defined(_WIN32)
 #error Windows Only.
+#endif
+
+#if !defined(UNICODE) && !defined(_UNICODE)
+#if defined(_MSC_VER)
+#error Please enable UNICODE for your MS compiler! For VisualStudio: Project Properties -> General -> Character Set -> Use Unicode.
+#else
+// For now, I'll try enabling it for you
+#define UNICODE
+#define _UNICODE
+#endif
 #endif
 
 #if defined(_MT) && !defined(_DLL) && !defined(_DEBUG)
@@ -28,13 +36,6 @@
 #define X86
 #endif
 
-//In order to prevent naming conflicts, all export methods in this project are prefixed with Min
-#if defined(__cplusplus)
-#define EXPORT_FUNC_EX(return_type) extern "C" __declspec(dllexport) return_type __stdcall
-#else
-#define EXPORT_FUNC_EX(return_type) extern __declspec(dllexport) return_type __stdcall
-#endif
-
 #if defined(CUI)    //(Command User Interface)
 #pragma comment(linker, "/SUBSYSTEM:CONSOLE")
 #elif defined(GUI)  //(Graphical User Interface)
@@ -45,18 +46,6 @@
 //See:https://www.cnblogs.com/SZxiaochun/p/7684371.html
 #if defined(MT_ONLY) && !defined(MT) && !defined(MT_DEBUG)
 #error Properties -> C/C++ -> Code Generation -> Runtime Library = MT/MTDebug
-#endif
-
-#endif
-
-#if !defined(UNICODE) && !defined(_UNICODE)
-#if defined(_MSC_VER)
-#error Please enable UNICODE for your MS compiler! For VisualStudio: Project Properties -> General -> Character Set -> Use Unicode.
-#else
-// For now, I'll try enabling it for you
-#define UNICODE
-#define _UNICODE
-#endif
 #endif
 
 //Disable warning
@@ -79,16 +68,20 @@
 #define _T(x) TEXT(x)
 #endif
 
-#define SYS_ANAL 0
-
-//new line in Windows
+#if !defined(NEW_LINE)
 #define NEW_LINE "\r\n"
-#define WNEW_LINE L"\r\n"
+#endif
 
-//Unused
-#define UNUSED(v)
-//Obsoleted
-#define OBSOLETED(msg)
+#if !defined(NEW_LINEW)
+#define NEW_LINEW L"\r\n"
+#endif
+
+//Macros for export functions
+#if defined(__cplusplus)
+#define EXPORT_FUNC_EX(return_type) extern "C" __declspec(dllexport) return_type __stdcall
+#else
+#define EXPORT_FUNC_EX(return_type) extern __declspec(dllexport) return_type __stdcall
+#endif
 
 //Macros for EXPORT_FUNC_EX
 #define _IN_
@@ -103,7 +96,6 @@
 #define EXPORT_DELEGATE
 #define EXPORT_CONSTEXPR constexpr
 
-//add namespace, ensure wont causes a naming conflict with the standard library(std)
 namespace MinConsoleNative
 {
     typedef wchar_t wchar;
