@@ -5,31 +5,14 @@ namespace MinConsoleNative
     AudioPool::AudioPool(const std::wstring& path, int allocCount)
     {
         this->path = path;
-        for (size_t i = 0; i < allocCount; i++)
-        {
-            Audio* audio_ptr = new Audio(path);
-            this->loadSuccess = audio_ptr->Success();
-            if (audio_ptr->Success())
-            {
-                readyAudios.push_back(audio_ptr);
-            }
-        }
-    }
+        this->success = Audio(path).Success();
 
-    AudioPool::AudioPool(const std::wstring& path, int allocCount, AudioPoolLoadingCallback loadingCallback)
-    {
-        this->path = path;
         for (size_t i = 0; i < allocCount; i++)
         {
             Audio* audio_ptr = new Audio(path);
-            this->loadSuccess = audio_ptr->Success();
             if (audio_ptr->Success())
             {
                 readyAudios.push_back(audio_ptr);
-                if (loadingCallback != nullptr)
-                {
-                    loadingCallback(i);
-                }
             }
         }
     }
@@ -51,7 +34,7 @@ namespace MinConsoleNative
 
     bool AudioPool::Success()
     {
-        return this->loadSuccess;
+        return this->success;
     }
 
     //volumeScale[0, 1]

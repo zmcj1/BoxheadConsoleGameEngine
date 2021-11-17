@@ -1,27 +1,23 @@
 ﻿#pragma once
 
 #include "MinDefines.hpp"
-#include "Audio.hpp"
+#include "Audio.hpp" //Audio
 #include <string>
 #include <vector>
 
 namespace MinConsoleNative
 {
-    typedef void (*AudioPoolLoadingCallback)(int index);
-
     class AudioPool
     {
     private:
-        bool loadSuccess = false;
+        bool success = false;
 
     public:
         std::wstring path;
         std::vector<Audio*> readyAudios;
         std::vector<Audio*> playingAudios;
 
-        AudioPool(const std::wstring& path, int allocCount);
-
-        AudioPool(const std::wstring& path, int allocCount, AudioPoolLoadingCallback loadingCallback);
+        AudioPool(const std::wstring& path, int allocCount = 10);
 
         ~AudioPool();
 
