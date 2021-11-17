@@ -1,5 +1,7 @@
 ﻿#include "AudioPool.hpp"
 
+using namespace std;
+
 namespace MinConsoleNative
 {
     AudioPool::AudioPool(const std::wstring& path, int allocCount)

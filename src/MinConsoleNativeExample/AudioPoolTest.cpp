@@ -17,8 +17,16 @@ int main()
     {
         if (Input::GetKey('A'))
         {
-            console.WriteLine(std::to_wstring(audio.playingAudios.size()));
-            audio.PlayOneShot();
+            if (audio.PlayOneShot())
+            {
+                console.Write(std::to_wstring(audio.playingAudios.size()));
+                console.Write(L" ");
+                console.WriteLine(std::to_wstring(audio.readyAudios.size()));
+            }
+            else
+            {
+                console.WriteLine(L"f");
+            }
         }
 
         audio.Clean();
