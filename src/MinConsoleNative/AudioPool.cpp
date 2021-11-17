@@ -8,6 +8,7 @@ namespace MinConsoleNative
         for (size_t i = 0; i < allocCount; i++)
         {
             Audio* audio_ptr = new Audio(path);
+            this->loadSuccess = audio_ptr->Success();
             if (audio_ptr->Success())
             {
                 readyAudios.push_back(audio_ptr);
@@ -21,6 +22,7 @@ namespace MinConsoleNative
         for (size_t i = 0; i < allocCount; i++)
         {
             Audio* audio_ptr = new Audio(path);
+            this->loadSuccess = audio_ptr->Success();
             if (audio_ptr->Success())
             {
                 readyAudios.push_back(audio_ptr);
@@ -45,6 +47,11 @@ namespace MinConsoleNative
             Audio* audio_ptr = playingAudios[i];
             delete audio_ptr;
         }
+    }
+
+    bool AudioPool::Success()
+    {
+        return this->loadSuccess;
     }
 
     //volumeScale[0, 1]

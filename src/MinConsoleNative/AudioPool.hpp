@@ -11,6 +11,9 @@ namespace MinConsoleNative
 
     class AudioPool
     {
+    private:
+        bool loadSuccess = false;
+
     public:
         std::wstring path;
         std::vector<Audio*> readyAudios;
@@ -21,6 +24,8 @@ namespace MinConsoleNative
         AudioPool(const std::wstring& path, int allocCount, AudioPoolLoadingCallback loadingCallback);
 
         ~AudioPool();
+
+        bool Success();
 
         //volumeScale[0, 1]
         bool PlayOneShot(double volumeScale = 1.0);
