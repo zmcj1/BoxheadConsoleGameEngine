@@ -7,12 +7,15 @@ namespace MinConsoleNative
         this->path = path;
         this->success = Audio(path).Success();
 
-        for (size_t i = 0; i < allocCount; i++)
+        if (this->success)
         {
-            Audio* audio_ptr = new Audio(path);
-            if (audio_ptr->Success())
+            for (size_t i = 0; i < allocCount; i++)
             {
-                readyAudios.push_back(audio_ptr);
+                Audio* audio_ptr = new Audio(path);
+                if (audio_ptr->Success())
+                {
+                    readyAudios.push_back(audio_ptr);
+                }
             }
         }
     }
@@ -51,11 +54,21 @@ namespace MinConsoleNative
             audio_ptr = new Audio(this->path);
         }
 
-        audio_ptr->SetVolume(volumeScale * 1000);
-        audio_ptr->Play();
-        playingAudios.push_back(audio_ptr);
-
-        return true;
+        if (audio_ptr->Success())
+        {
+            audio_ptr->SetVolume(volumeScale * 1000);
+            bool playSuccess = audio_ptr->Play();
+            if (playSuccess)
+            {
+                playingAudios.push_back(audio_ptr);
+            }
+            return playSuccess;
+        }
+        else
+        {
+            delete audio_ptr;
+            return false;
+        }
     }
 
     void AudioPool::Clean()
