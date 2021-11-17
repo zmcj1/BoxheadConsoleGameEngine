@@ -27,6 +27,25 @@ namespace MinConsole
         [STAThread]
         static void Main(string[] args)
         {
+            IntPtr audioPool = MinCreatAudioPool("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\562_Weapon.UZI.Fire.mp3", 10);
+
+            while (true)
+            {
+                if (MinGetKey('A'))
+                {
+                    MinPlayOneShot(audioPool, 1.0);
+                }
+                if (MinGetKey((int)ConsoleKey.Escape))
+                {
+                    break;
+                }
+                MinCleanAudioPool(audioPool);
+                Thread.Sleep(100);
+            }
+
+            MinDestroyAudioPool(audioPool);
+            return;
+
             bool win11 = WinVersion.IsWindows11OrLater();
 
             string shortPathName = MinToShortPathName("C:\\Users\\16692\\source\\repos\\MinConsole\\res\\[CSO] Lobby Theme.mp3");

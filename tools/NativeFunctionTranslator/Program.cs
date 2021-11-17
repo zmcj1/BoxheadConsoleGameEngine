@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.9.6
+//Version:2.9.7
 
 namespace NativeFunctionTranslator
 {
@@ -454,7 +454,11 @@ namespace NativeFunctionTranslator
                                 {
                                     case ParamType.None:
                                     case ParamType.In:
-                                        if (_symbol == "char")
+                                        if(_symbol == "void")
+                                        {
+                                            varType = "IntPtr";
+                                        }
+                                        else if (_symbol == "char")
                                         {
                                             varType = "string";
                                             exportFuncDllImport = EXPORT_FUNC_DLLIMPORTA;

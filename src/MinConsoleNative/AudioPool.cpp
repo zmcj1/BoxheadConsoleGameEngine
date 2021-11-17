@@ -4,6 +4,45 @@ using namespace std;
 
 namespace MinConsoleNative
 {
+    EXPORT_FUNC_EX(AudioPool*) MinCreatAudioPool(_IN_ const wchar* path, int allocCount)
+    {
+        AudioPool* audioPool = new AudioPool(path, allocCount);
+
+        if (audioPool->Success())
+        {
+            return audioPool;
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+
+    EXPORT_FUNC_EX(void) MinDestroyAudioPool(_IN_ void* audioPool)
+    {
+        if (audioPool == nullptr) return;
+
+        delete audioPool;
+    }
+
+    EXPORT_FUNC_EX(bool) MinPlayOneShot(_IN_ void* audioPool, double volumeScale)
+    {
+        if (audioPool == nullptr) return false;
+
+        AudioPool* realAudioPool = (AudioPool*)audioPool;
+
+        return realAudioPool->PlayOneShot(volumeScale);
+    }
+
+    EXPORT_FUNC_EX(void) MinCleanAudioPool(_IN_ void* audioPool)
+    {
+        if (audioPool == nullptr) return;
+
+        AudioPool* realAudioPool = (AudioPool*)audioPool;
+
+        realAudioPool->Clean();
+    }
+
     AudioPool::AudioPool(const std::wstring& path, int allocCount)
     {
         this->path = path;
