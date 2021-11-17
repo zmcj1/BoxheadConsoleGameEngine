@@ -2,9 +2,6 @@
 
 //See:https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-160
 
-//Macro:CUI/GUI
-//Macro:MT_ONLY
-
 #if !defined(WIN32) && !defined(_WIN32)
 #error Windows Only.
 #endif
@@ -13,7 +10,6 @@
 #if defined(_MSC_VER)
 #error Please enable UNICODE for your MS compiler! For VisualStudio: Project Properties -> General -> Character Set -> Use Unicode.
 #else
-// For now, I'll try enabling it for you
 #define UNICODE
 #define _UNICODE
 #endif
@@ -36,29 +32,17 @@
 #define X86
 #endif
 
-#if defined(CUI)    //(Command User Interface)
-#pragma comment(linker, "/SUBSYSTEM:CONSOLE")
-#elif defined(GUI)  //(Graphical User Interface)
-#pragma comment(linker, "/SUBSYSTEM:WINDOWS")
-#endif
-
-//推荐使用MT/MTD编译, 方便跨机器运行(在有运行库的情况下, MD/MDD同样可以跨机器运行)
-//See:https://www.cnblogs.com/SZxiaochun/p/7684371.html
-#if defined(MT_ONLY) && !defined(MT) && !defined(MT_DEBUG)
-#error Properties -> C/C++ -> Code Generation -> Runtime Library = MT/MTDebug
-#endif
-
 //Disable warning
 #define _CRT_SECURE_NO_WARNINGS
 //Disable network library warning
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
-//no min/max
+//No min/max
 #define NOMINMAX
-//reduces the size of the Win32 header files by excluding some of the less frequently used APIs
+//Reduces the size of the Win32 header files by excluding some of the less frequently used APIs
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>    //Windows API
-#include <combaseapi.h> //for COM(.Net)CoTaskMemAlloc CoTaskMemFree
+#include <combaseapi.h> //CoTaskMemAlloc CoTaskMemFree
 
 #if !defined(LEN)
 #define LEN(arr) (sizeof(arr) / sizeof(arr[0]))
