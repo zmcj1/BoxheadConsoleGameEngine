@@ -42,6 +42,7 @@ namespace MinConsoleNative
 
     EXPORT_ENUM_CLASS ConsoleColor
     {
+        UNKNOWN = -1,
         BLACK = 0,
         DARKBLUE = 1,
         DARKGREEN = 2,
@@ -477,6 +478,12 @@ namespace MinConsoleNative
     EXPORT_DELEGATE typedef void (*OnReadConsoleKeyboardInputRecord)(ConsoleKeyboardInputRecord keyboardInput);
 
     EXPORT_DELEGATE typedef void (*OnConsoleOutputBufferChanged)(COORD newSize);
+
+    //传入0-F返回相应的ConsoleColor, 失败则返回ConsoleColor::UNKNOWN
+    EXPORT_FUNC_EX(ConsoleColor) MinWcharToConsoleColor(wchar wc);
+
+    //传入ConsoleColor返回相应的wchar, 失败则返回L'\0'
+    EXPORT_FUNC_EX(wchar) MinConsoleColorToWchar(ConsoleColor consoleColor);
 
     EXPORT_FUNC_EX(ushort) MinConsoleColorToUshort(ConsoleColor foreColor, ConsoleColor backColor);
 

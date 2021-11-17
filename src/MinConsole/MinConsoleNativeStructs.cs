@@ -54,6 +54,7 @@ namespace MinConsole
 
         public enum ConsoleColor
         {
+            UNKNOWN = -1,
             BLACK = 0,
             DARKBLUE = 1,
             DARKGREEN = 2,

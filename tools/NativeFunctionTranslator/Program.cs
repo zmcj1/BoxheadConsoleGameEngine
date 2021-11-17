@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-//Version:2.9.7
+//Version:2.9.8
 
 namespace NativeFunctionTranslator
 {
@@ -288,6 +288,10 @@ namespace NativeFunctionTranslator
                         returnType = "string";
                         exportFuncDllImport = EXPORT_FUNC_DLLIMPORTA;
                     }
+                    else if (returnType == "wchar")
+                    {
+                        returnType = "char";
+                    }
 
                     string exportFuncReturnType = null;
                     //如果返回值是指针类型, 统一视为IntPtr, 在C#里面可以使用Marshal.PtrToStructure<T>(pointer)获取对象
@@ -454,7 +458,7 @@ namespace NativeFunctionTranslator
                                 {
                                     case ParamType.None:
                                     case ParamType.In:
-                                        if(_symbol == "void")
+                                        if (_symbol == "void")
                                         {
                                             varType = "IntPtr";
                                         }

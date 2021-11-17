@@ -181,6 +181,16 @@ namespace MinConsoleNative
         return return_str;
     }
 
+    char String::WcharToChar(const wchar& wc, Encoding encoding)
+    {
+        wchar arr[2];
+        arr[0] = wc;
+        arr[1] = L'\0';
+
+        string str = WstringToString(wstring(arr), encoding);
+        return str[0];
+    }
+
     std::wstring String::BoolToWstring(bool value)
     {
         if (value)
@@ -216,6 +226,16 @@ namespace MinConsoleNative
         wstring return_wstr(wstr);
         delete[] wstr;
         return return_wstr;
+    }
+
+    wchar String::CharToWchar(const char& c, Encoding encoding)
+    {
+        char arr[2];
+        arr[0] = c;
+        arr[1] = '\0';
+
+        wstring wstr = StringToWstring(string(arr), encoding);
+        return wstr[0];
     }
 
     bool String::IsUTF8String(const char* str)

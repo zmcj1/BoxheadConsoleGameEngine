@@ -65,6 +65,8 @@ namespace MinConsoleNative
 
         static std::string WstringToString(const std::wstring& wstr, Encoding encoding = Encoding::Default);
 
+        static char WcharToChar(const wchar& wc, Encoding encoding = Encoding::Default);
+
         //===========XXToWstring===========
 
         static std::wstring BoolToWstring(bool value);
@@ -72,6 +74,8 @@ namespace MinConsoleNative
         static std::wstring WcharToWstring(wchar wc);
 
         static std::wstring StringToWstring(const std::string& str, Encoding encoding = Encoding::Default);
+
+        static wchar CharToWchar(const char& c, Encoding encoding = Encoding::Default);
 
         //===========functions===========
 

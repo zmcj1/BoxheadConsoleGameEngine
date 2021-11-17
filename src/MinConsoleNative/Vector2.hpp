@@ -5,6 +5,19 @@
 
 namespace MinConsoleNative
 {
+    enum class Direction8
+    {
+        UNKNOWN = 0,
+        UP = 1,
+        DOWN = 2,
+        LEFT = 3,
+        RIGHT = 4,
+        LEFT_UP = 5,
+        RIGHT_UP = 6,
+        LEFT_DOWN = 7,
+        RIGHT_DOWN = 8,
+    };
+
     class Vector2
     {
     public:
@@ -15,6 +28,10 @@ namespace MinConsoleNative
         static const Vector2 right;
 
         static int Distance(const Vector2& a, const Vector2& b);
+
+        static Vector2 Direction8ToVector2(Direction8 dir);
+
+        static Direction8 Vector2ToDirection8(Vector2 vector);
 
     public:
         int x;

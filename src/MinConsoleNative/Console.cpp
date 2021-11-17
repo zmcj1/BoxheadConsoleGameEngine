@@ -13,6 +13,115 @@ namespace MinConsoleNative
 {
     const int MAX_INPUT_CHAR_COUNT = 2048;
 
+    EXPORT_FUNC_EX(ConsoleColor) MinWcharToConsoleColor(wchar wc)
+    {
+        if (wc == _T('0'))
+        {
+            return (ConsoleColor)0;
+        }
+        if (wc == _T('1'))
+        {
+            return (ConsoleColor)1;
+        }
+        if (wc == _T('2'))
+        {
+            return (ConsoleColor)2;
+        }
+        if (wc == _T('3'))
+        {
+            return (ConsoleColor)3;
+        }
+        if (wc == _T('4'))
+        {
+            return (ConsoleColor)4;
+        }
+        if (wc == _T('5'))
+        {
+            return (ConsoleColor)5;
+        }
+        if (wc == _T('6'))
+        {
+            return (ConsoleColor)6;
+        }
+        if (wc == _T('7'))
+        {
+            return (ConsoleColor)7;
+        }
+        if (wc == _T('8'))
+        {
+            return (ConsoleColor)8;
+        }
+        if (wc == _T('9'))
+        {
+            return (ConsoleColor)9;
+        }
+        if (wc == _T('a') || wc == _T('A'))
+        {
+            return (ConsoleColor)10;
+        }
+        if (wc == _T('b') || wc == _T('B'))
+        {
+            return (ConsoleColor)11;
+        }
+        if (wc == _T('c') || wc == _T('C'))
+        {
+            return (ConsoleColor)12;
+        }
+        if (wc == _T('d') || wc == _T('D'))
+        {
+            return (ConsoleColor)13;
+        }
+        if (wc == _T('e') || wc == _T('E'))
+        {
+            return (ConsoleColor)14;
+        }
+        if (wc == _T('f') || wc == _T('F'))
+        {
+            return (ConsoleColor)15;
+        }
+        return ConsoleColor::UNKNOWN;
+    }
+
+    EXPORT_FUNC_EX(wchar) MinConsoleColorToWchar(ConsoleColor consoleColor)
+    {
+        switch (consoleColor)
+        {
+        case (ConsoleColor)0:
+            return _T('0');
+        case (ConsoleColor)1:
+            return _T('1');
+        case (ConsoleColor)2:
+            return _T('2');
+        case (ConsoleColor)3:
+            return _T('3');
+        case (ConsoleColor)4:
+            return _T('4');
+        case (ConsoleColor)5:
+            return _T('5');
+        case (ConsoleColor)6:
+            return _T('6');
+        case (ConsoleColor)7:
+            return _T('7');
+        case (ConsoleColor)8:
+            return _T('8');
+        case (ConsoleColor)9:
+            return _T('9');
+        case (ConsoleColor)10:
+            return _T('a');
+        case (ConsoleColor)11:
+            return _T('b');
+        case (ConsoleColor)12:
+            return _T('c');
+        case (ConsoleColor)13:
+            return _T('d');
+        case (ConsoleColor)14:
+            return _T('e');
+        case (ConsoleColor)15:
+            return _T('f');
+        }
+        return L'\0';
+    }
+
     EXPORT_FUNC_EX(ushort) MinConsoleColorToUshort(ConsoleColor foreColor, ConsoleColor backColor)
     {
         return ConsoleColorPair(foreColor, backColor).ToUshort();

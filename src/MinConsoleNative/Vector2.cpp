@@ -15,6 +15,70 @@ namespace MinConsoleNative
         return ::abs(a.x - b.x) + ::abs(a.y - b.y);
     }
 
+    Vector2 Vector2::Direction8ToVector2(Direction8 dir)
+    {
+        switch (dir)
+        {
+        case Direction8::UNKNOWN:
+            return Vector2::zero;
+        case Direction8::UP:
+            return Vector2(0, -1);
+        case Direction8::DOWN:
+            return Vector2(0, 1);
+        case Direction8::LEFT:
+            return Vector2(-1, 0);
+        case Direction8::RIGHT:
+            return Vector2(1, 0);
+        case Direction8::LEFT_UP:
+            return Vector2(-1, -1);
+        case Direction8::RIGHT_UP:
+            return Vector2(1, -1);
+        case Direction8::LEFT_DOWN:
+            return Vector2(-1, 1);
+        case Direction8::RIGHT_DOWN:
+            return Vector2(1, 1);
+        default:
+            return Vector2::zero;
+        }
+    }
+
+    Direction8 Vector2::Vector2ToDirection8(Vector2 vector)
+    {
+        if (vector.x > 0 && vector.y == 0)
+        {
+            return Direction8::RIGHT;
+        }
+        if (vector.x < 0 && vector.y == 0)
+        {
+            return Direction8::LEFT;
+        }
+        if (vector.x == 0 && vector.y > 0)
+        {
+            return Direction8::DOWN;
+        }
+        if (vector.x == 0 && vector.y < 0)
+        {
+            return Direction8::UP;
+        }
+        if (vector.x < 0 && vector.y < 0)
+        {
+            return Direction8::LEFT_UP;
+        }
+        if (vector.x > 0 && vector.y < 0)
+        {
+            return Direction8::RIGHT_UP;
+        }
+        if (vector.x < 0 && vector.y > 0)
+        {
+            return Direction8::LEFT_DOWN;
+        }
+        if (vector.x > 0 && vector.y > 0)
+        {
+            return Direction8::RIGHT_DOWN;
+        }
+        return Direction8::UNKNOWN;
+    }
+
     Vector2::Vector2() :x(0), y(0)
     {
     }

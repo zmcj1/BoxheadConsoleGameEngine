@@ -112,6 +112,12 @@ namespace MinConsole
         public extern static bool MinWTIsDefaultConsole();
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static ConsoleColor MinWcharToConsoleColor(char wc);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
+        public extern static char MinConsoleColorToWchar(ConsoleColor consoleColor);
+
+        [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
         public extern static ushort MinConsoleColorToUshort(ConsoleColor foreColor, ConsoleColor backColor);
 
         [DllImport("MinConsoleNative.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
