@@ -1,11 +1,5 @@
-# Min Open Source Code of Conduct
+# Code of Conduct
 
 ### LONG-TERM SUPPORT(LTS) PROJECT
 
-- For VisualStudio 2019 : 
-    
-    - Disable Intellisense : Tools->Options->Text Editor->C/C++->Advanced->Intellisense->Disable Intellisense
-
-    - Newline : Tools-Options->Text Editor->C/C++->Formatting->New Lines
-
-- Contact [greatdestroyercharlie@gmail.com](greatdestroyercharlie@gmail.com) with questions or concerns
+- Contact [1669247240@qq.com](1669247240@qq.com) with questions or concerns
