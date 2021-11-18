@@ -176,6 +176,7 @@
     <ClInclude Include="Process.hpp" />
     <ClInclude Include="Random.hpp" />
     <ClInclude Include="Renderer.hpp" />
+    <ClInclude Include="TermSet.hpp" />
     <ClInclude Include="_random.hpp" />
     <ClInclude Include="Singleton.hpp" />
     <ClInclude Include="String.hpp" />

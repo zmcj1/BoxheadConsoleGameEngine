@@ -33,6 +33,7 @@
 #include "Singleton.hpp"
 #include "String.hpp"
 #include "TcpListener.hpp"
+#include "TermSet.hpp"
 #include "TextLayout.hpp"
 #include "Timer.hpp"
 #include "UnusualMethods.hpp"

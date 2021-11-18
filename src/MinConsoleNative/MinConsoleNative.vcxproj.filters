@@ -146,6 +146,9 @@
     <ClInclude Include="AudioPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TermSet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnusualMethods.cpp">

@@ -68,6 +68,8 @@ namespace MinConsoleNative
     EXPORT_FUNC_EX(bool) MinEnableLegacyConsole(bool enable);
 
     //delete HKEY_CURRENT_USER/Console
+    //删除所有控制台注册表
+    //注意!删除后无法还原!
     EXPORT_FUNC_EX(bool) MinDeleteConsoleRegistry();
 
     //在Windows11中可以设置默认控制台是Windows Terminal, 该函数可以进行检测
