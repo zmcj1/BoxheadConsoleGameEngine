@@ -159,7 +159,7 @@ namespace MinConsoleNative
         }
     }
 
-    std::vector<std::wstring> File::ReadAllLines(const std::wstring& path)
+    std::vector<std::wstring> File::ReadAllLines(const std::wstring& path, const std::wstring& separator)
     {
         std::vector<std::wstring> lines;
 
@@ -169,7 +169,7 @@ namespace MinConsoleNative
         }
 
         wstring text = ReadAllText(path);
-        lines = String::Split(text, NEW_LINEW);
+        lines = String::Split(text, separator);
 
         return lines;
     }

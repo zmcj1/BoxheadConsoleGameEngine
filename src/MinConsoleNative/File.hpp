@@ -52,7 +52,7 @@ namespace MinConsoleNative
         static bool Delete(const std::wstring& path);
 
         //If the file is empty, return a vector containing a empty line.
-        static std::vector<std::wstring> ReadAllLines(const std::wstring& path);
+        static std::vector<std::wstring> ReadAllLines(const std::wstring& path, const std::wstring& separator = NEW_LINEW);
 
         static std::wstring ReadAllText(const std::wstring& path);
 

@@ -27,7 +27,9 @@
 #endif
 
 //Enable Unicode
+#if !defined(UNICODE)
 #define UNICODE
+#endif
 //Disable warning
 #define _CRT_SECURE_NO_WARNINGS
 //Disable network library warning
