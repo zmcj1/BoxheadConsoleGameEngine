@@ -325,6 +325,13 @@ int main()
     int consoleWidth = 120;
     int consoleHeight = 40;
     POINT fontSize = GetFontSize(FontSize::_6x12);
+
+    //在Windows 10控制台下运行良好, 旧版控制台下会出现画面撕裂, 可能是因为没有等待垂直同步
+    if (console.GetConsoleType() == ConsoleType::WindowsConsole ||
+        console.GetConsoleType() == ConsoleType::WindowsLegacyConsole)
+    {
+        fontSize = { 8, 8 };
+    }
     wstring fontName = GetFontName(FontName::Consolas);
 
     ConsoleFPS consoleFPS;
