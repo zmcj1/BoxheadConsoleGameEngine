@@ -35,4 +35,6 @@ namespace MinConsoleNative
         1437356741,
         2147483647
     };
+
+    const float Math::PI = 3.14159f;
 }

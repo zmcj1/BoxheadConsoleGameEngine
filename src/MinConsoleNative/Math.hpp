@@ -14,5 +14,7 @@ namespace MinConsoleNative
     public:
         //Prime numbers with increments close to 2
         static const int PrimeNumbers[29];
+
+        static const float PI;
     };
 }
