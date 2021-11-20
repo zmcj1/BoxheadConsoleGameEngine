@@ -12,14 +12,14 @@ class ConsoleFPS2 : public ConsoleEngine
 private:
     int consoleWidth = 0;
     int consoleHeight = 0;
-    Audio* lobbyAudio = nullptr;
     CellRenderer* crenderer = nullptr;
+    Audio* lobbyAudio = nullptr;
 
 private:
     //map:
     wstring map;
-    int mapWidth = 17;
-    int mapHeight = 17;
+    int mapWidth = 32;
+    int mapHeight = 32;
 
     //player:
     float playerX = 6.0f;           // Player Start Position
@@ -32,15 +32,16 @@ private:
     const float FOV = Math::PI / 4; // Field of view
     const float depth = 16.0f;      // Maximum rendering distance
 
-    bool mouseSupport = false;
+    bool mouseSupport = true;
     bool mouseLockMode = true;
 
 public:
-    void Init(int consoleWidth, int consoleHeight, bool useMaze = false, bool mouseSupport = true)
+    void Init(int consoleWidth, int consoleHeight)
     {
         this->consoleWidth = consoleWidth;
         this->consoleHeight = consoleHeight;
-        //first we search music from the current dir
+        this->crenderer = new CellRenderer(consoleWidth, consoleHeight, CellRendererMode::Fast);
+        //we search .mp3 file in current dir and res dir.
         wstring lobbyAudioPath = File::Combine(File::GetDirectoryPath(), L"[CSO] Lobby Theme.mp3");
         if (File::Exists(lobbyAudioPath))
         {
@@ -50,47 +51,40 @@ public:
         {
             this->lobbyAudio = new Audio(File::Combine(File::GetDirectoryPath(), L"..\\res\\[CSO] Lobby Theme.mp3"));
         }
-
-        this->crenderer = new CellRenderer(consoleWidth, consoleHeight, CellRendererMode::Fast);
-        this->mouseSupport = mouseSupport;
-        //create the map!
-        CreateMap(useMaze);
-    }
-
-    void CreateMap(bool useMaze)
-    {
-        if (useMaze)
-        {
-            for (int i = 0; i < mapWidth * mapHeight; i++)
-            {
-                this->map += L' ';
-            }
-            vector<Vector2> obstacles = MazeGenerator::GenerateMaze(mapWidth, mapHeight);
-            for (int i = 0; i < obstacles.size(); i++)
-            {
-                this->map[obstacles[i].y * mapWidth + obstacles[i].x] = L'#';
-            }
-        }
-        else
-        {
-            map += L"#################";
-            map += L"#...............#";
-            map += L"#........########";
-            map += L"#...............#";
-            map += L"#.......##......#";
-            map += L"#.......##......#";
-            map += L"#...............#";
-            map += L"###.............#";
-            map += L"###.............#";
-            map += L"#.......####..###";
-            map += L"#.......#.......#";
-            map += L"#...............#";
-            map += L"#.......#.......#";
-            map += L"#.......####..###";
-            map += L"#...............#";
-            map += L"#...............#";
-            map += L"#################";
-        }
+        //this->lobbyAudio->Play(true, false);
+        //create map:
+        map += L"#########.......#########.......";
+        map += L"#...............#...............";
+        map += L"#.......#########.......########";
+        map += L"#..............##..............#";
+        map += L"#......##......##......##......#";
+        map += L"#......##..............##......#";
+        map += L"#..............##..............#";
+        map += L"###............####............#";
+        map += L"##.............###.............#";
+        map += L"#............####............###";
+        map += L"#..............................#";
+        map += L"#..............##..............#";
+        map += L"#..............##..............#";
+        map += L"#...........#####...........####";
+        map += L"#..............................#";
+        map += L"###..####....########....#######";
+        map += L"####.####.......######..........";
+        map += L"#...............#...............";
+        map += L"#.......#########.......##..####";
+        map += L"#..............##..............#";
+        map += L"#......##......##.......#......#";
+        map += L"#......##......##......##......#";
+        map += L"#..............##..............#";
+        map += L"###............####............#";
+        map += L"##.............###.............#";
+        map += L"#............####............###";
+        map += L"#..............................#";
+        map += L"#..............................#";
+        map += L"#..............##..............#";
+        map += L"#...........##..............####";
+        map += L"#..............##..............#";
+        map += L"################################";
     }
 
     void ClampMouseInClient()
@@ -119,13 +113,6 @@ public:
             ::SetCursorPos(mousePosInClient.x, windowCenterPos.y);
             Input::ResetMouseAxis();
         }
-    }
-
-    void OnStart() override
-    {
-        this->lobbyAudio->SetVolume(MCI_MAX_VOLUME);
-        //this->lobbyAudio->Play(true, false);
-        //auto mode = this->lobbyAudio->GetMode();
     }
 
     void OnUpdate(float deltaTime) override
@@ -322,22 +309,9 @@ public:
 
 int main()
 {
-    int consoleWidth = 120;
-    int consoleHeight = 40;
-    POINT fontSize = GetFontSize(FontSize::_6x12);
-
-    //在Windows 10控制台下运行良好, 旧版控制台下会出现画面撕裂, 可能是因为没有等待垂直同步
-    if (console.GetConsoleType() == ConsoleType::WindowsConsole ||
-        console.GetConsoleType() == ConsoleType::WindowsLegacyConsole)
-    {
-        fontSize = { 8, 8 };
-    }
-    wstring fontName = GetFontName(FontName::Consolas);
-
     ConsoleFPS2 consoleFPS;
-    COORD size = consoleFPS.ConstructConsole(L"ConsoleFPS2", PaletteType::Legacy, consoleWidth, consoleHeight, fontSize.x, fontSize.y, fontName, FW_NORMAL, true);
-    consoleFPS.Init(size.X, size.Y, false, true);
+    COORD realSize = consoleFPS.ConstructConsole(L"ConsoleFPS2", PaletteType::Legacy, 0, 0, 8, 8, L"Consolas", FW_NORMAL, true);
+    consoleFPS.Init(realSize.X, realSize.Y);
     consoleFPS.StartLoop();
-
     return 0;
 }
