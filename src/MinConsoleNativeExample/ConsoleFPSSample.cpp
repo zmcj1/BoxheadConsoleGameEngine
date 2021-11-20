@@ -26,7 +26,7 @@ private:
     float playerY = 12.0f;
     float playerAngle = 0.0f;
 
-    float rotateSpeed = 3.14159f; //1 ms rotate half circle(180 degrees)
+    float rotateSpeed = 3.14159f; //1 sec rotate half circle(180 degrees)
     float moveSpeed = 5.0f;
 
     const float FOV = 3.14159f / 4;
