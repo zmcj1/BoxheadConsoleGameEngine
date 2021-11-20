@@ -1,7 +1,5 @@
 ﻿#include "MinConsoleNative.hpp"
 
-//参考:https://github.com/OneLoneCoder/CommandLineFPS/blob/master/CommandLineFPS.cpp
-
 using namespace std;
 
 #define light_shade     0x2591
@@ -9,7 +7,7 @@ using namespace std;
 #define dark_shade      0x2593
 #define full_shade      0x2588
 
-class ConsoleFPS : public ConsoleEngine
+class ConsoleFPS2 : public ConsoleEngine
 {
 private:
     int consoleWidth = 0;
@@ -18,19 +16,21 @@ private:
     CellRenderer* crenderer = nullptr;
 
 private:
+    //map:
     wstring map;
     int mapWidth = 17;
     int mapHeight = 17;
 
-    float playerX = 6.0f;
+    //player:
+    float playerX = 6.0f;           // Player Start Position
     float playerY = 12.0f;
-    float playerAngle = 0.0f;
+    float playerAngle = 0.0f;       // Player Start Rotation
+    float moveSpeed = 5.0f;         // Walking Speed
+    float rotateSpeed = Math::PI;   // Rotating Speed (1 sec 180 degrees)
 
-    float rotateSpeed = 3.14159f; //1 sec rotate half circle(180 degrees)
-    float moveSpeed = 5.0f;
-
-    const float FOV = 3.14159f / 4;
-    const float depth = 16.0f;
+    //camera:
+    const float FOV = Math::PI / 4; // Field of view
+    const float depth = 16.0f;      // Maximum rendering distance
 
     bool mouseSupport = false;
     bool mouseLockMode = true;
@@ -124,7 +124,7 @@ public:
     void OnStart() override
     {
         this->lobbyAudio->SetVolume(MCI_MAX_VOLUME);
-        this->lobbyAudio->Play(true, false);
+        //this->lobbyAudio->Play(true, false);
         //auto mode = this->lobbyAudio->GetMode();
     }
 
@@ -334,8 +334,8 @@ int main()
     }
     wstring fontName = GetFontName(FontName::Consolas);
 
-    ConsoleFPS consoleFPS;
-    COORD size = consoleFPS.ConstructConsole(L"Console FPS", PaletteType::Legacy, consoleWidth, consoleHeight, fontSize.x, fontSize.y, fontName, FW_NORMAL, true);
+    ConsoleFPS2 consoleFPS;
+    COORD size = consoleFPS.ConstructConsole(L"ConsoleFPS2", PaletteType::Legacy, consoleWidth, consoleHeight, fontSize.x, fontSize.y, fontName, FW_NORMAL, true);
     consoleFPS.Init(size.X, size.Y, false, true);
     consoleFPS.StartLoop();
 
