@@ -177,6 +177,7 @@
     <ClInclude Include="Random.hpp" />
     <ClInclude Include="Renderer.hpp" />
     <ClInclude Include="TermSet.hpp" />
+    <ClInclude Include="Vector3.hpp" />
     <ClInclude Include="_random.hpp" />
     <ClInclude Include="Singleton.hpp" />
     <ClInclude Include="String.hpp" />
@@ -227,6 +228,7 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UnusualMethods.cpp" />
     <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="VTConverter.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinNetwork.cpp" />

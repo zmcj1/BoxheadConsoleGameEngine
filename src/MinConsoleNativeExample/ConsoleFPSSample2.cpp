@@ -38,8 +38,8 @@ public:
 int main()
 {
     ConsoleFPS2 game;
-    game.ConstructConsole(L"ConsoleFPS2", PaletteType::Legacy, game.mapWidth, game.mapHeight,
-        8, 8, L"Consolas", 400);
+    game.ConstructConsole(L"ConsoleFPS2", PaletteType::Legacy, 0, 0,
+        8, 8, L"Consolas", 400, true);
     game.StartLoop();
     return 0;
 }

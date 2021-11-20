@@ -39,6 +39,7 @@
 #include "UnusualMethods.hpp"
 #include "Vector.hpp"
 #include "Vector2.hpp"
+#include "Vector3.hpp"
 #include "VTConverter.hpp"
 #include "Window.hpp"
 #include "WinNetwork.hpp"
