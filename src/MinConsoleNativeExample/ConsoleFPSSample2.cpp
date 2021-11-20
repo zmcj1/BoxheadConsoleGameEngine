@@ -11,7 +11,7 @@ using namespace std;
 #define dark_shade      0x2593
 #define full_shade      0x2588
 
-//Inspired by olcConsoleGameEngine.
+//from olcConsoleGameEngine.h
 class olcSprite
 {
 public:
@@ -47,7 +47,7 @@ private:
         for (int i = 0; i < w * h; i++)
         {
             m_Glyphs[i] = L' ';
-            m_Colours[i] = FG_BLACK;
+            m_Colours[i] = 0;
         }
     }
 
@@ -79,7 +79,7 @@ public:
     short GetColour(int x, int y)
     {
         if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
-            return FG_BLACK;
+            return 0;
         else
             return m_Colours[y * nWidth + x];
     }
@@ -99,7 +99,7 @@ public:
         int sx = (int)(x * (float)nWidth);
         int sy = (int)(y * (float)nHeight - 1.0f);
         if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
-            return FG_BLACK;
+            return 0;
         else
             return m_Colours[sy * nWidth + sx];
     }
@@ -175,6 +175,11 @@ private:
     bool mouseSupport = true;
     bool mouseLockMode = true;
 
+    //sprites:
+    olcSprite* spriteWall;
+    olcSprite* spriteLamp;
+    olcSprite* spriteFireBall;
+
 public:
     void Init(int consoleWidth, int consoleHeight)
     {
@@ -225,6 +230,10 @@ public:
         map += L"#...........##..............####";
         map += L"#..............##..............#";
         map += L"################################";
+
+        this->spriteWall = new olcSprite(L"../../res/olcSprites/fps_wall1.spr");
+        this->spriteLamp = new olcSprite(L"../../res/olcSprites/fps_lamp1.spr");
+        this->spriteFireBall = new olcSprite(L"../../res/olcSprites/fps_fireball1.spr");
     }
 
     void ClampMouseInClient()
