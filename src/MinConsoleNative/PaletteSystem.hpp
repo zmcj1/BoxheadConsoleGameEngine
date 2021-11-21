@@ -66,6 +66,7 @@ namespace MinConsoleNative
 
         bool CurPaletteIsLegacyPalette();
 
+        //注意:该方法有性能问题, 不推荐在游戏循环中使用
         //FROM:https://stackoverflow.com/questions/1988833/converting-color-to-consolecolor
         ConsoleColor GetCurPaletteClosestConsoleColor(const Color24& color);
     };
