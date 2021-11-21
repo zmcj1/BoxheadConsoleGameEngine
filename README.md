@@ -1,4 +1,4 @@
-# Console
+# BoxheadConsoleGameEngine
 
 [中文](https://github.com/OpenGreatDream/MinConsole/blob/main/docs/README.md)
 
