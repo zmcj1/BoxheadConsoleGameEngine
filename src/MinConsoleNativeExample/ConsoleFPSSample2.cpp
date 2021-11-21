@@ -617,17 +617,17 @@ public:
 int main()
 {
     ConsoleFPS2 consoleFPS;
+    COORD realSize;
 
+//#define FULL_SCREEN
 #ifdef FULL_SCREEN
-    COORD realSize = consoleFPS.ConstructConsole(L"ConsoleFPS2", PaletteType::Legacy, 0, 0, 4, 4, L"Consolas", FW_NORMAL, true);
-    consoleFPS.Init(realSize.X, realSize.Y);
+    realSize = consoleFPS.ConstructConsole(L"ConsoleFPS2", PaletteType::Legacy, 0, 0, 4, 4, L"Consolas", FW_NORMAL, true);
 #else
-    COORD realSize = { 360, 120 };
+    realSize = { 320, 180 };
     consoleFPS.ConstructConsole(L"ConsoleFPS2", PaletteType::Legacy, realSize.X, realSize.Y, 4, 4, L"Consolas", FW_NORMAL);
-    POINT s = window.GetClientSize();
-    consoleFPS.Init(realSize.X, realSize.Y);
 #endif
 
+    consoleFPS.Init(realSize.X, realSize.Y);
     consoleFPS.StartLoop();
     return 0;
 }

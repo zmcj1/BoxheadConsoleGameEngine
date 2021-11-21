@@ -463,6 +463,9 @@ namespace MinConsoleNative
         CONSOLE_FONT_INFOEX cfi;
         cfi.cbSize = sizeof(CONSOLE_FONT_INFOEX);
         ::GetCurrentConsoleFontEx(consoleOutput, false, &cfi);
+        //bug fix(thx olcConsoleGameEngine), 这个bug导致字体大小设置可能出现错误
+        cfi.nFont = 0;
+        cfi.FontFamily = FF_DONTCARE;
         //set
         cfi.dwFontSize = consoleFont.FontSize;
         cfi.FontWeight = consoleFont.FontWeight;
