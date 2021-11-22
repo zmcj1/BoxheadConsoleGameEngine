@@ -4,8 +4,9 @@ using namespace std;
 
 int main()
 {
-    //ConsoleOutputMode mode = ConsoleOutputMode::Standard();
-    //console.SetConsoleOutputMode(mode);
+    ConsoleOutputMode mode = ConsoleOutputMode::Standard();
+    mode._ENABLE_WRAP_AT_EOL_OUTPUT = false;
+    console.SetConsoleOutputMode(mode);
 
     HANDLE oldBuffer = console.cons.consoleOutput;
     HANDLE newBuffer = console.CreateConsoleScreenBuffer();
@@ -15,6 +16,8 @@ int main()
 
     int consoleWidth = console.GetConsoleWindowSize().x;
     int consoleHeight = console.GetConsoleWindowSize().y;
+    consoleWidth = 60;
+    consoleHeight = 30;
 
     wstring wstr1;
     wstring wstr2;
@@ -25,6 +28,11 @@ int main()
         {
             wstr1 += L"1";
             wstr2 += L"2";
+        }
+        if (i < consoleHeight - 1)
+        {
+            wstr1 += L"\n";
+            wstr2 += L"\n";
         }
     }
 

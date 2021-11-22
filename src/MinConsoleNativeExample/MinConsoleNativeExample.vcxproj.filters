@@ -77,6 +77,9 @@
     <ClCompile Include="WriteTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="debug_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stopwatch.h">

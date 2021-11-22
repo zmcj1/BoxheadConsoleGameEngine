@@ -257,7 +257,7 @@ namespace MinConsoleNative
     {
     public:
         EXPORT_STRUCT_MEMBER bool _ENABLE_PROCESSED_OUTPUT;              //default is TRUE
-        EXPORT_STRUCT_MEMBER bool _ENABLE_WRAP_AT_EOL_OUTPUT;            //default is TRUE
+        EXPORT_STRUCT_MEMBER bool _ENABLE_WRAP_AT_EOL_OUTPUT;            //default is TRUE(禁用该字段会导致WriteConsole函数输出的文本不换行, 需要手动用\n实现换行)
         EXPORT_STRUCT_MEMBER bool _ENABLE_VIRTUAL_TERMINAL_PROCESSING;   //default is FALSE(recommend to TRUE, If want to use the VT100 sequence)
         EXPORT_STRUCT_MEMBER bool _DISABLE_NEWLINE_AUTO_RETURN;          //default is FALSE
         EXPORT_STRUCT_MEMBER bool _ENABLE_LVB_GRID_WORLDWIDE;            //default is FALSE
