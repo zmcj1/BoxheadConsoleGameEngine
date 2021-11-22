@@ -189,7 +189,7 @@ private:
     const float depth = 16.0f;      // Maximum rendering distance
 
     //mouse support:
-    bool mouseSupport = true;
+    bool mouseSupport = false;
     bool mouseLockMode = true;
 
     //sprites:
@@ -540,6 +540,11 @@ public:
             if (objectAngle > 3.14159f)
                 objectAngle -= 2.0f * 3.14159f;
 
+            //float objectAngle = atan2(eyeY, eyeX) - atan2(vecY, vecX);
+            //if (objectAngle < 0)
+            //{
+            //}
+
             bool inPlayerFOV = fabs(objectAngle) < FOV / 2.0f;
 
             //画在视野范围之内但是不要太近的物体, 不画超过视距的物体
@@ -619,12 +624,14 @@ int main()
     ConsoleFPS2 consoleFPS;
     COORD realSize;
 
-//#define FULL_SCREEN
+    //#define FULL_SCREEN
 #ifdef FULL_SCREEN
     realSize = consoleFPS.ConstructConsole(L"ConsoleFPS2", PaletteType::Legacy, 0, 0, 4, 4, L"Consolas", FW_NORMAL, true);
 #else
     realSize = { 320, 180 };
     consoleFPS.ConstructConsole(L"ConsoleFPS2", PaletteType::Legacy, realSize.X, realSize.Y, 4, 4, L"Consolas", FW_NORMAL);
+    //realSize = { 120, 30 };
+    //consoleFPS.ConstructTerminal(L"ConsoleFPS2");
 #endif
 
     consoleFPS.Init(realSize.X, realSize.Y);

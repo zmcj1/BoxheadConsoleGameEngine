@@ -1,6 +1,7 @@
 ﻿#include "CellRenderer.hpp"
 #include "String.hpp"
 #include "TextLayout.hpp"
+#include "VTConverter.hpp"
 #include <string>
 using namespace std;
 
@@ -47,6 +48,7 @@ namespace MinConsoleNative
         if (mode == CellRendererMode::Fast) RenderFast();
         else if (mode == CellRendererMode::TrueColor) RenderTrueColor();
         else if (mode == CellRendererMode::Mixed) RenderMixed();
+        else if (mode == CellRendererMode::FastTrueColor) RenderFastTrueColor();
     }
 
     void CellRenderer::Draw(const Vector2& pos, const Cell& cell)
@@ -241,5 +243,29 @@ namespace MinConsoleNative
                 console.SetConsoleCursorPos(beforePosition);
             }
         }
+    }
+
+    void CellRenderer::RenderFastTrueColor()
+    {
+        wstring wstr;
+
+        for (int i = 0; i < consoleWidth * consoleHeight; i++)
+        {
+            const Cell& cell = this->cellArray[i];
+            wstr += cell.c;
+
+            //wstring foreColor = L"\033[38;2;255;0;255m";
+            //wstr += foreColor + cell.c;
+
+
+            //wstring fore_str = VTConverter::VTForeColor(cell.foreColor);
+            //wstring back_str = VTConverter::VTBackColor(cell.backColor);
+            //wstring us_str = VTConverter::VTUnderline(cell.underScore);
+            //wstring reset_str = VTConverter::VTResetStyle();
+            //wstr += (fore_str + back_str + us_str + cell.c + reset_str);
+        }
+
+        //console.Write(wstr, { 233,21,22 });
+        console.Write(wstr);
     }
 }
