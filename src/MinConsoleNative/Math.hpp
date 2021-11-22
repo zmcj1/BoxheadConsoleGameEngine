@@ -16,5 +16,11 @@ namespace MinConsoleNative
         static const int PrimeNumbers[29];
 
         static const float PI;
+
+        //弧度转角度
+        static const float Rad2Deg;
+
+        //角度转弧度
+        static const float Deg2Rad;
     };
 }
