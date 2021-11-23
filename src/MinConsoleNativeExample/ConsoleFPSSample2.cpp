@@ -540,7 +540,7 @@ public:
             if (objectAngle > 3.14159f)
                 objectAngle -= 2.0f * 3.14159f;
 
-            //cal2:
+            //cal start
             float ox = object.x - playerX;
             float oy = object.y - playerY;
             float L1 = sqrtf(ox * ox + oy * oy);
@@ -551,10 +551,10 @@ public:
 
             float dot = x * ox + y * oy;
             float _rad = acosf(dot / (L1 * L2));
-
             float _angle = _rad * Math::Rad2Deg;
-
-            Debug::OutputLine(to_wstring(_angle) + L" " + to_wstring(fabs(objectAngle * 180 / Math::PI)));
+            //cal end
+            //Debug::OutputLine(to_wstring(_angle) + L" " + to_wstring(fabs(objectAngle * Math::Rad2Deg)));
+            Debug::OutputLine(to_wstring(_angle) + L" " + to_wstring(objectAngle * Math::Rad2Deg));
 
             bool inPlayerFOV = fabs(objectAngle) < FOV / 2.0f;
 
