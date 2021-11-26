@@ -86,8 +86,9 @@ namespace MinConsoleNative
     {
         MCIAudio* mciAudio = ExternAlloc<MCIAudio>(1);
 
-        //open the audio with alias.(should close audio when you dont use it.)
+        //必须将路径转成ShortPath, 否则MCI可能无法识别并出现错误代码263
         wstring shortPathName = File::ToShortPathName(path);
+        //open the audio with alias.(should close audio when you dont use it.)
         wstring alias = MCIAlias + ::to_wstring(MCIAliasIncrement++);
         bool openSuccess = Audio::MCISendString(_T("open ") + shortPathName + L" alias " + alias);
         //如果打开文件失败直接释放指针并且返回空指针
