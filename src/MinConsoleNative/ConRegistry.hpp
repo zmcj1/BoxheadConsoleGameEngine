@@ -2,11 +2,9 @@
 
 #include "MinDefines.hpp"
 
-//SEE:https://devblogs.microsoft.com/commandline/understanding-windows-console-host-settings/
+// SEE:https://devblogs.microsoft.com/commandline/understanding-windows-console-host-settings/
 
-//
 // Registry strings:FROM:winconp.h(https://github.com/microsoft/terminal/blob/main/dep/Console/winconp.h)
-//
 
 #define CONSOLE_REGISTRY_STRING                         L"Console"
 #define CONSOLE_REGISTRY_FONTSIZE                       L"FontSize"
@@ -72,7 +70,7 @@ namespace MinConsoleNative
     //注意!删除后无法还原!
     EXPORT_FUNC_EX(bool) MinDeleteConsoleRegistry();
 
-    //在Windows11中可以设置默认控制台是Windows Terminal, 该函数可以进行检测
+    //在Windows11中可以设置默认控制台是Windows Terminal, 使用该函数可以进行检测
     EXPORT_FUNC_EX(bool) MinWTIsDefaultConsole();
 
     class ConRegistry

@@ -702,7 +702,10 @@ namespace MinConsoleNative
         static void RestartConsole();
 
     public:
+        //控制台会话, 包含控制台窗体, 控制台输入与输出句柄
         ConsoleSession cons;
+
+        //是否支持VT序列, 与VTConverter::VTSupport的实现有所不同
         bool supportVT;
 
         Console();
