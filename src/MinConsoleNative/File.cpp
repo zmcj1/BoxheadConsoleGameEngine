@@ -80,6 +80,29 @@ namespace MinConsoleNative
         return extension;
     }
 
+    std::vector<std::wstring> File::GetFileNamesWithExtension(const std::wstring& folderPath, const std::wstring& extension)
+    {
+        vector<wstring> names;
+        wstring search_path = folderPath + L"/*" + extension;
+        WIN32_FIND_DATA fd;
+        HANDLE hFind = ::FindFirstFile(search_path.c_str(), &fd);
+        if (hFind != INVALID_HANDLE_VALUE)
+        {
+            do
+            {
+                // read all (real) files in current folder
+                // , delete '!' read other 2 default folder . and ..
+                if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+                {
+                    names.push_back(fd.cFileName);
+                }
+            }
+            while (::FindNextFile(hFind, &fd));
+            ::FindClose(hFind);
+        }
+        return names;
+    }
+
     bool File::Exists(const std::wstring& path)
     {
         FileMode type = File::Status(path);

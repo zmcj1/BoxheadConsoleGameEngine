@@ -42,6 +42,11 @@ namespace MinConsoleNative
 
         static std::wstring GetFileExtension(const std::wstring& path);
 
+        //from:https://stackoverflow.com/questions/612097/how-can-i-get-the-list-of-files-in-a-directory-using-c-or-c
+        //extension must include dot(.)
+        //return filename, not filepath
+        static std::vector<std::wstring> GetFileNamesWithExtension(const std::wstring& folderPath, const std::wstring& extension);
+
         static bool Exists(const std::wstring& path);
 
         //See:https://stackoverflow.com/questions/8233842/how-to-check-if-directory-exist-using-c-and-winapi
