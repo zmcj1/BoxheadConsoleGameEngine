@@ -122,15 +122,13 @@ namespace MinConsoleNative
         if (ftype & FILE_ATTRIBUTE_ARCHIVE)
             return FileMode::File;        // this is a file!
 
-        return FileMode::None;            // this is not a directory!
+        return FileMode::None;            // unknown
     }
 
     bool File::Creat(const std::wstring& path, FileMode mode, bool withUTF8BOM)
     {
         if (File::Exists(path))
             return false;
-
-        bool result = false;
 
         if (mode == FileMode::File)
         {
@@ -139,25 +137,43 @@ namespace MinConsoleNative
                 FILE_SHARE_READ | FILE_SHARE_WRITE,
                 nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
 
-            result = fileHandle != INVALID_HANDLE_VALUE;
+            if (fileHandle == INVALID_HANDLE_VALUE)
+            {
+                return false;
+            }
 
             //write UTF-8 BOM
-            if (withUTF8BOM && result)
+            if (withUTF8BOM)
             {
                 byte BOM[3];
                 BOM[0] = 0xEF;
                 BOM[1] = 0xBB;
                 BOM[2] = 0xBF;
                 DWORD written = 0;
-                result = WriteFile(fileHandle, BOM, LEN(BOM), &written, nullptr);
+
+                bool write_suc = WriteFile(fileHandle, BOM, LEN(BOM), &written, nullptr);
+
+                //This not only frees up system resources, but can have wider influence on things like sharing the file or device and committing data to disk.
+                bool close_suc = CloseHandle(fileHandle);
+
+                return write_suc && close_suc;
+            }
+            else
+            {
+                bool close_suc = CloseHandle(fileHandle);
+
+                return close_suc;
             }
         }
         else if (mode == FileMode::Directory)
         {
-            result = CreateDirectory(path.c_str(), NULL) != 0;
+            bool creat_suc = ::CreateDirectory(path.c_str(), NULL) != 0;
+            return creat_suc;
         }
-
-        return result;
+        else
+        {
+            return false;
+        }
     }
 
     bool File::Delete(const std::wstring& path)
@@ -221,8 +237,11 @@ namespace MinConsoleNative
 
         char* arr = new char[size];
         ::ZeroMemory(arr, size * sizeof(char));
+
         DWORD written = 0;
         bool readSuccess = ReadFile(fileHandle, arr, size, &written, nullptr);
+
+        ::CloseHandle(fileHandle);
 
         if (!readSuccess)
         {
@@ -300,7 +319,11 @@ namespace MinConsoleNative
 
         string buf = String::WstringToString(text, encoding);
         DWORD written = 0;
-        return WriteFile(fileHandle, buf.c_str(), buf.size(), &written, nullptr);
+        bool write_suc = WriteFile(fileHandle, buf.c_str(), buf.size(), &written, nullptr);
+
+        bool close_suc = ::CloseHandle(fileHandle);
+
+        return write_suc && close_suc;
     }
 
     bool File::Clear(const std::wstring& path)
