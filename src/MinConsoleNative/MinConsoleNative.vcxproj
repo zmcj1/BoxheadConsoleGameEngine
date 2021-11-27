@@ -172,6 +172,7 @@
     <ClInclude Include="NativeRenderer.hpp" />
     <ClInclude Include="Navigation.hpp" />
     <ClInclude Include="ObjectPool.hpp" />
+    <ClInclude Include="OLCSprite.hpp" />
     <ClInclude Include="PaletteSystem.hpp" />
     <ClInclude Include="Process.hpp" />
     <ClInclude Include="Random.hpp" />
@@ -217,6 +218,7 @@
     <ClCompile Include="MinConsoleNative.cpp" />
     <ClCompile Include="NativeRenderer.cpp" />
     <ClCompile Include="Navigation.cpp" />
+    <ClCompile Include="OLCSprite.cpp" />
     <ClCompile Include="PaletteSystem.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="Random.cpp" />

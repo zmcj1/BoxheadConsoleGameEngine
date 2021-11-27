@@ -26,6 +26,7 @@
 #include "NativeRenderer.hpp"
 #include "Navigation.hpp"
 #include "ObjectPool.hpp"
+#include "OLCSprite.hpp"
 #include "PaletteSystem.hpp"
 #include "Process.hpp"
 #include "Random.hpp"

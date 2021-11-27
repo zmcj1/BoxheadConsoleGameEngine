@@ -7,5 +7,6 @@ namespace MinConsoleNative
     class ConsoleGameEngine
     {
     public:
+        //todo, coming soon
     };
 }

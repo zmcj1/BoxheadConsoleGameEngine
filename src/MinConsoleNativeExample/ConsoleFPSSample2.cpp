@@ -13,149 +13,14 @@ using namespace std;
 #define dark_shade      0x2593
 #define full_shade      0x2588
 
-//from olcConsoleGameEngine.h
-class olcSprite
-{
-public:
-    int nWidth = 0;
-    int nHeight = 0;
-
-    olcSprite()
-    {
-
-    }
-
-    olcSprite(int w, int h)
-    {
-        Create(w, h);
-    }
-
-    olcSprite(const std::wstring& sFile)
-    {
-        if (!Load(sFile))
-            Create(8, 8);
-    }
-
-private:
-    short* m_Glyphs = nullptr;
-    short* m_Colours = nullptr;
-
-    void Create(int w, int h)
-    {
-        nWidth = w;
-        nHeight = h;
-        m_Glyphs = new short[w * h];
-        m_Colours = new short[w * h];
-        for (int i = 0; i < w * h; i++)
-        {
-            m_Glyphs[i] = L' ';
-            m_Colours[i] = 0;
-        }
-    }
-
-public:
-    void SetGlyph(int x, int y, short c)
-    {
-        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
-            return;
-        else
-            m_Glyphs[y * nWidth + x] = c;
-    }
-
-    void SetColour(int x, int y, short c)
-    {
-        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
-            return;
-        else
-            m_Colours[y * nWidth + x] = c;
-    }
-
-    short GetGlyph(int x, int y)
-    {
-        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
-            return L' ';
-        else
-            return m_Glyphs[y * nWidth + x];
-    }
-
-    short GetColour(int x, int y)
-    {
-        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
-            return 0;
-        else
-            return m_Colours[y * nWidth + x];
-    }
-
-    short SampleGlyph(float x, float y)
-    {
-        int sx = (int)(x * (float)nWidth);
-        int sy = (int)(y * (float)nHeight - 1.0f);
-        if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
-            return L' ';
-        else
-            return m_Glyphs[sy * nWidth + sx];
-    }
-
-    short SampleColour(float x, float y)
-    {
-        int sx = (int)(x * (float)nWidth);
-        int sy = (int)(y * (float)nHeight - 1.0f);
-        if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
-            return 0;
-        else
-            return m_Colours[sy * nWidth + sx];
-    }
-
-    bool Save(std::wstring sFile)
-    {
-        FILE* f = nullptr;
-        _wfopen_s(&f, sFile.c_str(), L"wb");
-        if (f == nullptr)
-            return false;
-
-        fwrite(&nWidth, sizeof(int), 1, f);
-        fwrite(&nHeight, sizeof(int), 1, f);
-        fwrite(m_Colours, sizeof(short), nWidth * nHeight, f);
-        fwrite(m_Glyphs, sizeof(short), nWidth * nHeight, f);
-
-        fclose(f);
-
-        return true;
-    }
-
-    bool Load(const std::wstring& sFile)
-    {
-        delete[] m_Glyphs;
-        delete[] m_Colours;
-        nWidth = 0;
-        nHeight = 0;
-
-        FILE* f = nullptr;
-        _wfopen_s(&f, sFile.c_str(), L"rb");
-        if (f == nullptr)
-            return false;
-
-        std::fread(&nWidth, sizeof(int), 1, f);
-        std::fread(&nHeight, sizeof(int), 1, f);
-
-        Create(nWidth, nHeight);
-
-        std::fread(m_Colours, sizeof(short), nWidth * nHeight, f);
-        std::fread(m_Glyphs, sizeof(short), nWidth * nHeight, f);
-
-        std::fclose(f);
-        return true;
-    }
-};
-
 struct sObject
 {
 public:
     float x;
     float y;
-    olcSprite* sprite;
+    OLCSprite* sprite;
 
-    sObject(float x, float y, olcSprite* sprite)
+    sObject(float x, float y, OLCSprite* sprite)
     {
         this->x = x;
         this->y = y;
@@ -178,7 +43,7 @@ private:
     int mapHeight = 32;
 
     //player:
-    float playerX = 8.0f;           // Player Start Position
+    float playerX = 8.5f;           // Player Start Position
     float playerY = 14.7f;
     float playerAngle = 0.0f;       // Player Start Rotation
     float moveSpeed = 5.0f;         // Walking Speed
@@ -193,9 +58,9 @@ private:
     bool mouseLockMode = true;
 
     //sprites:
-    olcSprite* spriteWall;
-    olcSprite* spriteLamp;
-    olcSprite* spriteFireBall;
+    OLCSprite* spriteWall;
+    OLCSprite* spriteLamp;
+    OLCSprite* spriteFireBall;
 
     //palette:
     ConsolePalette legacyPalette = paletteSystem.palettes[PaletteType::Legacy];
@@ -254,15 +119,15 @@ public:
         map += L"#..............##..............#";
         map += L"################################";
 
-        this->spriteWall = new olcSprite(L"../../res/olcSprites/fps_wall1.spr");
-        this->spriteLamp = new olcSprite(L"../../res/olcSprites/fps_lamp1.spr");
-        this->spriteFireBall = new olcSprite(L"../../res/olcSprites/fps_fireball1.spr");
+        this->spriteWall = new OLCSprite(L"../../res/olcSprites/fps_wall1.spr");
+        this->spriteLamp = new OLCSprite(L"../../res/olcSprites/fps_lamp1.spr");
+        this->spriteFireBall = new OLCSprite(L"../../res/olcSprites/fps_fireball1.spr");
 
         listObjects =
         {
             sObject(8.5f, 8.5f, this->spriteLamp),
-            sObject(7.5f, 7.5f, this->spriteLamp),
-            sObject(10.5f, 3.5f, this->spriteLamp),
+            //sObject(7.5f, 7.5f, this->spriteLamp),
+            //sObject(10.5f, 3.5f, this->spriteLamp),
         };
     }
 
@@ -530,9 +395,13 @@ public:
             float eyeX = cosf(playerAngle);
             float eyeY = sinf(playerAngle);
 
-            //玩家角度 - 玩家到物体的向量的角度
-            //float objectAngle = atan2f(eyeY, eyeX) - atan2f(vecY, vecX);
-            float objectAngle = atan2f(eyeX, eyeY) - atan2f(vecX, vecY);
+            //float objectAngle = atan2f(eyeX, eyeY) - atan2f(vecX, vecY);
+            float __x = atan2f(vecY, vecX);
+            float __y = atan2f(eyeY, eyeX);
+            //Debug::OutputLine(to_wstring(__x * Math::Rad2Deg) + L" " + to_wstring(__y * Math::Rad2Deg));
+
+            float objectAngle = atan2f(vecY, vecX) - atan2f(eyeY, eyeX);
+            Debug::OutputLine(to_wstring(objectAngle * Math::Rad2Deg));
 
             //限制取值范围在+PI与-PI之间
             if (objectAngle < -3.14159f)
@@ -553,8 +422,9 @@ public:
             float _rad = acosf(dot / (L1 * L2));
             float _angle = _rad * Math::Rad2Deg;
             //cal end
-            //Debug::OutputLine(to_wstring(_angle) + L" " + to_wstring(fabs(objectAngle * Math::Rad2Deg)));
-            Debug::OutputLine(to_wstring(_angle) + L" " + to_wstring(objectAngle * Math::Rad2Deg));
+
+            //debug
+            //Debug::OutputLine(to_wstring(_angle) + L" " + to_wstring(objectAngle * Math::Rad2Deg));
 
             bool inPlayerFOV = fabs(objectAngle) < FOV / 2.0f;
 
@@ -565,9 +435,11 @@ public:
                 float objectFloor = consoleHeight - objectCeiling;
                 float objectHeight = objectFloor - objectCeiling;
 
-                float objectAspectRatio = (float)object.sprite->nHeight / (float)object.sprite->nWidth;
+                float objectAspectRatio = (float)object.sprite->Height / (float)object.sprite->Width;
                 float objectWidth = objectHeight / objectAspectRatio;
                 float middleOfObject = (0.5f * (objectAngle / (FOV / 2.0f)) + 0.5f) * (float)consoleWidth;
+
+                //Debug::OutputLine(to_wstring(objectAngle * Math::Rad2Deg) + L" " + to_wstring(middleOfObject));
 
                 // Draw Lamp
                 for (float lx = 0; lx < objectWidth; lx++)

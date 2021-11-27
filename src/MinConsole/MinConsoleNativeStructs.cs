@@ -198,7 +198,7 @@ namespace MinConsole
         public partial struct ConsoleOutputMode
         {
             [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_PROCESSED_OUTPUT;              //default is TRUE
-            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_WRAP_AT_EOL_OUTPUT;            //default is TRUE
+            [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_WRAP_AT_EOL_OUTPUT;            //default is TRUE(禁用该字段会导致WriteConsole函数输出的文本不换行, 需要手动用\n实现换行)
             [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_VIRTUAL_TERMINAL_PROCESSING;   //default is FALSE(recommend to TRUE, If want to use the VT100 sequence)
             [MarshalAs(UnmanagedType.I1)] public bool _DISABLE_NEWLINE_AUTO_RETURN;          //default is FALSE
             [MarshalAs(UnmanagedType.I1)] public bool _ENABLE_LVB_GRID_WORLDWIDE;            //default is FALSE
