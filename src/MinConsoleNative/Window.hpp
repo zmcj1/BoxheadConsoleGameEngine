@@ -52,6 +52,9 @@ namespace MinConsoleNative
     //This API don't work in Windows Console.
     EXPORT_FUNC_EX(bool) MinDisableCursor();
 
+    //Hide window, and remove it's icon in taskbar(below).
+    EXPORT_FUNC_EX(bool) MinHideWindow(HWND windowHandle, bool hide);
+
     class Window
     {
     public:
@@ -110,6 +113,9 @@ namespace MinConsoleNative
         bool IsMinimized();
 
         bool DeleteMenu(bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize);
+    
+        //Hide window, and remove it's icon in taskbar(below).
+        bool HideWindow(bool hide);
     };
 
     extern Window& window;

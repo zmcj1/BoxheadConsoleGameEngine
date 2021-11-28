@@ -216,6 +216,20 @@ namespace MinConsoleNative
         return true;
     }
 
+    EXPORT_FUNC_EX(bool) MinHideWindow(HWND windowHandle, bool hide)
+    {
+        int cmd;
+        if (hide)
+        {
+            cmd = SW_HIDE;
+        }
+        else
+        {
+            cmd = SW_RESTORE;
+        }
+        return ::ShowWindow(windowHandle, cmd);
+    }
+
     HWND Window::GetForegroundWindow()
     {
         return MinGetForegroundWindow();
@@ -329,6 +343,11 @@ namespace MinConsoleNative
     bool Window::DeleteMenu(bool allowResizing, bool allowClose, bool allowMaximize, bool allowMinimize)
     {
         return MinDeleteMenu(this->windowHandle, allowResizing, allowClose, allowMaximize, allowMinimize);
+    }
+
+    bool Window::HideWindow(bool hide)
+    {
+        return MinHideWindow(this->windowHandle, hide);
     }
 
     Window& window = Window::Global.GetInstance();

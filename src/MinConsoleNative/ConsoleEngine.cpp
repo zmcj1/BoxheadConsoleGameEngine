@@ -124,7 +124,7 @@ namespace MinConsoleNative
         {
             COORD maxSize = ::GetLargestConsoleWindowSize(console.cons.consoleOutput);
             ConsoleEngine::ConstructConsole(title, paletteType, maxSize.X, maxSize.Y, fontWidth, fontHeight);
-            ::ShowWindow(window.windowHandle, SW_MAXIMIZE);
+            window.MaximizeWindow(true);
             return maxSize;
         }
         else
