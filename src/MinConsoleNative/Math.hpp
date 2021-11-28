@@ -22,5 +22,8 @@ namespace MinConsoleNative
 
         //角度转弧度
         static const float Deg2Rad;
+
+        //Square root of 2 (approximation)
+        static const float R2;
     };
 }

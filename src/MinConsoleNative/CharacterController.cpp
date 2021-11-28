@@ -1,10 +1,9 @@
 ﻿#include "CharacterController.hpp"
 #include "Input.hpp"
+#include "Math.hpp"
 
 namespace MinConsoleNative
 {
-    constexpr float R2 = 1.4142135;
-
     CharacterController::CharacterController(Vector2 position, float speed, CharacterControllerKeyboardLayout layout)
     {
         this->position = position;
@@ -145,7 +144,7 @@ namespace MinConsoleNative
             this->moveTimer += deltaTime;
             if (this->moveSlash)
             {
-                if (this->moveTimer >= 1.0f / speed * R2)
+                if (this->moveTimer >= 1.0f / speed * Math::R2)
                 {
                     this->moveTimer = 0.0f;
                     this->moved = false;

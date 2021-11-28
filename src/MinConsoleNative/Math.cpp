@@ -41,4 +41,6 @@ namespace MinConsoleNative
     const float Math::Rad2Deg = 180 / PI;
 
     const float Math::Deg2Rad = PI / 180;
+
+    const float Math::R2 = 1.4142135;
 }
