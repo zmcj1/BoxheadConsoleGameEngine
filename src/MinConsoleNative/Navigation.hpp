@@ -20,6 +20,8 @@ namespace MinConsoleNative
         DFS = 2,
     };
 
+    typedef bool (*SearchFunc)(const Vector2& nextPosition);
+
     struct Node
     {
     public:
@@ -104,5 +106,9 @@ namespace MinConsoleNative
         //如果depthLimit == NAV_UNLIMITED_DEPTH则该函数不会因为搜索深度的增加而停止
         //if depthLimit == NAV_UNLIMITED_DEPTH means the program won't get stop because of depth.
         static SearchResult Navigate(Vector2 startPos, Vector2 endPos, SearchDirection searchDir, int depthLimit, const std::vector<Vector2>& obstacles, SearchMethod searchMethod);
+
+        //如果depthLimit == NAV_UNLIMITED_DEPTH则该函数不会因为搜索深度的增加而停止
+        //if depthLimit == NAV_UNLIMITED_DEPTH means the program won't get stop because of depth.
+        static SearchResult Navigate(Vector2 startPos, Vector2 endPos, SearchDirection searchDir, int depthLimit, SearchFunc func, SearchMethod searchMethod);
     };
 }
