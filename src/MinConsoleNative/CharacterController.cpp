@@ -33,7 +33,7 @@ namespace MinConsoleNative
         this->moveSlash = false;
     }
 
-    MoveDirection CharacterController::Move4(float deltaTime)
+    Direction8 CharacterController::Move4(float deltaTime)
     {
         if (!this->moved)
         {
@@ -41,29 +41,29 @@ namespace MinConsoleNative
             {
                 this->moved = true;
                 this->position = this->position + Vector2(-1, 0);
-                return MoveDirection::LEFT;
+                return Direction8::LEFT;
             }
             else if (Input::GetKey(RightKey))
             {
                 this->moved = true;
                 this->position = this->position + Vector2(1, 0);
-                return MoveDirection::RIGHT;
+                return Direction8::RIGHT;
             }
             else if (Input::GetKey(UpKey))
             {
                 this->moved = true;
                 this->position = this->position + Vector2(0, -1);
-                return MoveDirection::UP;
+                return Direction8::UP;
             }
             else if (Input::GetKey(DownKey))
             {
                 this->moved = true;
                 this->position = this->position + Vector2(0, 1);
-                return MoveDirection::DOWN;
+                return Direction8::DOWN;
             }
             else
             {
-                return MoveDirection::NONE;
+                return Direction8::UNKNOWN;
             }
         }
         else
@@ -74,69 +74,83 @@ namespace MinConsoleNative
                 this->moveTimer = 0.0f;
                 this->moved = false;
             }
-            return MoveDirection::NONE;
+            return Direction8::UNKNOWN;
         }
     }
 
-    MoveDirection CharacterController::Move8(float deltaTime)
+    Direction8 CharacterController::Move8(float deltaTime)
     {
         if (!this->moved)
         {
-            if (Input::GetKey(LeftKey) && Input::GetKey(UpKey))
+            Vector2 moveDir = Vector2::zero;
+
+            if (Input::GetKey(LeftKey))
             {
+                moveDir.x--;
+            }
+            if (Input::GetKey(RightKey))
+            {
+                moveDir.x++;
+            }
+            if (Input::GetKey(UpKey))
+            {
+                moveDir.y--;
+            }
+            if (Input::GetKey(DownKey))
+            {
+                moveDir.y++;
+            }
+
+            Direction8 dir = Vector2::Vector2ToDirection8(moveDir);
+
+            switch (dir)
+            {
+            case Direction8::LEFT_UP:
                 this->moved = true;
                 this->moveSlash = true;
                 this->position = this->position + Vector2(-1, -1);
-                return MoveDirection::LEFT_UP;
-            }
-            else if (Input::GetKey(RightKey) && Input::GetKey(UpKey))
-            {
+                return Direction8::LEFT_UP;
+
+            case Direction8::RIGHT_UP:
                 this->moved = true;
                 this->moveSlash = true;
                 this->position = this->position + Vector2(1, -1);
-                return MoveDirection::RIGHT_UP;
-            }
-            else if (Input::GetKey(LeftKey) && Input::GetKey(DownKey))
-            {
+                return Direction8::RIGHT_UP;
+
+            case Direction8::LEFT_DOWN:
                 this->moved = true;
                 this->moveSlash = true;
                 this->position = this->position + Vector2(-1, 1);
-                return MoveDirection::LEFT_DOWN;
-            }
-            else if (Input::GetKey(RightKey) && Input::GetKey(DownKey))
-            {
+                return Direction8::LEFT_DOWN;
+
+            case Direction8::RIGHT_DOWN:
                 this->moved = true;
                 this->moveSlash = true;
                 this->position = this->position + Vector2(1, 1);
-                return MoveDirection::RIGHT_DOWN;
-            }
-            else if (Input::GetKey(LeftKey))
-            {
+                return Direction8::RIGHT_DOWN;
+
+            case Direction8::LEFT:
                 this->moved = true;
                 this->position = this->position + Vector2(-1, 0);
-                return MoveDirection::LEFT;
-            }
-            else if (Input::GetKey(RightKey))
-            {
+                return Direction8::LEFT;
+
+            case Direction8::RIGHT:
                 this->moved = true;
                 this->position = this->position + Vector2(1, 0);
-                return MoveDirection::RIGHT;
-            }
-            else if (Input::GetKey(UpKey))
-            {
+                return Direction8::RIGHT;
+
+            case Direction8::UP:
                 this->moved = true;
                 this->position = this->position + Vector2(0, -1);
-                return MoveDirection::UP;
-            }
-            else if (Input::GetKey(DownKey))
-            {
+                return Direction8::UP;
+
+            case Direction8::DOWN:
                 this->moved = true;
                 this->position = this->position + Vector2(0, 1);
-                return MoveDirection::DOWN;
-            }
-            else
-            {
-                return MoveDirection::NONE;
+                return Direction8::DOWN;
+
+            default:
+                return Direction8::UNKNOWN;
             }
         }
         else
@@ -159,7 +173,7 @@ namespace MinConsoleNative
                     this->moved = false;
                 }
             }
-            return MoveDirection::NONE;
+            return Direction8::UNKNOWN;
         }
     }
 }

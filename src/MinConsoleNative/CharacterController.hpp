@@ -5,19 +5,6 @@
 
 namespace MinConsoleNative
 {
-    enum class MoveDirection
-    {
-        NONE = 0,
-        UP = 1,
-        DOWN = 2,
-        LEFT = 3,
-        RIGHT = 4,
-        LEFT_UP = 5,
-        RIGHT_UP = 6,
-        LEFT_DOWN = 7,
-        RIGHT_DOWN = 8,
-    };
-
     enum class CharacterControllerKeyboardLayout
     {
         WASD = 1,
@@ -46,8 +33,8 @@ namespace MinConsoleNative
 
         void Reset();
 
-        MoveDirection Move4(float deltaTime);
+        Direction8 Move4(float deltaTime);
 
-        MoveDirection Move8(float deltaTime);
+        Direction8 Move8(float deltaTime);
     };
 }
