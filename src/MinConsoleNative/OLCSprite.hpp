@@ -19,8 +19,8 @@ namespace MinConsoleNative
         int Height;
 
     private:
-        short* glyphs;
-        short* colours;
+        wchar* glyphs;
+        ushort* colours;
 
     public:
         OLCSprite()
@@ -35,8 +35,8 @@ namespace MinConsoleNative
         {
             this->Width = w;
             this->Height = h;
-            this->glyphs = new short[w * h];
-            this->colours = new short[w * h];
+            this->glyphs = new wchar[w * h];
+            this->colours = new ushort[w * h];
             //set default value:
             for (int i = 0; i < w * h; i++)
             {
@@ -55,7 +55,7 @@ namespace MinConsoleNative
         }
 
     public:
-        void SetGlyph(int x, int y, short c)
+        void SetGlyph(int x, int y, wchar c)
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height)
                 return;
@@ -63,7 +63,7 @@ namespace MinConsoleNative
                 glyphs[y * Width + x] = c;
         }
 
-        void SetColour(int x, int y, short c)
+        void SetColour(int x, int y, ushort c)
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height)
                 return;
@@ -71,7 +71,7 @@ namespace MinConsoleNative
                 colours[y * Width + x] = c;
         }
 
-        short GetGlyph(int x, int y)
+        wchar GetGlyph(int x, int y)
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height)
                 return L' ';
@@ -79,7 +79,7 @@ namespace MinConsoleNative
                 return glyphs[y * Width + x];
         }
 
-        short GetColour(int x, int y)
+        ushort GetColour(int x, int y)
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height)
                 return 0;
@@ -87,7 +87,7 @@ namespace MinConsoleNative
                 return colours[y * Width + x];
         }
 
-        short SampleGlyph(float x, float y)
+        wchar SampleGlyph(float x, float y)
         {
             int sx = (int)(x * (float)Width);
             int sy = (int)(y * (float)Height - 1.0f);
@@ -97,7 +97,7 @@ namespace MinConsoleNative
                 return glyphs[sy * Width + sx];
         }
 
-        short SampleColour(float x, float y)
+        ushort SampleColour(float x, float y)
         {
             int sx = (int)(x * (float)Width);
             int sy = (int)(y * (float)Height - 1.0f);
@@ -116,8 +116,8 @@ namespace MinConsoleNative
 
             fwrite(&Width, sizeof(int), 1, f);
             fwrite(&Height, sizeof(int), 1, f);
-            fwrite(colours, sizeof(short), Width * Height, f);
-            fwrite(glyphs, sizeof(short), Width * Height, f);
+            fwrite(colours, sizeof(ushort), Width * Height, f);
+            fwrite(glyphs, sizeof(wchar), Width * Height, f);
 
             fclose(f);
 
@@ -139,11 +139,11 @@ namespace MinConsoleNative
             std::fread(&Width, sizeof(int), 1, f);
             std::fread(&Height, sizeof(int), 1, f);
             //alloc:
-            this->glyphs = new short[Width * Height];
-            this->colours = new short[Width * Height];
+            this->glyphs = new wchar[Width * Height];
+            this->colours = new ushort[Width * Height];
             //read data from file:
-            std::fread(colours, sizeof(short), Width * Height, f);
-            std::fread(glyphs, sizeof(short), Width * Height, f);
+            std::fread(colours, sizeof(ushort), Width * Height, f);
+            std::fread(glyphs, sizeof(wchar), Width * Height, f);
 
             std::fclose(f);
             return true;
@@ -151,8 +151,8 @@ namespace MinConsoleNative
 
         void Resize(int newWidth, int newHeight)
         {
-            short* newGlyphs = new short[newWidth * newHeight];
-            short* newColours = new short[newWidth * newHeight];
+            wchar* newGlyphs = new wchar[newWidth * newHeight];
+            ushort* newColours = new ushort[newWidth * newHeight];
 
             for (int y = 0; y < newHeight; y++)
             {
