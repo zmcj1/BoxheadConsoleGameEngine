@@ -8,7 +8,7 @@ int main()
     t.Stop();
     console.WriteLine(std::to_wstring(t.Time()));
 
-    AudioPool audio(L"C:\\Users\\16692\\source\\repos\\MinConsole\\res\\562_Weapon.UZI.Fire.mp3");
+    AudioPool audio(L"../../res/562_Weapon.UZI.Fire.mp3");
 
     t.Stop();
     console.WriteLine(std::to_wstring(t.Time()));
