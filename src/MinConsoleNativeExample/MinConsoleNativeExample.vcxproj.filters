@@ -80,6 +80,9 @@
     <ClCompile Include="debug_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="win_socket_client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stopwatch.h">
