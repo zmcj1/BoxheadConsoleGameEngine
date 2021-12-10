@@ -12,6 +12,18 @@
 class SocketAddress
 {
 public:
+    sockaddr socketAddress;
+
+public:
+    SocketAddress(uint16_t port)
+    {
+        ::memset(&socketAddress, 0, sizeof(sockaddr));
+
+        GetAsSockAddrIn()->sin_family = AF_INET;
+        GetAsSockAddrIn()->sin_addr.S_un.S_addr = INADDR_ANY;
+        GetAsSockAddrIn()->sin_port = htons(port);
+    }
+
     SocketAddress(uint32_t address, uint16_t port)
     {
         ::memset(&socketAddress, 0, sizeof(sockaddr));
@@ -44,9 +56,6 @@ public:
     {
         return reinterpret_cast<sockaddr_in*>(&socketAddress);
     }
-
-private:
-    sockaddr socketAddress;
 };
 
 typedef std::shared_ptr<SocketAddress> SocketAddressPtr;
@@ -56,16 +65,32 @@ int main()
     WSADATA data;
     bool init_suc = ::WSAStartup(MAKEWORD(2, 2), &data) == 0;
 
+    //开启UDP套接字
     //SOCKET udpSocket = socket(AF_INET, SOCK_DGRAM, 0);
-
     //开启TCP套接字
     SOCKET tcpSocket = socket(AF_INET, SOCK_STREAM, 0);
-    //INVALID_SOCKET
+    if (tcpSocket == INVALID_SOCKET)
+    {
+        return -1;
+    }
 
     SocketAddress address(L"127.0.0.1", 17971);
-    auto sockAdd = address.GetAsSockAddrIn();
 
-    //getaddrinfo();
+    //将套接字与IP地址与端口绑定
+    bind(tcpSocket, &address.socketAddress, address.Size());
+
+    //开启监听
+    listen(tcpSocket, SOMAXCONN);
+
+    //接收客户端连接
+    sockaddr cAddress;
+    int cAddressSize = sizeof(cAddress);
+
+    SOCKET clientSocket = accept(tcpSocket, &cAddress, &cAddressSize);
+    if (clientSocket == INVALID_SOCKET)
+    {
+        return -1;
+    }
 
     //停止数据发送与接收
     shutdown(tcpSocket, SD_BOTH);
