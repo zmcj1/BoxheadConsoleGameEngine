@@ -1,4 +1,5 @@
-﻿#include <cstdint> //uint32_t, uint16_t, uint8_t
+﻿#include <iostream>//cin, cout
+#include <cstdint> //uint32_t, uint16_t, uint8_t
 #include <memory>  //shared_ptr
 #include <string>  //string/wstring
 
@@ -74,7 +75,18 @@ int main()
         return -1;
     }
 
-    SocketAddress address(L"127.0.0.1", 17971);
+    SocketAddress address(L"127.0.0.1", 60000);
+
+    bool conn_suc = connect(tcpSocket, &address.socketAddress, address.Size()) == 0;
+
+    if (conn_suc)
+    {
+        std::cout << "Connected to server!";
+    }
+
+    std::cin.get();
+
+    return 0;
 
     //将套接字与IP地址与端口绑定
     bind(tcpSocket, &address.socketAddress, address.Size());
