@@ -51,7 +51,9 @@ namespace MinConsoleNative
             this->colours = nullptr;
             //load from file:
             if (!Load(file))
+            {
                 throw OLCSpriteException::CantOpenSpriteFile;
+            }
         }
 
     public:
@@ -92,9 +94,13 @@ namespace MinConsoleNative
             int sx = (int)(x * (float)Width);
             int sy = (int)(y * (float)Height - 1.0f);
             if (sx < 0 || sx >= Width || sy < 0 || sy >= Height)
+            {
                 return L' ';
+            }
             else
+            {
                 return glyphs[sy * Width + sx];
+            }
         }
 
         ushort SampleColour(float x, float y)
@@ -102,9 +108,13 @@ namespace MinConsoleNative
             int sx = (int)(x * (float)Width);
             int sy = (int)(y * (float)Height - 1.0f);
             if (sx < 0 || sx >= Width || sy < 0 || sy >= Height)
+            {
                 return 0;
+            }
             else
+            {
                 return colours[sy * Width + sx];
+            }
         }
 
         bool Save(std::wstring path)
