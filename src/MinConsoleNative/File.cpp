@@ -263,6 +263,50 @@ namespace MinConsoleNative
         return text;
     }
 
+    std::vector<MinConsoleNative::byte> File::ReadAllBytes(const std::wstring& path)
+    {
+        std::vector<MinConsoleNative::byte> bytes;
+
+        if (!Exists(path))
+        {
+            return bytes;
+        }
+
+        HANDLE fileHandle = CreateFile(path.c_str(),
+            GENERIC_READ | GENERIC_WRITE,
+            FILE_SHARE_READ | FILE_SHARE_WRITE,
+            nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+
+        if (fileHandle == INVALID_HANDLE_VALUE)
+        {
+            return bytes;
+        }
+
+        DWORD size = 0;
+        size = GetFileSize(fileHandle, nullptr);
+
+        MinConsoleNative::byte* arr = new MinConsoleNative::byte[size];
+        ::ZeroMemory(arr, size * sizeof(char));
+
+        DWORD written = 0;
+        bool readSuccess = ReadFile(fileHandle, arr, size, &written, nullptr);
+
+        ::CloseHandle(fileHandle);
+
+        if (!readSuccess)
+        {
+            delete[] arr;
+            return bytes;
+        }
+
+        for (int i = 0; i < size; i++)
+        {
+            bytes.push_back(arr[i]);
+        }
+
+        return bytes;
+    }
+
     bool File::WriteAllLines(const std::wstring& path, std::vector<std::wstring> lines, WriteMode write_mode, Encoding encoding)
     {
         if (!Exists(path))
@@ -320,6 +364,46 @@ namespace MinConsoleNative
         string buf = String::WstringToString(text, encoding);
         DWORD written = 0;
         bool write_suc = WriteFile(fileHandle, buf.c_str(), buf.size(), &written, nullptr);
+
+        bool close_suc = ::CloseHandle(fileHandle);
+
+        return write_suc && close_suc;
+    }
+
+    bool File::WriteAllBytes(const std::wstring& path, const std::vector<MinConsoleNative::byte>& bytes, WriteMode write_mode)
+    {
+        if (!Exists(path))
+        {
+            return false;
+        }
+
+        HANDLE fileHandle = INVALID_HANDLE_VALUE;
+
+        if (write_mode == WriteMode::Cover)
+        {
+            fileHandle = CreateFile(path.c_str(),
+                GENERIC_READ | GENERIC_WRITE,
+                FILE_SHARE_READ | FILE_SHARE_WRITE,
+                nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+
+        }
+        //SEE:https://stackoverflow.com/questions/18933283/how-to-append-text-to-a-file-in-windows
+        else if (write_mode == WriteMode::Append)
+        {
+            fileHandle = CreateFile(path.c_str(),
+                FILE_APPEND_DATA,
+                FILE_SHARE_READ | FILE_SHARE_WRITE,
+                nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+        }
+
+        if (fileHandle == INVALID_HANDLE_VALUE)
+        {
+            return false;
+        }
+
+        DWORD written = 0;
+        
+        bool write_suc = WriteFile(fileHandle, bytes.data(), bytes.size(), &written, nullptr);
 
         bool close_suc = ::CloseHandle(fileHandle);
 
