@@ -15,6 +15,7 @@
 #include "Debug.hpp"
 #include "EventSystem.hpp"
 #include "File.hpp"
+#include "FileDialog.hpp"
 #include "GDIRenderer.hpp"
 #include "GridRenderer.hpp"
 #include "Input.hpp"

@@ -161,6 +161,7 @@
     <ClInclude Include="Debug.hpp" />
     <ClInclude Include="EventSystem.hpp" />
     <ClInclude Include="File.hpp" />
+    <ClInclude Include="FileDialog.hpp" />
     <ClInclude Include="GDIRenderer.hpp" />
     <ClInclude Include="GridRenderer.hpp" />
     <ClInclude Include="Input.hpp" />
@@ -209,6 +210,7 @@
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="File.cpp" />
+    <ClCompile Include="FileDialog.cpp" />
     <ClCompile Include="GDIRenderer.cpp" />
     <ClCompile Include="GridRenderer.cpp" />
     <ClCompile Include="Input.cpp" />

@@ -1,4 +1,4 @@
-#include "MinConsoleNative.hpp"
+﻿#include "MinConsoleNative.hpp"
 #include <vector>
 using namespace std;
 
