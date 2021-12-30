@@ -42,6 +42,8 @@ namespace MinConsoleNative
 
         static std::wstring GetFileExtension(const std::wstring& path);
 
+        static std::wstring GetFileDir(const std::wstring& path);
+
         //from:https://stackoverflow.com/questions/612097/how-can-i-get-the-list-of-files-in-a-directory-using-c-or-c
         //extension must include dot(.)
         //return filename, not filepath

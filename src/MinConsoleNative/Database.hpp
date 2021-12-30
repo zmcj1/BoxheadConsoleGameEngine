@@ -17,11 +17,15 @@ namespace MinConsoleNative
         std::wstring savePath;
 
     public:
+        Database();
+
         Database(const std::wstring& fileName);
 
         Database(const std::wstring& fileName, const std::wstring& folderPath);
 
         const std::wstring& GetSavePath();
+
+        void SetSavePath(const std::wstring& savePath);
 
         int GetInt(const std::wstring& key, int defaultVal);
 

@@ -80,6 +80,16 @@ namespace MinConsoleNative
         return extension;
     }
 
+    std::wstring File::GetFileDir(const std::wstring& path)
+    {
+        size_t pos = path.find_last_of(L'\\');
+        if (pos == wstring::npos)
+        {
+            return std::wstring();
+        }
+        return path.substr(0, pos + 1);
+    }
+
     std::vector<std::wstring> File::GetFileNamesWithExtension(const std::wstring& folderPath, const std::wstring& extension)
     {
         vector<wstring> names;
@@ -402,7 +412,7 @@ namespace MinConsoleNative
         }
 
         DWORD written = 0;
-        
+
         bool write_suc = WriteFile(fileHandle, bytes.data(), bytes.size(), &written, nullptr);
 
         bool close_suc = ::CloseHandle(fileHandle);

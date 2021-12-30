@@ -17,6 +17,10 @@ namespace MinConsoleNative
         }
     }
 
+    Database::Database()
+    {
+    }
+
     Database::Database(const std::wstring& fileName)
     {
         this->fileName = fileName;
@@ -44,6 +48,11 @@ namespace MinConsoleNative
     const std::wstring& Database::GetSavePath()
     {
         return this->savePath;
+    }
+
+    void Database::SetSavePath(const std::wstring& savePath)
+    {
+        this->savePath = savePath;
     }
 
     int Database::GetInt(const std::wstring& key, int defaultVal)
