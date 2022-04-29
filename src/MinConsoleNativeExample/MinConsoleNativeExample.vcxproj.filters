@@ -89,6 +89,9 @@
     <ClCompile Include="zmxy_res_cracker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="conbuf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stopwatch.h">
