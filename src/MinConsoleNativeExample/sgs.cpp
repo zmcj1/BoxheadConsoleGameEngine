@@ -60,12 +60,16 @@ RandomWujiangInfo RandomWujiang(vector<Wujiang>& wujiangs, int totalWeight)
 
 int main()
 {
-    wstring resPath = L"../../res/";
+    wstring resPath = L"../../res";
     wstring wujiangWeightPath = File::Combine(resPath, L"sgs.txt");
     wstring bgmPath = File::Combine(resPath, L"sgs_bgm.mp3");
 
     bool sgs_exists = File::Exists(wujiangWeightPath);
     bool bgm_exists = File::Exists(bgmPath);
+
+    auto x = File::GetFileNamesWithExtension(resPath, L".*");
+    auto y = File::GetSubFolders(resPath, false);
+    auto z = File::GetAllSubFolders(resPath);
 
     if (!sgs_exists)
     {

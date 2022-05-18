@@ -113,6 +113,54 @@ namespace MinConsoleNative
         return names;
     }
 
+    std::vector<std::wstring> File::GetSubFolders(const std::wstring& rootFolderPath, bool relative)
+    {
+        vector<wstring> subFolders;
+        wstring search_path = rootFolderPath + L"/*";
+        WIN32_FIND_DATA fd;
+        HANDLE hFind = ::FindFirstFile(search_path.c_str(), &fd);
+        if (hFind != INVALID_HANDLE_VALUE)
+        {
+            do
+            {
+                if ((fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY &&
+                    fd.cFileName[0] != L'.')
+                {
+                    if (relative)
+                    {
+                        subFolders.push_back(fd.cFileName);
+                    }
+                    else
+                    {
+                        wchar buffer[MAX_PATH];
+                        GetFullPathName(rootFolderPath.c_str(), MAX_PATH, buffer, 0);
+                        subFolders.push_back(File::Combine(std::wstring(buffer), fd.cFileName));
+                    }
+                }
+            }
+            while (::FindNextFile(hFind, &fd));
+            ::FindClose(hFind);
+        }
+        return subFolders;
+    }
+
+    void File::GetAllSubFolders(const std::wstring& rootFolderPath, std::vector<std::wstring>& allSubFolders)
+    {
+        std::vector<std::wstring> subFolders = File::GetSubFolders(rootFolderPath, false);
+        for (const auto& subFolder : subFolders)
+        {
+            allSubFolders.push_back(subFolder);
+            File::GetAllSubFolders(subFolder, allSubFolders);
+        }
+    }
+
+    std::vector<std::wstring> File::GetAllSubFolders(const std::wstring& rootFolderPath)
+    {
+        std::vector<std::wstring> subFolders;
+        File::GetAllSubFolders(rootFolderPath, subFolders);
+        return subFolders;
+    }
+
     bool File::Exists(const std::wstring& path)
     {
         FileMode type = File::Status(path);

@@ -44,10 +44,21 @@ namespace MinConsoleNative
 
         static std::wstring GetFileDir(const std::wstring& path);
 
+        //获取指定目录下所有特定后缀的文件名
         //from:https://stackoverflow.com/questions/612097/how-can-i-get-the-list-of-files-in-a-directory-using-c-or-c
         //extension must include dot(.)
         //return filename, not filepath
         static std::vector<std::wstring> GetFileNamesWithExtension(const std::wstring& folderPath, const std::wstring& extension);
+
+        //获取指定目录下一级子文件夹
+        //ref:https://stackoverflow.com/questions/6133647/how-do-i-list-subdirectories-in-windows-using-c
+        static std::vector<std::wstring> GetSubFolders(const std::wstring& rootFolderPath, bool relative = true);
+
+        //获取指定目录下所有子文件夹(返回绝对路径)
+        static void GetAllSubFolders(const std::wstring& rootFolderPath, std::vector<std::wstring>& allSubFolders);
+
+        //获取指定目录下所有子文件夹(返回绝对路径)
+        static std::vector<std::wstring> GetAllSubFolders(const std::wstring& rootFolderPath);
 
         static bool Exists(const std::wstring& path);
 
